@@ -17,7 +17,6 @@ namespace WebApplication.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly DataAdapter _adapter;
         private readonly IMapper _mapper;
-        private int _uid;
 
         public HomeController(DataContext context, ILogger<HomeController> logger, IMapper mapper)
         {
@@ -35,12 +34,21 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int id, int psize)
+        [Route("/")]
+        [Route("/Home")]
+        [Route("/Intern/{page}")]
+        [Route("/Intern/{page}/{size}")]
+        public IActionResult Index(int page, int size)
         {
-            _uid = int.Parse(User.Claims.ElementAt(3).Value);
-
-            var model = new IndexModel(id, psize,
-                _adapter,
+            ViewBag.page = page;
+            ViewBag.size = size;
+            
+            var total = _adapter.GetInternCount();
+            
+            Pager pager = new Pager(total, page, size);
+        
+            var model = new IndexModel(
+                pager,
                 _adapter.GetOrganizations(),
                 _adapter.GetDepartments());
 
