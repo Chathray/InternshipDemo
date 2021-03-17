@@ -44,11 +44,10 @@ namespace WebApplication.Controllers
             ViewBag.size = size;
             
             var total = _adapter.GetInternCount();
-            
-            Pager pager = new Pager(total, page, size);
-        
+                  
             var model = new IndexModel(
-                pager,
+                new Pager(total, page, size),
+                _adapter.GetInternList(page, size),
                 _adapter.GetOrganizations(),
                 _adapter.GetDepartments());
 
