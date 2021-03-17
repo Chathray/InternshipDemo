@@ -1,11 +1,14 @@
-﻿namespace WebApplication
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebApplication
 {
     public class InternshipPoint
     {
-        public string ID { get; set; }
-        public string TechnicalSkill { get; set; }
-        public string SoftSkill { get; set; }
-        public string Attitude { get; set; }
-        public string Result { get; set; }
+        [Key]
+        public string InternId { get; set; }
+        public float TechnicalSkill { get; set; }
+        public float SoftSkill { get; set; }
+        public float Attitude { get; set; }
+        public float Result { get; set; }
     }
 }

@@ -6,8 +6,9 @@
     int index = 0;
     bool still = true;
 
-    string distict = Model.First().Group;
+    string distict;
 }
+
 <!-- Page Header -->
 <div class="pl-0">
     <nav aria-label="breadcrumb">
@@ -21,6 +22,15 @@
 </div>
 <!-- End Page Header -->
 
+@{
+    if (count > 0)
+        distict = Model.First().Group;
+    else
+    {
+        <p>There are no questions to show.</p>
+        return;
+    }
+}
 
 @while (still)
 {
@@ -35,8 +45,8 @@
                 break;
             }
 
-            <div class="card" id="heading_@Model[index].ID">
-                <a class="pt-3 px-3 pb-2 card-btn btn-block collapsed" href="javascript:;" data-toggle="collapse" data-target="#question_@Model[index].ID" aria-expanded="false" aria-controls="question_@Model[index].ID">
+            <div class="card" id="heading_@Model[index].QuestionId">
+                <a class="pt-3 px-3 pb-2 card-btn btn-block collapsed" href="javascript:;" data-toggle="collapse" data-target="#question_@Model[index].QuestionId" aria-expanded="false" aria-controls="question_@Model[index].QuestionId">
                     <p class="h5">Hỏi: @Html.DisplayFor(o => Model[index].InData)</p>
                     <span class="card-btn-toggle">
                         <span class="card-btn-toggle-default">
@@ -48,7 +58,7 @@
                     </span>
                 </a>
 
-                <div id="question_@Model[index].ID" class="collapse" aria-labelledby="heading_@Model[index].ID">
+                <div id="question_@Model[index].QuestionId" class="collapse" aria-labelledby="heading_@Model[index].QuestionId">
                     <div class="px-3">
                         <p><strong>Đáp: </strong>@Html.Raw(Model[index].OutData)</p>
                     </div>

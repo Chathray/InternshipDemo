@@ -5,8 +5,8 @@ namespace WebApplication
     public class Department
     {
         [Key]
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Location { get; set; }
+        public int DepartmentId { get; set; }
+        public string DepName { get; set; }
+        public string DepLocation { get; set; }
     }
 }

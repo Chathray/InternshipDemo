@@ -16,6 +16,9 @@ namespace WebApplication
             modelBuilder.Entity<EventType>().ToTable("EventTypes");
             modelBuilder.Entity<Department>().ToTable("Departments");
             modelBuilder.Entity<Organization>().ToTable("Organizations");
+
+            modelBuilder.Entity<InternshipPoint>().ToTable("InternshipPoints");
+            modelBuilder.Entity<Training>().ToTable("Trainings");
         }
 
         public DbSet<User> Users { get; set; }
@@ -25,5 +28,7 @@ namespace WebApplication
         public DbSet<EventType> EventTypes { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Organization> Organizations { get; set; }
+        public DbSet<InternshipPoint> InternshipPoints { get; set; }
+        public DbSet<Training> Trainings { get; set; }
     }
 }

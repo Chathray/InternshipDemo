@@ -1,22 +1,33 @@
 using System.Collections.Generic;
+using WebApplication.Helpers;
 
 namespace WebApplication.Models
 {
     public class IndexModel
     {
-        public IList<Intern> Intrs { get; set; }
-        public IList<User> Usrs { get; set; }
-        public IList<Organization> Orgns { get; set; }
-        public IList<Department> Depts { get; set; }
+        private readonly DataAdapter _adapter;
+
+        public IList<Intern> Internl { get; set; }
+        public IList<Organization> Organizationl { get; set; }
+        public IList<Department> Departmentl { get; set; }
 
         public IndexModel() { }
-        public IndexModel(IList<Intern> it, IList<User> ur, IList<Organization> or, IList<Department> dt)
+        public IndexModel(int id, int psize, DataAdapter ad, IList<Organization> or, IList<Department> dt)
         {
-            Intrs = it;
-            Usrs = ur;
-            Orgns = or;
-            Depts = dt;
+            _adapter = ad;
+
+            Internl = _adapter.GetInternList(id, psize);
+
+            Organizationl = or;
+            Departmentl = dt;
         }
+
+        public string GetFullName(int id)
+        {
+            return _adapter.GetFullName(id);
+        }
+
+        public int PageSize { get; set; }
 
 
         #region Intern Property

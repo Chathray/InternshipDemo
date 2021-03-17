@@ -5,6 +5,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
+using WebApplication.Helpers;
 using WebApplication.Models;
 
 namespace WebApplication.Controllers
@@ -15,13 +17,13 @@ namespace WebApplication.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly DataAdapter _adapter;
         private readonly IMapper _mapper;
+        private int _uid;
 
         public HomeController(DataContext context, ILogger<HomeController> logger, IMapper mapper)
         {
             _adapter = new DataAdapter(context);
             _mapper = mapper;
             _logger = logger;
-
         }
 
         private void ShiftTopMenuData()
@@ -33,9 +35,14 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int id, int psize)
         {
-            var model = new IndexModel(_adapter.GetInterns());
+            _uid = int.Parse(User.Claims.ElementAt(3).Value);
+
+            var model = new IndexModel(id, psize,
+                _adapter,
+                _adapter.GetOrganizations(),
+                _adapter.GetDepartments());
 
             ShiftTopMenuData();
             return View(model);
@@ -45,9 +52,8 @@ namespace WebApplication.Controllers
         public IActionResult Index(IndexModel model)
         {
             Intern intern = _mapper.Map<Intern>(model);
-            intern.CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            intern.Mentor = int.Parse(User.Claims.ElementAt(3).Value);
 
-            intern.CreatedBy = int.Parse(User.Claims.ElementAt(1).Value);
             try
             {
                 _adapter.CreateIntern(intern);
@@ -57,10 +63,7 @@ namespace WebApplication.Controllers
                 Response.StatusCode = -1;
             }
 
-            model = new IndexModel(_adapter.GetInterns());
-
-            ShiftTopMenuData();
-            return View(model);
+            return Redirect("/");
         }
 
         [HttpPost]
@@ -102,14 +105,14 @@ namespace WebApplication.Controllers
         public IActionResult CreateEvent(CalendarModel model)
         {
             Event even = _mapper.Map<Event>(model);
-            even.Image = "../img/mastercard.svg";
+            even.CreatedBy = int.Parse(User.Claims.ElementAt(3).Value);
 
             var dat = model.Deadline.Split(" - ");
             // Ngoại lệ ngày đơn
             try
             {
-                even.StartDate = dat[0];
-                even.EndDate = dat[1];
+                even.Start = dat[0];
+                even.End = dat[1];
             }
             catch { }
 
@@ -128,16 +131,28 @@ namespace WebApplication.Controllers
                     even.Type = "Reminders";
                     break;
             }
+            even.ClassName = model.Type;
+            even.GestsField = even.GestsField.ToString()
+                .Replace("{", "{{")
+                .Replace("}", "}}");
+
+            // Logg to see few word
+            _logger.LogInformation(Dump(even));
 
             _adapter.CreateEvent(even);
 
             return RedirectToAction("Calendar");
         }
 
+        public static string Dump(object obj)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+        }
+
         [AllowAnonymous]
         public IActionResult GetEvents()
         {
-            return Json(_adapter.GetEvents());
+            return Ok("Cần tạo json ở đây ở định dạng đúng");
         }
 
 

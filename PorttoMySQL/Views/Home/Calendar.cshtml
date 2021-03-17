@@ -244,9 +244,10 @@
                           "minimumResultsForSearch": "Infinity",
                           "customClass": "custom-select custom-select-sm",
                           "dropdownAutoWidth": true,
-                          "width": true
+                          "width": true,
+                            "placeholder":"Select one"
                         }'>
-                                <option value="everyday" selected>Everyday</option>
+                                <option value="everyday">Everyday</option>
                                 <option value="weekdays">Weekdays</option>
                                 <option value="never">Never</option>
                             </select>
@@ -271,11 +272,11 @@
                             <input asp-for="GestsField" required class="tagify-form-control form-control" id="eventGestsLabel" placeholder="Add guests" aria-label="Add guests"
                                    data-hs-tagify-options='{
                          "delimiters": null,
+                         "whitelist": @Model.GetWhitelist(),
                          "dropdown": {
-                         "enabled": 0,
-                         "classname": "tagify__dropdown__menu"
-                         },
-                         "whitelist": @Model.GetUserList()
+                           "enabled": 0,
+                           "classname": "tagify__dropdown__menu"
+                         }
                        }'>
                             <!-- End Tagify -->
                         </div>
@@ -359,7 +360,7 @@
                 <!-- Footer -->
                 <div class="modal-footer">
                     <button type="button" id="discardFormt" class="btn btn-white" data-dismiss="modal">Discard</button>
-                    <button type="button" id="processEvent" class="btn btn-primary">Create event</button>
+                    <button type="submit" id="processEvent" class="btn btn-primary">Create event</button>
                 </div>
                 <!-- End Footer -->
             </div>

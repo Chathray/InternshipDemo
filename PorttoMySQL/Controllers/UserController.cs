@@ -37,12 +37,12 @@ namespace WebApplication.Controllers
                 return View("Authentication", model);
 
             var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Email, user.Email),
-                        new Claim("FullName", user.FirstName +" " + user.LastName),
-                        new Claim("Status", user.Status),
-                        new Claim("ID", user.ID.ToString())
-                    };
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("FullName", user.FirstName +" " + user.LastName),
+                new Claim("Status", user.Status),
+                new Claim("ID", user.UserId.ToString())
+            };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -62,8 +62,6 @@ namespace WebApplication.Controllers
         public IActionResult Register(AuthenticationModel model)
         {
             User user = _mapper.Map<User>(model);
-            user.CreatedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
             try
             {
                 // create user

@@ -28,21 +28,19 @@ $(document).on('ready', function () {
         }
     }).init();
 
-
-
     // INITIALIZATION OF FLATPICKR
     // =======================================================
     $('.js-flatpickr').each(function () {
-      $.HSCore.components.HSFlatpickr.init($(this));
+        $.HSCore.components.HSFlatpickr.init($(this));
     });
 
     $.HSCore.components.HSFlatpickr.init($('#js-flatpickr-disabling-dates'), {
-      disable: [
-        function (date) {
-          // return true to disable
-          return (date.getDay() === 0 || date.getDay() === 6);
-        }
-      ],
+        disable: [
+            function (date) {
+                // return true to disable
+                return (date.getDay() === 0 || date.getDay() === 6);
+            }
+        ],
     });
 
     // INITIALIZATION OF NAVBAR VERTICAL NAVIGATION
@@ -122,8 +120,6 @@ $(document).on('ready', function () {
     $('[data-toggle="popover-dark"]').on('shown.bs.popover', function () {
         $('.popover').last().addClass('popover-dark')
     });
-
-
 
 
     // INITIALIZATION OF TAGIFY
@@ -224,11 +220,11 @@ $(document).on('ready', function () {
 
                 members.forEach(function (member) {
                     wrapper.append(`
-                  <li class="d-flex align-items-center mb-2">
-                    ${getAvatar(member)}
-                    <span>${member.value}</span>
-                  </li>
-                `)
+                              <li class="d-flex align-items-center mb-2">
+                                ${getAvatar(member)}
+                                <span>${member.value}</span>
+                              </li>
+                            `)
                 })
 
                 return members.length > 0 ? wrapper[0].outerHTML : false
@@ -236,54 +232,54 @@ $(document).on('ready', function () {
 
             // Popover Content
             const content = `
-              <h3 class="mb-4">${event.event.title}</h3>
+                          <h3 class="mb-4">${event.event.title}</h3>
 
-              <div class="media mb-4">
-                <i class="tio-time nav-icon"></i>
-                <div class="media-body">
-                  <span class="d-block text-dark mb-2">${moment(event.event.start).format('dddd, MMMM DD')} - ${moment(event.event.end).format('dddd, MMMM DD')}</span>
-                  <span class="d-block">Repeat: <span class="text-dark text-capitalize">${event.event.extendedProps.repeatField}</span></span>
-                </div>
-              </div>
+                          <div class="media mb-4">
+                            <i class="tio-time nav-icon"></i>
+                            <div class="media-body">
+                              <span class="d-block text-dark mb-2">${moment(event.event.start).format('dddd, MMMM DD')} - ${moment(event.event.end).format('dddd, MMMM DD')}</span>
+                              <span class="d-block">Repeat: <span class="text-dark text-capitalize">${event.event.extendedProps.repeatField}</span></span>
+                            </div>
+                          </div>
 
-              <div class="media mb-4">
-                <i class="tio-group-senior nav-icon"></i>
-                <div class="media-body">
-                  <span class="d-block text-dark">Đang gặp issue ở đây</span>
-                </div>
-              </div>
+                          <div class="media mb-4">
+                            <i class="tio-group-senior nav-icon"></i>
+                            <div class="media-body">
+                              <span class="d-block text-dark">${getAvatars(event.event.extendedProps.gestsField) || 'Empty'}</span>
+                            </div>
+                          </div>
 
-              <div class="media mb-4">
-                <i class="tio-poi nav-icon"></i>
-                <div class="media-body">
-                  <span class="d-block text-dark">${event.event.extendedProps.eventLocationLabel || 'Empty'}</span>
-                </div>
-              </div>
+                          <div class="media mb-4">
+                            <i class="tio-poi nav-icon"></i>
+                            <div class="media-body">
+                              <span class="d-block text-dark">${event.event.extendedProps.eventLocationLabel || 'Empty'}</span>
+                            </div>
+                          </div>
 
-              <div class="media mb-4">
-                <i class="tio-text-left nav-icon"></i>
-                <div class="media-body">
-                  <span class="d-block text-dark">${event.event.extendedProps.eventDescriptionLabel || 'Empty'}</span>
-                </div>
-              </div>
+                          <div class="media mb-4">
+                            <i class="tio-text-left nav-icon"></i>
+                            <div class="media-body">
+                              <span class="d-block text-dark">${event.event.extendedProps.eventDescriptionLabel || 'Empty'}</span>
+                            </div>
+                          </div>
 
-              <div class="d-flex align-items-center mb-4">
-                <div class="avatar avatar-xs avatar-circle mr-2">
-                  <img class="avatar-img" src="../img/img6.jpg" alt="Image Description">
-                </div>
-                <div class="media-body">
-                  <span class="d-block text-dark">Chath Guy</span>
-                </div>
-              </div>
+          <div class="d-flex align-items-center mb-4">
+                        <div class="avatar avatar-xs avatar-circle mr-2">
+                          <img class="avatar-img" src="../img/img6.jpg" alt="Image Description">
+                        </div>
+                        <div class="media-body">
+                          <span class="d-block text-dark">Chath Guy</span>
+                        </div>
+                      </div>
 
-              <div class="d-flex justify-content-end">
-                <a id="closePopover" href="javascript:;" class="btn btn-sm btn-white mr-2">Close</a>
-                <a id="modal-invoker-${event.event.id}" href="javascript:;" class="btn btn-sm btn-primary">
-                  <i class="tio-edit"></i>
-                  Edit
-                </a>
-              </div>
-            `
+                          <div class="d-flex justify-content-end">
+                            <a id="closePopover" href="javascript:;" class="btn btn-sm btn-white mr-2">Close</a>
+                            <a id="modal-invoker-${event.event.id}" href="javascript:;" class="btn btn-sm btn-primary">
+                              <i class="tio-edit"></i>
+                              Edit
+                            </a>
+                          </div>
+                        `
 
             // Open Popover
             $(event.el).popover({
@@ -304,21 +300,19 @@ $(document).on('ready', function () {
         eventContent({ event }) {
             return {
                 html: `
-                <div>
-                  <div class="fc-event-time">${gridViewSelect.val() === 'timeGridWeek' && !event.allDay ? moment(event.start).format('HH:mm') + '-' + moment(event.end).format('HH:mm') : ''}</div>
-                  <div class='d-flex align-items-center'>
-                    ${event.extendedProps.image ? `<img class="avatar avatar-xs mr-2" src="${event.extendedProps.image}" alt="Image Description">` : ''}
-                    <span class="fc-event-title fc-sticky">${event.title}</span>
-                  </div>
-                </div>
-                `
+                            <div>
+                              <div class="fc-event-time">${gridViewSelect.val() === 'timeGridWeek' && !event.allDay ? moment(event.start).format('HH:mm') + '-' + moment(event.end).format('HH:mm') : ''}</div>
+                              <div class='d-flex align-items-center'>
+                                ${event.extendedProps.image ? `<img class="avatar avatar-xs mr-2" src="${event.extendedProps.image}" alt="Image Description">` : ''}
+                                <span class="fc-event-title fc-sticky">${event.title}</span>
+                              </div>
+                            </div>
+                            `
             }
         },
         drop({ draggedEl }) {
             $(draggedEl).remove()
         },
-
-
         events:
         // your event source
         {
@@ -420,11 +414,9 @@ $(document).on('ready', function () {
             editableEvent.setStart(moment(date[0]).format('YYYY-MM-DD'))
             editableEvent.setEnd(date.length > 1 ? moment(date[1]).format('YYYY-MM-DD') : moment(date[0]).format('YYYY-MM-DD'))
         }
-
-        $('#addEventToCalendarModal').modal('hide')
+        $('#addEventToCalendarModal').modal('hide');
+        filterSearchExample.filter();
         $('#create-event').submit();
-
-        //filterSearchExample.filter()
     })
 
     // Set Form
@@ -497,7 +489,6 @@ $(document).on('ready', function () {
     try {
         filterSearchExample.filter()
 
-
         // ADD DRAGGABLE CLASS FOR CALENDAR
         // =======================================================
         const Draggable = FullCalendar.Draggable;
@@ -507,5 +498,32 @@ $(document).on('ready', function () {
         });
     }
     catch { }
+
+
+    // INITIALIZATION OF DATATABLES
+    // =======================================================
+    var datatable = $.HSCore.components.HSDatatables.init($('#datatable'), {
+        select: {
+            style: 'multi',
+            selector: 'td:first-child input[type="checkbox"]',
+            classMap: {
+                checkAll: '#datatableCheckAll',
+                counter: '#datatableCounter',
+                counterInfo: '#datatableCounterInfo'
+            }
+        },
+        language: {
+            zeroRecords: '<div class="text-center p-4">' +
+                '<img class="mb-3" src="../img/sorry.svg" alt="Image Description" style="width: 7rem;">' +
+                '<p class="mb-0">No data to show</p>' +
+                '</div>'
+        }
+    });
+
+    // INITIALIZATION OF CLIPBOARD
+    // =======================================================
+    $('.js-clipboard').each(function () {
+        var clipboard = $.HSCore.components.HSClipboard.init(this);
+    });
 
 });

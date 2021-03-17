@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using WebApplication.Service;
 
 namespace WebApplication
 {
@@ -33,8 +35,8 @@ namespace WebApplication
                 options.LoginPath = "/Authentication";
                 options.AccessDeniedPath = "/Home/Error";
             });
-            
-            services.AddSingleton<IConfigureOptions<CookieAuthenticationOptions>, ConfigureMyCookie>();
+
+            services.AddSingleton<IConfigureOptions<CookieAuthenticationOptions>, ConfigureCookie>();
         }
 
 

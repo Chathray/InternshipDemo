@@ -9,10 +9,10 @@ namespace WebApplication.Models
         public CalendarModel(IList<EventType> a, IList<Intern> b)
         {
             EvenTypes = a;
-            Intenrs = b;
+            Interns = b;
         }
         public IList<EventType> EvenTypes { get; set; }
-        public IList<Intern> Intenrs { get; set; }
+        public IList<Intern> Interns { get; set; }
 
         public string Creator { get; set; }
 
@@ -26,9 +26,9 @@ namespace WebApplication.Models
         public string EventDescriptionLabel { get; set; }
 
 
-        public string GetUserList()
+        public string GetWhitelist()
         {
-            return JsonConvert.SerializeObject(Intenrs);
+            return JsonConvert.SerializeObject(Interns);
         }
     }
 }
