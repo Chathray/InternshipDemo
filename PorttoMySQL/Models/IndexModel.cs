@@ -5,19 +5,17 @@ namespace WebApplication.Models
 {
     public class IndexModel
     {
-        private readonly DataAdapter _adapter;
-
+        public Page Pager { get; set; }
+        
         public IList<Intern> Internl { get; set; }
         public IList<Organization> Organizationl { get; set; }
         public IList<Department> Departmentl { get; set; }
 
         public IndexModel() { }
-        public IndexModel(int id, int psize, DataAdapter ad, IList<Organization> or, IList<Department> dt)
+        public IndexModel(Pager pg, IList<Intern> it, IList<Organization> or, IList<Department> dt)
         {
-            _adapter = ad;
-
-            Internl = _adapter.GetInternList(id, psize);
-
+            Pager = pg;
+            Internl = it;
             Organizationl = or;
             Departmentl = dt;
         }
