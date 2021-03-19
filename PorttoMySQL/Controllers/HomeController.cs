@@ -34,25 +34,19 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet]
-        [Route("/")]
-        [Route("/Home")]
-        [Route("/Intern/{page}")]
-        [Route("/Intern/{page}/{size}")]
         public IActionResult Index(int page, int size)
         {
-            ViewBag.page = page;
-            ViewBag.size = size;
-            
             var total = _adapter.GetInternCount();
-                  
-            var model = new IndexModel(
-                new Pager(total, page, size),
-                _adapter.GetInternList(page, size),
+            var pagination = new PaginationLogic(total, page, size);
+
+            var m = new IndexModel(pagination,
+                _adapter.GetInternModelList(pagination.CurrentPage, pagination.PageSize),
+                _adapter.GetTrainings(),
                 _adapter.GetOrganizations(),
                 _adapter.GetDepartments());
 
             ShiftTopMenuData();
-            return View(model);
+            return View(m);
         }
 
         [HttpPost]
@@ -76,7 +70,7 @@ namespace WebApplication.Controllers
         [HttpPost]
         public string InternLeave(int id)
         {
-            return _adapter.InternLeave(id);
+            return _adapter.RemoveIntern(id);
         }
 
         public IActionResult Contact()
@@ -139,27 +133,28 @@ namespace WebApplication.Controllers
                     break;
             }
             even.ClassName = model.Type;
-            even.GestsField = even.GestsField.ToString()
-                .Replace("{", "{{")
-                .Replace("}", "}}");
+            even.GestsField = even.GestsField;
 
             // Logg to see few word
             _logger.LogInformation(Dump(even));
 
-            _adapter.CreateEvent(even);
+            var ok = _adapter.CreateEvent(even);
+
+            if(!ok) Response.StatusCode = -1;
 
             return RedirectToAction("Calendar");
-        }
-
-        public static string Dump(object obj)
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
         }
 
         [AllowAnonymous]
         public IActionResult GetEvents()
         {
-            return Ok("Cần tạo json ở đây ở định dạng đúng");
+            return Ok(_adapter.GetEvents());
+        }
+
+        [AllowAnonymous]
+        public string GetTrainData(int id)
+        {
+           return _adapter.GetTrainData(id);
         }
 
 
@@ -167,6 +162,11 @@ namespace WebApplication.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public static string Dump(object obj)
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
         }
     }
 }

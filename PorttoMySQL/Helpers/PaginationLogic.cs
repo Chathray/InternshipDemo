@@ -5,16 +5,27 @@ using System.Threading.Tasks;
 
 namespace WebApplication.Helpers
 {
-    public class Pager
+    public class PaginationLogic
     {
-        public Pager
+        public PaginationLogic
             (int totalItems,
             int currentPage = 1,
-            int pageSize = 10,
+            int pageSize = 8,
             int maxPages = 10)
         {
+
+            // ensure page size isn't out of range
+            if (pageSize < 8)
+            {
+                pageSize = 8;
+            }
+            else if (pageSize > 30)
+            {
+                pageSize = 30;
+            }
+            
             // calculate total pages
-            var totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
+            var totalPages = (int)Math.Ceiling(totalItems / (decimal)pageSize);
 
             // ensure current page isn't out of range
             if (currentPage < 1)

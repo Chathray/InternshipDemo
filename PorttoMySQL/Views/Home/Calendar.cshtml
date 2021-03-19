@@ -108,7 +108,7 @@
                                     <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event fc-daygrid-inline-block-event fullcalendar-custom-event-hs-team'
                                          data-event='{
                                "title": "Open a new task on Jira",
-                               "image": "../img/frontapp.svg",
+                               "image": "/img/frontapp.svg",
                                "className": "",
                                "forceEvent": true
                              }'>
@@ -124,7 +124,7 @@
                                     <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event fc-daygrid-inline-block-event fullcalendar-custom-event-reminders'
                                          data-event='{
                                "title": "Send weekly invoice to John",
-                               "image": "../img/google-webdev.svg",
+                               "image": "/img/google-webdev.svg",
                                "className": "fc-event-success",
                                "forceEvent": true
                              }'>
@@ -312,7 +312,7 @@
                         <div class="col-sm">
                             <label for="eventLocationLabel" class="sr-only">Add location</label>
 
-                            <input asp-for="EventLocationLabel" type="text" required class="form-control" id="eventLocationLabel" placeholder="Add location" aria-label="Add location">
+                            <input asp-for="EventLocationLabel" type="text" class="form-control" id="eventLocationLabel" placeholder="Add location" aria-label="Add location">
                         </div>
                     </div>
                     <!-- End Row -->
@@ -329,7 +329,7 @@
                         <div class="col-sm">
                             <label for="eventDescriptionLabel" class="sr-only">Add description</label>
 
-                            <textarea asp-for="EventDescriptionLabel" id="eventDescriptionLabel" required class="form-control" placeholder="Add description"></textarea>
+                            <textarea asp-for="EventDescriptionLabel" id="eventDescriptionLabel" class="form-control" placeholder="Add description"></textarea>
                         </div>
                     </div>
                     <!-- End Row -->
@@ -347,7 +347,7 @@
                             <!-- Media -->
                             <a class="d-inline-flex align-items-center" href="./user-profile.html">
                                 <div class="avatar avatar-sm avatar-circle mr-3">
-                                    <img class="avatar-img" src="../img/chathray.jpg" alt="Image Description">
+                                    <img class="avatar-img" src="/img/chathray.jpg" alt="Image Description">
                                 </div>
                                 <div class="media-body"><span class="h5 text-hover-primary">@Model.Creator</span></div>
                             </a>
@@ -360,7 +360,7 @@
                 <!-- Footer -->
                 <div class="modal-footer">
                     <button type="button" id="discardFormt" class="btn btn-white" data-dismiss="modal">Discard</button>
-                    <button type="submit" id="processEvent" class="btn btn-primary">Create event</button>
+                    <button type="submit" class="btn btn-primary">Create event</button>
                 </div>
                 <!-- End Footer -->
             </div>

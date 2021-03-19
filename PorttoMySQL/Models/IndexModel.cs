@@ -1,32 +1,32 @@
 using System.Collections.Generic;
+using System.Data;
 using WebApplication.Helpers;
 
 namespace WebApplication.Models
 {
     public class IndexModel
     {
-        public Page Pager { get; set; }
-        
-        public IList<Intern> Internl { get; set; }
+        public PaginationLogic Pager { get; set; }
+
+        public DataSet Internl { get; set; }
         public IList<Organization> Organizationl { get; set; }
         public IList<Department> Departmentl { get; set; }
+        public IList<Training> Trainingl { get; set; }
 
         public IndexModel() { }
-        public IndexModel(Pager pg, IList<Intern> it, IList<Organization> or, IList<Department> dt)
+        public IndexModel(PaginationLogic pg, DataSet it, IList<Training> tr, IList<Organization> or, IList<Department> dt)
         {
             Pager = pg;
             Internl = it;
+            Trainingl = tr;
             Organizationl = or;
             Departmentl = dt;
         }
 
-        public string GetFullName(int id)
+        public string CheckActive(int i)
         {
-            return _adapter.GetFullName(id);
+            return i == Pager.CurrentPage ? "active" : "";
         }
-
-        public int PageSize { get; set; }
-
 
         #region Intern Property
         public string Avatar { get; set; }
@@ -36,7 +36,7 @@ namespace WebApplication.Models
         public string DateOfBirth { get; set; }
         public string Gender { get; set; }
         public string Phone { get; set; }
-        public int CreatedBy { get; set; }
+        public int Mentor { get; set; }
         public int UpdatedBy { get; set; }
         public string UpdatedDate { get; set; }
         public string CreatedDate { get; set; }
@@ -44,6 +44,7 @@ namespace WebApplication.Models
         public string Type { get; set; }
         public int Department { get; set; }
         public int Organization { get; set; }
+        public int TrainingId { get; set; }
 
         #endregion End Intern Property
     }

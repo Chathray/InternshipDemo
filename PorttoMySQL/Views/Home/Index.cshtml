@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Authentication
+﻿@using System.Data
+@using Microsoft.AspNetCore.Authentication
 @model IndexModel
 @{
     ViewData["Title"] = "TMA Internship";
@@ -14,7 +15,7 @@
                     <li class="breadcrumb-item active" aria-current="page">Index</li>
                 </ol>
             </nav>
-            <h3 class="page-header-title mb-5">@ViewData["Title"] <span class="badge badge-soft-dark ml-2">@Model.Internl.Count</span></h3>
+            <h3 class="page-header-title mb-5">@ViewData["Title"] <span class="badge badge-soft-dark ml-2">@Model.Pager.TotalItems</span></h3>
         </div>
 
         <div class="col-sm-auto">
@@ -77,7 +78,7 @@
 
                     <div class="col-sm-auto">
                         <div class="d-flex align-items-center mr-2">
-                            <span class="text-secondary mr-2">Gender:</span>
+                            <span class="text-secondary mr-2">Sort by:</span>
 
                             <!-- Select -->
                             <select class="js-select2-custom js-datatable-filter custom-select-sm" size="1" style="opacity: 0;"
@@ -88,9 +89,9 @@
                                 "dropdownAutoWidth": true,
                                 "width": true
                               }'>
-                                <option value="">All</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="">Default</option>
+                                <option value="na">Name (A-Z)</option>
+                                <option value="nd">Name (Z-A)</option>
                             </select>
                             <!-- End Select -->
                         </div>
@@ -121,13 +122,11 @@
         <table id="datatable" class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
                data-hs-datatables-options='{
                      "columnDefs": [{
-                        "targets": [0, 1, 4],
+                        "targets": [0,1,2,3,4,5,6,7,8],
                         "orderable": false
                       }],
                      "order": [],
-                     "info": {
-                       "totalQty": "#datatableWithPaginationInfoTotalQty"
-                     },
+                     "search": "#datatableSearch"
                    }'>
             <thead class="thead-light">
                 <tr>
@@ -142,57 +141,57 @@
                     <th>Duration</th>
                     <th>Phone</th>
                     <th>Organization</th>
-                    <th>Created Date</th>
+                    <th>Expertise</th>
                     <th>Mentor</th>
                     <th></th>
                 </tr>
             </thead>
 
             <tbody>
-                @foreach (var X in Model.Internl)
+                @foreach (DataRow X in Model.Internl.Tables[0].Rows)
                 {
                     <tr>
                         <td class="table-column-pr-0">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="check-@X.InternId">
-                                <label class="custom-control-label" for="check-@X.InternId"></label>
+                                <input type="checkbox" class="custom-control-input" id="check-@X["InternId"]">
+                                <label class="custom-control-label" for="check-@X["InternId"]"></label>
                             </div>
                         </td>
                         <td class="table-column-pl-0">
-                            <a class="d-flex align-items-center" href="#">
-                                <div class="avatar avatar-circle" data-toggle="tooltip" data-placement="top" title="Gender: @X.Gender.ToUpperInvariant()">
+                            <a class="d-flex align-items-center" href="javascript:void(0)">
+                                <div class="avatar avatar-circle" data-toggle="tooltip" data-placement="top" title="@X["InternId"]: @X["CreatedDate"]">
                                     <img class="avatar-img" src="~/img/img1.jpg" alt="Image Description">
                                 </div>
-                                <div class="ml-3">
-                                    <span class="d-block h5 text-hover-primary mb-0">@X.FirstName @X.LastName</span>
-                                    <span class="d-block font-size-sm text-body">@X.Email</span>
+                                <div class="ml-3" onclick="ShowTraning(@X["TrainingId"])">
+                                    <span class="d-block h5 text-hover-primary mb-0">@X["FullName"]</span>
+                                    <span class="d-block font-size-sm text-body">@X["Email"]</span>
                                 </div>
                             </a>
                         </td>
                         <td>
-                            <span class="d-block h5 mb-0">@X.De.DepName</span>
-                            <span class="d-block font-size-sm">@X.Type</span>
+                            <span class="d-block h5 mb-0">@X["DepName"]</span>
+                            <span class="d-block font-size-sm">@X["Type"]</span>
                         </td>
                         <td>
-                            <span>@X.Duration</span>
+                            <span>@X["Duration"]</span>
                         </td>
                         <td>
                             <span class="badge badge-soft-info">
-                                <span class="bg-info"></span>@X.Phone
+                                <span class="bg-info"></span>@X["Phone"]
                             </span>
                         </td>
                         <td>
-                            <span>@X.Or.OrgName</span>
+                            <span>@X["OrgName"]</span>
                         </td>
                         <td>
-                            <span>@X.CreatedDate.Substring(0, X.CreatedDate.IndexOf(" "))</span>
+                            <span>@X["TraName"]</span>
                         </td>
                         <td>
-                            <span>@X.Us.FirstName @X.Us.LastName <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="@X.Us.Email"></i></span>
+                            <span>@X["FullName"]<i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="@X["Email"]"></i></span>
                         </td>
                         <td>
                             <div id="removeInternPopover" data-toggle="popover-dark" data-placement="left" title="Trainees will leave TMA" data-content="Check out this.">
-                                <a class="btn btn-sm btn-white" href="javascript:;" onclick="InternLeave(@X.InternId, this)">
+                                <a class="btn btn-sm btn-white" href="javascript:;" onclick="InternLeave(@X["InternId"], this)">
                                     <i class="tio-remove-circle-outlined"></i> Leave
                                 </a>
                             </div>
@@ -212,7 +211,7 @@
                     <span class="mr-2">Showing:</span>
 
                     <!-- Select -->
-                    <select asp-for="PageSize" id="datatableEntries" class="js-select2-custom"
+                    <select id="datatableEntries" class="js-select2-custom"
                             data-hs-select2-options='{
                             "minimumResultsForSearch": "Infinity",
                             "customClass": "custom-select custom-select-sm custom-select-borderless",
@@ -229,30 +228,36 @@
                     <span class="text-secondary mr-2">of</span>
 
                     <!-- Pagination Quantity -->
-                    <span id="datatableWithPaginationInfoTotalQty"></span>
+                    <span id="datatableWithPaginationInfoTotalQty">@Model.Pager.TotalItems</span>
                 </div>
             </div>
 
             <div class="col-sm-auto">
                 <div class="d-flex justify-content-center justify-content-sm-end">
                     <!-- Pagination -->
-                    <nav id="datatablePagination" aria-label="Activity pagination">
+                    <nav id="datatablePagination">
                         <div class="dataTables_paginate paging_simple_numbers" id="datatable_paginate">
                             <ul id="datatable_pagination" class="pagination datatable-custom-pagination">
-                                <li class="paginate_item page-item disabled">
-                                    <a class="paginate_button previous page-link" aria-controls="datatable" data-dt-idx="0" tabindex="0" id="datatable_previous"><span aria-hidden="true">Prev</span></a>
-                                </li>
-                                <li class="paginate_item page-item active">
-                                    <a asp-route-id="1" class="paginate_button page-link" aria-controls="datatable" data-dt-idx="1" tabindex="0">1</a>
-                                </li>
                                 <li class="paginate_item page-item">
-                                    <a class="paginate_button page-link" aria-controls="datatable" data-dt-idx="2" tabindex="0">2</a>
+                                    <a href="/?size=@Model.Pager.PageSize&page=@Model.Pager.StartPage"
+                                       class="paginate_button page-link">
+                                        <span aria-hidden="true">Start</span>
+                                    </a>
                                 </li>
+
+                                @foreach (var i in Model.Pager.Pages)
+                                {
+                                    <li class="paginate_item page-item @Model.CheckActive(i)">
+                                        <a href="/?size=@Model.Pager.PageSize&page=@i"
+                                           class="paginate_button page-link">@i</a>
+                                    </li>
+                                }
+
                                 <li class="paginate_item page-item">
-                                    <a class="paginate_button page-link" aria-controls="datatable" data-dt-idx="3" tabindex="0">3</a>
-                                </li>
-                                <li class="paginate_item page-item">
-                                    <a class="paginate_button next page-link" aria-controls="datatable" data-dt-idx="4" tabindex="0" id="datatable_next"><span aria-hidden="true">Next</span></a>
+                                    <a href="/?size=@Model.Pager.PageSize&page=@Model.Pager.EndPage"
+                                       class="paginate_button page-link">
+                                        <span aria-hidden="true">End</span>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -292,14 +297,14 @@
                             <div class="d-flex align-items-center">
                                 <!-- Avatar -->
                                 <label class="avatar avatar-xl avatar-circle avatar-uploader mr-5" for="avatarUploader">
-                                    <img id="avatarImg" class="avatar-img" src="../img/img1.jpg" alt="Image Description">
+                                    <img id="avatarImg" class="avatar-img" src="/img/img1.jpg" alt="Image Description">
 
                                     <input asp-for="Avatar" type="file" class="js-file-attach avatar-uploader-input" id="avatarUploader" data-hs-file-attach-options='{
                                         "textTarget": "#avatarImg",
                                         "mode": "image",
                                         "targetAttr": "src",
                                         "resetTarget": ".js-file-attach-reset-img",
-                                        "resetImg": "../img/img1.jpg",
+                                        "resetImg": "/img/img1.jpg",
                                         "allowTypes": [".png", ".jpeg", ".jpg"]
                                      }'>
 
@@ -386,7 +391,7 @@
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="organizationLabel" class="col-sm-3 col-form-label input-label">Organization</label>
+                        <label class="col-sm-3 col-form-label input-label">Organization</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
@@ -406,7 +411,27 @@
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="departmentLabel" class="col-sm-3 col-form-label input-label">Department</label>
+                        <label class="col-sm-3 col-form-label input-label">Courses</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm-down-break">
+                                <!-- Select2 -->
+                                <select asp-for=TrainingId class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
+                                                                  "placeholder": "Select one"}'>
+                                    <option label="empty"></option>
+                                    @foreach (var e in Model.Trainingl)
+                                    {
+                                        <option value="@e.TrainingId">@e.TraName</option>
+                                    }
+                                </select>
+                                <!-- End Select2 -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label input-label">Department</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->

@@ -17,8 +17,8 @@ namespace WebApplication
         public int? UpdatedBy { get; set; }
         public string UpdatedDate { get; set; }
         public string CreatedDate { get; set; }
-        [NotMapped]
-        public object GestsField { get; set; }
+        //[NotMapped]
+        public string GestsField { get; set; }
 
         public string RepeatField { get; set; }
         public string EventLocationLabel { get; set; }

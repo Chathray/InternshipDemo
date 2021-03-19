@@ -27,6 +27,7 @@ namespace WebApplication
         public string Type { get; set; }
         public int Department { get; set; }
         public int Organization { get; set; }
+        public int TrainingId { get; set; }
 
         [ForeignKey("Organization")]
         public Organization Or { get; set; }
@@ -36,6 +37,9 @@ namespace WebApplication
 
         [ForeignKey("Mentor")]
         public User Us { get; set; }
+
+        [ForeignKey("TrainingId")]
+        public Training Tr { get; set; }
     }
 
     public class WhitelistSerializer : JsonConverter
@@ -45,12 +49,12 @@ namespace WebApplication
             var name = value as Intern;
             writer.WriteStartObject();
 
-            writer.WritePropertyName("internId");
+            writer.WritePropertyName("iid");
             serializer.Serialize(writer, name.InternId);
-            writer.WritePropertyName("value");
-            serializer.Serialize(writer, name.FirstName + " " + name.LastName);
             writer.WritePropertyName("src");
             serializer.Serialize(writer, name.Avatar);
+            writer.WritePropertyName("value");
+            serializer.Serialize(writer, name.FirstName + " " + name.LastName);
 
             writer.WriteEndObject();
         }

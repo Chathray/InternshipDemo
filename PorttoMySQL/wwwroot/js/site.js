@@ -16,6 +16,16 @@ function InternLeave(iid, btn) {
     });
 }
 
+function ShowTraning(iid) {
+
+    $.ajax({
+        method: "POST",
+        url: "Home/GetTrainData",
+        data: { id: iid }
+    }).done(function (msg) {
+        alert(msg);
+    });
+}
 
 
 $(document).on('ready', function () {
@@ -199,6 +209,7 @@ $(document).on('ready', function () {
     const eventColorLabel = $('#eventColorLabel')
     var editableEvent = {}
 
+
     var fullcalendarEditable = $.HSCore.components.HSFullcalendar.init($('#js-fullcalendar'), {
         initialDate: moment().format("YYYY-MM-DD"),
         headerToolbar: false,
@@ -265,7 +276,7 @@ $(document).on('ready', function () {
 
           <div class="d-flex align-items-center mb-4">
                         <div class="avatar avatar-xs avatar-circle mr-2">
-                          <img class="avatar-img" src="../img/img6.jpg" alt="Image Description">
+                          <img class="avatar-img" src="/img/img6.jpg" alt="Image Description">
                         </div>
                         <div class="media-body">
                           <span class="d-block text-dark">Chath Guy</span>
@@ -313,15 +324,20 @@ $(document).on('ready', function () {
         drop({ draggedEl }) {
             $(draggedEl).remove()
         },
-        events:
-        // your event source
-        {
-            url: '../Home/GetEvents',
-            method: 'POST',
-            failure: function () {
-                alert('There was an error while fetching events!');
+
+        eventSources: [
+
+            // your event source
+            {
+                url: '/Home/GetEvents',
+                method: 'POST',
+                failure: function () {
+                    alert('there was an error while fetching events!');
+                },
             }
-        }
+
+            // any other sources...
+        ]
     })
 
     // Events
@@ -416,7 +432,6 @@ $(document).on('ready', function () {
         }
         $('#addEventToCalendarModal').modal('hide');
         filterSearchExample.filter();
-        $('#create-event').submit();
     })
 
     // Set Form
@@ -499,7 +514,6 @@ $(document).on('ready', function () {
     }
     catch { }
 
-
     // INITIALIZATION OF DATATABLES
     // =======================================================
     var datatable = $.HSCore.components.HSDatatables.init($('#datatable'), {
@@ -514,16 +528,11 @@ $(document).on('ready', function () {
         },
         language: {
             zeroRecords: '<div class="text-center p-4">' +
-                '<img class="mb-3" src="../img/sorry.svg" alt="Image Description" style="width: 7rem;">' +
+                '<img class="mb-3" src="/img/sorry.svg" alt="Image Description" style="width: 7rem;">' +
                 '<p class="mb-0">No data to show</p>' +
                 '</div>'
         }
     });
 
-    // INITIALIZATION OF CLIPBOARD
-    // =======================================================
-    $('.js-clipboard').each(function () {
-        var clipboard = $.HSCore.components.HSClipboard.init(this);
-    });
 
 });

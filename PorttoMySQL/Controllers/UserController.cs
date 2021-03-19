@@ -31,7 +31,7 @@ namespace WebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(AuthenticationModel model)
         {
-            User user = _adapter.UserCheck(model.LoginMail, model.LoginPass);
+            User user = _adapter.GetUser(model.LoginMail, model.LoginPass);
 
             if (user == null)
                 return View("Authentication", model);
@@ -65,7 +65,7 @@ namespace WebApplication.Controllers
             try
             {
                 // create user
-                _adapter.UserCreate(user, model.Password);
+                _adapter.CreateUser(user, model.Password);
             }
             catch (AppException)
             { }

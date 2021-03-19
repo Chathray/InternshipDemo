@@ -16,7 +16,6 @@ namespace WebApplication.Models
 
         public string Creator { get; set; }
 
-
         public string Title { get; set; }
         public string Type { get; set; }
         public string Deadline { get; set; }
@@ -28,7 +27,8 @@ namespace WebApplication.Models
 
         public string GetWhitelist()
         {
-            return JsonConvert.SerializeObject(Interns);
+            var json = JsonConvert.SerializeObject(Interns);
+            return json;
         }
     }
 }
