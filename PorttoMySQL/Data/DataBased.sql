@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: demoproduct
 -- ------------------------------------------------------
--- Server version	8.0.23
+-- Server version 8.0.23
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -74,7 +74,7 @@ CREATE TABLE `events` (
   CONSTRAINT `FK_Events_Created` FOREIGN KEY (`CreatedBy`) REFERENCES `users` (`UserId`),
   CONSTRAINT `FK_Events_EventTypes_Type` FOREIGN KEY (`Type`) REFERENCES `eventtypes` (`Type`) ON DELETE CASCADE,
   CONSTRAINT `FK_Events_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,7 +83,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (4,'1234','Holidays','fullcalendar-custom-event-holidays','2021-03-18','2021-03-19',1,'2021-03-18 09:27:11',NULL,NULL,'everyday','[{\"iid\": 9, \"src\": \"../img/intern.png\", \"value\": \"A B\"}, {\"iid\": \"90\", \"src\": \"../img/intern.png\", \"value\": \"A B\"}]','','','../img/event.png');
+INSERT INTO `events` VALUES (1,'Leo nui','Personal','fullcalendar-custom-event-hs-team','2021-03-19','2021-03-20',1,'2021-03-19 10:46:27',NULL,NULL,'everyday','[{\"iid\": 9, \"src\": \"../img/intern.png\", \"value\": \"Vỹ Lâm\"}, {\"iid\": 44, \"src\": \"../img/intern.png\", \"value\": \"Quyên Nguyễn\"}]','Quy Nhon','1','../img/event.png'),(2,'Di dao quanh thanh pho','Holidays','fullcalendar-custom-event-holidays','2021-03-22','2021-03-24',1,'2021-03-19 10:46:53',NULL,NULL,'everyday','[{\"iid\": 1244, \"src\": \"../img/intern.png\", \"value\": \"Tiến Lê\"}]','Quy Nhon','','../img/event.png'),(3,'Tam bien hon kho','Holidays','fullcalendar-custom-event-holidays','2021-03-19','2021-03-20',1,'2021-03-19 10:51:13',NULL,NULL,'everyday','[{\"iid\": 9, \"src\": \"../img/intern.png\", \"value\": \"Vỹ Lâm\"}, {\"iid\": 1244, \"src\": \"../img/intern.png\", \"value\": \"Tiến Lê\"}]','Quy Nhon','OK','../img/event.png');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +127,7 @@ CREATE TABLE `interns` (
   `Gender` enum('female','male') COLLATE utf8mb4_general_ci NOT NULL,
   `DateOfBirth` date NOT NULL,
   `Duration` varchar(23) COLLATE utf8mb4_general_ci NOT NULL,
-  `TrainingId` int NOT NULL,
+  `Training` int NOT NULL,
   `Type` enum('Full time','Part time') COLLATE utf8mb4_general_ci NOT NULL,
   `Mentor` int NOT NULL,
   `UpdatedBy` int DEFAULT NULL,
@@ -138,16 +138,18 @@ CREATE TABLE `interns` (
   `Organization` int NOT NULL,
   `Department` int NOT NULL,
   PRIMARY KEY (`InternId`),
+  UNIQUE KEY `Email_UNIQUE` (`Email`),
   KEY `FK_Events_Created_idx` (`Mentor`),
   KEY `FK_Interns_Updated_idx` (`UpdatedBy`),
   KEY `FK_Interns_Department_idx` (`Department`),
   KEY `FK_Interns_Organization_idx` (`Organization`),
-  KEY `FK_Interns_Training_idx` (`TrainingId`),
+  KEY `PK_Intern_Training` (`Training`),
   CONSTRAINT `FK_Interns_Created` FOREIGN KEY (`Mentor`) REFERENCES `users` (`UserId`),
   CONSTRAINT `FK_Interns_Department` FOREIGN KEY (`Department`) REFERENCES `departments` (`DepartmentId`),
   CONSTRAINT `FK_Interns_Organization` FOREIGN KEY (`Organization`) REFERENCES `organizations` (`OrganizationId`),
-  CONSTRAINT `FK_Interns_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4552 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  CONSTRAINT `FK_Interns_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`),
+  CONSTRAINT `PK_Intern_Training` FOREIGN KEY (`Training`) REFERENCES `trainings` (`TrainingId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4556 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +158,7 @@ CREATE TABLE `interns` (
 
 LOCK TABLES `interns` WRITE;
 /*!40000 ALTER TABLE `interns` DISABLE KEYS */;
-INSERT INTO `interns` VALUES (9,'a@cc','A','B','male','2021-03-04','20/21/2102 - 10/21/0202',1,'Full time',1,NULL,'2021-03-17 09:26:42',NULL,'../img/intern.png','+12 212 121 212',1,1),(10,'a@cc','A','B','male','2021-03-04','20/21/2102 - 10/21/0202',1,'Full time',1,NULL,'2021-03-17 09:26:42',NULL,'../img/intern.png','+12 212 121 212',1,1),(11,'a@cc','A','B','male','2021-03-04','20/21/2102 - 10/21/0202',2,'Full time',1,NULL,'2021-03-17 09:26:42',NULL,'../img/intern.png','+12 212 121 212',1,1),(44,'a@cc34','Anh','Xtanh','female','2021-03-02','20/21/2102 - 10/21/0202',1,'Full time',1,NULL,'2021-03-18 07:41:01',NULL,'../img/intern.png','+12 212 121 212',1,2),(45,'a@ccaa','as','Xtanh','female','2021-03-31','20/21/2102 - 10/21/0202',3,'Full time',1,NULL,'2021-03-18 07:51:05',NULL,'../img/intern.png','+12 212 121 212',2,2),(1244,'a@ccaa','A','As','female','2021-03-25','20/21/2102 - 10/21/0202',1,'Part time',1,NULL,'2021-03-18 07:13:10',NULL,'../img/intern.png','+12 212 121 212',1,2),(4547,'a@cc','Anh','As','male','2021-03-02','20/21/2102 - 10/21/0202',1,'Full time',1,NULL,'2021-03-18 07:59:57',NULL,'../img/intern.png','+12 212 121 212',1,1),(4548,'a@c','A','Xtanh','female','2021-03-12','20/21/2102 - 10/21/0202',3,'Full time',1,NULL,'2021-03-18 08:05:50',NULL,'../img/intern.png','+12 212 121 212',1,1),(4549,'a@cc','Anh','đ','female','2021-03-09','20/21/2102 - 10/21/0202',1,'Full time',1,NULL,'2021-03-18 08:08:51',NULL,'../img/intern.png','+12 212 121 212',1,1),(4550,'mamdmadh@mfdsafsa.com','Thạch','f','female','2021-03-03','66/78/8899 - 90/99/0909',1,'Part time',1,NULL,'2021-03-18 08:15:44',NULL,'../img/intern.png','+84 333 33',1,2),(4551,'z@z','Thạc ','Pro','female','2021-03-10','66/78/8899 - 90/99/0909',1,'Full time',1,NULL,'2021-03-18 08:36:19',NULL,'../img/intern.png','+84 333 33',1,1);
+INSERT INTO `interns` VALUES (9,'1@x','Vỹ','Lâm','male','2021-03-04','20/21/2102 - 10/21/0202',1,'Full time',1,NULL,'2021-03-17 09:26:42',NULL,'../img/intern.png','+12 212 121 212',1,1),(10,'2@x','Thanh','Trần','male','2021-03-04','20/21/2102 - 10/21/0202',1,'Full time',1,NULL,'2021-03-17 09:26:42',NULL,'../img/intern.png','+12 212 121 212',1,1),(11,'3@x','Chi','Bùi','male','2021-03-04','20/21/2102 - 10/21/0202',2,'Full time',1,NULL,'2021-03-17 09:26:42',NULL,'../img/intern.png','+12 212 121 212',1,1),(44,'4@x','Quyên','Nguyễn','female','2021-03-02','20/21/2102 - 10/21/0202',1,'Full time',1,NULL,'2021-03-18 07:41:01',NULL,'../img/intern.png','+12 212 121 212',1,2),(45,'5@x','Vũ','Xtanh','female','2021-03-31','20/21/2102 - 10/21/0202',3,'Full time',1,NULL,'2021-03-18 07:51:05',NULL,'../img/intern.png','+12 212 121 212',2,2),(1244,'6@x','Tiến','Lê','female','2021-03-25','20/21/2102 - 10/21/0202',1,'Part time',1,NULL,'2021-03-18 07:13:10',NULL,'../img/intern.png','+12 212 121 212',1,2),(4547,'7@x','Hiếu','Cốc','male','2021-03-02','20/21/2102 - 10/21/0202',1,'Full time',1,NULL,'2021-03-18 07:59:57',NULL,'../img/intern.png','+12 212 121 212',1,1),(4548,'8@x','Linh','Ca','female','2021-03-12','20/21/2102 - 10/21/0202',3,'Full time',1,NULL,'2021-03-18 08:05:50',NULL,'../img/intern.png','+12 212 121 212',1,1),(4549,'9@x','Nga','Đỗ','female','2021-03-09','20/21/2102 - 10/21/0202',1,'Full time',1,NULL,'2021-03-18 08:08:51',NULL,'../img/intern.png','+12 212 121 212',1,1),(4550,'10@x','Thạch','Đậu','female','2021-03-03','66/78/8899 - 90/99/0909',1,'Part time',1,NULL,'2021-03-18 08:15:44',NULL,'../img/intern.png','+84 333 33',1,2),(4551,'11@x','Lan','Ý','female','2021-03-10','66/78/8899 - 90/99/0909',1,'Full time',1,NULL,'2021-03-18 08:36:19',NULL,'../img/intern.png','+84 333 33',1,1),(4554,'12@x','Ánh','Tô','female','2021-03-01','20/21/2102 - 10/21/0202',2,'Part time',1,NULL,'2021-03-19 02:57:37',NULL,'../img/intern.png','+12 212 121 212',1,2),(4555,'13@x','Thảo','Xanh','female','2021-03-03','20/21/2102 - 10/10/202',2,'Full time',1,NULL,'2021-03-19 03:00:23',NULL,'../img/intern.png','+12 212 121 212',2,1);
 /*!40000 ALTER TABLE `interns` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,11 +250,11 @@ DROP TABLE IF EXISTS `trainings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `trainings` (
-  `TrainingId` int NOT NULL AUTO_INCREMENT,
+  `TrainingId` int NOT NULL,
   `TraName` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `TraData` json DEFAULT NULL,
   PRIMARY KEY (`TrainingId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,7 +297,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@x','Nguyen','Thach','$2a$11$ZwUGQzP5M.gaE/FzHrbGDuNJrWhefvsoiTmyIDowKnhZuXRMBtux6','success','staff','2021-03-15 10:39:36',NULL,'../img/user.jpg',NULL),(6,'tan@x','Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','success','staff','2021-03-17 03:43:28',NULL,'../img/user.jpg',NULL),(8,'Tân','Trần','tan@xc','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','staff','2021-03-17 09:25:34',NULL,'../img/user.jpg',NULL),(9,'qw','qw','c@s','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff','2021-03-18 01:41:37',NULL,'../img/user.jpg',NULL);
+INSERT INTO `users` VALUES (1,'admin@x','Thang','Huynh','$2a$11$ZwUGQzP5M.gaE/FzHrbGDuNJrWhefvsoiTmyIDowKnhZuXRMBtux6','success','mentor','2021-03-15 10:39:36',NULL,'../img/user.jpg',NULL),(6,'tan@tma','Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','success','admin','2021-03-17 03:43:28',NULL,'../img/user.jpg',NULL),(8,'by@tma','By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','staff','2021-03-17 09:25:34',NULL,'../img/user.jpg',NULL),(9,'thanh@qnu','Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff','2021-03-18 01:41:37',NULL,'../img/user.jpg',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -313,10 +315,10 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CheckUser`(
-	email varchar(500)
+  email varchar(500)
 )
 BEGIN
-	select * from users	where Email = email;
+  select * from users where Email = email;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -334,20 +336,20 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateEvent`(
-	title varchar(500),
-	type varchar(500),
-	classname varchar(500),
-	start varchar(500),
-	end varchar(500),
-	createdby varchar(500),
-	gestsfield varchar(500),
-	repeatfield varchar(500),
-	eventlocationlabel varchar(500),
-	eventdescriptionlabel varchar(500)
+  title varchar(500),
+  type varchar(500),
+  classname varchar(500),
+  start varchar(500),
+  end varchar(500),
+  createdby varchar(500),
+  gestsfield varchar(500),
+  repeatfield varchar(500),
+  eventlocationlabel varchar(500),
+  eventdescriptionlabel varchar(500)
 )
 BEGIN
-	insert into events (Title,Type,ClassName,Start,End,CreatedBy,GestsField,RepeatField,EventLocationLabel,EventDescriptionLabel)
-	values (title,type,classname,start,end,createdby,gestsfield,repeatfield,eventlocationlabel,eventdescriptionlabel);
+  insert into events (Title,Type,ClassName,Start,End,CreatedBy,GestsField,RepeatField,EventLocationLabel,EventDescriptionLabel)
+  values (title,type,classname,start,end,createdby,gestsfield,repeatfield,eventlocationlabel,eventdescriptionlabel);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -365,22 +367,22 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateIntern`(
-	email varchar(500),
-	phone varchar(500),
-	firstname varchar(500),
-	lastname varchar(500),
-	dateofbirth varchar(500),
-	gender varchar(500),
-	duration varchar(500),
-	type varchar(500),
-	mentor varchar(500),
-	trainingid varchar(500),
-	organization varchar(500),
-	department varchar(500)
+  email varchar(500),
+  phone varchar(500),
+  firstname varchar(500),
+  lastname varchar(500),
+  dateofbirth varchar(500),
+  gender varchar(500),
+  duration varchar(500),
+  type varchar(500),
+  mentor varchar(500),
+  trainingid varchar(500),
+  organization varchar(500),
+  department varchar(500)
 )
 BEGIN
-	insert into interns (Email,Phone,FirstName,LastName,DateOfBirth,Gender,Duration,Type,Mentor,TrainingId,Organization,Department)
-	values (email,phone,firstname,lastname,dateofbirth,gender,duration,type,mentor,trainingid,organization,department);
+  insert into interns (Email,Phone,FirstName,LastName,DateOfBirth,Gender,Duration,Type,Mentor,Training,Organization,Department)
+  values (email,phone,firstname,lastname,dateofbirth,gender,duration,type,mentor,trainingid,organization,department);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -403,15 +405,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `CreateUser`(
  lastName varchar(500),
  passwordHash varchar(500))
 BEGIN
-	insert into users (Email, FirstName, LastName, PasswordHash)
-	values (email,firstName,lastName,passwordHash);
+  insert into users (Email, FirstName, LastName, PasswordHash)
+  values (email,firstName,lastName,passwordHash);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `GetEventJoined` */;
+/*!50003 DROP PROCEDURE IF EXISTS `GetEventsJoined` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -421,9 +423,45 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetEventJoined`(id varchar(20))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetEventsJoined`()
 BEGIN
-	SELECT Title,GestsField  FROM events  WHERE GestsField->"$[0]" = id;
+  SELECT Title, EventId, JSON_EXTRACT(GestsField, '$**.iid') AS Joined FROM events;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetEventsJson` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetEventsJson`()
+BEGIN
+SELECT JSON_PRETTY(
+    CONCAT("[",
+         GROUP_CONCAT(
+      JSON_OBJECT(
+        'id', EventId,
+        'title', Title,
+        'start', Start,
+        'End', End,
+                'className',ClassName,
+        'eventDescriptionLabel', EventDescriptionLabel,
+        'eventLocationLabel', EventLocationLabel,
+        'repeatField', RepeatField,
+        'allDay', RepeatField = 'everyday',
+        'gestsField', GestsField,
+                'image',Image
+      )),
+    "]"))
+AS json FROM events;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -440,21 +478,25 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetFullIntern`(offse int, limi int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetFullIntern`(offse int, limi int, orderby varchar(10))
 BEGIN
 
 SELECT CONCAT(t1.FirstName,' ',t1.LastName) AS FullName,
-			  t1.InternId,t1.Email,DateOfBirth,Gender,t1.Phone,
-	          t5.FirstName,t5.LastName,t1.CreatedDate,Duration,
-              Type,DepName,OrgName,t4.TraName,t4.TrainingId
+     t1.InternId,t1.Email,DateOfBirth,Gender,t1.Phone,
+     CONCAT(t5.FirstName,' ',t5.LastName) AS Mentor,
+       t1.CreatedDate,Duration,Type,DepName,OrgName,t4.TraName,t4.TrainingId
               
 FROM interns t1
 JOIN organizations t2 ON t2.OrganizationId = t1.Organization
 JOIN departments t3 ON t3.DepartmentId = t1.Department
-JOIN trainings t4 ON t4.TrainingId = t1.TrainingId
+JOIN trainings t4 ON t4.TrainingId = t1.Training
 JOIN users t5 ON t5.UserId = t1.Mentor
 
-ORDER BY FullName
+ORDER BY CASE WHEN orderby='Name' THEN FullName END,
+         CASE WHEN orderby='Index' THEN InternId END DESC,
+         CASE WHEN orderby='Date' THEN t1.CreatedDate END DESC,
+         CASE WHEN orderby='Mentor' THEN Mentor END,
+         CASE WHEN orderby='Training' THEN TraName END
 LIMIT limi OFFSET offse;
 END ;;
 DELIMITER ;
@@ -462,7 +504,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `GetTrainData` */;
+/*!50003 DROP PROCEDURE IF EXISTS `GetInternData` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -472,9 +514,9 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetTrainData`(id int)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternData`(id int)
 BEGIN
-	select TraData from trainings where trainingId = id;
+  select json_objectagg(TraName,TraData) from trainings where trainingId = id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -491,4 +533,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-19  9:07:00
+-- Dump completed on 2021-03-19 18:21:43
