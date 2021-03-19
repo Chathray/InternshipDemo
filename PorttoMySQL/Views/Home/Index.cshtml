@@ -81,7 +81,7 @@
                             <span class="text-secondary mr-2">Sort by:</span>
 
                             <!-- Select -->
-                            <select class="js-select2-custom js-datatable-filter custom-select-sm" size="1" style="opacity: 0;"
+                            <select class="js-select2-custom js-datatable-sort custom-select-sm" size="1" style="opacity: 0;"
                                     data-target-column-index="5"
                                     data-hs-select2-options='{
                                 "minimumResultsForSearch": "Infinity",
@@ -89,9 +89,11 @@
                                 "dropdownAutoWidth": true,
                                 "width": true
                               }'>
-                                <option value="">Default</option>
-                                <option value="na">Name (A-Z)</option>
-                                <option value="nd">Name (Z-A)</option>
+                                <option value="Name">Name</option>
+                                <option value="Index">Index</option>
+                                <option value="Date">Created</option>
+                                <option value="Mentor">Mentor</option>
+                                <option value="Training">Expertise</option>
                             </select>
                             <!-- End Select -->
                         </div>
@@ -148,7 +150,7 @@
             </thead>
 
             <tbody>
-                @foreach (DataRow X in Model.Internl.Tables[0].Rows)
+                @foreach (DataRow X in Model.Internl.Rows)
                 {
                     <tr>
                         <td class="table-column-pr-0">
@@ -162,7 +164,7 @@
                                 <div class="avatar avatar-circle" data-toggle="tooltip" data-placement="top" title="@X["InternId"]: @X["CreatedDate"]">
                                     <img class="avatar-img" src="~/img/img1.jpg" alt="Image Description">
                                 </div>
-                                <div class="ml-3" onclick="ShowTraning(@X["TrainingId"])">
+                                <div class="ml-3" onclick="ShowInternData(@X["TrainingId"])">
                                     <span class="d-block h5 text-hover-primary mb-0">@X["FullName"]</span>
                                     <span class="d-block font-size-sm text-body">@X["Email"]</span>
                                 </div>
@@ -187,7 +189,7 @@
                             <span>@X["TraName"]</span>
                         </td>
                         <td>
-                            <span>@X["FullName"]<i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="@X["Email"]"></i></span>
+                            <span>@X["Mentor"] <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="top" title="@X["Email"]"></i></span>
                         </td>
                         <td>
                             <div id="removeInternPopover" data-toggle="popover-dark" data-placement="left" title="Trainees will leave TMA" data-content="Check out this.">
@@ -415,7 +417,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
-                                <select asp-for=TrainingId class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                <select asp-for=Training class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                         data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                     <option label="empty"></option>

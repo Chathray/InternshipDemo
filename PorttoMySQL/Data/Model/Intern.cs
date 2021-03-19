@@ -27,7 +27,7 @@ namespace WebApplication
         public string Type { get; set; }
         public int Department { get; set; }
         public int Organization { get; set; }
-        public int TrainingId { get; set; }
+        public int Training { get; set; }
 
         [ForeignKey("Organization")]
         public Organization Or { get; set; }
@@ -38,7 +38,7 @@ namespace WebApplication
         [ForeignKey("Mentor")]
         public User Us { get; set; }
 
-        [ForeignKey("TrainingId")]
+        [ForeignKey("Training")]
         public Training Tr { get; set; }
     }
 

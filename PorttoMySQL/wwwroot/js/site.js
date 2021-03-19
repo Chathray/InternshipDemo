@@ -1,6 +1,7 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
 
+
 // Write your JavaScript code.
 function InternLeave(iid, btn) {
 
@@ -16,11 +17,11 @@ function InternLeave(iid, btn) {
     });
 }
 
-function ShowTraning(iid) {
+function ShowInternData(iid) {
 
     $.ajax({
         method: "POST",
-        url: "Home/GetTrainData",
+        url: "Home/GetInternData",
         data: { id: iid }
     }).done(function (msg) {
         alert(msg);
@@ -325,19 +326,14 @@ $(document).on('ready', function () {
             $(draggedEl).remove()
         },
 
-        eventSources: [
-
-            // your event source
+        events: 
             {
                 url: '/Home/GetEvents',
                 method: 'POST',
                 failure: function () {
-                    alert('there was an error while fetching events!');
+                    alert('There was an error while fetching events!');
                 },
-            }
-
-            // any other sources...
-        ]
+            }        
     })
 
     // Events
@@ -534,5 +530,18 @@ $(document).on('ready', function () {
         }
     });
 
+    $('.js-datatable-filter').on('change', function () {
+        var $this = $(this),
+            elVal = $this.val(),
+            targetColumnIndex = $this.data('target-column-index');
 
+        datatable.column(targetColumnIndex).search(elVal).draw();
+    });
+
+    $('.js-datatable-sort').on('change', function () {
+        var $this = $(this),
+            elVal = $this.val();
+
+       //Do more later
+    });
 });

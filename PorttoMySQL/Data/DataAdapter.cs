@@ -52,9 +52,10 @@ namespace WebApplication
                      .ToList();
         }
 
-        public DataSet GetInternModelList(int page, int size)
+        public DataTable GetInternModelList(int page, int size, string sort)
         {
-            return DataProvider.ExecuteReader($"CALL GetFullIntern({(page - 1) * size},{size})");
+            return DataProvider.ExecuteReader(
+                $"CALL GetFullIntern({(page - 1) * size},{size},'{sort}')");
         }
 
         public User GetUser(string eml, string pas)
@@ -92,7 +93,7 @@ namespace WebApplication
              $"'{model.Duration}', " +
              $"'{model.Type}', " +
              $"'{model.Mentor}', " +
-             $"'{model.TrainingId}', " +
+             $"'{model.Training}', " +
              $"'{model.Organization}', " +
              $"'{model.Department}')");
         }
@@ -171,24 +172,21 @@ namespace WebApplication
             return _context.Interns.Count();
         }
 
-        public string GetTrainData(int id)
+        public string GetInternTraining(int id)
         {
-            var data = DataProvider.ExecuteReader($"CALL GetTrainData('{id}')");
-
-            if (data.Tables.Count < 1)
-                return "Data not found!";
-
-            return data.Tables[0].Rows[0]["TraData"].ToString();
+            var data = DataProvider.ExecuteScalar($"CALL GetInternData('{id}')");
+            return data.ToString();
         }
 
-        public string GetEventJoined(int id)
+        public DataTable GetEventsIntern()
         {
-            var data = DataProvider.ExecuteReader($"CALL GetEventJoined('{id}')");
+            return DataProvider.ExecuteReader($"CALL GetEventsJoined()");
+        }
 
-            if (data.Tables.Count < 1)
-                return "Data not found!";
-
-            return data.Tables[0].Rows[0]["Title"].ToString();
+        public string GetEventsJson()
+        {
+            var data = DataProvider.ExecuteScalar($"CALL GetEventsJson()");
+            return data.ToString();
         }
     }
 }

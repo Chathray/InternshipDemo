@@ -3,12 +3,11 @@ using System.Data;
 using MySql.Data.MySqlClient;
 
 namespace WebApplication.Data
-{    static class DataProvider
+{
+    static class DataProvider
     {
         // lớp này xử lí việc kết nối tới SQL Server và thực thi truy vấn
-        public static readonly string connectionStr = @"Server=127.0.0.1; port= 3306;
-                                                        Database=demoproduct;
-                                                        UserId=root;
+        public static readonly string connectionStr = @"user id=root;server=localhost;database=demoproduct;
                                                         Password=1111;";
 
         static readonly MySqlConnection connection = new(connectionStr);
@@ -16,18 +15,21 @@ namespace WebApplication.Data
         static MySqlCommand command;
 
         //--
-        public static DataSet ExecuteReader(string query)
+        public static DataTable ExecuteReader(string query)
         {
+            connection.Close();
             connection.Open();
 
             command = new MySqlCommand(query, connection);
             adapter = new MySqlDataAdapter(command);
-            DataSet data = new();
+            DataTable data = new DataTable();
             adapter.Fill(data);
 
             connection.Close();
             return data;
+
         }
+
 
         //--
         public static bool ExecuteNonQuery(string query)
@@ -36,10 +38,10 @@ namespace WebApplication.Data
             {
                 connection.Open();
                 command = new MySqlCommand(query, connection);
-                command.ExecuteNonQuery();
+                int ok = command.ExecuteNonQuery();
 
                 connection.Close();
-                return true;
+                return ok != -1;
             }
             catch (Exception)
             {

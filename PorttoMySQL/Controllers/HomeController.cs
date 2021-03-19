@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using WebApplication.Helpers;
 using WebApplication.Models;
@@ -34,13 +36,13 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int page, int size)
+        public IActionResult Index(int page, int size, string sort = "Date")
         {
             var total = _adapter.GetInternCount();
             var pagination = new PaginationLogic(total, page, size);
 
             var m = new IndexModel(pagination,
-                _adapter.GetInternModelList(pagination.CurrentPage, pagination.PageSize),
+                _adapter.GetInternModelList(pagination.CurrentPage, pagination.PageSize, sort),
                 _adapter.GetTrainings(),
                 _adapter.GetOrganizations(),
                 _adapter.GetDepartments());
@@ -140,21 +142,38 @@ namespace WebApplication.Controllers
 
             var ok = _adapter.CreateEvent(even);
 
-            if(!ok) Response.StatusCode = -1;
+            if (!ok) Response.StatusCode = -1;
 
             return RedirectToAction("Calendar");
         }
 
         [AllowAnonymous]
-        public IActionResult GetEvents()
+        public string GetEvents()
         {
-            return Ok(_adapter.GetEvents());
+            return _adapter.GetEventsJson();
         }
 
         [AllowAnonymous]
-        public string GetTrainData(int id)
+        public string GetInternData(int id)
         {
-           return _adapter.GetTrainData(id);
+            var data = _adapter.GetEventsIntern();
+            var eventsJoined = new StringBuilder();
+
+            foreach (DataRow i in data.Rows)
+            {
+                var t = i["Joined"].ToString();
+                if (t.Contains(id + ""))
+                {
+                    eventsJoined.Append(i["Title"].ToString() + "\n");
+                }
+            }
+
+            return $@"
+                Training Data:
+                {_adapter.GetInternTraining(id)}
+                --------------------------------
+                List of training events participating:
+                {eventsJoined}";
         }
 
 

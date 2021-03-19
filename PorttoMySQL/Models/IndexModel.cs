@@ -8,13 +8,13 @@ namespace WebApplication.Models
     {
         public PaginationLogic Pager { get; set; }
 
-        public DataSet Internl { get; set; }
+        public DataTable Internl { get; set; }
         public IList<Organization> Organizationl { get; set; }
         public IList<Department> Departmentl { get; set; }
         public IList<Training> Trainingl { get; set; }
 
         public IndexModel() { }
-        public IndexModel(PaginationLogic pg, DataSet it, IList<Training> tr, IList<Organization> or, IList<Department> dt)
+        public IndexModel(PaginationLogic pg, DataTable it, IList<Training> tr, IList<Organization> or, IList<Department> dt)
         {
             Pager = pg;
             Internl = it;
@@ -44,7 +44,7 @@ namespace WebApplication.Models
         public string Type { get; set; }
         public int Department { get; set; }
         public int Organization { get; set; }
-        public int TrainingId { get; set; }
+        public int Training { get; set; }
 
         #endregion End Intern Property
     }

@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Data\StoredProcedure.sql" />
+    <None Remove="Data\DataBased.sql" />
     <None Remove="README.md" />
   </ItemGroup>
 
