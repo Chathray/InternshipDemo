@@ -1,13 +1,11 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication.Models
 {
     public class AuthenticationModel
     {
-        [Required]
         public string LoginMail { get; set; }
 
-        [Required]
         public string LoginPass { get; set; }
 
         /*-----------------------------------*/

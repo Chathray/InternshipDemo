@@ -1,33 +1,30 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Data;
-using MySql.Data.MySqlClient;
 
 namespace WebApplication.Data
 {
     static class DataProvider
     {
         // lớp này xử lí việc kết nối tới SQL Server và thực thi truy vấn
-        public static readonly string connectionStr = @"user id=root;server=localhost;database=demoproduct;
-                                                        Password=1111;";
+        public static readonly string connectionStr = "server=localhost;uid=root;pwd=1111;database=tmainternship";
 
-        static readonly MySqlConnection connection = new(connectionStr);
+        static readonly MySqlConnection conn = new(connectionStr);
         static MySqlDataAdapter adapter;
         static MySqlCommand command;
 
         //--
         public static DataTable ExecuteReader(string query)
         {
-            connection.Close();
-            connection.Open();
+            if (conn.State == ConnectionState.Closed) conn.Open();
 
-            command = new MySqlCommand(query, connection);
+            command = new MySqlCommand(query, conn);
             adapter = new MySqlDataAdapter(command);
             DataTable data = new DataTable();
             adapter.Fill(data);
 
-            connection.Close();
+            conn.Close();
             return data;
-
         }
 
 
@@ -36,16 +33,16 @@ namespace WebApplication.Data
         {
             try
             {
-                connection.Open();
-                command = new MySqlCommand(query, connection);
+                conn.Open();
+                command = new MySqlCommand(query, conn);
                 int ok = command.ExecuteNonQuery();
 
-                connection.Close();
+                conn.Close();
                 return ok != -1;
             }
             catch (Exception)
             {
-                connection.Close();
+                conn.Close();
                 return false;
             }
         }
@@ -53,11 +50,11 @@ namespace WebApplication.Data
         //--
         public static object ExecuteScalar(string query)
         {
-            connection.Open();
-            command = new MySqlCommand(query, connection);
+            conn.Open();
+            command = new MySqlCommand(query, conn);
             object data = command.ExecuteScalar();
 
-            connection.Close();
+            conn.Close();
             return data;
         }
     }

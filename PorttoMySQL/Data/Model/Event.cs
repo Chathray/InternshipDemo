@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication
 {
@@ -17,9 +15,7 @@ namespace WebApplication
         public int? UpdatedBy { get; set; }
         public string UpdatedDate { get; set; }
         public string CreatedDate { get; set; }
-        //[NotMapped]
         public string GestsField { get; set; }
-
         public string RepeatField { get; set; }
         public string EventLocationLabel { get; set; }
         public string EventDescriptionLabel { get; set; }

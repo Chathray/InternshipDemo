@@ -16,7 +16,6 @@ namespace WebApplication
             modelBuilder.Entity<EventType>().ToTable("EventTypes");
             modelBuilder.Entity<Department>().ToTable("Departments");
             modelBuilder.Entity<Organization>().ToTable("Organizations");
-
             modelBuilder.Entity<InternshipPoint>().ToTable("InternshipPoints");
             modelBuilder.Entity<Training>().ToTable("Trainings");
         }

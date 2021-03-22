@@ -34,7 +34,10 @@ namespace WebApplication.Controllers
             User user = _adapter.GetUser(model.LoginMail, model.LoginPass);
 
             if (user == null)
+            {
+                ModelState.AddModelError("result", "Tên người dùng hoặc mật khẩu không chính xác.");
                 return View("Authentication", model);
+            }
 
             var claims = new List<Claim>
             {
@@ -52,7 +55,7 @@ namespace WebApplication.Controllers
                 new AuthenticationProperties
                 {
                     IsPersistent = true,
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(10)
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(10)                    
                 });
 
             return Redirect("/");
@@ -65,7 +68,7 @@ namespace WebApplication.Controllers
             try
             {
                 // create user
-                _adapter.CreateUser(user, model.Password);
+                _adapter.InsertUser(user, model.Password);
             }
             catch (AppException)
             { }

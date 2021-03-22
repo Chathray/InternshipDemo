@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using WebApplication.Helpers;
 using WebApplication.Models;
 
@@ -27,19 +26,24 @@ namespace WebApplication.Controllers
             _logger = logger;
         }
 
-        private void ShiftTopMenuData()
+        public override void OnActionExecuted(ActionExecutedContext context)
         {
-            ViewData["email"] = User.Claims.ElementAt(0).Value;
-            ViewData["fullname"] = User.Claims.ElementAt(1).Value;
-            ViewData["status"] = User.Claims.ElementAt(2).Value;
-            ViewData["id"] = User.Claims.ElementAt(3).Value;
+            base.OnActionExecuted(context);
+
+            if (HttpContext.Request.Method == "GET")
+            {
+                ViewData["email"] = User.Claims.ElementAt(0).Value;
+                ViewData["fullname"] = User.Claims.ElementAt(1).Value;
+                ViewData["status"] = User.Claims.ElementAt(2).Value;
+                ViewData["id"] = User.Claims.ElementAt(3).Value;
+            }
         }
 
         [HttpGet]
-        public IActionResult Index(int page, int size, string sort = "Date")
+        public IActionResult Index(int page, int size, string sort = "Index")
         {
             var total = _adapter.GetInternCount();
-            var pagination = new PaginationLogic(total, page, size);
+            var pagination = new PaginationLogic(sort, total, page, size);
 
             var m = new IndexModel(pagination,
                 _adapter.GetInternModelList(pagination.CurrentPage, pagination.PageSize, sort),
@@ -47,7 +51,6 @@ namespace WebApplication.Controllers
                 _adapter.GetOrganizations(),
                 _adapter.GetDepartments());
 
-            ShiftTopMenuData();
             return View(m);
         }
 
@@ -59,7 +62,7 @@ namespace WebApplication.Controllers
 
             try
             {
-                _adapter.CreateIntern(intern);
+                _adapter.InsertIntern(intern);
             }
             catch (AppException)
             {
@@ -69,12 +72,26 @@ namespace WebApplication.Controllers
             return Redirect("/");
         }
 
-        [HttpPost]
-        public string InternLeave(int id)
+        [HttpPost("Index2/{id}")]
+        public IActionResult Index2(IndexModel model, int id)
         {
-            return _adapter.RemoveIntern(id);
+            Intern intern = _mapper.Map<Intern>(model);
+            intern.Mentor = int.Parse(User.Claims.ElementAt(3).Value);
+            intern.InternId = id;
+
+            try
+            {
+                _adapter.UpdateIntern(intern);
+            }
+            catch (AppException)
+            {
+                Response.StatusCode = -1;
+            }
+
+            return Redirect("/");
         }
 
+        [HttpGet]
         public IActionResult Contact()
         {
             return View();
@@ -85,7 +102,6 @@ namespace WebApplication.Controllers
         {
             var model = _adapter.GetQuestions();
 
-            ShiftTopMenuData();
             return View(model);
         }
 
@@ -100,8 +116,13 @@ namespace WebApplication.Controllers
                 Creator = User.Claims.ElementAt(1).Value
             };
 
-            ShiftTopMenuData();
             return View(model);
+        }
+
+        [HttpPost]
+        public string InternLeave(int id)
+        {
+            return _adapter.RemoveIntern(id);
         }
 
         [AcceptVerbs("POST")]
@@ -135,12 +156,11 @@ namespace WebApplication.Controllers
                     break;
             }
             even.ClassName = model.Type;
-            even.GestsField = even.GestsField;
 
             // Logg to see few word
-            _logger.LogInformation(Dump(even));
+            //_logger.LogInformation(Dump(even));
 
-            var ok = _adapter.CreateEvent(even);
+            var ok = _adapter.InsertEvent(even);
 
             if (!ok) Response.StatusCode = -1;
 
@@ -148,32 +168,46 @@ namespace WebApplication.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost]
         public string GetEvents()
         {
             return _adapter.GetEventsJson();
         }
 
         [AllowAnonymous]
-        public string GetInternData(int id)
+        [HttpPost]
+        public string GetInternInfo(int id)
+        {
+            return _adapter.GetInternInfo(id);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public string GetInternData(int tid, int iid)
         {
             var data = _adapter.GetEventsIntern();
             var eventsJoined = new StringBuilder();
 
             foreach (DataRow i in data.Rows)
             {
-                var t = i["Joined"].ToString();
-                if (t.Contains(id + ""))
+                var json = i["Joined"].ToString().Split(',', '[', ']', ' ');
+
+                foreach (var token in json)
                 {
-                    eventsJoined.Append(i["Title"].ToString() + "\n");
+                    //_logger.LogInformation(token + ", " + iid);
+                    if (token == iid.ToString())
+                    {
+                        eventsJoined.Append("+ " + i["Title"].ToString() + "\n");
+                        break;
+                    }
                 }
             }
-
             return $@"
-                Training Data:
-                {_adapter.GetInternTraining(id)}
-                --------------------------------
-                List of training events participating:
-                {eventsJoined}";
+- Training Data:
+{_adapter.GetInternTraining(tid)}
+--------------------------------------------------------
+- List of training events participating:
+{eventsJoined}";
         }
 
 

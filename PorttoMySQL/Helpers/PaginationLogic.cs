@@ -1,29 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebApplication.Helpers
 {
     public class PaginationLogic
     {
-        public PaginationLogic
-            (int totalItems,
-            int currentPage = 1,
-            int pageSize = 8,
-            int maxPages = 10)
+        public PaginationLogic(string sort, int totalItems, int currentPage, int pageSize, int maxPages = 10)
         {
-
             // ensure page size isn't out of range
-            if (pageSize < 8)
+            if (pageSize < 6)
             {
-                pageSize = 8;
+                pageSize = 6;
             }
             else if (pageSize > 30)
             {
                 pageSize = 30;
             }
-            
+
             // calculate total pages
             var totalPages = (int)Math.Ceiling(totalItems / (decimal)pageSize);
 
@@ -78,6 +72,7 @@ namespace WebApplication.Helpers
 
             // update object instance with all pager properties required by the view
             TotalItems = totalItems;
+            Sort = sort;
             CurrentPage = currentPage;
             PageSize = pageSize;
             TotalPages = totalPages;
@@ -89,6 +84,7 @@ namespace WebApplication.Helpers
         }
 
         public int TotalItems { get; private set; }
+        public string Sort { get; private set; }
         public int CurrentPage { get; private set; }
         public int PageSize { get; private set; }
         public int TotalPages { get; private set; }

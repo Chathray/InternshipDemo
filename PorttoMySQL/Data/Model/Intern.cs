@@ -21,25 +21,28 @@ namespace WebApplication
         // This foreign key not be null in model, but can null in DB
         // Exception: 'Data is Null. This method or property cannot be called on Null values.'
         public int? UpdatedBy { get; set; }
+
+        [DisplayFormat(ConvertEmptyStringToNull = true)]
         public string UpdatedDate { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = true)]
         public string CreatedDate { get; set; }
         public string Duration { get; set; }
         public string Type { get; set; }
-        public int Department { get; set; }
-        public int Organization { get; set; }
-        public int Training { get; set; }
+        public int DepartmentId { get; set; }
+        public int OrganizationId { get; set; }
+        public int TrainingId { get; set; }
 
-        [ForeignKey("Organization")]
-        public Organization Or { get; set; }
+        [ForeignKey("OrganizationId")]
+        public Organization Organizations { get; set; }
 
-        [ForeignKey("Department")]
-        public Department De { get; set; }
+        [ForeignKey("DepartmentId")]
+        public Department Departments { get; set; }
 
         [ForeignKey("Mentor")]
-        public User Us { get; set; }
+        public User Users { get; set; }
 
-        [ForeignKey("Training")]
-        public Training Tr { get; set; }
+        [ForeignKey("TrainingId")]
+        public Training Trainings { get; set; }
     }
 
     public class WhitelistSerializer : JsonConverter

@@ -3,33 +3,71 @@
 
 
 // Write your JavaScript code.
-function InternLeave(iid, btn) {
+function InternLeave(iid) {
 
     $.ajax({
         method: "POST",
-        url: "Home/InternLeave",
+        url: "home/internleave",
         data: { id: iid }
     }).done(function (msg) {
         alert("Gone: " + msg);
-
-        var row = btn.parentNode.parentNode;
-        row.parentNode.remove();
+        window.location.reload();
     });
 }
 
-function ShowInternData(iid) {
+function InternUpdate(iid) {
 
     $.ajax({
         method: "POST",
-        url: "Home/GetInternData",
+        url: "home/getinterninfo",
         data: { id: iid }
+    }).done(function (o) {
+        $('#cui-form').attr('action', '/index2/' + iid);
+        $("#exampleModal").modal();
+
+        let obj = JSON.parse(o);
+
+        SetModalData(obj);
+    });
+}
+
+function SetModalData(obj) {
+    $('#avatarImg').prop("src", obj.avatar);
+    $('#firstNameLabel').val(obj.firstname);
+    $('#lastNameLabel').val(obj.lastname);
+    $('#birthLabel').val(obj.birth);
+    $('#emailLabel').val(obj.email);
+    $('#phoneLabel').val(obj.phone);
+    $('#durationLabel').val(obj.duration);
+
+    $('#genderLabel').val(obj.gender).change();
+    $('#typeLabel').val(obj.type).change();
+    $('#orgnLabel').val(obj.orgn).change();
+    $('#deptLabel').val(obj.dept).change();
+    $('#trainLabel').val(obj.train).change();
+}
+
+function InternEvaluate(iid) {
+    alert("Comming soon...");
+}
+
+function ShowInternData(tid, iid) {
+
+    $.ajax({
+        method: "POST",
+        url: "home/getinterndata",
+        data: { tid: tid, iid: iid }
     }).done(function (msg) {
         alert(msg);
     });
 }
 
-
 $(document).on('ready', function () {
+
+    //Sync sort,size
+    var params = new URLSearchParams(window.location.search);
+    $('#datatableEntries').val(params.get("size") ? params.get("size") : 6);
+    $('.js-datatable-sort').val(params.get("sort") ? params.get("sort") : 'Index');
 
     // INITIALIZATION OF MEGA MENU
     // =======================================================
@@ -326,14 +364,14 @@ $(document).on('ready', function () {
             $(draggedEl).remove()
         },
 
-        events: 
-            {
-                url: '/Home/GetEvents',
-                method: 'POST',
-                failure: function () {
-                    alert('There was an error while fetching events!');
-                },
-            }        
+        events:
+        {
+            url: '/home/getevents',
+            method: 'POST',
+            failure: function () {
+                alert('There was an error while fetching events!');
+            }
+        }
     })
 
     // Events
@@ -502,13 +540,20 @@ $(document).on('ready', function () {
 
         // ADD DRAGGABLE CLASS FOR CALENDAR
         // =======================================================
-        const Draggable = FullCalendar.Draggable;
+        var Draggable = FullCalendar.Draggable;
 
         new Draggable($('#external-events')[0], {
             itemSelector: '.fc-event'
         });
-    }
-    catch { }
+    } catch { }
+
+
+    // INITIALIZATION OF CIRCLES
+    // =======================================================
+    $('.js-circle').each(function () {
+        var circle = $.HSCore.components.HSCircles.init($(this));
+    });
+
 
     // INITIALIZATION OF DATATABLES
     // =======================================================
@@ -538,10 +583,56 @@ $(document).on('ready', function () {
         datatable.column(targetColumnIndex).search(elVal).draw();
     });
 
+    $('#datatableSearch').on('mouseup', function (e) {
+        var $input = $(this),
+            oldValue = $input.val();
+
+        if (oldValue == "") return;
+
+        setTimeout(function () {
+            var newValue = $input.val();
+
+            if (newValue == "") {
+                // Gotcha
+                datatable.search('').draw();
+            }
+        }, 1);
+    });
+
     $('.js-datatable-sort').on('change', function () {
         var $this = $(this),
             elVal = $this.val();
 
-       //Do more later
+        var params = new URLSearchParams(window.location.search);
+        params.set('sort', elVal);
+
+        window.location = "?" + params.toString();
+    });
+
+    $('#datatableEntries').on('change', function () {
+        var $this = $(this),
+            elVal = $this.val();
+
+        var params = new URLSearchParams(window.location.search);
+        params.set('size', elVal);
+
+        window.location = "?" + params.toString();
+    });
+
+    $(document).on("click", '#addi-btn', function (e) {
+        //var type = $("#cui-submit").text(); //For button
+
+        $('#firstNameLabel').val("");
+        $('#lastNameLabel').val("");
+        $('#birthLabel').val("");
+        $('#emailLabel').val("");
+        $('#phoneLabel').val("");
+        $('#durationLabel').val("");
+
+        $('#genderLabel').val('').change();
+        $('#typeLabel').val('').change();
+        $('#orgnLabel').val('').change();
+        $('#deptLabel').val('').change();
+        $('#trainLabel').val('').change();
     });
 });

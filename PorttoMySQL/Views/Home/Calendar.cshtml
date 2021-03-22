@@ -1,6 +1,6 @@
 ﻿@model CalendarModel
 <!-- Page Header -->
-<div class="pl-0 mb-3">
+<div class="pl-0">
     <div class="row align-items-end">
         <div class="col-sm mb-2 mb-sm-0">
             <nav aria-label="breadcrumb">
@@ -13,8 +13,8 @@
         </div>
 
         <div class="col-sm-auto">
-            <button type="button" class="btn btn-sm btn-primary mb-3" data-toggle="modal" data-target="#addEventToCalendarModal">
-                <i class="tio-add"></i> Create event
+            <button type="button" class="btn btn-sm btn-primary mb-4" data-toggle="modal" data-target="#addEventToCalendarModal">
+                <i class="tio-add-event"></i> Create event
             </button>
         </div>
     </div>
@@ -245,7 +245,7 @@
                           "customClass": "custom-select custom-select-sm",
                           "dropdownAutoWidth": true,
                           "width": true,
-                            "placeholder":"Select one"
+                          "placeholder":"Select one"
                         }'>
                                 <option value="everyday">Everyday</option>
                                 <option value="weekdays">Weekdays</option>

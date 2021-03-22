@@ -36,15 +36,11 @@ namespace WebApplication.Models
         public string DateOfBirth { get; set; }
         public string Gender { get; set; }
         public string Phone { get; set; }
-        public int Mentor { get; set; }
-        public int UpdatedBy { get; set; }
-        public string UpdatedDate { get; set; }
-        public string CreatedDate { get; set; }
         public string Duration { get; set; }
         public string Type { get; set; }
-        public int Department { get; set; }
-        public int Organization { get; set; }
-        public int Training { get; set; }
+        public int DepartmentId { get; set; }
+        public int OrganizationId { get; set; }
+        public int TrainingId { get; set; }
 
         #endregion End Intern Property
     }

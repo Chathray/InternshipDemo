@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\css\theme.min.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Data\DataBased.sql" />
     <None Remove="README.md" />
   </ItemGroup>
 
