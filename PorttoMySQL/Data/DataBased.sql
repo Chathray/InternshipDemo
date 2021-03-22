@@ -72,7 +72,7 @@ CREATE TABLE `events` (
   CONSTRAINT `FK_Events_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `users` (`UserId`),
   CONSTRAINT `FK_Events_EventTypes_Type` FOREIGN KEY (`Type`) REFERENCES `eventtypes` (`Type`),
   CONSTRAINT `FK_Events_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,6 +81,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
+INSERT INTO `events` VALUES (1,'Leo núi Vũng Chua','Holidays','fullcalendar-custom-event-holidays','2021-03-28','2021-03-29',1,'2021-03-22 03:28:28',NULL,NULL,'everyday','[{\"iid\": 3, \"src\": \"/img/intern.svg\", \"value\": \"Ly Tran Quang\"}, {\"iid\": 5, \"src\": \"/img/intern.svg\", \"value\": \"Do Tran Quang\"}, {\"iid\": 9, \"src\": \"/img/intern.svg\", \"value\": \"Ba Loc Dao\"}]','Quy Nhon','OK','/img/event.svg'),(2,'Hoàn thành khoá luận tốt nghiệp','Tasks','fullcalendar-custom-event-tasks','2021-03-01','2021-03-31',1,'2021-03-22 03:52:55',NULL,NULL,'weekdays','[{\"iid\": 2, \"src\": \"/img/intern.svg\", \"value\": \"Y Tran Quang\"}]','Quy Nhon','OK','/img/event.svg');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +121,7 @@ CREATE TABLE `interns` (
   `InternId` int NOT NULL AUTO_INCREMENT,
   `Email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `FirstName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `LastName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `LastName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `Gender` enum('female','male') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `DateOfBirth` date NOT NULL,
   `Duration` varchar(23) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -154,7 +155,7 @@ CREATE TABLE `interns` (
 
 LOCK TABLES `interns` WRITE;
 /*!40000 ALTER TABLE `interns` DISABLE KEYS */;
-INSERT INTO `interns` VALUES (1,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-17 02:26:42',NULL,'/img/intern.svg','4343',1,1),(2,'ngotran@t','Y','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 00:41:01',NULL,'/img/intern.svg','4343',1,1),(3,'ngotran@t','Ly','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 00:51:05',NULL,'/img/intern.svg','4343',1,1),(4,'ngotran@t','Tam','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 00:13:10',NULL,'/img/intern.svg','4343',1,1),(5,'ngotran@t','Do','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',1,NULL,'2021-03-18 00:59:57',NULL,'/img/intern.svg','4343',1,1),(6,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 01:05:50',NULL,'/img/intern.svg','4343',1,1),(7,'ngotran@t','Phi','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-20 16:12:29',NULL,'/img/intern.svg','4343',1,1),(8,'ngotran@t','Vu','Tran Nguyen','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-20 16:13:02',NULL,'/img/intern.svg','4343',1,1),(9,'me@x','Mechel','Can','male','2021-03-02','20/21/2102 - 10/21/0202',1,'Full time',1,NULL,'2021-03-21 08:27:27',NULL,'/img/intern.svg','+43 434 545',1,3);
+INSERT INTO `interns` VALUES (1,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-17 02:26:42',NULL,'/img/intern.svg','4343',1,1),(2,'ngotran@t','Y','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 00:41:01',NULL,'/img/intern.svg','4343',1,1),(3,'ngotran@t','Ly','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 00:51:05',NULL,'/img/intern.svg','4343',1,1),(4,'ngotran@t','Tam','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',1,NULL,'2021-03-18 00:13:10',NULL,'/img/intern.svg','4343',1,1),(5,'ngotran@t','Do','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',1,NULL,'2021-03-18 00:59:57',NULL,'/img/intern.svg','4343',1,1),(6,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 01:05:50',NULL,'/img/intern.svg','4343',1,1),(7,'ngotran@t','Ma','Tran Phi','female','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',1,NULL,'2021-03-20 16:12:29',NULL,'/img/intern.svg','4343',1,1);
 /*!40000 ALTER TABLE `interns` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,9 +273,9 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `UserId` int NOT NULL AUTO_INCREMENT,
-  `Email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `Email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `FirstName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `LastName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `LastName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `PasswordHash` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `Status` enum('success','danger','warning') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'success',
   `Role` enum('admin','mentor','staff') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'staff',
@@ -311,10 +312,10 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CheckUser`(
-  mail nvarchar(100)
+  inEmail nvarchar(100)
 )
 BEGIN
-  select * from users where Email = mail;
+  SELECT * FROM users WHERE Email = inEmail;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -357,7 +358,7 @@ SELECT
 			'id', EventId,
 			'title', Title,
 			'start', Start,
-			'End', End,
+			'end', End,
 			'className',ClassName,
 			'eventDescriptionLabel', EventDescriptionLabel,
 			'eventLocationLabel', EventLocationLabel,
@@ -396,9 +397,9 @@ SELECT
 			'phone',Phone,
 			'type',Type,
 			'duration',Duration,
-			'orgn',OrganizationId,
-			'dept',DepartmentId,
-			'train',TrainingId,
+			'organizationid',OrganizationId,
+			'departmentid',DepartmentId,
+			'trainingid',TrainingId,
             'avatar',Avatar            
 		)
 AS json FROM interns
@@ -419,26 +420,29 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternList`(offse int, limi int, orderby varchar(10))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternList`(offset_value int, limit_value int, orderby varchar(10))
 BEGIN
-SELECT CONCAT(t1.FirstName,' ',t1.LastName) AS FullName,
-    t1.InternId,t1.Email,DateOfBirth,Gender,t1.Phone,
-    CONCAT(t5.FirstName,' ',t5.LastName) AS Mentor,t1.Avatar,
-	t1.CreatedDate,Duration,Type,DepName,OrgName,t4.TraName,t4.TrainingId
-              
+SELECT
+	CONCAT(t1.FirstName,' ',t1.LastName) AS FullName,
+    t1.InternId, t1.Email,
+    DateOfBirth, Gender,
+    t1.Phone,
+    CONCAT(t5.FirstName,' ',t5.LastName) AS Mentor,
+    t1.Avatar, t1.CreatedDate,
+    Duration, Type, DepName, OrgName,
+    t4.TraName, t4.TrainingId
 FROM interns t1
-JOIN organizations t2 ON t2.OrganizationId = t1.OrganizationId
-JOIN departments t3 ON t3.DepartmentId = t1.DepartmentId
-JOIN trainings t4 ON t4.TrainingId = t1.TrainingId
-JOIN users t5 ON t5.UserId = t1.Mentor
-
+	JOIN organizations t2 ON t2.OrganizationId = t1.OrganizationId
+	JOIN departments t3 ON t3.DepartmentId = t1.DepartmentId
+	JOIN trainings t4 ON t4.TrainingId = t1.TrainingId
+	JOIN users t5 ON t5.UserId = t1.Mentor
 ORDER BY 
 	CASE WHEN orderby='Name' THEN FullName END,
 	CASE WHEN orderby='Index' THEN InternId END DESC,
 	CASE WHEN orderby='Date' THEN t1.CreatedDate END DESC,
 	CASE WHEN orderby='Mentor' THEN Mentor END,
 	CASE WHEN orderby='Training' THEN TraName END
-LIMIT limi OFFSET offse;
+LIMIT limit_value OFFSET offset_value;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -475,20 +479,19 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertEvent`(
-  title varchar(500),
-  type varchar(500),
-  classname varchar(500),
-  start varchar(500),
-  end varchar(500),
-  createdby varchar(500),
-  gestsfield varchar(500),
-  repeatfield varchar(500),
-  eventlocationlabel varchar(500),
-  eventdescriptionlabel varchar(500)
-)
+	inTitle varchar(500),
+	inType varchar(500),
+	inClassName varchar(500),
+	inStart varchar(500),
+	inEnd varchar(500),
+	inCreatedBy varchar(500),
+	inGestsField varchar(500),
+	inRepeatField varchar(500),
+	inEventLocationLabel varchar(500),
+	inEventDescriptionLabel varchar(500))
 BEGIN
-  Insert into events (Title,Type,ClassName,Start,End,CreatedBy,GestsField,RepeatField,EventLocationLabel,EventDescriptionLabel)
-  values (title,type,classname,start,end,createdby,gestsfield,repeatfield,eventlocationlabel,eventdescriptionlabel);
+	INSERT INTO events (Title,Type,ClassName,Start,End,CreatedBy,GestsField,RepeatField,EventLocationLabel,EventDescriptionLabel)
+	VALUES (inTitle,inType,inClassName,inStart,inEnd,inCreatedBy,inGestsField,inRepeatField,inEventLocationLabel,inEventDescriptionLabel);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -506,22 +509,21 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertIntern`(
-  email varchar(500),
-  phone varchar(500),
-  firstname varchar(500),
-  lastname varchar(500),
-  dateofbirth varchar(500),
-  gender varchar(500),
-  duration varchar(500),
-  type varchar(500),
-  mentor varchar(500),
-  trainingid varchar(500),
-  organizationid varchar(500),
-  departmentid varchar(500)
-)
+	inEmail varchar(500),
+	inPhone varchar(500),
+	inFirstName varchar(500),
+	inLastName varchar(500),
+	inDateOfBirth varchar(500),
+	inGender varchar(500),
+	inDuration varchar(500),
+	inType varchar(500),
+	inMentor varchar(500),
+	inTrainingId varchar(500),
+	inOrganizationId varchar(500),
+	inDepartmentId varchar(500))
 BEGIN
-  Insert into interns (Email,Phone,FirstName,LastName,DateOfBirth,Gender,Duration,Type,Mentor,TrainingId,OrganizationId,DepartmentId)
-  values (email,phone,firstname,lastname,dateofbirth,gender,duration,type,mentor,trainingid,organizationid,departmentid);
+	INSERT INTO interns (Email,Phone,FirstName,LastName,DateOfBirth,Gender,Duration,Type,Mentor,TrainingId,OrganizationId,DepartmentId)
+	VALUES (inEmail,inPhone,inFirstName,inLastName,inDateOfBirth,inGender,inDuration,inType,inMentor,inTrainingId,inOrganizationId,inDepartmentId);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -539,13 +541,13 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertUser`(
- email varchar(500),
- firstName varchar(500),
- lastName varchar(500),
- passwordHash varchar(500))
+	inEmail varchar(500),
+	inFirstName varchar(500),
+	inLastName varchar(500),
+	inPasswordHash varchar(500))
 BEGIN
-  Insert into users (Email, FirstName, LastName, PasswordHash)
-  values (email,firstName,lastName,passwordHash);
+	INSERT INTO users (Email, FirstName, LastName, PasswordHash)
+	VALUES (inEmail, inFirstName, inLastName, inPasswordHash);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -563,35 +565,35 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateIntern`(
-  a int,
-  b varchar(500),
-  c varchar(500),
-  d varchar(500),
-  e varchar(500),
-  f varchar(500),
-  g varchar(500),
-  h varchar(500),
-  i varchar(500),
-  k varchar(500),
-  l varchar(500),
-  m varchar(500),
-  n varchar(500))
+	inInternId int,
+	inEmail varchar(500),
+	inPhone varchar(500),
+	inFirstName varchar(500),
+	inLastName varchar(500),
+	inDateOfBirth varchar(500),
+	inGender varchar(500),
+	inDuration varchar(500),
+	inType varchar(500),
+	inMentor varchar(500),
+	inTrainingId varchar(500),
+	inOrganizationId varchar(500),
+	inDepartmentId varchar(500))
 BEGIN
 	UPDATE interns
     SET
-		Email=b,
-		Phone=c,
-		FirstName=d,
-		LastName=e,
-		DateOfBirth=f,
-		Gender=g,
-		Duration=h,
-		Type=i,
-		Mentor=k,
-		TrainingId=l,
-		OrganizationId=m,
-		DepartmentId=n       
-	WHERE Internid = a;
+		Email=inEmail,
+		Phone=inPhone,
+		FirstName=inFirstName,
+		LastName=inLastName,
+		DateOfBirth=inDateOfBirth,
+		Gender=inGender,
+		Duration=inDuration,
+		Type=inType,
+		Mentor=inMentor,
+		TrainingId=inTrainingId,
+		OrganizationId=inOrganizationId,
+		DepartmentId=inDepartmentId        
+	WHERE Internid = inInternId;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -608,4 +610,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-22  7:52:51
+-- Dump completed on 2021-03-22 11:05:12

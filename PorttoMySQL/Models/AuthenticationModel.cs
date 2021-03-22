@@ -4,9 +4,9 @@ namespace WebApplication.Models
 {
     public class AuthenticationModel
     {
-        public string LoginMail { get; set; }
+        public string LoginEmail { get; set; }
 
-        public string LoginPass { get; set; }
+        public string LoginPassword { get; set; }
 
         /*-----------------------------------*/
 
@@ -16,15 +16,15 @@ namespace WebApplication.Models
         /*-----------------------------------*/
 
         [Required]
-        public string FirstName { get; set; }
+        public string RegiterFirstName { get; set; }
 
         [Required]
-        public string LastName { get; set; }
+        public string RegiterLastName { get; set; }
 
         [Required]
-        public string Email { get; set; }
+        public string RegiterEmail { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public string RegiterPassword { get; set; }
     }
 }

@@ -76,8 +76,8 @@
                                                 <span class="error">Please enter a valid email</span>
                                             </label>
                                             <div class="control is-bigger has-icon">
-                                                <input asp-for="LoginMail" required id="login-email" type="email" class="input">
-                                                <span asp-validation-for="LoginMail"></span>
+                                                <input asp-for="LoginEmail" required id="login-email" type="email" class="input">
+                                                <span asp-validation-for="LoginEmail"></span>
                                                 <div class="form-icon">
                                                     <i data-feather="mail"></i>
                                                 </div>
@@ -92,7 +92,7 @@
                                                 <span>Password</span>
                                             </label>
                                             <div class="control is-bigger has-icon">
-                                                <input asp-for="LoginPass" required id="login-password" type="password" class="input">
+                                                <input asp-for="LoginPassword" required id="login-password" type="password" class="input">
                                                 <div> @Html.ValidationMessage("result")</div>
                                                 <div class="form-icon">
                                                     <i data-feather="lock"></i>
@@ -161,7 +161,7 @@
                                                 <span class="error">Please enter a valid email</span>
                                             </label>
                                             <div class="control is-bigger has-icon">
-                                                <input asp-for="Email" type="email" required class="input">
+                                                <input asp-for="RegiterEmail" type="email" required class="input">
                                                 <div class="form-icon">
                                                     <i data-feather="mail"></i>
                                                 </div>
@@ -174,7 +174,7 @@
                                         <div class="field">
                                             <label>First Name</label>
                                             <div class="control is-bigger has-icon">
-                                                <input asp-for="FirstName" type="text" required class="input">
+                                                <input asp-for="RegiterFirstName" type="text" required class="input">
                                                 <div class="form-icon">
                                                     <i data-feather="user"></i>
                                                 </div>
@@ -184,7 +184,7 @@
                                         <div class="field">
                                             <label>Last Name</label>
                                             <div class="control is-bigger has-icon">
-                                                <input asp-for="LastName" type="text" required class="input">
+                                                <input asp-for="RegiterLastName" type="text" required class="input">
                                                 <div class="form-icon">
                                                     <i data-feather="user"></i>
                                                 </div>
@@ -194,7 +194,7 @@
                                         <div class="field">
                                             <label>Password</label>
                                             <div class="control is-bigger has-icon">
-                                                <input asp-for="Password" type="password" required class="input">
+                                                <input asp-for="RegiterPassword" type="password" required class="input">
                                                 <div class="form-icon">
                                                     <i data-feather="lock"></i>
                                                 </div>

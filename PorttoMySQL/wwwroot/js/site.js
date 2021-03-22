@@ -22,12 +22,11 @@ function InternUpdate(iid) {
         url: "home/getinterninfo",
         data: { id: iid }
     }).done(function (o) {
-        $('#cui-form').attr('action', '/index2/' + iid);
-        $("#exampleModal").modal();
-
+        $('#cui-form').attr('action', '/internupdate/' + iid);
         let obj = JSON.parse(o);
 
         SetModalData(obj);
+        $("#exampleModal").modal();
     });
 }
 
@@ -42,9 +41,9 @@ function SetModalData(obj) {
 
     $('#genderLabel').val(obj.gender).change();
     $('#typeLabel').val(obj.type).change();
-    $('#orgnLabel').val(obj.orgn).change();
-    $('#deptLabel').val(obj.dept).change();
-    $('#trainLabel').val(obj.train).change();
+    $('#organizationLabel').val(obj.organizationid).change();
+    $('#departmentLabel').val(obj.departmentid).change();
+    $('#trainingLabel').val(obj.trainingid).change();
 }
 
 function InternEvaluate(iid) {
@@ -56,7 +55,7 @@ function ShowInternData(tid, iid) {
     $.ajax({
         method: "POST",
         url: "home/getinterndata",
-        data: { tid: tid, iid: iid }
+        data: { trainingId: tid, internId: iid }
     }).done(function (msg) {
         alert(msg);
     });
@@ -621,6 +620,8 @@ $(document).on('ready', function () {
 
     $(document).on("click", '#addi-btn', function (e) {
         //var type = $("#cui-submit").text(); //For button
+
+        $('#cui-form').attr('action', '/');
 
         $('#firstNameLabel').val("");
         $('#lastNameLabel').val("");

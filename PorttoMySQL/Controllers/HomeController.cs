@@ -72,8 +72,8 @@ namespace WebApplication.Controllers
             return Redirect("/");
         }
 
-        [HttpPost("Index2/{id}")]
-        public IActionResult Index2(IndexModel model, int id)
+        [HttpPost("InternUpdate/{id}")]
+        public IActionResult Index(IndexModel model, int id)
         {
             Intern intern = _mapper.Map<Intern>(model);
             intern.Mentor = int.Parse(User.Claims.ElementAt(3).Value);
@@ -81,6 +81,7 @@ namespace WebApplication.Controllers
 
             try
             {
+                _logger.LogInformation(Dump(intern));
                 _adapter.UpdateIntern(intern);
             }
             catch (AppException)
@@ -128,39 +129,39 @@ namespace WebApplication.Controllers
         [AcceptVerbs("POST")]
         public IActionResult CreateEvent(CalendarModel model)
         {
-            Event even = _mapper.Map<Event>(model);
-            even.CreatedBy = int.Parse(User.Claims.ElementAt(3).Value);
+            Event aEvent = _mapper.Map<Event>(model);
+            aEvent.CreatedBy = int.Parse(User.Claims.ElementAt(3).Value);
 
-            var dat = model.Deadline.Split(" - ");
+            var dateArray = model.Deadline.Split(" - ");
             // Ngoại lệ ngày đơn
             try
             {
-                even.Start = dat[0];
-                even.End = dat[1];
+                aEvent.Start = dateArray[0];
+                aEvent.End = dateArray[1];
             }
             catch { }
 
             switch (model.Type)
             {
                 case "fullcalendar-custom-event-hs-team":
-                    even.Type = "Personal";
+                    aEvent.Type = "Personal";
                     break;
                 case "fullcalendar-custom-event-holidays":
-                    even.Type = "Holidays";
+                    aEvent.Type = "Holidays";
                     break;
                 case "fullcalendar-custom-event-tasks":
-                    even.Type = "Tasks";
+                    aEvent.Type = "Tasks";
                     break;
                 case "fullcalendar-custom-event-reminders":
-                    even.Type = "Reminders";
+                    aEvent.Type = "Reminders";
                     break;
             }
-            even.ClassName = model.Type;
+            aEvent.ClassName = model.Type;
 
             // Logg to see few word
             //_logger.LogInformation(Dump(even));
 
-            var ok = _adapter.InsertEvent(even);
+            var ok = _adapter.InsertEvent(aEvent);
 
             if (!ok) Response.StatusCode = -1;
 
@@ -183,7 +184,7 @@ namespace WebApplication.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public string GetInternData(int tid, int iid)
+        public string GetInternData(int trainingId, int internId)
         {
             var data = _adapter.GetEventsIntern();
             var eventsJoined = new StringBuilder();
@@ -195,7 +196,7 @@ namespace WebApplication.Controllers
                 foreach (var token in json)
                 {
                     //_logger.LogInformation(token + ", " + iid);
-                    if (token == iid.ToString())
+                    if (token == internId.ToString())
                     {
                         eventsJoined.Append("+ " + i["Title"].ToString() + "\n");
                         break;
@@ -204,7 +205,7 @@ namespace WebApplication.Controllers
             }
             return $@"
 - Training Data:
-{_adapter.GetInternTraining(tid)}
+{_adapter.GetInternTraining(trainingId)}
 --------------------------------------------------------
 - List of training events participating:
 {eventsJoined}";
@@ -217,9 +218,9 @@ namespace WebApplication.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public static string Dump(object obj)
+        public static string Dump(object anObject)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(anObject);
         }
     }
 }

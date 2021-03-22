@@ -308,7 +308,7 @@
             </thead>
 
             <tbody>
-                @foreach (DataRow X in Model.Internl.Rows)
+                @foreach (DataRow X in Model.Interns.Rows)
                 {
                     <tr>
                         <td class="table-column-pr-0">
@@ -422,7 +422,7 @@
 
                                 @foreach (var i in Model.Pager.Pages)
                                 {
-                                    <li class="paginate_item page-item @Model.CheckActive(i)">
+                                    <li class="paginate_item page-item @Model.CheckPageActive(i)">
                                         <a href="/?size=@Model.Pager.PageSize&page=@i&sort=@Model.Pager.Sort"
                                            class="paginate_button page-link">@i</a>
                                     </li>
@@ -570,11 +570,11 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
-                                <select asp-for=OrganizationId id="orgnLabel" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                <select asp-for=OrganizationId id="organizationLabel" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                         data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                     <option label="empty"></option>
-                                    @foreach (var og in Model.Organizationl)
+                                    @foreach (var og in Model.Organizations)
                                     {
                                         <option value="@og.OrganizationId">@og.OrgName</option>
                                     }
@@ -590,11 +590,11 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
-                                <select asp-for=TrainingId id="trainLabel" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                <select asp-for=TrainingId id="trainingLabel" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                         data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                     <option label="empty"></option>
-                                    @foreach (var e in Model.Trainingl)
+                                    @foreach (var e in Model.Trainings)
                                     {
                                         <option value="@e.TrainingId">@e.TraName</option>
                                     }
@@ -610,11 +610,11 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
-                                <select asp-for=DepartmentId id="deptLabel" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                <select asp-for=DepartmentId id="departmentLabel" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                         data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                     <option label="empty"></option>
-                                    @foreach (var de in Model.Departmentl)
+                                    @foreach (var de in Model.Departments)
                                     {
                                         <option value="@de.DepartmentId">@de.DepName</option>
                                     }

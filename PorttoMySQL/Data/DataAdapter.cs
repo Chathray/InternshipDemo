@@ -93,8 +93,7 @@ namespace WebApplication
              $"'{model.Mentor}', " +
              $"'{model.TrainingId}', " +
              $"'{model.OrganizationId}', " +
-             $"'{model.DepartmentId}', " +
-             $"'{model.Avatar}')");
+             $"'{model.DepartmentId}')");
         }
 
 

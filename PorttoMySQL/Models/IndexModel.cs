@@ -8,24 +8,24 @@ namespace WebApplication.Models
     {
         public PaginationLogic Pager { get; set; }
 
-        public DataTable Internl { get; set; }
-        public IList<Organization> Organizationl { get; set; }
-        public IList<Department> Departmentl { get; set; }
-        public IList<Training> Trainingl { get; set; }
+        public DataTable Interns { get; set; }
+        public IList<Organization> Organizations { get; set; }
+        public IList<Department> Departments { get; set; }
+        public IList<Training> Trainings { get; set; }
 
         public IndexModel() { }
-        public IndexModel(PaginationLogic pg, DataTable it, IList<Training> tr, IList<Organization> or, IList<Department> dt)
+        public IndexModel(PaginationLogic pager, DataTable interns, IList<Training> trainings, IList<Organization> organizations, IList<Department> departments)
         {
-            Pager = pg;
-            Internl = it;
-            Trainingl = tr;
-            Organizationl = or;
-            Departmentl = dt;
+            Pager = pager;
+            Interns = interns;
+            Trainings = trainings;
+            Organizations = organizations;
+            Departments = departments;
         }
 
-        public string CheckActive(int i)
+        public string CheckPageActive(int page)
         {
-            return i == Pager.CurrentPage ? "active" : "";
+            return page == Pager.CurrentPage ? "active" : "";
         }
 
         #region Intern Property
