@@ -16,9 +16,9 @@ namespace WebApplication.Controllers
         private readonly DataAdapter _adapter;
         private readonly IMapper _mapper;
 
-        public UserController(DataContext context, IMapper mapper)
+        public UserController(DataAdapter adapter, IMapper mapper)
         {
-            _adapter = new DataAdapter(context);
+            _adapter = adapter;
             _mapper = mapper;
         }
 
@@ -55,7 +55,7 @@ namespace WebApplication.Controllers
                 new AuthenticationProperties
                 {
                     IsPersistent = true,
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(10)                    
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(10)
                 });
 
             return Redirect("/");

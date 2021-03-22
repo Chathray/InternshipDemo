@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 namespace WebApplication
 {
@@ -34,6 +33,8 @@ namespace WebApplication
                 options.LoginPath = "/Authentication";
                 options.AccessDeniedPath = "/Home/Error";
             });
+
+            services.AddScoped<DataAdapter>();
         }
 
 

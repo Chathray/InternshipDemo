@@ -19,9 +19,9 @@ namespace WebApplication.Controllers
         private readonly DataAdapter _adapter;
         private readonly IMapper _mapper;
 
-        public HomeController(DataContext context, ILogger<HomeController> logger, IMapper mapper)
+        public HomeController(DataAdapter adapter, ILogger<HomeController> logger, IMapper mapper)
         {
-            _adapter = new DataAdapter(context);
+            _adapter = adapter;
             _mapper = mapper;
             _logger = logger;
         }

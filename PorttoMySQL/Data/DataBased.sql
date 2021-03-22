@@ -58,7 +58,7 @@ CREATE TABLE `events` (
   `CreatedBy` int NOT NULL,
   `CreatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedBy` int DEFAULT NULL,
-  `UpdatedDate` timestamp NULL DEFAULT NULL,
+  `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `RepeatField` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `GestsField` json DEFAULT NULL,
   `EventLocationLabel` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -130,7 +130,7 @@ CREATE TABLE `interns` (
   `Mentor` int NOT NULL,
   `UpdatedBy` int DEFAULT NULL,
   `CreatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdatedDate` timestamp NULL DEFAULT NULL,
+  `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Avatar` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '/img/intern.svg',
   `Phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `OrganizationId` int NOT NULL,
@@ -146,7 +146,7 @@ CREATE TABLE `interns` (
   CONSTRAINT `FK_Interns_Organization` FOREIGN KEY (`OrganizationId`) REFERENCES `organizations` (`OrganizationId`),
   CONSTRAINT `FK_Interns_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`),
   CONSTRAINT `PK_Intern_Training` FOREIGN KEY (`TrainingId`) REFERENCES `trainings` (`TrainingId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,10 +168,11 @@ DROP TABLE IF EXISTS `internshippoints`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `internshippoints` (
   `InternId` int NOT NULL,
-  `TechnicalSkill` decimal(2,2) DEFAULT NULL,
-  `SoftSkill` decimal(2,2) DEFAULT NULL,
-  `Attitude` decimal(2,2) DEFAULT NULL,
-  `Result` decimal(2,2) DEFAULT NULL,
+  `TechnicalSkill` decimal(10,2) DEFAULT NULL,
+  `SoftSkill` decimal(10,2) DEFAULT NULL,
+  `Attitude` decimal(10,2) DEFAULT NULL,
+  `Score` decimal(10,2) GENERATED ALWAYS AS ((((`TechnicalSkill` + `SoftSkill`) + `Attitude`) / 3)) STORED,
+  `Passed` enum('true','false') COLLATE utf8mb4_general_ci GENERATED ALWAYS AS ((`Score` > 5)) STORED,
   PRIMARY KEY (`InternId`),
   CONSTRAINT `FK_internshippoints_Intern` FOREIGN KEY (`InternId`) REFERENCES `interns` (`InternId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -183,6 +184,7 @@ CREATE TABLE `internshippoints` (
 
 LOCK TABLES `internshippoints` WRITE;
 /*!40000 ALTER TABLE `internshippoints` DISABLE KEYS */;
+INSERT INTO `internshippoints` (`InternId`, `TechnicalSkill`, `SoftSkill`, `Attitude`) VALUES (1,6.04,6.30,8.00);
 /*!40000 ALTER TABLE `internshippoints` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,12 +282,12 @@ CREATE TABLE `users` (
   `Status` enum('success','danger','warning') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'success',
   `Role` enum('admin','mentor','staff') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'staff',
   `CreatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdatedDate` timestamp NULL DEFAULT NULL,
+  `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Avatar` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '../img/user.jpg',
   `Phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`UserId`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -294,7 +296,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@x','Thang','Huynh','$2a$11$ZwUGQzP5M.gaE/FzHrbGDuNJrWhefvsoiTmyIDowKnhZuXRMBtux6','success','mentor','2021-03-15 03:39:36',NULL,'../img/user.jpg',NULL),(6,'tan@tma','Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','success','admin','2021-03-16 20:43:28',NULL,'../img/user.jpg',NULL),(8,'by@tma','By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','staff','2021-03-17 02:25:34',NULL,'../img/user.jpg',NULL),(9,'thanh@qnu','Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff','2021-03-17 18:41:37',NULL,'../img/user.jpg',NULL);
+INSERT INTO `users` VALUES (1,'admin@x','Thang','Huynh','$2a$11$ZwUGQzP5M.gaE/FzHrbGDuNJrWhefvsoiTmyIDowKnhZuXRMBtux6','success','mentor','2021-03-15 03:39:36',NULL,'../img/user.jpg',NULL),(2,'tan@tma','Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','success','admin','2021-03-16 20:43:28','2021-03-22 04:49:25','../img/user.jpg',NULL),(3,'thanh@qnu','Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff','2021-03-17 18:41:37','2021-03-22 05:37:27','../img/user.jpg',NULL),(8,'by@tma','By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','staff','2021-03-17 02:25:34',NULL,'../img/user.jpg',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -316,6 +318,30 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `CheckUser`(
 )
 BEGIN
   SELECT * FROM users WHERE Email = inEmail;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `EvaluateIntern` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EvaluateIntern`(id int, technicalPoint double, softPoint double, attitudePoint double)
+BEGIN
+	INSERT INTO internshippoints (InternId, TechnicalSkill, SoftSkill, Attitude)
+    VALUES(id, technicalPoint, softPoint, attitudePoint)
+    ON DUPLICATE KEY UPDATE
+    TechnicalSkill = technicalPoint,
+    SoftSkill = softPoint,
+    Attitude = attitudePoint;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -485,7 +511,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertEvent`(
 	inStart varchar(500),
 	inEnd varchar(500),
 	inCreatedBy varchar(500),
-	inGestsField varchar(500),
+	inGestsField json,
 	inRepeatField varchar(500),
 	inEventLocationLabel varchar(500),
 	inEventDescriptionLabel varchar(500))
@@ -524,6 +550,28 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertIntern`(
 BEGIN
 	INSERT INTO interns (Email,Phone,FirstName,LastName,DateOfBirth,Gender,Duration,Type,Mentor,TrainingId,OrganizationId,DepartmentId)
 	VALUES (inEmail,inPhone,inFirstName,inLastName,inDateOfBirth,inGender,inDuration,inType,inMentor,inTrainingId,inOrganizationId,inDepartmentId);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `InsertTraining` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertTraining`(
+	inTraName varchar(500),
+	inTraData json)
+BEGIN
+	INSERT INTO trainings (TraName, TraData)
+    VALUES (inTraName, inTraData);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -610,4 +658,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-22 11:05:12
+-- Dump completed on 2021-03-22 13:25:33
