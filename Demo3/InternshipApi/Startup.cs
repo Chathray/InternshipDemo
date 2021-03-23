@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,8 @@ namespace InternshipApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = Configuration.GetConnectionString("MYSQL");
+
             services.AddControllers();
             // Enable Cross-Origin Requests (CORS) in ASP.NET Core
             services.AddCors();
@@ -39,7 +42,7 @@ namespace InternshipApi
 
             // CR:Add database context of webapp
             services.AddDbContext<DataContext>(options =>
-                options.UseMySQL(Configuration.GetConnectionString("MYSQL")));
+                options.UseMySQL(connectionString));
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -83,13 +86,14 @@ namespace InternshipApi
 
             // configure DI for application services
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IUserRespository, UserRespository>();
+            services.AddScoped<IDisposable, UserRespository>();
             services.AddScoped<IInternRespository, InternRespository>();
 
             services.AddScoped<DataContext>();
             services.AddScoped<IAccountService, AccountService>();
 
-            DataProvider provider = new(Configuration.GetConnectionString("MYSQL"));
+            MySqlConnection connection = new(connectionString);
+            DataProvider provider = new(connection);
             services.AddScoped(p => provider);
         }
 

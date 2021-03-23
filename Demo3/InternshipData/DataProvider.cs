@@ -8,9 +8,9 @@ namespace Internship.Data
     {
         private readonly MySqlConnection _connection;
 
-        public DataProvider(string connectionString)
+        public DataProvider(MySqlConnection connection)
         {
-            _connection = new MySqlConnection(connectionString);
+            _connection = connection;
         }
 
         //--
