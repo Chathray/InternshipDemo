@@ -90,7 +90,7 @@ namespace InternshipApi
             services.AddScoped<IAccountService, AccountService>();
 
             DataProvider provider = new(Configuration.GetConnectionString("MYSQL"));
-            services.AddScoped(f => provider);
+            services.AddScoped(p => provider);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
