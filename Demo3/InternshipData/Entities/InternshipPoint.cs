@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebApplication
+namespace Internship.Data
 {
+    [Table("InternshipPoints")]
     public class InternshipPoint
     {
         [Key]
@@ -10,7 +11,8 @@ namespace WebApplication
         public float TechnicalSkill { get; set; }
         public float SoftSkill { get; set; }
         public float Attitude { get; set; }
-        public float Result { get; set; }
+        public float Score { get; set; }
+        public bool Passed { get; set; }
 
         [ForeignKey("InternId")]
         public Intern Interns { get; set; }

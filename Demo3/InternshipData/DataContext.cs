@@ -1,0 +1,21 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+
+namespace Internship.Data
+{
+    public class DataContext : DbContext
+    {
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        { }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Intern> Interns { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<EventType> EventTypes { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
+        public DbSet<InternshipPoint> InternshipPoints { get; set; }
+        public DbSet<Training> Trainings { get; set; }
+    }
+}
