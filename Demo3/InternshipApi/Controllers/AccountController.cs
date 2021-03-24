@@ -18,10 +18,9 @@ namespace InternshipApi.Controllers
 {
     [Authorize]
     [ApiController]
-    public class AccountController : ControllerBase
+    internal class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> _logger;
-        private readonly IMapper _mapper;
         private readonly IUserService _userService;
         private readonly AppSettings _appSettings;
 
@@ -30,7 +29,6 @@ namespace InternshipApi.Controllers
             IOptions<AppSettings> appSettings)
         {
             _logger = logger;
-            _mapper = mapper;
             _userService = userService;
             _appSettings = appSettings.Value;
         }
@@ -45,7 +43,7 @@ namespace InternshipApi.Controllers
 
         //----------------------------------------------------------------------------------
         [AllowAnonymous]
-        [HttpPost("/authenticate")]
+        [HttpPost]
         public IActionResult Authenticate([FromBody] AuthenticationModel model)
         {
             var user = _userService.Authenticate(model.LoginEmail, model.LoginPassword);
@@ -80,16 +78,13 @@ namespace InternshipApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("/register")]
-        public IActionResult Register(AuthenticationModel model)
+        [HttpPost]
+        public IActionResult Register([FromBody] AuthenticationModel model)
         {
-            // map model to entity
-            var user = _mapper.Map<User>(model);
-
             try
             {
                 // create user
-                _userService.InsertUser(user, model.RegiterPassword);
+                _userService.InsertUser(model);
                 return Ok();
             }
             catch (AppException ex)
@@ -99,10 +94,17 @@ namespace InternshipApi.Controllers
             }
         }
 
-        [HttpGet("/all")]
-        public async Task<IActionResult> GetUsers()
+        [HttpGet]
+        public async Task<IActionResult> UserList()
         {
             var users = await _userService.GetAllAsync();
+            return Ok(users);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TotalUser()
+        {
+            var users = await _userService.GetCountAsync();
             return Ok(users);
         }
     }

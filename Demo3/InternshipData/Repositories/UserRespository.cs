@@ -17,11 +17,6 @@ namespace Internship.Data
             _provider = provider;
         }
 
-        Task<IReadOnlyList<User>> IUserRespository.GetAllAsync()
-        {
-            return GetAllAsync();
-        }
-
         public User GetById(int userId)
         {
             return _context.Users.SingleOrDefault(x => x.UserId == userId);
