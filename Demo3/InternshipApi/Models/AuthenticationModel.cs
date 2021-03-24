@@ -10,21 +10,16 @@ namespace InternshipApi.Models
 
         /*-----------------------------------*/
 
-        [Required]
         public string ResetEmail { get; set; }
 
         /*-----------------------------------*/
 
-        [Required]
         public string RegiterFirstName { get; set; }
 
-        [Required]
         public string RegiterLastName { get; set; }
 
-        [Required]
         public string RegiterEmail { get; set; }
 
-        [Required]
         public string RegiterPassword { get; set; }
     }
 }

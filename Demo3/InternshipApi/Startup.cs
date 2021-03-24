@@ -62,7 +62,7 @@ namespace InternshipApi
                 {
                     OnTokenValidated = context =>
                     {
-                        var userService = context.HttpContext.RequestServices.GetRequiredService<IAccountService>();
+                        var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
                         var userId = int.Parse(context.Principal.Identity.Name);
                         var user = userService.GetById(userId);
                         if (user == null)
@@ -86,11 +86,11 @@ namespace InternshipApi
 
             // configure DI for application services
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IDisposable, UserRespository>();
+            services.AddScoped<IUserRespository, UserRespository>();
             services.AddScoped<IInternRespository, InternRespository>();
 
             services.AddScoped<DataContext>();
-            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUserService, UserService>();
 
             MySqlConnection connection = new(connectionString);
             DataProvider provider = new(connection);

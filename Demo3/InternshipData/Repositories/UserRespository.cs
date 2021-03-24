@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Internship.Data
@@ -13,6 +15,11 @@ namespace Internship.Data
         {
             _context = context;
             _provider = provider;
+        }
+
+        Task<IReadOnlyList<User>> IUserRespository.GetAllAsync()
+        {
+            return GetAllAsync();
         }
 
         public User GetById(int userId)
