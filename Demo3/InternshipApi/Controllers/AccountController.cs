@@ -11,26 +11,27 @@ using Microsoft.Extensions.Logging;
 using InternshipApi.Services;
 using InternshipApi.Models;
 using Internship.Data;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace InternshipApi.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[controller]/{action}")]
     public class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> _logger;
         private readonly IMapper _mapper;
-        private readonly IAccountService _accountService;
+        private readonly IUserService _userService;
         private readonly AppSettings _appSettings;
 
         public AccountController(ILogger<AccountController> logger,
-            IMapper mapper, IAccountService accountService,
+            IMapper mapper, IUserService userService,
             IOptions<AppSettings> appSettings)
         {
             _logger = logger;
             _mapper = mapper;
-            _accountService = accountService;
+            _userService = userService;
             _appSettings = appSettings.Value;
         }
 
@@ -38,16 +39,16 @@ namespace InternshipApi.Controllers
         [AllowAnonymous]
         public IActionResult Check()
         {
-            return Ok(_accountService.GetById(1));
+            return Ok(_userService.GetById(1));
         }
 
 
         //----------------------------------------------------------------------------------
         [AllowAnonymous]
-        [HttpPost("authenticate")]
-        public IActionResult Authenticate(AuthenticationModel model)
+        [HttpPost("/authenticate")]
+        public IActionResult Authenticate([FromBody] AuthenticationModel model)
         {
-            var user = _accountService.Authenticate(model.LoginEmail, model.LoginPassword);
+            var user = _userService.Authenticate(model.LoginEmail, model.LoginPassword);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -78,7 +79,8 @@ namespace InternshipApi.Controllers
             });
         }
 
-        [HttpPost]
+        [AllowAnonymous]
+        [HttpPost("/register")]
         public IActionResult Register(AuthenticationModel model)
         {
             // map model to entity
@@ -87,7 +89,7 @@ namespace InternshipApi.Controllers
             try
             {
                 // create user
-                _accountService.InsertUser(user, model.RegiterPassword);
+                _userService.InsertUser(user, model.RegiterPassword);
                 return Ok();
             }
             catch (AppException ex)
@@ -95,6 +97,13 @@ namespace InternshipApi.Controllers
                 // return error message if there was an exception
                 return BadRequest(new { message = ex.Message });
             }
-        }      
+        }
+
+        [HttpGet("/all")]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userService.GetAllAsync();
+            return Ok(users);
+        }
     }
 }
