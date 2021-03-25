@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Internship.Data
 {
-    public class InternRespository : Repository<Intern>, IInternRespository
+    public class InternRespository : Repository<Intern>, IInternRepository
     {
         private readonly DataContext _context;
         private readonly DataProvider _provider;
@@ -29,7 +28,7 @@ namespace Internship.Data
                 $"{(page - 1) * size},{size},'{sort}')");
         }
 
-        public IEnumerable<Intern> GetInternByPage(int page, int size)
+        public IList<Intern> GetInternByPage(int page, int size)
         {
             return _context.Interns
                      .Include(b => b.Organizations)

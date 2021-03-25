@@ -13,8 +13,7 @@ namespace InternshipApi
                    .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.RegiterFirstName))
                    .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.RegiterLastName));
 
-            CreateMap<UserModel, User>();
-            CreateMap<IndexModel, Intern>();
+            CreateMap<InternShortModel, Intern>();
             CreateMap<CalendarModel, Event>();
         }
     }

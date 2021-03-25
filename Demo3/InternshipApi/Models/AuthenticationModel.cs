@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace InternshipApi.Models
+﻿namespace InternshipApi.Models
 {
     public class AuthenticationModel
     {

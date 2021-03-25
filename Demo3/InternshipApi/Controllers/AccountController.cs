@@ -1,27 +1,24 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.Extensions.Options;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-using InternshipApi.Services;
+﻿using AutoMapper;
 using InternshipApi.Models;
-using Internship.Data;
-using System.Collections.Generic;
+using InternshipApi.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace InternshipApi.Controllers
 {
-    [Authorize]
     [ApiController]
+    [Route("{controller}")]
     public class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> _logger;
-        private readonly IMapper _mapper;
         private readonly IUserService _userService;
         private readonly AppSettings _appSettings;
 
@@ -30,23 +27,14 @@ namespace InternshipApi.Controllers
             IOptions<AppSettings> appSettings)
         {
             _logger = logger;
-            _mapper = mapper;
             _userService = userService;
             _appSettings = appSettings.Value;
         }
 
-        [HttpGet("/startup")]
-        [AllowAnonymous]
-        public IActionResult Check()
-        {
-            return Ok(_userService.GetById(1));
-        }
-
-
         //----------------------------------------------------------------------------------
         [AllowAnonymous]
-        [HttpPost("/authenticate")]
-        public IActionResult Authenticate([FromBody] AuthenticationModel model)
+        [HttpPost("Authenticate")]
+        public IActionResult Authenticate( AuthenticationModel model)
         {
             var user = _userService.Authenticate(model.LoginEmail, model.LoginPassword);
 
@@ -80,16 +68,13 @@ namespace InternshipApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("/register")]
-        public IActionResult Register(AuthenticationModel model)
+        [HttpPost("Register")]
+        public IActionResult Register([FromBody] AuthenticationModel model)
         {
-            // map model to entity
-            var user = _mapper.Map<User>(model);
-
             try
             {
                 // create user
-                _userService.InsertUser(user, model.RegiterPassword);
+                _userService.InsertUser(model);
                 return Ok();
             }
             catch (AppException ex)
@@ -99,11 +84,18 @@ namespace InternshipApi.Controllers
             }
         }
 
-        [HttpGet("/all")]
-        public async Task<IActionResult> GetUsers()
+        [HttpGet("UserList")]
+        public async Task<IActionResult> UserList()
         {
-            var users = await _userService.GetAllAsync();
-            return Ok(users);
+            var obj = await _userService.GetAllAsync();
+            return Ok(obj);
+        }
+
+        [HttpGet("TotalUser")]
+        public async Task<IActionResult> TotalUser()
+        {
+            var obj = await _userService.GetCountAsync();
+            return Ok(obj);
         }
     }
 }
