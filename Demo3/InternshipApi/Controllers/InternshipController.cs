@@ -77,6 +77,12 @@ namespace InternshipApi.Controllers
             return Ok(obj);
         }
 
+        [HttpGet("GetEvents")]
+        public string GetEvents()
+        {
+            return _eventService.GetJson();
+        }
+
         [HttpGet("GetJoined/{internId}")]
         public string GetJoined(int internId)
         {
@@ -107,7 +113,7 @@ namespace InternshipApi.Controllers
         }
 
         [HttpPost("Insert")]
-        public IActionResult Insert([FromBody] InternshipModel model)
+        public IActionResult Insert([FromBody] InternShortModel model)
         {
             Intern intern = _mapper.Map<Intern>(model);
             intern.Mentor = int.Parse(User.Claims.ElementAt(0).Value);
@@ -124,8 +130,47 @@ namespace InternshipApi.Controllers
             return Ok();
         }
 
+        [HttpPost("InsertEvent")]
+        public IActionResult InsertEvent(CalendarModel model)
+        {
+            Event aEvent = _mapper.Map<Event>(model);
+            aEvent.CreatedBy = int.Parse(User.Claims.ElementAt(0).Value);
+
+            var dateArray = model.Deadline.Split(" - ");
+            // Ngoại lệ ngày đơn
+            try
+            {
+                aEvent.Start = dateArray[0];
+                aEvent.End = dateArray[1];
+            }
+            catch { }
+
+            switch (model.Type)
+            {
+                case "fullcalendar-custom-event-hs-team":
+                    aEvent.Type = "Personal";
+                    break;
+                case "fullcalendar-custom-event-holidays":
+                    aEvent.Type = "Holidays";
+                    break;
+                case "fullcalendar-custom-event-tasks":
+                    aEvent.Type = "Tasks";
+                    break;
+                case "fullcalendar-custom-event-reminders":
+                    aEvent.Type = "Reminders";
+                    break;
+            }
+            aEvent.ClassName = model.Type;
+
+            var ok = _eventService.InsertEvent(aEvent);
+
+            if (!ok) Response.StatusCode = -1;
+
+            return Ok();
+        }
+
         [HttpPut("Update/{id}")]
-        public IActionResult Update(InternshipModel model, int id)
+        public IActionResult Update([FromBody] InternShortModel model, int id)
         {
             Intern intern = _mapper.Map<Intern>(model);
             intern.Mentor = int.Parse(User.Claims.ElementAt(0).Value);
