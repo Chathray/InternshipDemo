@@ -2,11 +2,8 @@
 using Internship.Data;
 using InternshipApi.Models;
 using InternshipApi.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -14,18 +11,21 @@ using System.Threading.Tasks;
 
 namespace InternshipApi.Controllers
 {
-  //  [Authorize]
+    //  [Authorize]
     [ApiController]
-    internal class InternshipController : ControllerBase
+    [Route("internship")]
+    public class InternshipController : ControllerBase
     {
         private readonly ILogger<InternshipController> _logger;
         private readonly IMapper _mapper;
         private readonly IInternService _internService;
         private readonly ITrainingService _trainingService;
+        private readonly IEventService _eventService;
         private readonly IDepartmentService _departmentService;
         private readonly IOrganizationService _organizationService;
+        private readonly IUserService _userService;
 
-        public InternshipController(ILogger<InternshipController> logger, IInternService internService, ITrainingService trainingService, IDepartmentService departmentService, IOrganizationService organizationService, IMapper mapper)
+        public InternshipController(ILogger<InternshipController> logger, IInternService internService, ITrainingService trainingService, IDepartmentService departmentService, IOrganizationService organizationService, IMapper mapper, IUserService userService, IEventService eventService)
         {
             _logger = logger;
             _mapper = mapper;
@@ -33,79 +33,54 @@ namespace InternshipApi.Controllers
             _trainingService = trainingService;
             _departmentService = departmentService;
             _organizationService = organizationService;
-        }
-
-        [HttpGet]
-        public IActionResult FullList(int page, int size, string sort = "Index")
-        {
-            var total = _internService.GetCountAsync();
-            var pagination = new PaginationLogic(sort, total.Result, page, size);
-
-            var m = new IndexModel(pagination,
-                _internService.GetInternByPage(pagination.CurrentPage, pagination.PageSize, sort),
-                _trainingService.GetTrainings(),
-                _organizationService.GetOrganizations(),
-                _departmentService.GetDepartments());
-
-            return Ok(m);
-        }
-
-        [HttpPost]
-        public IActionResult Index(IndexModel model)
-        {
-            Intern intern = _mapper.Map<Intern>(model);
-            intern.Mentor = int.Parse(User.Claims.ElementAt(3).Value);
-
-            try
-            {
-                _internService.InsertIntern(intern);
-            }
-            catch (AppException)
-            {
-                Response.StatusCode = -1;
-            }
-
-            return Ok();
-        }
-
-        [HttpPost("InternUpdate/{id}")]
-        public IActionResult Index(IndexModel model, int id)
-        {
-            Intern intern = _mapper.Map<Intern>(model);
-            intern.Mentor = int.Parse(User.Claims.ElementAt(3).Value);
-            intern.InternId = id;
-
-            try
-            {
-                _logger.LogInformation(Dump(intern));
-                _internService.UpdateIntern(intern);
-            }
-            catch (AppException)
-            {
-                Response.StatusCode = -1;
-            }
-
-            return Redirect("/");
+            _userService = userService;
+            _eventService = eventService;
         }
 
 
-        [HttpPost]
-        public IActionResult InternLeave(int id)
-        {
-            var result = _internService.RemoveIntern(id);
-            return Ok(result);
-        }
-
-        [HttpPost]
-        public string GetInternInfo(int id)
+        [HttpGet("Get/{id}")]
+        public string Get(int id)
         {
             return _internService.GetInternInfo(id);
         }
 
-        [HttpPost]
-        public string GetInternData(int trainingId, int internId)
+        [HttpGet("GetPage/{page},{size}")]
+        public IActionResult GetPage(int page, int size, string sort = "Index")
         {
-            var data = _trainingService.GetEventsIntern();
+            var total = _internService.GetCountAsync();
+            var pagination = new PaginationLogic(sort, total.Result, page, size);
+
+            return Ok(
+                _internService.GetInternByPage(
+                pagination.CurrentPage,
+                pagination.PageSize, "Index"));
+        }
+
+        [HttpGet("GetDepartments")]
+        public async Task<IActionResult> GetDepartmentsAsync()
+        {
+            var obj = await _departmentService.GetAllAsync();
+            return Ok(obj);
+        }
+
+        [HttpGet("GetOrganizations")]
+        public async Task<IActionResult> GetOrganizationsAsync()
+        {
+            var obj = await _organizationService.GetAllAsync();
+            return Ok(obj);
+        }
+
+        [HttpGet("GetUsers")]
+        public async Task<IActionResult> GetUsersAsync()
+        {
+            var obj = await _userService.GetAllAsync();
+            return Ok(obj);
+        }
+
+        [HttpGet("GetJoined/{internId}")]
+        public string GetJoined(int internId)
+        {
+            var data = _eventService.GetEventsIntern();
             var eventsJoined = new StringBuilder();
 
             foreach (DataRow i in data.Rows)
@@ -122,18 +97,57 @@ namespace InternshipApi.Controllers
                     }
                 }
             }
-            return $@"
-- Training Data:
-{_trainingService.GetTrainingByIntern(trainingId)}
---------------------------------------------------------
-- List of training events participating:
-{eventsJoined}";
+            return eventsJoined.ToString();
         }
 
-
-        public static string Dump(object anObject)
+        [HttpGet("GetTrainingOn/{internId}")]
+        public IActionResult GetTrainingOn(int internId)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(anObject);
+            return Ok(_trainingService.GetTrainingByIntern(internId));
+        }
+
+        [HttpPost("Insert")]
+        public IActionResult Insert([FromBody] InternshipModel model)
+        {
+            Intern intern = _mapper.Map<Intern>(model);
+            intern.Mentor = int.Parse(User.Claims.ElementAt(0).Value);
+
+            try
+            {
+                _internService.InsertIntern(intern);
+            }
+            catch (AppException)
+            {
+                Response.StatusCode = -1;
+            }
+
+            return Ok();
+        }
+
+        [HttpPut("Update/{id}")]
+        public IActionResult Update(InternshipModel model, int id)
+        {
+            Intern intern = _mapper.Map<Intern>(model);
+            intern.Mentor = int.Parse(User.Claims.ElementAt(0).Value);
+            intern.InternId = id;
+
+            try
+            {
+                _logger.LogInformation(DataExtensions.Dump(intern));
+                _internService.UpdateIntern(intern);
+            }
+            catch (AppException)
+            {
+                Response.StatusCode = -1;
+            }
+            return Ok();
+        }
+
+        [HttpDelete("Remove/{id}")]
+        public IActionResult Remove(int id)
+        {
+            var result = _internService.RemoveIntern(id);
+            return Ok(result);
         }
     }
 }

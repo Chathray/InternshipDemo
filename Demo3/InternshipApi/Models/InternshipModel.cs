@@ -1,20 +1,19 @@
 using Internship.Data;
 using System.Collections.Generic;
-using System.Data;
 
 namespace InternshipApi.Models
 {
-    public class IndexModel
+    public class InternshipModel
     {
         public PaginationLogic Pager { get; set; }
 
-        public DataTable Interns { get; set; }
-        public IList<Organization> Organizations { get; set; }
-        public IList<Department> Departments { get; set; }
-        public IList<Training> Trainings { get; set; }
+        public IList<InternInfoModel> Interns { get; set; }
+        public IReadOnlyList<Organization> Organizations { get; set; }
+        public IReadOnlyList<Department> Departments { get; set; }
+        public IReadOnlyList<Training> Trainings { get; set; }
 
-        public IndexModel() { }
-        public IndexModel(PaginationLogic pager, DataTable interns, IList<Training> trainings, IList<Organization> organizations, IList<Department> departments)
+        public InternshipModel() { }
+        public InternshipModel(PaginationLogic pager, IList<InternInfoModel> interns, IReadOnlyList<Training> trainings, IReadOnlyList<Organization> organizations, IReadOnlyList<Department> departments)
         {
             Pager = pager;
             Interns = interns;

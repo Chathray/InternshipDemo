@@ -1,24 +1,22 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.Extensions.Options;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-using InternshipApi.Services;
+﻿using AutoMapper;
 using InternshipApi.Models;
-using Internship.Data;
-using System.Collections.Generic;
+using InternshipApi.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace InternshipApi.Controllers
 {
-    [Authorize]
     [ApiController]
-    internal class AccountController : ControllerBase
+    [Route("{controller}")]
+    public class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> _logger;
         private readonly IUserService _userService;
@@ -43,7 +41,7 @@ namespace InternshipApi.Controllers
 
         //----------------------------------------------------------------------------------
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("Authenticate")]
         public IActionResult Authenticate([FromBody] AuthenticationModel model)
         {
             var user = _userService.Authenticate(model.LoginEmail, model.LoginPassword);
@@ -78,7 +76,7 @@ namespace InternshipApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("Register")]
         public IActionResult Register([FromBody] AuthenticationModel model)
         {
             try
@@ -94,18 +92,18 @@ namespace InternshipApi.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("UserList")]
         public async Task<IActionResult> UserList()
         {
-            var users = await _userService.GetAllAsync();
-            return Ok(users);
+            var obj = await _userService.GetAllAsync();
+            return Ok(obj);
         }
 
-        [HttpGet]
+        [HttpGet("TotalUser")]
         public async Task<IActionResult> TotalUser()
         {
-            var users = await _userService.GetCountAsync();
-            return Ok(users);
+            var obj = await _userService.GetCountAsync();
+            return Ok(obj);
         }
     }
 }

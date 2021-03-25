@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Internship.Data
 {
     [Table("Events")]
-    public class Event
+    public class Event : EntityBase
     {
         [Key]
         public int EventId { get; set; }
