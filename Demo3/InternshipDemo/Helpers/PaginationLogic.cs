@@ -6,7 +6,7 @@ namespace WebApplication.Helpers
 {
     public class PaginationLogic
     {
-        public PaginationLogic(string sort, int totalItems, int currentPage, int pageSize, int maxPages = 10)
+        public PaginationLogic(int sort, int totalItems, int currentPage, int pageSize, int maxPages = 10)
         {
             // ensure page size isn't out of range
             if (pageSize < 6)
@@ -84,7 +84,7 @@ namespace WebApplication.Helpers
         }
 
         public int TotalItems { get; private set; }
-        public string Sort { get; private set; }
+        public int Sort { get; private set; }
         public int CurrentPage { get; private set; }
         public int PageSize { get; private set; }
         public int TotalPages { get; private set; }

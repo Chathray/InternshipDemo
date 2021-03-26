@@ -240,19 +240,21 @@
                         </div>
                     </div>
                     <!-- End Datatable Info -->
-                    <span class="text-secondary mx-2">Type:</span>
+                    <span class="text-secondary mx-2">Search on:</span>
                     <!-- Select -->
-                    <select class="js-select2-custom js-datatable-filter custom-select-sm" size="1" style="opacity: 0;"
-                            data-target-column-index="2"
+                    <select class="js-select2-custom js-datatable-search custom-select-sm mr-2" size="1" style="opacity: 0;"
                             data-hs-select2-options='{
                                 "minimumResultsForSearch": "Infinity",
                                 "customClass": "custom-select custom-select-sm custom-select-borderless",
                                 "dropdownAutoWidth": true,
                                 "width": true
                               }'>
-                        <option value="">All</option>
-                        <option value="Full time">Full time</option>
-                        <option value="Part time">Part time</option>
+                        <option value="0">None</option>
+                        <option value="1">First Name</option>
+                        <option value="2">Last Name</option>
+                        <option value="3">Email</option>
+                        <option value="4">Phone</option>
+                        <option value="5">Index</option>
                     </select>
                     <!-- End Select -->
 
@@ -265,29 +267,126 @@
                                 "dropdownAutoWidth": true,
                                 "width": true
                               }'>
-                        <option value="Name">Name</option>
-                        <option value="Index">Index</option>
-                        <option value="Date">Date</option>
-                        <option value="Mentor">Mentor</option>
-                        <option value="Training">Training</option>
+                        <option value="1">Name</option>
+                        <option value="2">Index</option>
+                        <option value="3">Date</option>
+                        <option value="4">Mentor</option>
+                        <option value="5">Training</option>
                     </select>
                     <!-- End Select -->
+
+                    <!-- Unfold -->
+                    <div class="ml-4 hs-unfold">
+                        <a class="js-hs-unfold-invoker btn btn-sm btn-white" href="javascript:;"
+                           data-hs-unfold-options='{
+                         "target": "#usersFilterDropdown",
+                         "type": "css-animation",
+                         "smartPositionOff": true
+                       }'>
+                            <i class="tio-filter-list mr-1"></i> Filter <span class="badge badge-soft-dark rounded-circle ml-1">2</span>
+                        </a>
+
+                        <div id="usersFilterDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right dropdown-card card-dropdown-filter-centered" style="min-width: 22rem;">
+                            <!-- Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-header-title">Filter interns</h5>
+
+                                    <!-- Toggle Button -->
+                                    <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-ghost-secondary ml-2" href="javascript:;"
+                                       data-hs-unfold-options='{
+                              "target": "#usersFilterDropdown",
+                              "type": "css-animation",
+                              "smartPositionOff": true
+                             }'>
+                                        <i class="tio-clear tio-lg"></i>
+                                    </a>
+                                    <!-- End Toggle Button -->
+                                </div>
+
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-row">
+                                            <div class="col-sm form-group">
+                                                <small class="text-cap mb-2">Orientation</small>
+
+                                                <!-- Select -->
+                                                <select class="js-select2-custom js-datatable-filter custom-select" size="1" style="opacity: 0;"
+                                                        data-target-column-index="5"
+                                                        data-hs-select2-options='{
+                                          "minimumResultsForSearch": "Infinity"
+                                        }'>
+                                                    <option value="">Any orientation</option>
+                                                    @foreach (var de in Model.Trainings)
+                                                    {
+                                                        <option value="@de.TraName">@de.TraName</option>
+                                                    }
+                                                </select>
+                                                <!-- End Select -->
+                                            </div>
+
+                                            <div class="col-sm form-group">
+                                                <small class="text-cap mb-2">Type</small>
+
+                                                <!-- Select -->
+                                                <select class="js-select2-custom js-datatable-filter custom-select" size="1" style="opacity: 0;"
+                                                        data-target-column-index="2"
+                                                        data-hs-select2-options='{
+                                          "minimumResultsForSearch": "Infinity"
+                                        }'>
+                                                    <option value="">Any type</option>
+                                                    <option value="Full time">Full time</option>
+                                                    <option value="Part time">Part time</option>
+                                                </select>
+                                                <!-- End Select -->
+                                            </div>
+
+                                            <div class="col-12 form-group">
+                                                <small class="text-cap mb-2">Organization</small>
+
+                                                <!-- Select -->
+                                                <select class="js-select2-custom js-datatable-filter custom-select" size="1" style="opacity: 0;"
+                                                        data-target-column-index="6">
+                                                    <option label="">Any organization</option>
+                                                    @foreach (var og in Model.Organizations)
+                                                    {
+                                                        <option value="@og.OrgName">@og.OrgName</option>
+                                                    }
+                                                </select>
+                                                <!-- End Select -->
+                                            </div>
+                                        </div>
+                                        <!-- End Row -->
+
+                                        <a class="js-hs-unfold-invoker btn btn-block btn-primary" href="javascript:;"
+                                           data-hs-unfold-options='{
+                                "target": "#usersFilterDropdown",
+                                "type": "css-animation",
+                                "smartPositionOff": true
+                               }'>Apply</a>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- End Card -->
+                        </div>
+                    </div>
+                    <!-- End Unfold -->
+
                 </div>
             </div>
         </div>
     </div>
     <!-- End Header -->
     <!-- Table -->
-    <div class="table-responsive datatable-custom">
-        <table id="datatable" class="table table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
+    <div class="table-responsive datatable-custom" style="overflow-y: hidden;">
+        <table id="datatable" class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
                data-hs-datatables-options='{
                      "columnDefs": [{
-                        "targets": [0,1,2,3,4,5,6,7,8],
+                        "targets": [0],
                         "orderable": false
                       }],
-                     "order": [],
-                     "search": "#datatableSearch"
-                   }'>
+                     "order": []
+               }'>
             <thead class="thead-light">
                 <tr>
                     <th class="table-column-pr-0">
@@ -300,8 +399,8 @@
                     <th>Position</th>
                     <th>Duration</th>
                     <th>Phone</th>
+                    @*<th>Orientation</th>*@
                     <th>Organization</th>
-                    <th>Expertise</th>
                     <th>Mentor</th>
                     <th>Action</th>
                 </tr>
@@ -340,11 +439,11 @@
                                 <span class="bg-info"></span>@X["Phone"]
                             </span>
                         </td>
+                        @*<td>
+                            <span>@X["TraName"]</span>
+                        </td>*@
                         <td>
                             <span>@X["OrgName"]</span>
-                        </td>
-                        <td>
-                            <span>@X["TraName"]</span>
                         </td>
                         <td>
                             <div class="ml-3">
@@ -353,15 +452,16 @@
                         </td>
                         <td>
                             <div class="hs-unfold">
-                                <a class="js-hs-unfold-invoker btn btn-sm btn-white" href="javascript:;"
-                                   data-hs-unfold-options='{
+                                <div class="js-hs-unfold-invoker btn btn-sm btn-white"
+                                     data-hs-unfold-options='{
                                     "target": "#intern-@X["InternId"]",
                                     "type": "jquery-slide",
                                     "event": "hover",
-                                    "duration": 100
+                                    "duration": 100,
+                                    "smartPositionOffEl": "#datatable"
                                    }'>
                                     More <i class="tio-chevron-down ml-1"></i>
-                                </a>
+                                </div>
 
                                 <div id="intern-@X["InternId"]" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                     <a class="dropdown-item" href="javascript:;" onclick="InternUpdate(@X["InternId"])">Update info</a>

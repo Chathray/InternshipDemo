@@ -66,7 +66,11 @@ $(document).on('ready', function () {
     //Sync sort,size
     var params = new URLSearchParams(window.location.search);
     $('#datatableEntries').val(params.get("size") ? params.get("size") : 6);
-    $('.js-datatable-sort').val(params.get("sort") ? params.get("sort") : 'Index');
+    $('.js-datatable-sort').val(params.get("sort") ? params.get("sort") : 1);
+    $('.js-datatable-search').val(params.get("search_on") ? params.get("search_on") : 0);
+    $('#datatableSearch').val(params.get("search_string") ? params.get("search_string") : "");
+
+
 
     // INITIALIZATION OF MEGA MENU
     // =======================================================
@@ -582,20 +586,27 @@ $(document).on('ready', function () {
         datatable.column(targetColumnIndex).search(elVal).draw();
     });
 
-    $('#datatableSearch').on('mouseup', function (e) {
-        var $input = $(this),
-            oldValue = $input.val();
+    $('#datatableSearch').on('keyup', function (e) {
+        if (event.keyCode != 13)
+            return;
 
-        if (oldValue == "") return;
+        var searchOn = $('.js-datatable-search').val();
 
-        setTimeout(function () {
-            var newValue = $input.val();
+        if (searchOn === '0') {
+            alert('You must select the column to search for first!')
+            return;
+        }
 
-            if (newValue == "") {
-                // Gotcha
-                datatable.search('').draw();
-            }
-        }, 1);
+        var params = new URLSearchParams(window.location.search);
+
+        var $this = $(this),
+            elVal = $this.val();
+
+        var params = new URLSearchParams(window.location.search);
+        params.set('search_string', elVal);
+        params.set('search_on', searchOn);
+
+        window.location = "?" + params.toString();
     });
 
     $('.js-datatable-sort').on('change', function () {
@@ -607,6 +618,16 @@ $(document).on('ready', function () {
 
         window.location = "?" + params.toString();
     });
+
+    //$('.js-datatable-search').on('change', function () {
+    //    var $this = $(this),
+    //        elVal = $this.val();
+
+    //    var params = new URLSearchParams(window.location.search);
+    //    params.set('search_on', elVal);
+
+    //    window.location = "?" + params.toString();
+    //});
 
     $('#datatableEntries').on('change', function () {
         var $this = $(this),

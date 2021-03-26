@@ -81,7 +81,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (1,'Leo núi Vũng Chua','Holidays','fullcalendar-custom-event-holidays','2021-03-28','2021-03-29',1,'2021-03-22 03:28:28',NULL,NULL,'everyday','[{\"iid\": 3, \"src\": \"/img/intern.svg\", \"value\": \"Ly Tran Quang\"}, {\"iid\": 5, \"src\": \"/img/intern.svg\", \"value\": \"Do Tran Quang\"}, {\"iid\": 9, \"src\": \"/img/intern.svg\", \"value\": \"Ba Loc Dao\"}]','Quy Nhon','OK','/img/event.svg'),(2,'Hoàn thành khoá luận tốt nghiệp','Tasks','fullcalendar-custom-event-tasks','2021-03-01','2021-03-31',1,'2021-03-22 03:52:55',NULL,NULL,'weekdays','[{\"iid\": 2, \"src\": \"/img/intern.svg\", \"value\": \"Y Tran Quang\"}]','Quy Nhon','OK','/img/event.svg');
+INSERT INTO `events` VALUES (1,'Leo núi Vũng Chua','Holidays','fullcalendar-custom-event-holidays','2021-03-28','2021-03-29',1,'2021-03-22 03:28:28',NULL,NULL,'everyday','[{\"iid\": 3, \"src\": \"/img/intern.svg\", \"value\": \"Ly Tran Quang\"}, {\"iid\": 5, \"src\": \"/img/intern.svg\", \"value\": \"Do Tran Quang\"}, {\"iid\": 9, \"src\": \"/img/intern.svg\", \"value\": \"Ba Loc Dao\"}]','Quy Nhon','OK','/img/event.svg'),(2,'Hoàn thành khoá luận tốt nghiệp','Tasks','fullcalendar-custom-event-tasks','2021-03-01','2021-03-2',1,'2021-03-22 03:52:55',NULL,'2021-03-25 09:54:23','weekdays','[{\"iid\": 2, \"src\": \"/img/intern.svg\", \"value\": \"Y Tran Quang\"}]','Quy Nhon','OK','/img/event.svg');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,7 +146,7 @@ CREATE TABLE `interns` (
   CONSTRAINT `FK_Interns_Organization` FOREIGN KEY (`OrganizationId`) REFERENCES `organizations` (`OrganizationId`),
   CONSTRAINT `FK_Interns_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`),
   CONSTRAINT `PK_Intern_Training` FOREIGN KEY (`TrainingId`) REFERENCES `trainings` (`TrainingId`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +155,7 @@ CREATE TABLE `interns` (
 
 LOCK TABLES `interns` WRITE;
 /*!40000 ALTER TABLE `interns` DISABLE KEYS */;
-INSERT INTO `interns` VALUES (1,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-17 02:26:42',NULL,'/img/intern.svg','4343',1,1),(2,'ngotran@t','Y','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 00:41:01',NULL,'/img/intern.svg','4343',1,1),(3,'ngotran@t','Ly','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 00:51:05',NULL,'/img/intern.svg','4343',1,1),(4,'ngotran@t','Tam','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',1,NULL,'2021-03-18 00:13:10',NULL,'/img/intern.svg','4343',1,1),(5,'ngotran@t','Do','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',1,NULL,'2021-03-18 00:59:57',NULL,'/img/intern.svg','4343',1,1),(6,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 01:05:50',NULL,'/img/intern.svg','4343',1,1),(7,'ngotran@t','Ma','Tran Phi','female','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',1,NULL,'2021-03-20 16:12:29',NULL,'/img/intern.svg','4343',1,1);
+INSERT INTO `interns` VALUES (1,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-17 02:26:42',NULL,'/img/intern.svg','4343',1,1),(2,'ngotran@t','Y','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',2,'Full time',8,NULL,'2021-03-18 00:41:01','2021-03-25 05:40:11','/img/intern.svg','4343',1,1),(3,'ngotran@t','Ly','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 00:51:05',NULL,'/img/intern.svg','4343',1,1),(4,'ngotran@t','Tam','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',3,'Full time',1,NULL,'2021-03-18 00:13:10','2021-03-26 08:02:36','/img/intern.svg','09545845',1,1),(5,'ngotran@t','Do','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',1,NULL,'2021-03-18 00:59:57',NULL,'/img/intern.svg','4343',1,1),(6,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 01:05:50','2021-03-26 08:02:36','/img/intern.svg','09545845',1,1),(7,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 01:05:50','2021-03-26 06:56:12','/img/intern.svg','4343',1,1),(8,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 01:05:50','2021-03-26 08:02:36','/img/intern.svg','09545845',1,1),(9,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 01:05:50','2021-03-26 08:02:36','/img/intern.svg','09545845',1,1),(10,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 01:05:50','2021-03-26 08:02:36','/img/intern.svg','09545845',1,1),(11,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',1,'Full time',8,NULL,'2021-03-18 01:05:50','2021-03-26 06:56:12','/img/intern.svg','4343',1,1);
 /*!40000 ALTER TABLE `interns` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -287,7 +287,7 @@ CREATE TABLE `users` (
   `Phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`UserId`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -296,7 +296,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@x','Thang','Huynh','$2a$11$ZwUGQzP5M.gaE/FzHrbGDuNJrWhefvsoiTmyIDowKnhZuXRMBtux6','success','mentor','2021-03-15 03:39:36',NULL,'../img/user.jpg',NULL),(2,'tan@tma','Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','success','admin','2021-03-16 20:43:28','2021-03-22 04:49:25','../img/user.jpg',NULL),(3,'thanh@qnu','Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff','2021-03-17 18:41:37','2021-03-22 05:37:27','../img/user.jpg',NULL),(8,'by@tma','By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','staff','2021-03-17 02:25:34',NULL,'../img/user.jpg',NULL);
+INSERT INTO `users` VALUES (1,'admin@x','Thang','Huynh','$2a$11$ZwUGQzP5M.gaE/FzHrbGDuNJrWhefvsoiTmyIDowKnhZuXRMBtux6','success','mentor','2021-03-15 03:39:36',NULL,'../img/user.jpg',NULL),(2,'tan@tma','Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','success','admin','2021-03-16 20:43:28','2021-03-22 04:49:25','../img/user.jpg',NULL),(3,'thanh@qnu','Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff','2021-03-17 18:41:37','2021-03-22 05:37:27','../img/user.jpg',NULL),(8,'by@tma','By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','staff','2021-03-17 02:25:34',NULL,'../img/user.jpg',NULL),(11,'Tan','Leim','ad@xd','$2a$11$sD8iYsM/RGDIs4Hr7pmUHuhVZlnjCSWG9VZHXjD94GLBj7AMJKwdC','success','staff','2021-03-25 08:59:28','2021-03-25 08:59:28','../img/user.jpg',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -446,9 +446,14 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternList`(offset_value int, limit_value int, orderby varchar(10))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternList`(offset_value int,
+ limit_value int,
+ orderby int,
+ search_on int,
+  search_string nvarchar(20))
 BEGIN
-SELECT
+
+SELECT SQL_CALC_FOUND_ROWS
 	CONCAT(t1.FirstName,' ',t1.LastName) AS FullName,
     t1.InternId, t1.Email,
     DateOfBirth, Gender,
@@ -462,13 +467,27 @@ FROM interns t1
 	JOIN departments t3 ON t3.DepartmentId = t1.DepartmentId
 	JOIN trainings t4 ON t4.TrainingId = t1.TrainingId
 	JOIN users t5 ON t5.UserId = t1.Mentor
-ORDER BY 
-	CASE WHEN orderby='Name' THEN FullName END,
-	CASE WHEN orderby='Index' THEN InternId END DESC,
-	CASE WHEN orderby='Date' THEN t1.CreatedDate END DESC,
-	CASE WHEN orderby='Mentor' THEN Mentor END,
-	CASE WHEN orderby='Training' THEN TraName END
-LIMIT limit_value OFFSET offset_value;
+    
+WHERE
+CASE 
+    WHEN search_on = 0 THEN 1
+    WHEN search_on = 1 AND search_string like t1.FirstName THEN 1
+    WHEN search_on = 2 AND search_string like t1.LastName THEN 1
+    WHEN search_on = 3 AND search_string like t1.Email THEN 1
+    WHEN search_on = 4 AND search_string like t1.Phone THEN 1
+    WHEN search_on = 5 AND search_string like t1.InternId THEN 1
+    ELSE 0
+END = 1
+
+ORDER BY
+	CASE WHEN orderby=1 THEN FullName END,
+	CASE WHEN orderby=2 THEN InternId END DESC,
+	CASE WHEN orderby=3 THEN t1.CreatedDate END DESC,
+	CASE WHEN orderby=4 THEN Mentor END,
+	CASE WHEN orderby=5 THEN TraName END
+LIMIT offset_value, limit_value;
+
+-- SELECT FOUND_ROWS() AS ShowLeadsTotalRows;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -658,4 +677,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-22 13:25:33
+-- Dump completed on 2021-03-26 17:36:23

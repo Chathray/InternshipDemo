@@ -40,13 +40,13 @@ namespace WebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int page, int size, string sort = "Index")
+        public IActionResult Index(int page, int size, int sort = 1, int search_on = 0, string search_string = "")
         {
             var total = _adapter.GetInternCount();
             var pagination = new PaginationLogic(sort, total, page, size);
 
             var m = new IndexModel(pagination,
-                _adapter.GetInternModelList(pagination.CurrentPage, pagination.PageSize, sort),
+                _adapter.GetInternModelList(pagination.CurrentPage, pagination.PageSize, sort, search_on,search_string),
                 _adapter.GetTrainings(),
                 _adapter.GetOrganizations(),
                 _adapter.GetDepartments());

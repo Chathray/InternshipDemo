@@ -177,6 +177,7 @@ namespace WebApplication
         {
             return _context.Departments.ToList();
         }
+
         public int GetInternCount()
         {
             return _context.Interns.Count();
@@ -199,10 +200,10 @@ namespace WebApplication
             return data.Rows[0]["json"].ToString();
         }
 
-        public DataTable GetInternModelList(int page, int size, string sort)
+        public DataTable GetInternModelList(int page, int size, int sort, int search_on, string search_string)
         {
             return DataProvider.ExecuteReader(
-                $"CALL GetInternList({(page - 1) * size},{size},'{sort}')");
+                $"CALL GetInternList({(page - 1) * size},{size},'{sort}',{search_on},'{search_string}')");
         }
     }
 }
