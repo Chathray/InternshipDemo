@@ -31,10 +31,18 @@ namespace InternshipApi.Controllers
             _appSettings = appSettings.Value;
         }
 
+        [HttpGet("/startup")]
+        [AllowAnonymous]
+        public IActionResult Check()
+        {
+            return Ok(_userService.GetById(1));
+        }
+
+
         //----------------------------------------------------------------------------------
         [AllowAnonymous]
         [HttpPost("Authenticate")]
-        public IActionResult Authenticate( AuthenticationModel model)
+        public IActionResult Authenticate([FromBody] AuthenticationModel model)
         {
             var user = _userService.Authenticate(model.LoginEmail, model.LoginPassword);
 

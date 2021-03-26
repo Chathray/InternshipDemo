@@ -33,9 +33,6 @@ namespace InternshipApi
             // Enable Cross-Origin Requests (CORS) in ASP.NET Core
             services.AddCors();
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen();
-
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // CR:Add database context of webapp
@@ -113,16 +110,6 @@ namespace InternshipApi
             }
 
             app.UseHttpsRedirection();
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Internship API V1");
-            });
 
             app.UseRouting();
 

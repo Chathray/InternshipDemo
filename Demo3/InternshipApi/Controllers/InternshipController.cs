@@ -166,12 +166,10 @@ namespace InternshipApi.Controllers
 
             if (!ok) Response.StatusCode = -1;
 
-            return Ok(ok);
+            return Ok();
         }
 
         [HttpPut("Update/{id}")]
-        [ApiConventionMethod(typeof(DefaultApiConventions),
-                     nameof(DefaultApiConventions.Put))]
         public IActionResult Update([FromBody] InternShortModel model, int id)
         {
             Intern intern = _mapper.Map<Intern>(model);
