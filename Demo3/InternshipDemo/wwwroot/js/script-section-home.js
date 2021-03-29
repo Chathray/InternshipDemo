@@ -45,17 +45,6 @@ function InternEvaluate(iid) {
     alert("Comming soon...");
 }
 
-function ShowInternData(tid, iid) {
-
-    $.ajax({
-        method: "POST",
-        url: "home/getinterndata",
-        data: { trainingId: tid, internId: iid }
-    }).done(function (msg) {
-        alert(msg);
-    });
-}
-
 $(document).on('ready', function () {
 
     //Sync sort,size
@@ -81,13 +70,11 @@ $(document).on('ready', function () {
         ],
     });
 
-
     // INITIALIZATION OF UNFOLD
     // =======================================================
     $('.js-hs-unfold-invoker').each(function () {
         var unfold = new HSUnfold($(this)).init();
     });
-
 
     // INITIALIZATION OF FILE ATTACH
     // =======================================================
@@ -100,13 +87,6 @@ $(document).on('ready', function () {
     // =======================================================
     $('.js-masked-input').each(function () {
         var mask = $.HSCore.components.HSMask.init($(this));
-    });
-
-
-    // INITIALIZATION OF SELECT2
-    // =======================================================
-    $('.js-select2-custom').each(function () {
-        var select2 = $.HSCore.components.HSSelect2.init($(this));
     });
 
 
@@ -129,26 +109,80 @@ $(document).on('ready', function () {
         var tr = $(this).closest('tr');
         var row = datatable.row(tr);
 
+        var internId = tr.attr("data-id");
+
         if (row.child.isShown()) {
             // This row is already open - close it
             row.child.hide();
             tr.removeClass('shown');
         }
         else {
-            // Open this row
-            row.child(`<div class="col-sm-9">
-                      <h5>Password requirements:</h5>
-                      <p class="font-size-sm mb-2">Ensure that these requirements are met:</p>
+
+            let internData = "";
+            let eventData = "";
+
+            $.ajax({
+                method: "POST",
+                url: "home/getinterndetail",
+                data: { id: internId }
+            }).done(function (o) {
+                $.ajax({
+                    method: "POST",
+                    url: "home/getinternjoined",
+                    data: { internId: internId }
+                }).done(function (msg) {
+
+                    internData = JSON.parse(o);
+                    d2 = JSON.parse(msg);
+
+                    if (d2.length > 0)
+                        $.each(d2, function (i, data) {
+                            eventData += "<li>" + "#" + i + 1 + ": " + data + "</li>";
+                        })
+                    else {
+                        eventData = "This person is not involved in any activities."
+                    }
+                    // Open this row
+                    row.child(`<div class="col-sm-3">
+                      <h5>Intern info:</h5>
                       <ul class="font-size-sm">
-                        <li>Minimum 8 characters long - the more, the better</li>
-                        <li>At least one lowercase character</li>
-                        <li>At least one uppercase character</li>
-                        <li>At least one number, symbol, or whitespace character</li>
+                        <li>Full name: ${internData.fullname}</li>
+                        <li>Date of birth: ${internData.birth}</li>
+                        <li>Gender: ${internData.gender}</li>
+                        <li>Phone number: ${internData.phone}</li>
+                        <li>Email: ${internData.email}</li>
+                        <li>Join Date: ${internData.joindate}</li>
                       </ul>
-                    </div>`).show();
-            tr.addClass('shown');
+                    </div>
+                    <div class="col-sm-3">
+                      <h5>Relative info:</h5>
+                      <ul class="font-size-sm">
+                        <li>Time schedule: ${internData.type}</li>
+                        <li>Duration: ${internData.duration}</li>
+                        <li>Training: ${internData.training}</li>
+                        <li>Department: ${internData.department}</li>
+                        <li>Organization: ${internData.organization}</li>
+                        <li>Mentor: ${internData.mentor}</li>
+                      </ul>
+                </div>
+                <div class="col-sm-3">
+                      <h5>Events:</h5>
+                      <ul class="font-size-sm">
+                        ${eventData}                        
+                      </ul>
+                </div>`).show();
+                    tr.addClass('shown');
+                });
+            });
         }
     });
+
+    // INITIALIZATION OF SELECT2
+    // =======================================================
+    $('.js-select2-custom').each(function () {
+        var select2 = $.HSCore.components.HSSelect2.init($(this));
+    });
+
 
     $('.js-datatable-filter').on('change', function () {
         var $this = $(this),
@@ -201,31 +235,13 @@ $(document).on('ready', function () {
         window.location = "?" + params.toString();
     });
 
-    $(document).on("click", '#addi-btn', function (e) {
-        //var type = $("#cui-submit").text(); //For button
-
-        $('#cui-form').attr('action', '/');
-
-        $('#firstNameLabel').val("");
-        $('#lastNameLabel').val("");
-        $('#birthLabel').val("");
-        $('#emailLabel').val("");
-        $('#phoneLabel').val("");
-        $('#durationLabel').val("");
-
-        $('#genderLabel').val('').change();
-        $('#typeLabel').val('').change();
-        $('#orgnLabel').val('').change();
-        $('#deptLabel').val('').change();
-        $('#trainLabel').val('').change();
-    });
-
-
+    // CR:Init for one thing, not two, 3hours to fix bug!
+    var orgtable;
+    var deptable;
+    var poitable;
 
     ////////////  ORGANIZATION
     $(document).on("click", '#organization-now', function (e) {
-        $('#modal-now').removeClass('modal-md')
-        $('#modal-now').addClass('modal-xl')
         var items = []
 
         $.ajax({
@@ -235,7 +251,7 @@ $(document).on('ready', function () {
             var parsedJSON = JSON.parse(JSON.stringify(json))
 
             for (var i = 0; i < parsedJSON.length; i++) {
-                items.push(`<tr id="org-${parsedJSON[i].organizationId}">
+                items.push(`<tr data-id="${parsedJSON[i].organizationId}">
                 <td data-field="index">${parsedJSON[i].organizationId}</td>
                 <td data-field="name">${parsedJSON[i].orgName}</td>
                 <td data-field="phone">${parsedJSON[i].orgPhone}</td>
@@ -247,52 +263,18 @@ $(document).on('ready', function () {
                 </td>
                 </tr>`);
             }
-            $("#modal-now-page").html(`<!-- Table -->
-            <div class="table-responsive datatable-custom">
-                <table id="tboo" class="js-editable-table table-hover table table-md table-borderless table-thead-bordered table-nowrap table-align-middle"
-data-hs-datatables-options='{
-                     "columnDefs": [{
-                        "targets": [4],
-                        "orderable": false
-                      }],
-                     "order": []
-               }'>    
-    <colgroup>
-       <col span="1" style="width: 5%;">
-       <col span="1" style="width: 25%;">
-       <col span="1" style="width: 16%;">
-       <col span="1" style="width: 50%;">
-       <col span="1" style="width: 4%;">
-    </colgroup>
+            $("#org-tbody").html(`${items.join("")}`);
+            if (!orgtable)
+                orgtable = $.HSCore.components.HSDatatables.init($('#orgtable'));
 
-<thead class="">
-                        <tr>
-                            <th>Index</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-            
-                    <tbody>
-            ${items.join("")}
-                    </tbody>
-                </table>
-            </div>
-            <!-- End Table -->`);
+            $.getScript('/js/table-edits.js');
+            $('#orgModal').modal('show');
         });
-
-        $('#exampleModalCenter').modal('show');
-        $.getScript('/js/table-edits.js');
     });
-
 
 
     ////////////  DEPARTMENT
     $(document).on("click", '#department-now', function (e) {
-        $('#modal-now').removeClass('modal-xl')
-        $('#modal-now').addClass('modal-md')
         var items = []
 
         $.ajax({
@@ -302,7 +284,7 @@ data-hs-datatables-options='{
             var parsedJSON = JSON.parse(JSON.stringify(json))
 
             for (var i = 0; i < parsedJSON.length; i++) {
-                items.push(`<tr id="dep-${parsedJSON[i].departmentId}">
+                items.push(`<tr data-id="${parsedJSON[i].departmentId}">
                 <td data-field="index">${parsedJSON[i].departmentId}</td>
                 <td data-field="name">${parsedJSON[i].depName}</td>
                 <td data-field="location">${parsedJSON[i].depLocation}</td>
@@ -313,51 +295,19 @@ data-hs-datatables-options='{
                 </td>
                 </tr>`);
             }
-            $("#modal-now-page").html(`<!-- Table -->
-            <div class="table-responsive datatable-custom">
-                <table id="tboo" class="js-editable-table table-hover table table-md table-borderless table-thead-bordered table-nowrap table-align-middle"
-data-hs-datatables-options='{
-                     "columnDefs": [{
-                        "targets": [3],
-                        "orderable": false
-                      }],
-                     "order": []
-               }'>
-    <colgroup>
-       <col span="1" style="width: 4%;">
-       <col span="1" style="width: 34%;">
-       <col span="1" style="width: 58%;">
-       <col span="1" style="width: 4%;">
-    </colgroup>
+            $("#dep-tbody").html(`${items.join("")}`);
+            if (!deptable)
+                deptable = $.HSCore.components.HSDatatables.init($('#deptable'));
 
- <thead class="">
-                        <tr>
-                            <th>Index</th>
-                            <th>Name</th>
-                            <th>Location</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-            
-                    <tbody>
-            ${items.join("")}
-                    </tbody>
-                </table>
-            </div>
-            <!-- End Table -->`);
+            $.getScript('/js/table-edits.js');
+            $('#depModal').modal('show');
         });
-
-        $('#exampleModalCenter').modal('show');
-        $.getScript('/js/table-edits.js');
     });
 
 
 
     ////////////  INTERNSHIPPOINTS
     $(document).on("click", '#point-now', function (e) {
-        $('#exampleModalLongTitle').html('Departments')
-        $('#modal-now').removeClass('modal-md')
-        $('#modal-now').addClass('modal-xl')
         var items = []
 
         $.ajax({
@@ -367,7 +317,7 @@ data-hs-datatables-options='{
             var parsedJSON = JSON.parse(JSON.stringify(json))
 
             for (var i = 0; i < parsedJSON.length; i++) {
-                items.push(`<tr id="dep-${parsedJSON[i].internId}">
+                items.push(`<tr data-id="${parsedJSON[i].internId}">
                 <td data-field="index">${parsedJSON[i].internId}</td>
                 <td data-field="techskill">${parsedJSON[i].technicalSkill}</td>
                 <td data-field="softskill">${parsedJSON[i].softSkill}</td>
@@ -383,53 +333,40 @@ data-hs-datatables-options='{
                 </td>
                 </tr>`);
             }
-            $("#modal-now-page").html(`<!-- Table -->
-            <div class="table-responsive datatable-custom">
-                <table id="tboo" class="js-editable-table table-hover table table-md table-borderless table-thead-bordered table-nowrap table-align-middle"
-data-hs-datatables-options='{
-                     "columnDefs": [{
-                        "targets": [5,6],
-                        "orderable": false
-                      }],
-                     "order": []
-               }'>
-    <colgroup>
-       <col span="1" style="width: 15%;">
-       <col span="1" style="width: 15%;">
-       <col span="1" style="width: 15%;">
-       <col span="1" style="width: 15%;">
-       <col span="1" style="width: 15%;">
-       <col span="1" style="width: 15%;">
-       <col span="1" style="width: 10%;">
-    </colgroup>
+            $("#poi-tbody").html(`${items.join("")}`);
+            if (!poitable)
+                poitable = $.HSCore.components.HSDatatables.init($('#poitable'));
 
- <thead class="">
-                        <tr>
-                            <th>Intern ID</th>
-                            <th>Technical Skill</th>
-                            <th>Soft Skill</th>
-                            <th>Attitude</th>
-                            <th>Score</th>
-                            <th>Passed</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-            
-                    <tbody>
-            ${items.join("")}
-                    </tbody>
-                </table>
-            </div>
-            <!-- End Table -->`);
+            $.getScript('/js/table-edits.js');
+            $('#poiModal').modal('show');
         });
-
-        $('#exampleModalCenter').modal('show');
-        $.getScript('/js/table-edits.js');
     });
+
+
 
     // INITIALIZATION OF NAV SCROLLER
     // =======================================================
     $('.js-nav-scroller').each(function () {
         new HsNavScroller($(this)).init()
     });
+
+    $(document).on("click", '#addibtn', function (e) {
+        //var type = $("#cui-submit").text(); //For button
+
+        $('#cui-form').attr('action', '/');
+
+        $('#firstNameLabel').val("");
+        $('#lastNameLabel').val("");
+        $('#birthLabel').val("");
+        $('#emailLabel').val("");
+        $('#phoneLabel').val("");
+        $('#durationLabel').val("");
+
+        $('#genderLabel').val("").change();
+        $('#typeLabel').val("").change();
+        $('#orgnLabel').val("").change();
+        $('#deptLabel').val("").change();
+        $('#trainLabel').val("").change();
+    });
+
 });

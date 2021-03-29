@@ -12,15 +12,17 @@ namespace WebApplication.Models
         public IList<Organization> Organizations { get; set; }
         public IList<Department> Departments { get; set; }
         public IList<Training> Trainings { get; set; }
+        public IList<InternshipPoint> InternshipPoints { get; set; }
 
         public IndexModel() { }
-        public IndexModel(PaginationLogic pager, DataSet interns, IList<Training> trainings, IList<Organization> organizations, IList<Department> departments)
+        public IndexModel(PaginationLogic pager, DataSet interns, IList<Training> trainings, IList<Organization> organizations, IList<Department> departments, IList<InternshipPoint> internshippoints)
         {
             Pager = pager;
             Interns = interns;
             Trainings = trainings;
             Organizations = organizations;
             Departments = departments;
+            InternshipPoints = internshippoints;
         }
 
         public string CheckPageActive(int page)

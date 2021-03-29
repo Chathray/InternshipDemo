@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -203,6 +204,11 @@ namespace WebApplication
         {
             var data = DataProvider.ExecuteReader($"CALL GetEventsJson()");
             return data.Rows[0]["json"].ToString();
+        }
+
+        public string GetInternDetail(int id)
+        {
+            return DataProvider.ExecuteScalar($"CALL GetInternDetail('{id}')").ToString();
         }
 
         public DataSet GetInternModelList(int page, int size, int sort, int search_on, string search_string)

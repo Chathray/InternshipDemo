@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
@@ -48,11 +49,13 @@ namespace WebApplication.Controllers
                 _adapter.GetInternModelList(pagination.CurrentPage, pagination.PageSize, sort, search_on, search_string),
                 _adapter.GetTrainings(),
                 _adapter.GetOrganizations(),
-                _adapter.GetDepartments());
+                _adapter.GetDepartments(),
+                _adapter.GetInternshipPoints());
 
             ViewData["tracount"] = m.Trainings.Count;
             ViewData["orgcount"] = m.Organizations.Count;
             ViewData["depcount"] = m.Departments.Count;
+            ViewData["poicount"] = m.InternshipPoints.Count;
 
             return View(m);
         }
@@ -215,11 +218,18 @@ namespace WebApplication.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost("Home/GetInternDetail")]
+        public string GetInternDetail(int id)
+        {
+            return _adapter.GetInternDetail(id);
+        }
+
+        [AllowAnonymous]
         [HttpPost]
-        public string GetInternData(int trainingId, int internId)
+        public string GetInternJoined(int internId)
         {
             var data = _adapter.GetEventsIntern();
-            var eventsJoined = new StringBuilder();
+            JArray array = new();
 
             foreach (DataRow i in data.Rows)
             {
@@ -230,17 +240,12 @@ namespace WebApplication.Controllers
                     //_logger.LogInformation(token + ", " + iid);
                     if (token == internId.ToString())
                     {
-                        eventsJoined.Append("+ " + i["Title"].ToString() + "\n");
+                        array.Add(new JValue(i["Title"]));
                         break;
                     }
                 }
             }
-            return $@"
-- Training Data:
-{_adapter.GetInternTraining(trainingId)}
---------------------------------------------------------
-- List of training events participating:
-{eventsJoined}";
+            return array.ToString();
         }
 
 

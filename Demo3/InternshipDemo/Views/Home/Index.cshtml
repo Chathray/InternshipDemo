@@ -14,11 +14,11 @@
                     <li class="breadcrumb-item active" aria-current="page">Index</li>
                 </ol>
             </nav>
-            <h3 class="page-header-title mb-5">TMA Internship <a href="javascript:;" class="badge badge-soft-dark ml-2">@Model.Pager.TotalItems</a></h3>
+            <h3 class="page-header-title mb-5">TMA Internship<span class="badge badge-soft-dark ml-2">@Model.Pager.TotalItems</span></h3>
         </div>
 
         <div class="col-sm-auto">
-            <button id="addi-btn" type="button" class="btn btn-pill btn-sm btn-primary mb-4" data-toggle="modal" data-target="#exampleModal">
+            <button id="addibtn" type="button" class="btn btn-pill btn-sm btn-primary mb-4" data-toggle="modal" data-target="#exampleModal">
                 <i class="tio-add-circle-outlined"></i> Add intern
             </button>
         </div>
@@ -40,16 +40,15 @@
 
                             <div class="media-body">
                                 <a href="javascript:;" id="training-now" class="mb-1 h5">Trainings</a>
-                                <span class="badge badge-soft-warning badge-pill ml-1">@ViewData["tracount"]</span>
                             </div>
                         </div>
                         <!-- End Media -->
                     </div>
 
                     <div class="col-auto">
-                        <button type="button" class="btn btn-pill btn-soft-primary btn-icon btn-xs">
-                            <i class="tio-add"></i>
-                        </button>
+                        <span class="btn btn-pill btn-soft-primary btn-icon btn-xs">
+                            <b>@ViewData["tracount"]</b>
+                        </span>
                     </div>
                 </div>
                 <!-- End Row -->
@@ -69,16 +68,15 @@
 
                             <div class="media-body">
                                 <a href="javascript:;" id="organization-now" class="mb-1 h5">Organizations</a>
-                                <span class="badge badge-soft-info badge-pill ml-1">@ViewData["orgcount"]</span>
                             </div>
                         </div>
                         <!-- End Media -->
                     </div>
 
                     <div class="col-auto">
-                        <button type="button" class="btn btn-pill btn-soft-primary btn-icon btn-xs">
-                            <i class="tio-add"></i>
-                        </button>
+                        <span class="btn btn-pill btn-soft-primary btn-icon btn-xs">
+                            <b>@ViewData["orgcount"]</b>
+                        </span>
                     </div>
                 </div>
                 <!-- End Row -->
@@ -94,20 +92,19 @@
                     <div class="col">
                         <!-- Media -->
                         <div class="media">
-                            <i class="tio-group-junior nav-icon"></i>
+                            <i class="tio-briefcase-outlined nav-icon"></i>
 
                             <div class="media-body">
                                 <a href="javascript:;" id="department-now" class="mb-1 h5">Departments</a>
-                                <span class="badge badge-soft-info badge-pill ml-1">@ViewData["orgcount"]</span>
                             </div>
                         </div>
                         <!-- End Media -->
                     </div>
 
                     <div class="col-auto">
-                        <button type="button" class="btn btn-pill btn-soft-primary btn-icon btn-xs">
-                            <i class="tio-add"></i>
-                        </button>
+                        <span class="btn btn-pill btn-soft-primary btn-icon btn-xs">
+                            <b>@ViewData["depcount"]</b>
+                        </span>
                     </div>
                 </div>
                 <!-- End Row -->
@@ -123,20 +120,19 @@
                     <div class="col">
                         <!-- Media -->
                         <div class="media">
-                            <i class="tio-all-done nav-icon"></i>
+                            <i class="tio-poi-outlined nav-icon"></i>
 
                             <div class="media-body">
-                                <a href="javascript:;" id="point-now" class="mb-1 h5">Passed</a>
-                                <span class="d-block">@ViewData["passed"]</span>
+                                <a href="javascript:;" id="point-now" class="mb-1 h5">Points</a>
                             </div>
                         </div>
                         <!-- End Media -->
                     </div>
 
                     <div class="col-auto">
-                        <button type="button" class="btn btn-pill btn-soft-primary btn-icon btn-xs">
-                            <i class="tio-add"></i>
-                        </button>
+                        <span class="btn btn-pill btn-soft-primary btn-icon btn-xs">
+                           <b>@ViewData["poicount"]</b>
+                        </span>
                     </div>
                 </div>
                 <!-- End Row -->
@@ -309,10 +305,9 @@
                 <tr>
                     <th></th>
                     <th>Name</th>
-                    <th>Position</th>
-                    <th>Duration</th>
                     <th>Phone</th>
-                    <th>Training</th>
+                    <th>Duration</th>
+                    <th>Position</th>
                     <th>Organization</th>
                     <th>Mentor</th>
                     <th>Action</th>
@@ -322,64 +317,61 @@
             <tbody>
                 @foreach (DataRow X in Model.Interns.Tables[0].Rows)
                 {
-                    <tr>
-                        <td class="details-control"></td>
-                        <td class="table-column-pl-0">
-                            <a class="d-flex align-items-center" href="javascript:void(0)" onclick="ShowInternData(@X["TrainingId"],@X["InternId"])">
-                                <div class="avatar avatar-sm avatar-circle" data-toggle="tooltip" data-placement="top" title="@X["InternId"]: @X["CreatedDate"]">
-                                    <img class="avatar-img" src="@X["Avatar"]" alt="Image Description">
-                                </div>
-                                <div class="ml-3">
-                                    <span class="d-block h5 text-hover-primary mb-0">@X["FullName"]</span>
-                                    <span class="d-block font-size-sm text-body">@X["Email"]</span>
-                                </div>
-                            </a>
-                        </td>
-                        <td>
-                            <span class="d-block h5 mb-0">@X["DepName"]</span>
-                            <span class="d-block font-size-sm">@X["Type"]</span>
-                        </td>
-                        <td>
-                            <span>@X["Duration"]</span>
-                        </td>
-                        <td>
-                            <span class="badge badge-soft-info">
-                                <span class="bg-info"></span>@X["Phone"]
-                            </span>
-                        </td>
-                        <td>
-                            <span>@X["TraName"]</span>
-                        </td>
-                        <td>
-                            <span>@X["OrgName"]</span>
-                        </td>
-                        <td>
-                            <div class="ml-3">
-                                <span class="d-block text-hover-primary mb-0">@X["Mentor"] <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="bottom" title="@X["Email"]"></i></span>
+                <tr data-id="@X["InternId"]">
+                    <td class="details-control"></td>
+                    <td class="table-column-pl-0">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar avatar-sm avatar-circle" data-toggle="tooltip" data-placement="top" title="@X["InternId"]: @X["CreatedDate"]">
+                                <img class="avatar-img" src="@X["Avatar"]" alt="Image Description">
                             </div>
-                        </td>
-                        <td>
-                            <div class="hs-unfold">
-                                <div class="js-hs-unfold-invoker btn btn-sm btn-ghost-secondary"
-                                     data-hs-unfold-options='{
+                            <div class="ml-3">
+                                <span class="d-block h5 text-hover-primary mb-0">@X["FullName"]</span>
+                                <span class="d-block font-size-sm text-body">@X["Email"]</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge badge-soft-info">
+                            <span class="bg-info"></span>@X["Phone"]
+                        </span>
+                    </td>
+                    <td>
+                        <span>@X["Duration"]</span>
+                    </td>
+                    <td>
+                        <span class="d-block h5 mb-0">@X["DepName"]</span>
+                        <span class="d-block font-size-sm">@X["Type"]</span>
+                    </td>
+                    <td>
+                        <span>@X["OrgName"]</span>
+                    </td>
+                    <td>
+                        <div class="ml-3">
+                            <span class="d-block text-hover-primary mb-0">@X["Mentor"] <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="bottom" title="@X["Email"]"></i></span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="hs-unfold">
+                            <div class="js-hs-unfold-invoker btn btn-sm btn-ghost-secondary"
+                                 data-hs-unfold-options='{
                                     "target": "#intern-@X["InternId"]",
-                                    "type": "jquery-slide",
+                                    "type": "css-animation",
                                     "event": "hover",
                                     "duration": 100,
                                     "smartPositionOffEl": "#datatable"
                                    }'>
-                                    More <i class="tio-chevron-down ml-1"></i>
-                                </div>
-
-                                <div id="intern-@X["InternId"]" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                    <a class="dropdown-item" href="javascript:;" onclick="InternUpdate(@X["InternId"])">Update info</a>
-                                    <a class="dropdown-item" href="javascript:;" onclick="InternEvaluate(@X["InternId"])">Evaluate</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" href="javascript:;" onclick="InternLeave(@X["InternId"])">Delete</a>
-                                </div>
+                                More <i class="tio-chevron-down ml-1"></i>
                             </div>
-                        </td>
-                    </tr>
+
+                            <div id="intern-@X["InternId"]" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                <a class="dropdown-item" href="javascript:;" onclick="InternUpdate(@X["InternId"])">Update info</a>
+                                <a class="dropdown-item" href="javascript:;" onclick="InternEvaluate(@X["InternId"])">Evaluate</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="javascript:;" onclick="InternLeave(@X["InternId"])">Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -660,15 +652,144 @@
     </div>
 </div>
 
-<!-- Modal show-now -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-2" role="dialog" aria-hidden="true">
-    <div id="modal-now" class="modal-dialog modal-xl modal-dialog-centered" role="document">
+<!-- Modal organization-now -->
+<div class="modal fade" id="orgModal" tabindex="-2" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
-            <div id="modal-now-page" class="m-5 hs-nav-scroller-vertical" style="max-height: 22rem; max-width: 1156px;"
+            <div class="m-5 hs-nav-scroller-vertical" style="max-height: 22rem; max-width: 1156px;"
                  data-hs-nav-scroller-options='{
                  "type": "vertical"
                  }'>
+                <!-- Table -->
+                <div class="table-responsive datatable-custom">
+                    <table id="orgtable" class="js-editable-table table-hover table table-md table-borderless table-thead-bordered table-nowrap table-align-middle"
+                           data-hs-datatables-options='{
+                     "columnDefs": [{
+                        "targets": [4],
+                        "orderable": false
+                      }],
+                     "order": []
+                    }'>
+                        <colgroup>
+                            <col span="1" style="width: 5%;">
+                            <col span="1" style="width: 25%;">
+                            <col span="1" style="width: 16%;">
+                            <col span="1" style="width: 50%;">
+                            <col span="1" style="width: 4%;">
+                        </colgroup>
+
+                        <thead class="">
+                            <tr>
+                                <th>Index</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="org-tbody">
+                        </tbody>
+
+                    </table>
+                </div>
+                <!-- End Table -->
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal department-now -->
+<div class="modal fade" id="depModal" tabindex="-3" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="m-5 hs-nav-scroller-vertical" style="max-height: 22rem; max-width: 1156px;"
+                 data-hs-nav-scroller-options='{
+                 "type": "vertical"
+                 }'>
+                <!-- Table -->
+                <div class="table-responsive datatable-custom">
+                    <table id="deptable" class="js-editable-table table-hover table table-md table-borderless table-thead-bordered table-nowrap table-align-middle"
+                           data-hs-datatables-options='{
+                     "columnDefs": [{
+                        "targets": [3],
+                        "orderable": false
+                      }],
+                     "order": []
+               }'>
+                        <colgroup>
+                            <col span="1" style="width: 4%;">
+                            <col span="1" style="width: 34%;">
+                            <col span="1" style="width: 58%;">
+                            <col span="1" style="width: 4%;">
+                        </colgroup>
+
+                        <thead class="">
+                            <tr>
+                                <th>Index</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="dep-tbody">
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End Table -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal point-now -->
+<div class="modal fade" id="poiModal" tabindex="-4" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="m-5 hs-nav-scroller-vertical" style="max-height: 22rem; max-width: 1156px;"
+                 data-hs-nav-scroller-options='{
+                 "type": "vertical"
+                 }'>
+                <!-- Table -->
+                <div class="table-responsive datatable-custom">
+                    <table id="poitable" class="js-editable-table table-hover table table-md table-borderless table-thead-bordered table-nowrap table-align-middle"
+                           data-hs-datatables-options='{
+                     "columnDefs": [{
+                        "targets": [5,6],
+                        "orderable": false
+                      }],
+                     "order": []
+               }'>
+                        <colgroup>
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 10%;">
+                        </colgroup>
+
+                        <thead class="">
+                            <tr>
+                                <th>Intern ID</th>
+                                <th>Technical Skill</th>
+                                <th>Soft Skill</th>
+                                <th>Attitude</th>
+                                <th>Score</th>
+                                <th>Passed</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="poi-tbody">
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End Table -->
+            </div>
+        </div>
+    </div>
+</div>
+

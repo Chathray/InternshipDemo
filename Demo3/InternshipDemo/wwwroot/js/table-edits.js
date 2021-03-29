@@ -1,8 +1,4 @@
-﻿// INITIALIZATION OF DATATABLES
-// =======================================================
-var dataable = $.HSCore.components.HSDatatables.init($('#tboo'));
-
-// INITIALIZATION OF EDITABLE TABLE
+﻿// INITIALIZATION OF EDITABLE TABLE
 // =======================================================
 $('.js-editable-table tbody tr').editable({
     keyboard: true,

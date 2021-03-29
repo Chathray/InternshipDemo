@@ -55,7 +55,8 @@ namespace WebApplication.Controllers
                 new AuthenticationProperties
                 {
                     IsPersistent = true,
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(10)
+                    // for test long time
+                    ExpiresUtc = DateTime.UtcNow.AddDays(10)
                 });
 
             return Redirect("/");
