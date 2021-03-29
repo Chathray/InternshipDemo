@@ -15,9 +15,9 @@
     <title> Authencation - TMA Solutions</title>
 
     <!--Core CSS -->
-    <link rel="stylesheet" href="~/css/app.css">
-    <link rel="stylesheet" href="~/css/bulma.css">
-    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/nephos/app.css">
+    <link rel="stylesheet" href="~/css/nephos/bulma.css">
+    <link rel="stylesheet" href="~/css/nephos/main.css">
 
     <!-- Fonts -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -28,8 +28,6 @@
 </head>
 
 <body>
-
-
     <!-- Pageloader -->
     <div class="au-pageloader"></div>
     <div class="au-infraloader is-active"></div>
@@ -126,7 +124,7 @@
                                 </div>
                                 <!--Reset-----------------------------------------------------form-->
                                 <div class="reset-form is-hidden">
-                                    <form>
+                                    <form id="forgot-form">
                                         <p class="form-description">Enter your email to be able to reset your password. We'll send you an email with the instructions to follow.</p>
                                         <!--Field-->
                                         <div class="field">
@@ -194,7 +192,7 @@
                                         <div class="field">
                                             <label>Password</label>
                                             <div class="control is-bigger has-icon">
-                                                <input asp-for="RegiterPassword" type="password" required class="input">
+                                                <input asp-for="RegiterPassword" id="registration-password" type="password" required class="input">
                                                 <div class="form-icon">
                                                     <i data-feather="lock"></i>
                                                 </div>
@@ -233,7 +231,7 @@
     </div>
     <!-- /Main wrapper -->
 
-    <script src="~/js/app.js"></script>
+    <script src="~/js/nephos/app.js"></script>
     <script>
         function fakeLogin() {
             //Email validation example
@@ -248,6 +246,7 @@
                 }
             }); //Password Length validation example
 
+
             $('#login-password').on('change', function () {
                 var $this = $(this);
                 var password = $this.val().trim();
@@ -258,6 +257,7 @@
                     $this.closest('.field').removeClass('has-error');
                 }
             }); //Login with one of the fake accounts
+
 
             $('#login-submit').on('click', function () {
                 if ($('#login-email').val() == "")
@@ -270,9 +270,9 @@
                 $('.small-auth-loader').addClass('is-active');
 
                 $("#login-form").submit();
-
             });
         }
+
 
         function initAuthenticationForms() {
             //Toggle login and registration wrappers
@@ -300,6 +300,7 @@
             });
         }
 
+
         $(document).ready(function () {
             if (window.history.replaceState) {
                 window.history.replaceState(null, null, window.location.href);
@@ -308,6 +309,26 @@
             feather.replace();
             fakeLogin();
             initAuthenticationForms();
+
+            $('#login-password').on('keyup', function (e) {
+                if (event.keyCode != 13)
+                    return;
+                $("#login-form").submit();
+            });
+
+            $('#registration-password').on('keyup', function (e) {
+                if (event.keyCode != 13)
+                    return;
+                $("#registration-form").submit();
+            });
+
+            $('#registration-form, #login-form, #forgot-form').on('keyup keypress', function (e) {
+                var keyCode = e.keyCode || e.which;
+                if (keyCode === 13) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
         });
     </script>
 </body>

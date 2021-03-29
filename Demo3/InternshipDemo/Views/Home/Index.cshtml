@@ -1,7 +1,7 @@
 ﻿@using System.Data
 @model IndexModel
-@{
-    ViewData["Title"] = "TMA Internship";
+@section Scripts{
+    <script src="/js/script-section-home.js"></script>
 }
 
 <!-- Page Header -->
@@ -14,11 +14,11 @@
                     <li class="breadcrumb-item active" aria-current="page">Index</li>
                 </ol>
             </nav>
-            <h3 class="page-header-title mb-5">@ViewData["Title"] <a href="javascript:;" class="badge badge-soft-dark ml-2">@Model.Pager.TotalItems</a></h3>
+            <h3 class="page-header-title mb-5">TMA Internship <a href="javascript:;" class="badge badge-soft-dark ml-2">@Model.Pager.TotalItems</a></h3>
         </div>
 
         <div class="col-sm-auto">
-            <button id="addi-btn" type="button" class="btn btn-sm btn-primary mb-4" data-toggle="modal" data-target="#exampleModal">
+            <button id="addi-btn" type="button" class="btn btn-pill btn-sm btn-primary mb-4" data-toggle="modal" data-target="#exampleModal">
                 <i class="tio-add-circle-outlined"></i> Add intern
             </button>
         </div>
@@ -36,34 +36,20 @@
                     <div class="col">
                         <!-- Media -->
                         <div class="media">
-                            <i class="tio-receipt-outlined nav-icon"></i>
+                            <i class="tio-calendar-note nav-icon"></i>
 
                             <div class="media-body">
-                                <h4 class="mb-1">Spent</h4>
-                                <span class="d-block">-$71,431.00 USD</span>
+                                <a href="javascript:;" id="training-now" class="mb-1 h5">Trainings</a>
+                                <span class="badge badge-soft-warning badge-pill ml-1">@ViewData["tracount"]</span>
                             </div>
                         </div>
                         <!-- End Media -->
                     </div>
 
                     <div class="col-auto">
-                        <!-- Circle -->
-                        <div class="js-circle"
-                             data-hs-circles-options='{
-                           "value": 54,
-                           "maxValue": 100,
-                           "duration": 2000,
-                           "isViewportInit": true,
-                           "colors": ["#e7eaf3", "#377dff"],
-                           "radius": 25,
-                           "width": 3,
-                           "fgStrokeLinecap": "round",
-                           "textFontSize": 14,
-                           "additionalText": "%",
-                           "textClass": "circle-custom-text",
-                           "textColor": "#377dff"
-                         }'></div>
-                        <!-- End Circle -->
+                        <button type="button" class="btn btn-pill btn-soft-primary btn-icon btn-xs">
+                            <i class="tio-add"></i>
+                        </button>
                     </div>
                 </div>
                 <!-- End Row -->
@@ -71,7 +57,6 @@
         </div>
         <!-- End Card -->
     </div>
-
     <div class="col-sm-6 col-lg-3 mb-3 mb-lg-6">
         <!-- Card -->
         <div class="card card-sm">
@@ -80,36 +65,20 @@
                     <div class="col">
                         <!-- Media -->
                         <div class="media">
-                            <i class="tio-chart-bar-1 nav-icon"></i>
+                            <i class="tio-data-sharing nav-icon"></i>
 
                             <div class="media-body">
-                                <h4 class="mb-1">Progress</h4>
-                                <span class="font-size-sm text-success">
-                                    <i class="tio-trending-up"></i> 1.7%
-                                </span>
+                                <a href="javascript:;" id="organization-now" class="mb-1 h5">Organizations</a>
+                                <span class="badge badge-soft-info badge-pill ml-1">@ViewData["orgcount"]</span>
                             </div>
                         </div>
                         <!-- End Media -->
                     </div>
 
                     <div class="col-auto">
-                        <!-- Circle -->
-                        <div class="js-circle"
-                             data-hs-circles-options='{
-                           "value": 80,
-                           "maxValue": 100,
-                           "duration": 2000,
-                           "isViewportInit": true,
-                           "colors": ["#e7eaf3", "#377dff"],
-                           "radius": 25,
-                           "width": 3,
-                           "fgStrokeLinecap": "round",
-                           "textFontSize": 14,
-                           "additionalText": "%",
-                           "textClass": "circle-custom-text",
-                           "textColor": "#377dff"
-                         }'></div>
-                        <!-- End Circle -->
+                        <button type="button" class="btn btn-pill btn-soft-primary btn-icon btn-xs">
+                            <i class="tio-add"></i>
+                        </button>
                     </div>
                 </div>
                 <!-- End Row -->
@@ -117,7 +86,6 @@
         </div>
         <!-- End Card -->
     </div>
-
     <div class="col-sm-6 col-lg-3 mb-3 mb-lg-6">
         <!-- Card -->
         <div class="card card-sm">
@@ -126,34 +94,20 @@
                     <div class="col">
                         <!-- Media -->
                         <div class="media">
-                            <i class="tio-checkmark-circle-outlined nav-icon"></i>
+                            <i class="tio-group-junior nav-icon"></i>
 
                             <div class="media-body">
-                                <h4 class="mb-1">Tasks closed</h4>
-                                <span class="d-block">79 <span class="badge badge-soft-dark badge-pill ml-1">+4 today</span></span>
+                                <a href="javascript:;" id="department-now" class="mb-1 h5">Departments</a>
+                                <span class="badge badge-soft-info badge-pill ml-1">@ViewData["orgcount"]</span>
                             </div>
                         </div>
                         <!-- End Media -->
                     </div>
 
                     <div class="col-auto">
-                        <!-- Circle -->
-                        <div class="js-circle"
-                             data-hs-circles-options='{
-                           "value": 67,
-                           "maxValue": 100,
-                           "duration": 2000,
-                           "isViewportInit": true,
-                           "colors": ["#e7eaf3", "#377dff"],
-                           "radius": 25,
-                           "width": 3,
-                           "fgStrokeLinecap": "round",
-                           "textFontSize": 14,
-                           "additionalText": "%",
-                           "textClass": "circle-custom-text",
-                           "textColor": "#377dff"
-                         }'></div>
-                        <!-- End Circle -->
+                        <button type="button" class="btn btn-pill btn-soft-primary btn-icon btn-xs">
+                            <i class="tio-add"></i>
+                        </button>
                     </div>
                 </div>
                 <!-- End Row -->
@@ -161,7 +115,6 @@
         </div>
         <!-- End Card -->
     </div>
-
     <div class="col-sm-6 col-lg-3 mb-3 mb-lg-6">
         <!-- Card -->
         <div class="card card-sm">
@@ -170,34 +123,20 @@
                     <div class="col">
                         <!-- Media -->
                         <div class="media">
-                            <i class="tio-award-outlined nav-icon"></i>
+                            <i class="tio-all-done nav-icon"></i>
 
                             <div class="media-body">
-                                <h4 class="mb-1">Goals</h4>
-                                <span class="d-block">41/100</span>
+                                <a href="javascript:;" id="point-now" class="mb-1 h5">Passed</a>
+                                <span class="d-block">@ViewData["passed"]</span>
                             </div>
                         </div>
                         <!-- End Media -->
                     </div>
 
                     <div class="col-auto">
-                        <!-- Circle -->
-                        <div class="js-circle"
-                             data-hs-circles-options='{
-                           "value": 41,
-                           "maxValue": 100,
-                           "duration": 2000,
-                           "isViewportInit": true,
-                           "colors": ["#e7eaf3", "#377dff"],
-                           "radius": 25,
-                           "width": 3,
-                           "fgStrokeLinecap": "round",
-                           "textFontSize": 14,
-                           "additionalText": "%",
-                           "textClass": "circle-custom-text",
-                           "textColor": "#377dff"
-                         }'></div>
-                        <!-- End Circle -->
+                        <button type="button" class="btn btn-pill btn-soft-primary btn-icon btn-xs">
+                            <i class="tio-add"></i>
+                        </button>
                     </div>
                 </div>
                 <!-- End Row -->
@@ -227,19 +166,6 @@
 
             <div class="col-sm-auto">
                 <div class="d-flex align-items-center">
-                    <!-- Datatable Info -->
-                    <div id="datatableCounterInfo" class="mx-2" style="display: none;">
-                        <div class="d-flex align-items-center">
-                            <span class="font-size-sm mr-3">
-                                <span id="datatableCounter">0</span>
-                                Selected
-                            </span>
-                            <a class="btn btn-sm btn-outline-danger" href="javascript:;">
-                                <i class="tio-delete-outlined"></i> Delete
-                            </a>
-                        </div>
-                    </div>
-                    <!-- End Datatable Info -->
                     <span class="text-secondary mx-2">Search on:</span>
                     <!-- Select -->
                     <select class="js-select2-custom js-datatable-search custom-select-sm mr-2" size="1" style="opacity: 0;"
@@ -274,7 +200,6 @@
                         <option value="5">Training</option>
                     </select>
                     <!-- End Select -->
-
                     <!-- Unfold -->
                     <div class="ml-4 hs-unfold">
                         <a class="js-hs-unfold-invoker btn btn-sm btn-white" href="javascript:;"
@@ -283,7 +208,7 @@
                          "type": "css-animation",
                          "smartPositionOff": true
                        }'>
-                            <i class="tio-filter-list mr-1"></i> Filter <span class="badge badge-soft-dark rounded-circle ml-1">2</span>
+                            <i class="tio-filter-list mr-1"></i> Filter
                         </a>
 
                         <div id="usersFilterDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right dropdown-card card-dropdown-filter-centered" style="min-width: 22rem;">
@@ -308,7 +233,7 @@
                                     <form>
                                         <div class="form-row">
                                             <div class="col-sm form-group">
-                                                <small class="text-cap mb-2">Orientation</small>
+                                                <small class="text-cap mb-2">Training</small>
 
                                                 <!-- Select -->
                                                 <select class="js-select2-custom js-datatable-filter custom-select" size="1" style="opacity: 0;"
@@ -316,7 +241,7 @@
                                                         data-hs-select2-options='{
                                           "minimumResultsForSearch": "Infinity"
                                         }'>
-                                                    <option value="">Any orientation</option>
+                                                    <option value="">Any training</option>
                                                     @foreach (var de in Model.Trainings)
                                                     {
                                                         <option value="@de.TraName">@de.TraName</option>
@@ -326,7 +251,7 @@
                                             </div>
 
                                             <div class="col-sm form-group">
-                                                <small class="text-cap mb-2">Type</small>
+                                                <small class="text-cap mb-2">Time</small>
 
                                                 <!-- Select -->
                                                 <select class="js-select2-custom js-datatable-filter custom-select" size="1" style="opacity: 0;"
@@ -334,7 +259,7 @@
                                                         data-hs-select2-options='{
                                           "minimumResultsForSearch": "Infinity"
                                         }'>
-                                                    <option value="">Any type</option>
+                                                    <option value="">Any time</option>
                                                     <option value="Full time">Full time</option>
                                                     <option value="Part time">Part time</option>
                                                 </select>
@@ -347,7 +272,7 @@
                                                 <!-- Select -->
                                                 <select class="js-select2-custom js-datatable-filter custom-select" size="1" style="opacity: 0;"
                                                         data-target-column-index="6">
-                                                    <option label="">Any organization</option>
+                                                    <option value="">Any organization</option>
                                                     @foreach (var og in Model.Organizations)
                                                     {
                                                         <option value="@og.OrgName">@og.OrgName</option>
@@ -357,13 +282,6 @@
                                             </div>
                                         </div>
                                         <!-- End Row -->
-
-                                        <a class="js-hs-unfold-invoker btn btn-block btn-primary" href="javascript:;"
-                                           data-hs-unfold-options='{
-                                "target": "#usersFilterDropdown",
-                                "type": "css-animation",
-                                "smartPositionOff": true
-                               }'>Apply</a>
                                     </form>
                                 </div>
                             </div>
@@ -378,7 +296,7 @@
     </div>
     <!-- End Header -->
     <!-- Table -->
-    <div class="table-responsive datatable-custom" style="overflow-y: hidden;">
+    <div class="table-responsive datatable-custom datatable-custom-collapsible">
         <table id="datatable" class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
                data-hs-datatables-options='{
                      "columnDefs": [{
@@ -389,17 +307,12 @@
                }'>
             <thead class="thead-light">
                 <tr>
-                    <th class="table-column-pr-0">
-                        <div class="custom-control custom-checkbox">
-                            <input id="datatableCheckAll" type="checkbox" class="custom-control-input">
-                            <label class="custom-control-label" for="datatableCheckAll"></label>
-                        </div>
-                    </th>
-                    <th class="table-column-pl-0">Name</th>
+                    <th></th>
+                    <th>Name</th>
                     <th>Position</th>
                     <th>Duration</th>
                     <th>Phone</th>
-                    @*<th>Orientation</th>*@
+                    <th>Training</th>
                     <th>Organization</th>
                     <th>Mentor</th>
                     <th>Action</th>
@@ -407,15 +320,10 @@
             </thead>
 
             <tbody>
-                @foreach (DataRow X in Model.Interns.Rows)
+                @foreach (DataRow X in Model.Interns.Tables[0].Rows)
                 {
                     <tr>
-                        <td class="table-column-pr-0">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="check-@X["InternId"]">
-                                <label class="custom-control-label" for="check-@X["InternId"]"></label>
-                            </div>
-                        </td>
+                        <td class="details-control"></td>
                         <td class="table-column-pl-0">
                             <a class="d-flex align-items-center" href="javascript:void(0)" onclick="ShowInternData(@X["TrainingId"],@X["InternId"])">
                                 <div class="avatar avatar-sm avatar-circle" data-toggle="tooltip" data-placement="top" title="@X["InternId"]: @X["CreatedDate"]">
@@ -439,9 +347,9 @@
                                 <span class="bg-info"></span>@X["Phone"]
                             </span>
                         </td>
-                        @*<td>
+                        <td>
                             <span>@X["TraName"]</span>
-                        </td>*@
+                        </td>
                         <td>
                             <span>@X["OrgName"]</span>
                         </td>
@@ -452,7 +360,7 @@
                         </td>
                         <td>
                             <div class="hs-unfold">
-                                <div class="js-hs-unfold-invoker btn btn-sm btn-white"
+                                <div class="js-hs-unfold-invoker btn btn-sm btn-ghost-secondary"
                                      data-hs-unfold-options='{
                                     "target": "#intern-@X["InternId"]",
                                     "type": "jquery-slide",
@@ -503,7 +411,7 @@
                     <span class="text-secondary mr-2">of</span>
 
                     <!-- Pagination Quantity -->
-                    <span id="datatableWithPaginationInfoTotalQty">@Model.Pager.TotalItems</span>
+                    <span id="datatableWithPaginationInfoTotalQty">@Model.Interns.Tables[1].Rows[0]["ShowLeadsTotalRows"]</span>
                 </div>
             </div>
 
@@ -545,9 +453,6 @@
     <!-- End Footer -->
 </div>
 <!-- End Card -->
-
-
-
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
@@ -686,7 +591,7 @@
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label class="col-sm-3 col-form-label input-label">Courses</label>
+                        <label class="col-sm-3 col-form-label input-label">Training</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
@@ -726,7 +631,7 @@
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row">
-                        <label class="col-sm-3 col-form-label input-label">Intern type</label>
+                        <label class="col-sm-3 col-form-label input-label">Time</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
@@ -752,5 +657,18 @@
                 <!-- End Footer -->
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Modal show-now -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-2" role="dialog" aria-hidden="true">
+    <div id="modal-now" class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div id="modal-now-page" class="m-5 hs-nav-scroller-vertical" style="max-height: 22rem; max-width: 1156px;"
+                 data-hs-nav-scroller-options='{
+                 "type": "vertical"
+                 }'>
+            </div>
+        </div>
     </div>
 </div>

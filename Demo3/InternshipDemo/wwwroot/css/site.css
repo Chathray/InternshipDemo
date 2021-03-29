@@ -26687,3 +26687,32 @@ a:hover .text-hover-primary {
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0
 }
+
+
+body {
+    height: 100%;
+    overflow: auto
+}
+
+    body::-webkit-scrollbar {
+        width: .4125rem;
+        height: .4125rem
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background-color: rgba(189,197,209,.6)
+    }
+
+.table-responsive {
+    height: 100%;
+    overflow-y: hidden;
+    overflow-x: auto
+}
+
+    .table-responsive::-webkit-scrollbar {
+        height: .4825rem
+    }
+
+    .table-responsive::-webkit-scrollbar-thumb {
+        background-color: rgba(189,197,209,.6)
+    }

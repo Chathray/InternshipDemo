@@ -16,15 +16,40 @@ namespace WebApplication.Data
         //--
         public static DataTable ExecuteReader(string query)
         {
-            if (conn.State == ConnectionState.Closed) conn.Open();
+            try
+            {
+                if (conn.State == ConnectionState.Closed) conn.Open();
 
-            command = new MySqlCommand(query, conn);
-            adapter = new MySqlDataAdapter(command);
-            DataTable data = new DataTable();
-            adapter.Fill(data);
+                command = new MySqlCommand(query, conn);
+                adapter = new MySqlDataAdapter(command);
+                DataTable data = new DataTable();
+                adapter.Fill(data);
+                return data;
+            }
+            catch (Exception)
+            {
+                conn.Close();
+                return null;
+            }
+        }
 
-            conn.Close();
-            return data;
+        public static DataSet ExecuteReaders(string query)
+        {
+            try
+            {
+                if (conn.State == ConnectionState.Closed) conn.Open();
+
+                command = new MySqlCommand(query, conn);
+                adapter = new MySqlDataAdapter(command);
+                DataSet data = new DataSet();
+                adapter.Fill(data);
+                return data;
+            }
+            catch (Exception)
+            {
+                conn.Close();
+                return null;
+            }
         }
 
 
@@ -33,7 +58,8 @@ namespace WebApplication.Data
         {
             try
             {
-                conn.Open();
+                if (conn.State == ConnectionState.Closed) conn.Open();
+
                 command = new MySqlCommand(query, conn);
                 int ok = command.ExecuteNonQuery();
 
@@ -50,12 +76,17 @@ namespace WebApplication.Data
         //--
         public static object ExecuteScalar(string query)
         {
-            conn.Open();
-            command = new MySqlCommand(query, conn);
-            object data = command.ExecuteScalar();
-
-            conn.Close();
-            return data;
+            try
+            {
+                if (conn.State == ConnectionState.Closed) conn.Open();
+                command = new MySqlCommand(query, conn);
+                return command.ExecuteScalar();
+            }
+            catch (Exception)
+            {
+                conn.Close();
+                return null;
+            }
         }
     }
 }

@@ -8,13 +8,13 @@ namespace WebApplication.Models
     {
         public PaginationLogic Pager { get; set; }
 
-        public DataTable Interns { get; set; }
+        public DataSet Interns { get; set; }
         public IList<Organization> Organizations { get; set; }
         public IList<Department> Departments { get; set; }
         public IList<Training> Trainings { get; set; }
 
         public IndexModel() { }
-        public IndexModel(PaginationLogic pager, DataTable interns, IList<Training> trainings, IList<Organization> organizations, IList<Department> departments)
+        public IndexModel(PaginationLogic pager, DataSet interns, IList<Training> trainings, IList<Organization> organizations, IList<Department> departments)
         {
             Pager = pager;
             Interns = interns;

@@ -20,7 +20,7 @@ namespace WebApplication
             var context = services.GetRequiredService<DataContext>();
 
             context.Database.EnsureCreated();
-            // Do more
+            // Do seed action here
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)

@@ -178,6 +178,11 @@ namespace WebApplication
             return _context.Departments.ToList();
         }
 
+        public IList<InternshipPoint> GetInternshipPoints()
+        {
+            return _context.InternshipPoints.ToList();
+        }
+
         public int GetInternCount()
         {
             return _context.Interns.Count();
@@ -200,9 +205,9 @@ namespace WebApplication
             return data.Rows[0]["json"].ToString();
         }
 
-        public DataTable GetInternModelList(int page, int size, int sort, int search_on, string search_string)
+        public DataSet GetInternModelList(int page, int size, int sort, int search_on, string search_string)
         {
-            return DataProvider.ExecuteReader(
+            return DataProvider.ExecuteReaders(
                 $"CALL GetInternList({(page - 1) * size},{size},'{sort}',{search_on},'{search_string}')");
         }
     }

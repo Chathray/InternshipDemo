@@ -1,84 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-
-// Write your JavaScript code.
-function InternLeave(iid) {
-
-    $.ajax({
-        method: "POST",
-        url: "home/internleave",
-        data: { id: iid }
-    }).done(function (msg) {
-        alert("Gone: " + msg);
-        window.location.reload();
-    });
-}
-
-function InternUpdate(iid) {
-
-    $.ajax({
-        method: "POST",
-        url: "home/getinterninfo",
-        data: { id: iid }
-    }).done(function (o) {
-        $('#cui-form').attr('action', '/internupdate/' + iid);
-        let obj = JSON.parse(o);
-
-        SetModalData(obj);
-        $("#exampleModal").modal();
-    });
-}
-
-function SetModalData(obj) {
-    $('#avatarImg').prop("src", obj.avatar);
-    $('#firstNameLabel').val(obj.firstname);
-    $('#lastNameLabel').val(obj.lastname);
-    $('#birthLabel').val(obj.birth);
-    $('#emailLabel').val(obj.email);
-    $('#phoneLabel').val(obj.phone);
-    $('#durationLabel').val(obj.duration);
-
-    $('#genderLabel').val(obj.gender).change();
-    $('#typeLabel').val(obj.type).change();
-    $('#organizationLabel').val(obj.organizationid).change();
-    $('#departmentLabel').val(obj.departmentid).change();
-    $('#trainingLabel').val(obj.trainingid).change();
-}
-
-function InternEvaluate(iid) {
-    alert("Comming soon...");
-}
-
-function ShowInternData(tid, iid) {
-
-    $.ajax({
-        method: "POST",
-        url: "home/getinterndata",
-        data: { trainingId: tid, internId: iid }
-    }).done(function (msg) {
-        alert(msg);
-    });
-}
-
-$(document).on('ready', function () {
-
-    //Sync sort,size
-    var params = new URLSearchParams(window.location.search);
-    $('#datatableEntries').val(params.get("size") ? params.get("size") : 6);
-    $('.js-datatable-sort').val(params.get("sort") ? params.get("sort") : 1);
-    $('.js-datatable-search').val(params.get("search_on") ? params.get("search_on") : 0);
-    $('#datatableSearch').val(params.get("search_string") ? params.get("search_string") : "");
-
-
-
-    // INITIALIZATION OF MEGA MENU
-    // =======================================================
-    var megaMenu = new HSMegaMenu($('.js-mega-menu'), {
-        desktop: {
-            position: 'left'
-        }
-    }).init();
+﻿$(document).on('ready', function () {
 
     // INITIALIZATION OF FLATPICKR
     // =======================================================
@@ -95,55 +15,6 @@ $(document).on('ready', function () {
         ],
     });
 
-    // INITIALIZATION OF NAVBAR VERTICAL NAVIGATION
-    // =======================================================
-    var sidebar = $('.js-navbar-vertical-aside').hsSideNav();
-
-
-    // INITIALIZATION OF TOOLTIP IN NAVBAR VERTICAL MENU
-    // =======================================================
-    $('.js-nav-tooltip-link').tooltip({ boundary: 'window' })
-
-    $(".js-nav-tooltip-link").on("show.bs.tooltip", function (e) {
-        if (!$("body").hasClass("navbar-vertical-aside-mini-mode")) {
-            return false;
-        }
-    });
-
-
-    // INITIALIZATION OF UNFOLD
-    // =======================================================
-    $('.js-hs-unfold-invoker').each(function () {
-        var unfold = new HSUnfold($(this)).init();
-    });
-
-
-    // INITIALIZATION OF FORM SEARCH
-    // =======================================================
-    $('.js-form-search').each(function () {
-        new HSFormSearch($(this)).init()
-    });
-
-
-    // INITIALIZATION OF SHOW PASSWORD
-    // =======================================================
-    $('.js-toggle-password').each(function () {
-        new HSTogglePassword(this).init()
-    });
-
-
-    // INITIALIZATION OF FILE ATTACH
-    // =======================================================
-    $('.js-file-attach').each(function () {
-        var customFile = new HSFileAttach($(this)).init();
-    });
-
-
-    // INITIALIZATION OF TABS
-    // =======================================================
-    $('.js-tabs-to-dropdown').each(function () {
-        var transformTabsToBtn = new HSTransformTabsToBtn($(this)).init();
-    });
 
 
     // INITIALIZATION OF MASKED INPUT
@@ -153,6 +24,7 @@ $(document).on('ready', function () {
     });
 
 
+
     // INITIALIZATION OF SELECT2
     // =======================================================
     $('.js-select2-custom').each(function () {
@@ -160,18 +32,21 @@ $(document).on('ready', function () {
     });
 
 
-    // INITIALIZATION OF COUNTERS
+
+    // INITIALIZATION OF FILE ATTACH
     // =======================================================
-    $('.js-counter').each(function () {
-        var counter = new HSCounter($(this)).init();
+    $('.js-file-attach').each(function () {
+        var customFile = new HSFileAttach($(this)).init();
     });
 
 
-    // DARK POPOVER
+
+    // INITIALIZATION OF UNFOLD
     // =======================================================
-    $('[data-toggle="popover-dark"]').on('shown.bs.popover', function () {
-        $('.popover').last().addClass('popover-dark')
+    $('.js-hs-unfold-invoker').each(function () {
+        var unfold = new HSUnfold($(this)).init();
     });
+
 
 
     // INITIALIZATION OF TAGIFY
@@ -221,7 +96,6 @@ $(document).on('ready', function () {
 
         gestsField.addTags(settings.whitelist.slice(0, 0));
     });
-
 
     // INITIALIZATION OF FULLCALENDAR SELECT2
     // =======================================================
@@ -538,123 +412,13 @@ $(document).on('ready', function () {
         filterSearchExample.filter()
     })
 
-    try {
-        filterSearchExample.filter()
+    filterSearchExample.filter()
 
-        // ADD DRAGGABLE CLASS FOR CALENDAR
-        // =======================================================
-        var Draggable = FullCalendar.Draggable;
-
-        new Draggable($('#external-events')[0], {
-            itemSelector: '.fc-event'
-        });
-    } catch { }
-
-
-    // INITIALIZATION OF CIRCLES
+    // ADD DRAGGABLE CLASS FOR CALENDAR
     // =======================================================
-    $('.js-circle').each(function () {
-        var circle = $.HSCore.components.HSCircles.init($(this));
-    });
+    var Draggable = FullCalendar.Draggable;
 
-
-    // INITIALIZATION OF DATATABLES
-    // =======================================================
-    var datatable = $.HSCore.components.HSDatatables.init($('#datatable'), {
-        select: {
-            style: 'multi',
-            selector: 'td:first-child input[type="checkbox"]',
-            classMap: {
-                checkAll: '#datatableCheckAll',
-                counter: '#datatableCounter',
-                counterInfo: '#datatableCounterInfo'
-            }
-        },
-        language: {
-            zeroRecords: '<div class="text-center p-4">' +
-                '<img class="mb-3" src="/img/sorry.svg" alt="Image Description" style="width: 7rem;">' +
-                '<p class="mb-0">No data to show</p>' +
-                '</div>'
-        }
-    });
-
-    $('.js-datatable-filter').on('change', function () {
-        var $this = $(this),
-            elVal = $this.val(),
-            targetColumnIndex = $this.data('target-column-index');
-
-        datatable.column(targetColumnIndex).search(elVal).draw();
-    });
-
-    $('#datatableSearch').on('keyup', function (e) {
-        if (event.keyCode != 13)
-            return;
-
-        var searchOn = $('.js-datatable-search').val();
-
-        if (searchOn === '0') {
-            alert('You must select the column to search for first!')
-            return;
-        }
-
-        var params = new URLSearchParams(window.location.search);
-
-        var $this = $(this),
-            elVal = $this.val();
-
-        var params = new URLSearchParams(window.location.search);
-        params.set('search_string', elVal);
-        params.set('search_on', searchOn);
-
-        window.location = "?" + params.toString();
-    });
-
-    $('.js-datatable-sort').on('change', function () {
-        var $this = $(this),
-            elVal = $this.val();
-
-        var params = new URLSearchParams(window.location.search);
-        params.set('sort', elVal);
-
-        window.location = "?" + params.toString();
-    });
-
-    //$('.js-datatable-search').on('change', function () {
-    //    var $this = $(this),
-    //        elVal = $this.val();
-
-    //    var params = new URLSearchParams(window.location.search);
-    //    params.set('search_on', elVal);
-
-    //    window.location = "?" + params.toString();
-    //});
-
-    $('#datatableEntries').on('change', function () {
-        var $this = $(this),
-            elVal = $this.val();
-
-        var params = new URLSearchParams(window.location.search);
-        params.set('size', elVal);
-
-        window.location = "?" + params.toString();
-    });
-
-    $(document).on("click", '#addi-btn', function (e) {
-        //var type = $("#cui-submit").text(); //For button
-
-        $('#cui-form').attr('action', '/');
-
-        $('#firstNameLabel').val("");
-        $('#lastNameLabel').val("");
-        $('#birthLabel').val("");
-        $('#emailLabel').val("");
-        $('#phoneLabel').val("");
-        $('#durationLabel').val("");
-
-        $('#genderLabel').val('').change();
-        $('#typeLabel').val('').change();
-        $('#orgnLabel').val('').change();
-        $('#deptLabel').val('').change();
-        $('#trainLabel').val('').change();
+    new Draggable($('#external-events')[0], {
+        itemSelector: '.fc-event'
     });
 });

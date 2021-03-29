@@ -366,10 +366,22 @@
                             <div class="card-body card-body-height">
                                 <!-- Nav -->
                                 <div class="nav nav-pills flex-column">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="https://webmail.sdc.edu.vn/">
                                         <div class="media align-items-center">
                                             <span class="mr-3">
-                                                <img class="avatar avatar-xs avatar-4by3" src="~/img/atlassian.svg" alt="Image Description">
+                                                <img class="avatar avatar-xs avatar-4by3" src="~/img/frontapp.svg" alt="Image Description">
+                                            </span>
+                                            <div class="media-body text-truncate">
+                                                <span class="h5 mb-0">Zimbra Web Client</span>
+                                                <span class="d-block font-size-sm text-body">Security and control across Cloud</span>
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                    <a class="nav-link" href="https://www.atlassian.com/">
+                                        <div class="media align-items-center">
+                                            <span class="mr-3">
+                                                <img class="avatar avatar-xs avatar-4by3" src="./img/atlassian.svg" alt="Image Description">
                                             </span>
                                             <div class="media-body text-truncate">
                                                 <span class="h5 mb-0">Atlassian</span>
@@ -378,10 +390,22 @@
                                         </div>
                                     </a>
 
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="https://web.dev/">
                                         <div class="media align-items-center">
                                             <span class="mr-3">
-                                                <img class="avatar avatar-xs avatar-4by3" src="~/img/slack.svg" alt="Image Description">
+                                                <img class="avatar avatar-xs avatar-4by3" src="~/img/google-webdev.svg" alt="Image Description">
+                                            </span>
+                                            <div class="media-body text-truncate">
+                                                <span class="h5 mb-0">Web.dev</span>
+                                                <span class="d-block font-size-sm text-body">Work involved in developing a website</span>
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                    <a class="nav-link" href="https://slack.com/">
+                                        <div class="media align-items-center">
+                                            <span class="mr-3">
+                                                <img class="avatar avatar-xs avatar-4by3" src="./img/slack.svg" alt="Image Description">
                                             </span>
                                             <div class="media-body text-truncate">
                                                 <span class="h5 mb-0">Slack <span class="badge badge-primary badge-pill text-uppercase ml-1">Try</span></span>
@@ -390,50 +414,14 @@
                                         </div>
                                     </a>
 
-                                    <a class="nav-link" href="#">
-                                        <div class="media align-items-center">
-                                            <span class="mr-3">
-                                                <img class="avatar avatar-xs avatar-4by3" src="~/img/google-webdev.svg" alt="Image Description">
-                                            </span>
-                                            <div class="media-body text-truncate">
-                                                <span class="h5 mb-0">Google webdev</span>
-                                                <span class="d-block font-size-sm text-body">Work involved in developing a website</span>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <a class="nav-link" href="#">
-                                        <div class="media align-items-center">
-                                            <span class="mr-3">
-                                                <img class="avatar avatar-xs avatar-4by3" src="~/img/frontapp.svg" alt="Image Description">
-                                            </span>
-                                            <div class="media-body text-truncate">
-                                                <span class="h5 mb-0">Frontapp</span>
-                                                <span class="d-block font-size-sm text-body">The inbox for teams</span>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link" href="https://www.skype.com/">
                                         <div class="media align-items-center">
                                             <span class="mr-3">
                                                 <img class="avatar avatar-xs avatar-4by3" src="~/img/review-rating-shield.svg" alt="Image Description">
                                             </span>
                                             <div class="media-body text-truncate">
-                                                <span class="h5 mb-0">HS Support</span>
+                                                <span class="h5 mb-0">Skype</span>
                                                 <span class="d-block font-size-sm text-body">Customer service and support</span>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <a class="nav-link" href="#">
-                                        <div class="media align-items-center">
-                                            <span class="avatar avatar-xs avatar-soft-dark mr-3">
-                                                <span class="avatar-initials"><i class="tio-apps"></i></span>
-                                            </span>
-                                            <div class="media-body text-truncate">
-                                                <span class="h5 mb-0">More Front products</span>
-                                                <span class="d-block font-size-sm text-body">Check out more HS products</span>
                                             </div>
                                         </div>
                                     </a>
@@ -441,12 +429,6 @@
                                 <!-- End Nav -->
                             </div>
                             <!-- End Body -->
-                            <!-- Footer -->
-                            <a class="card-footer text-center" href="#">
-                                View all apps
-                                <i class="tio-chevron-right"></i>
-                            </a>
-                            <!-- End Footer -->
                         </div>
                     </div>
                     <!-- End Apps -->
@@ -613,28 +595,28 @@
                 <ul class="navbar-nav flex-grow-1">
                     <!-- Home -->
                     <li>
-                        <a class="navbar-nav-link nav-link" href="/Home">
+                        <a class="navbar-nav-link nav-link @ViewData["page-1"]" href="/Home">
                             <i class="tio-home-vs-1-outlined nav-icon"></i> Home
                         </a>
                     </li>
                     <!-- End Home -->
                     <!-- Calendar -->
                     <li>
-                        <a class="navbar-nav-link nav-link" asp-controller="Home" asp-action="Calendar">
+                        <a class="navbar-nav-link nav-link @ViewData["page-2"]" asp-controller="Home" asp-action="Calendar">
                             <i class="tio-agenda-view-outlined nav-icon"></i> Calendar
                         </a>
                     </li>
                     <!-- End Calendar -->
                     <!-- QA -->
                     <li>
-                        <a class="navbar-nav-link nav-link" asp-controller="Home" asp-action="Question">
+                        <a class="navbar-nav-link nav-link @ViewData["page-3"]" asp-controller="Home" asp-action="Question">
                             <i class="tio-help-outlined nav-icon"></i> Q & A
                         </a>
                     </li>
                     <!-- End QA -->
                     <!-- Contacts -->
                     <li>
-                        <a class="navbar-nav-link nav-link" asp-controller="Home" asp-action="Contact">
+                        <a class="navbar-nav-link nav-link @ViewData["page-4"]" asp-controller="Home" asp-action="Contact">
                             <i class="tio-email-outlined nav-icon"></i> Contact
                         </a>
                     </li>

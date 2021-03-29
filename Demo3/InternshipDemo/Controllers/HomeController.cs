@@ -26,30 +26,33 @@ namespace WebApplication.Controllers
             _logger = logger;
         }
 
-        public override void OnActionExecuted(ActionExecutedContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            base.OnActionExecuted(context);
+            base.OnActionExecuting(context);
 
-            if (HttpContext.Request.Method == "GET")
-            {
-                ViewData["email"] = User.Claims.ElementAt(0).Value;
-                ViewData["fullname"] = User.Claims.ElementAt(1).Value;
-                ViewData["status"] = User.Claims.ElementAt(2).Value;
-                ViewData["id"] = User.Claims.ElementAt(3).Value;
-            }
+            ViewBag.email = User.Claims.ElementAt(0).Value;
+            ViewBag.fullname = User.Claims.ElementAt(1).Value;
+            ViewBag.status = User.Claims.ElementAt(2).Value;
+            ViewBag.id = User.Claims.ElementAt(3).Value;
         }
 
         [HttpGet]
         public IActionResult Index(int page, int size, int sort = 1, int search_on = 0, string search_string = "")
         {
+            ViewData["page-1"] = "active";
+
             var total = _adapter.GetInternCount();
             var pagination = new PaginationLogic(sort, total, page, size);
 
             var m = new IndexModel(pagination,
-                _adapter.GetInternModelList(pagination.CurrentPage, pagination.PageSize, sort, search_on,search_string),
+                _adapter.GetInternModelList(pagination.CurrentPage, pagination.PageSize, sort, search_on, search_string),
                 _adapter.GetTrainings(),
                 _adapter.GetOrganizations(),
                 _adapter.GetDepartments());
+
+            ViewData["tracount"] = m.Trainings.Count;
+            ViewData["orgcount"] = m.Organizations.Count;
+            ViewData["depcount"] = m.Departments.Count;
 
             return View(m);
         }
@@ -58,7 +61,7 @@ namespace WebApplication.Controllers
         public IActionResult Index(IndexModel model)
         {
             Intern intern = _mapper.Map<Intern>(model);
-            intern.Mentor = int.Parse(User.Claims.ElementAt(3).Value);
+            intern.Mentor = int.Parse(ViewBag.id);
 
             try
             {
@@ -76,7 +79,7 @@ namespace WebApplication.Controllers
         public IActionResult Index(IndexModel model, int id)
         {
             Intern intern = _mapper.Map<Intern>(model);
-            intern.Mentor = int.Parse(User.Claims.ElementAt(3).Value);
+            intern.Mentor = int.Parse(ViewBag.id);
             intern.InternId = id;
 
             try
@@ -95,12 +98,16 @@ namespace WebApplication.Controllers
         [HttpGet]
         public IActionResult Contact()
         {
+            ViewData["page-4"] = "active";
+
             return View();
         }
 
         [AcceptVerbs("GET")]
         public IActionResult Question()
         {
+            ViewData["page-3"] = "active";
+
             var model = _adapter.GetQuestions();
 
             return View(model);
@@ -109,12 +116,15 @@ namespace WebApplication.Controllers
         [AcceptVerbs("GET")]
         public IActionResult Calendar()
         {
+            ViewData["page-2"] = "active";
+
+
             var guests = _adapter.GetInterns();
             var eventype = _adapter.GetEventTypes();
 
             var model = new CalendarModel(eventype, guests)
             {
-                Creator = User.Claims.ElementAt(1).Value
+                Creator = ViewBag.fullname
             };
 
             return View(model);
@@ -130,7 +140,7 @@ namespace WebApplication.Controllers
         public IActionResult CreateEvent(CalendarModel model)
         {
             Event aEvent = _mapper.Map<Event>(model);
-            aEvent.CreatedBy = int.Parse(User.Claims.ElementAt(3).Value);
+            aEvent.CreatedBy = int.Parse(ViewBag.id);
 
             var dateArray = model.Deadline.Split(" - ");
             // Ngoại lệ ngày đơn
@@ -176,7 +186,29 @@ namespace WebApplication.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost]
+        [HttpGet]
+        public IActionResult GetOrganizations()
+        {
+            return Ok(_adapter.GetOrganizations());
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult GetDepartments()
+        {
+            return Ok(_adapter.GetDepartments());
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult GetInternshipPoints()
+        {
+            return Ok(_adapter.GetInternshipPoints());
+        }
+
+        [AllowAnonymous]
+        [HttpPost("Home/GetInternInfo")]
+        [HttpPost("GetInternInfo/{id}")]
         public string GetInternInfo(int id)
         {
             return _adapter.GetInternInfo(id);
