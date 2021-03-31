@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required Meta Tags Always Come First -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Internship - TMA Solutions</title>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS Implementing -->
+    <link rel="stylesheet" href="/css/vendor.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/site.css?v=1.0">
+    <link rel="stylesheet" href="/css/jquery-confirm.css">
+</head>
+
+<body class="   footer-offset">
+
+    @await Html.PartialAsync("/Views/Shared/_TopMenu.cshtml")
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main id="content" role="main" class="main">
+
+        <!-- Content -->
+        <div class="content container-fluid px-6">
+            @RenderBody()
+        </div>
+        <!-- End Content -->
+        <!-- Footer -->
+        <div class="footer">
+            <div class="row justify-content-between align-items-center">
+                <div class="col">
+                    <p class="font-size-sm mb-0">&copy; Front. <span class="d-none d-sm-inline-block">@DateTime.Now.Year Htmlstream.</span></p>
+                </div>
+                <div class="col-auto">
+                    <div class="d-flex justify-content-end">
+                        <!-- List Dot -->
+                        <ul class="list-inline list-separator">
+                            <li class="list-inline-item">
+                                <a class="list-separator-link" href="#">FAQ</a>
+                            </li>
+
+                            <li class="list-inline-item">
+                                <a class="list-separator-link" href="#">License</a>
+                            </li>
+
+                            <li class="list-inline-item">
+                                <!-- Keyboard Shortcuts Toggle -->
+                                <div class="hs-unfold">
+                                    <a class="js-hs-unfold-invoker btn btn-icon btn-ghost-secondary rounded-circle" href="javascript:;"
+                                       data-hs-unfold-options='{
+                              "target": "#keyboardShortcutsSidebar",
+                              "type": "css-animation",
+                              "animationIn": "fadeInRight",
+                              "animationOut": "fadeOutRight",
+                              "hasOverlay": true,
+                              "smartPositionOff": true
+                             }'>
+                                        <i class="tio-command-key"></i>
+                                    </a>
+                                </div>
+                                <!-- End Keyboard Shortcuts Toggle -->
+                            </li>
+                        </ul>
+                        <!-- End List Dot -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Footer -->
+    </main>
+    <!-- ========== END MAIN CONTENT ========== -->
+
+
+    <!-- ========== SECONDARY CONTENTS ========== -->
+    @await Html.PartialAsync("/Views/Shared/_KeyboardShortcuts.cshtml")
+    <!-- ========== END SECONDARY CONTENTS ========== -->
+
+
+    <!-- JS Implementing Plugins -->
+    <script src="/js/vendor.min.js"></script>
+    <script src="/js/theme.min.js"></script>
+    <script src="/js/jquery-confirm.js"></script>
+
+    <script>
+        // Đăng xuất
+        $('#signout-cmd').on('click', function () {
+            $.confirm({
+                title: 'Sign out?',
+                icon: 'tio-smile',
+                theme: 'supervan',
+                type: 'red',
+                buttons:
+                {
+                    No: function () { },
+                    logoutUser: {
+                        text: 'Yes',
+                        action: function () {
+                            window.location = '/Logout';
+                        }
+                    },
+                }
+            });
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
