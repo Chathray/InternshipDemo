@@ -1,13 +1,14 @@
-﻿using Internship.Infrastructure;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Internship.Application
 {
     public interface IInternshipPointService
     {
-        Task<IReadOnlyList<InternshipPointModel>> GetAllAsync();
-        Task<int> GetCountAsync();
-
+        IList<InternshipPointModel> GetAll();
+        int GetCount();
+        public bool EvaluateIntern(InternshipPointModel mark);
+        InternshipPointModel GetPoint(int id);
+        bool UpdatePoint(InternshipPointModel model);
+        bool DeletePoint(int id);
     }
 }

@@ -11,7 +11,10 @@ namespace Internship.Infrastructure
         public float TechnicalSkill { get; set; }
         public float SoftSkill { get; set; }
         public float Attitude { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public float Score { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public bool Passed { get; set; }
 
         [ForeignKey("InternId")]

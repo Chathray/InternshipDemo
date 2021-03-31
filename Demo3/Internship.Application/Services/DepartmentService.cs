@@ -1,6 +1,5 @@
 ﻿using Internship.Infrastructure;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Internship.Application
 {
@@ -12,16 +11,28 @@ namespace Internship.Application
             _departmentRespository = departmentRespository;
         }
 
-        public Task<IReadOnlyList<DepartmentModel>> GetAllAsync()
+
+        public IList<DepartmentModel> GetAll()
         {
-            var dep = _departmentRespository.GetAllAsync();
-            var model = ObjectMapper.Mapper.Map<Task<IReadOnlyList<DepartmentModel>>>(dep);
+            var dep = _departmentRespository.GetAll();
+            var model = ObjectMapper.Mapper.Map<IList<Department>, IList<DepartmentModel>>(dep);
             return model;
         }
 
-        public Task<int> GetCountAsync()
+        public int GetCount()
         {
-            return _departmentRespository.GetCountAsync();
+            return _departmentRespository.GetCount();
         }
+
+        public bool UpdateDepartment(DepartmentModel model)
+        {
+            var obj = ObjectMapper.Mapper.Map<Department>(model);
+            return _departmentRespository.Update(obj);        }
+
+        public bool DeleteDepartment(int id)
+        {
+            return _departmentRespository.Delete(id);
+        }
+
     }
 }

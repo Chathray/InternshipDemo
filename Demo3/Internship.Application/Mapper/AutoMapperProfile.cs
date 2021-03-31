@@ -10,8 +10,8 @@ namespace Internship.Application
         {
             var config = new MapperConfiguration(cfg =>
             {
-                    // This line ensures that internal properties are also mapped over.
-                    cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
+                // This line ensures that internal properties are also mapped over.
+                cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
                 cfg.AddProfile<AspnetRunDtoMapper>();
             });
             var mapper = config.CreateMapper();

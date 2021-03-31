@@ -95,16 +95,16 @@ namespace Internship.Api
         }
 
         [HttpGet("UserList")]
-        public async Task<IActionResult> UserList()
+        public  IActionResult UserList()
         {
-            var obj = await _userService.GetAllAsync();
+            var obj =  _userService.GetAll();
             return Ok(obj);
         }
 
         [HttpGet("TotalUser")]
-        public async Task<IActionResult> TotalUser()
+        public  IActionResult TotalUser()
         {
-            var obj = await _userService.GetCountAsync();
+            var obj =  _userService.GetCount();
             return Ok(obj);
         }
     }

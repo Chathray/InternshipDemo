@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Internship.Infrastructure;
+﻿using Internship.Infrastructure;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Internship.Application
 {
@@ -21,17 +19,17 @@ namespace Internship.Application
             return model;
         }
 
-        public Task<IReadOnlyList<UserModel>> GetAllAsync()
+        public IList<UserModel> GetAll()
         {
-            var user = _userRespository.GetAllAsync();
-            var model = ObjectMapper.Mapper.Map<Task<IReadOnlyList<UserModel>>>(user);
+            var user = _userRespository.GetAll();
+            var model = ObjectMapper.Mapper.Map<IList<User>, IList<UserModel>>(user);
 
             return model;
         }
 
-        public Task<int> GetCountAsync()
+        public int GetCount()
         {
-            return _userRespository.GetCountAsync();
+            return _userRespository.GetCount();
         }
 
         public UserModel GetById(int userId)

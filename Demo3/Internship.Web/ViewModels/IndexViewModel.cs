@@ -9,13 +9,13 @@ namespace Internship.Web
         public PaginationLogic Pager { get; set; }
 
         public DataSet Interns { get; set; }
-        public IReadOnlyList<OrganizationModel> Organizations { get; set; }
-        public IReadOnlyList<DepartmentModel> Departments { get; set; }
-        public IReadOnlyList<TrainingModel> Trainings { get; set; }
-        public IReadOnlyList<InternshipPointModel> InternshipPoints { get; set; }
+        public IList<OrganizationModel> Organizations { get; set; }
+        public IList<DepartmentModel> Departments { get; set; }
+        public IList<TrainingModel> Trainings { get; set; }
+        public IList<InternshipPointModel> InternshipPoints { get; set; }
 
         public IndexViewModel() { }
-        public IndexViewModel(PaginationLogic pager, DataSet interns, IReadOnlyList<TrainingModel> trainings, IReadOnlyList<OrganizationModel> organizations, IReadOnlyList<DepartmentModel> departments, IReadOnlyList<InternshipPointModel> internshippoints)
+        public IndexViewModel(PaginationLogic pager, DataSet interns, IList<TrainingModel> trainings, IList<OrganizationModel> organizations, IList<DepartmentModel> departments, IList<InternshipPointModel> internshippoints)
         {
             Pager = pager;
             Interns = interns;
@@ -23,11 +23,6 @@ namespace Internship.Web
             Organizations = organizations;
             Departments = departments;
             InternshipPoints = internshippoints;
-        }
-
-        public string CheckPageActive(int page)
-        {
-            return page == Pager.CurrentPage ? "active" : "";
         }
 
         #region Intern Property
@@ -45,6 +40,11 @@ namespace Internship.Web
         public int TrainingId { get; set; }
 
         #endregion End Intern Property
-    }
 
+
+        public string CheckPageActive(int page)
+        {
+            return page == Pager.CurrentPage ? "active" : "";
+        }
+    }
 }

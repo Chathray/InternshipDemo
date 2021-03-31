@@ -64,6 +64,7 @@ function SetModalData(obj) {
 }
 
 function InternEvaluate(iid) {
+
     $.confirm({
         title: false,
         content: `<!-- Body -->
@@ -75,7 +76,7 @@ function InternEvaluate(iid) {
         <div class="col-md-4 ms-auto">
             <!-- Quantity Counter -->
             <div class="js-quantity-counter input-group-quantity-counter">
-                <input type="number" class="js-result form-control input-group-quantity-counter-control" value="5" min="0" max="10">
+                <input id="techpoint" type="number" class="js-result form-control input-group-quantity-counter-control" min="0" max="10">
 
                 <div class="input-group-quantity-counter-toggle">
                     <a class="js-minus input-group-quantity-counter-btn" href="javascript:;">
@@ -95,7 +96,7 @@ function InternEvaluate(iid) {
         <div class="col-md-4 ms-auto">
             <!-- Quantity Counter -->
             <div class="js-quantity-counter input-group-quantity-counter">
-                <input type="number" class="js-result form-control input-group-quantity-counter-control" value="5" min="0" max="10">
+                <input id="softpoint"  type="number" class="js-result form-control input-group-quantity-counter-control" min="0" max="10">
 
                 <div class="input-group-quantity-counter-toggle">
                     <a class="js-minus input-group-quantity-counter-btn" href="javascript:;">
@@ -115,7 +116,7 @@ function InternEvaluate(iid) {
         <div class="col-md-4 ms-auto">
             <!-- Quantity Counter -->
             <div class="js-quantity-counter input-group-quantity-counter">
-                <input type="number" class="js-result form-control input-group-quantity-counter-control" value="5" min="0" max="10">
+                <input id="attipoint" type="number" class="js-result form-control input-group-quantity-counter-control" min="0" max="10">
 
                 <div class="input-group-quantity-counter-toggle">
                     <a class="js-minus input-group-quantity-counter-btn" href="javascript:;">
@@ -136,10 +137,59 @@ function InternEvaluate(iid) {
         useBootstrap: false,
         onOpenBefore: function () {
             $.getScript('/js/snips/quantity-counter.js');
+        },
+        onContentReady: function () {
+            $.get("home/getinternshippoint", { id: iid })
+                .done(function (data) {
+                    if (data == null) return;
+                    var t = JSON.parse(JSON.stringify(data))
+
+                    $('#techpoint').val(t.technicalSkill)
+                    $('#softpoint').val(t.softSkill)
+                    $('#attipoint').val(t.attitude)
+                });
+        },
+        buttons:
+        {
+            Mark: {
+                btnClass: 'btn-soft-success',
+                action: function () {
+                    var values = {
+                        "InternId": iid,
+                        "SoftSkill": $('#softpoint').val(),
+                        "Attitude": $('#attipoint').val(),
+                        "TechnicalSkill": $('#techpoint').val(),
+                    }
+
+                    $.post("home/evaluateintern", { model: values })
+                        .done(function (data) {
+                            $.alert({
+                                title: 'Alert!',
+                                content: 'Result: ' + data,
+                                buttons:
+                                {
+                                    OK: {
+                                        text: 'Close',
+                                        action: function () {
+                                            refreshPoint();
+                                        }
+                                    },
+                                }
+                            });
+                        });
+                }
+            },
+            Cancel: function () { }
         }
     });
 }
 
+
+function refreshPoint() {
+    $.get("home/getpointscount", function(data) {
+        $('#point-count').html(data);
+    });
+}
 
 function CreateTraining() {
     $.confirm({
@@ -232,9 +282,12 @@ function CreateTraining() {
                     var traName = $('#crtrainingLabel').val()
                     var traData = JSON.stringify(quill.getContents())
 
-                    $.post("home/internleave", { id: iid })
+                    $.post("home/inserttraining", { model: { 'TraName': traName, 'TraData': traData } })
                         .done(function (data) {
-
+                            alert("Result: " + data);
+                        })
+                        .fail(function () {
+                            alert("Error");
                         });
                 }
             },
@@ -360,7 +413,7 @@ $(document).on('ready', function () {
             }).done(function (o) {
                 $.ajax({
                     method: "POST",
-                    url: "home/getinternjoined",
+                    url: "calendar/getinternjoined",
                     data: { internId: internId }
                 }).done(function (msg) {
 
@@ -483,9 +536,12 @@ $(document).on('ready', function () {
                 <td data-field="phone">${parsedJSON[i].orgPhone}</td>
                 <td data-field="address">${parsedJSON[i].orgAddress}</td>
                 <td>
-                    <button type="button" class="js-edit btn btn-soft-danger btn-icon btn-sm">
+                    <button type="button" class="js-edit btn btn-soft-info btn-icon btn-xs">
                         <i class="tio-edit js-edit-icon"></i>
                     </button>
+                    <button id="removeorg" type="button" class="ml-2 btn btn-soft-danger btn-icon btn-xs">
+                        <i class="tio-remove js-remove-icon"></i>
+                    </button>                  
                 </td>
                 </tr>`);
             }
@@ -493,7 +549,7 @@ $(document).on('ready', function () {
             if (!orgtable)
                 orgtable = $.HSCore.components.HSDatatables.init($('#orgtable'));
 
-            $.getScript('/js/snips/table-edits.js');
+            $.getScript('/js/snips/org-table-edits.js');
             $('#orgModal').modal('show');
         });
     });
@@ -515,8 +571,11 @@ $(document).on('ready', function () {
                 <td data-field="name">${parsedJSON[i].depName}</td>
                 <td data-field="location">${parsedJSON[i].depLocation}</td>
                 <td>
-                    <button type="button" class="js-edit btn btn-soft-danger btn-icon btn-sm">
+                    <button type="button" class="js-edit btn btn-soft-info btn-icon btn-xs">
                         <i class="tio-edit js-edit-icon"></i>
+                    </button>                  
+                    <button id="removedep" type="button" class="ml-2 btn btn-soft-danger btn-icon btn-xs">
+                        <i class="tio-remove js-remove-icon"></i>
                     </button>                  
                 </td>
                 </tr>`);
@@ -525,7 +584,7 @@ $(document).on('ready', function () {
             if (!deptable)
                 deptable = $.HSCore.components.HSDatatables.init($('#deptable'));
 
-            $.getScript('/js/snips/table-edits.js');
+            $.getScript('/js/snips/dep-table-edits.js');
             $('#depModal').modal('show');
         });
     });
@@ -541,8 +600,12 @@ $(document).on('ready', function () {
             url: "home/getinternshippoints",
         }).done(function (json) {
             var parsedJSON = JSON.parse(JSON.stringify(json))
+            var color;
 
             for (var i = 0; i < parsedJSON.length; i++) {
+                if (parsedJSON[i].passed) color = 'badge-soft-success';
+                else color = 'badge-soft-danger';
+
                 items.push(`<tr data-id="${parsedJSON[i].internId}">
                 <td data-field="index">${parsedJSON[i].internId}</td>
                 <td data-field="techskill">${parsedJSON[i].technicalSkill}</td>
@@ -550,11 +613,14 @@ $(document).on('ready', function () {
                 <td data-field="attitude">${parsedJSON[i].attitude}</td>
                 <td data="score"><i class="tio-star text-warning mr-1"></i> ${parsedJSON[i].score}</td>
                 <td data="passed">
-                    <span class="badge badge-soft-success p-1">${parsedJSON[i].passed}</span
+                    <span class="badge ${color} p-1">${parsedJSON[i].passed}</span
                 </td>
                 <td>
-                    <button type="button" class="js-edit btn btn-soft-danger btn-icon btn-sm">
+                    <button type="button" class="js-edit btn btn-soft-info btn-icon btn-xs">
                         <i class="tio-edit js-edit-icon"></i>
+                    </button>                  
+                    <button id="removepoi" type="button" class="ml-2 btn btn-soft-danger btn-icon btn-xs">
+                        <i class="tio-remove js-remove-icon"></i>
                     </button>                  
                 </td>
                 </tr>`);
@@ -563,8 +629,56 @@ $(document).on('ready', function () {
             if (!poitable)
                 poitable = $.HSCore.components.HSDatatables.init($('#poitable'));
 
-            $.getScript('/js/snips/table-edits.js');
+            $.getScript('/js/snips/poi-table-edits.js');
             $('#poiModal').modal('show');
         });
     });
+
+    $(document).on("click", '#removedep', function (e) {
+        var tr = $(this).closest('tr');
+        var id = tr.attr("data-id");
+
+        $.post("home/deletedepartment", {
+            id: id
+        }).done(function (data) {
+            alert("Result: " + data);
+            tr.remove()
+
+        }).fail(function () {
+            alert("Error");
+        });
+    });
+
+
+    $(document).on("click", '#removeorg', function (e) {
+        var tr = $(this).closest('tr');
+        var id = tr.attr("data-id");
+
+        $.post("home/deleteorganization", {
+            id: id
+        }).done(function (data) {
+            alert("Result: " + data);
+            tr.remove()
+
+        }).fail(function () {
+            alert("Error");
+        });
+    });
+
+
+    $(document).on("click", '#removepoi', function (e) {
+        var tr = $(this).closest('tr');
+        var id = tr.attr("data-id");
+
+        $.post("home/deletepoint", {
+            id: id
+        }).done(function (data) {
+            alert("Result: " + data);
+            tr.remove()
+            refreshPoint()
+        }).fail(function () {
+            alert("Error");
+        });
+    });
 });
+

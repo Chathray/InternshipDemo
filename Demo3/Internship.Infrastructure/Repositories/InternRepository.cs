@@ -77,6 +77,7 @@ namespace Internship.Infrastructure
             return _provider
                 .ExecuteNonQuery($"CALL UpdateIntern(" +
                         $"'{model.InternId}', " +
+
                         $"'{model.Email}', " +
                         $"'{model.Phone}', " +
                         $"'{model.FirstName}', " +

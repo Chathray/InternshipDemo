@@ -1,14 +1,12 @@
-﻿using Internship.Infrastructure;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Internship.Application
 {
     public interface IEventService
     {
-        Task<IReadOnlyList<EventModel>> GetAllAsync();
-        Task<int> GetCountAsync();
+        IList<EventModel> GetAll();
+        int GetCount();
 
         DataTable GetEventsIntern();
         string GetJson();

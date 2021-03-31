@@ -37,7 +37,7 @@ CREATE TABLE `departments` (
 
 LOCK TABLES `departments` WRITE;
 /*!40000 ALTER TABLE `departments` DISABLE KEYS */;
-INSERT INTO `departments` VALUES (1,'TMA Innovation Park','Quy Nhon City'),(2,'LAB 3','Ho Chi Minh City'),(3,'LAB 4','Ho Chi Minh City'),(4,'LAB 5','Ho Chi Minh City'),(5,'LAB 6','Ho Chi Minh City'),(6,'LAB 8','Ho Chi Minh City'),(7,'LAB 12','Ho Chi Minh City');
+INSERT INTO `departments` VALUES (1,'TMA Innovation Park','Quy Nhon City'),(4,'LAB 5','Ho Chi Minh City'),(5,'LAB 6','Ho Chi Minh City'),(6,'LAB 8','Ho Chi Minh City'),(7,'LAB 12','Ho Chi Minh City');
 /*!40000 ALTER TABLE `departments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,7 +72,7 @@ CREATE TABLE `events` (
   CONSTRAINT `FK_Events_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `users` (`UserId`),
   CONSTRAINT `FK_Events_EventTypes_Type` FOREIGN KEY (`Type`) REFERENCES `eventtypes` (`Type`),
   CONSTRAINT `FK_Events_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -81,7 +81,6 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (1,'Leo núi Vũng Chua','Holidays','fullcalendar-custom-event-holidays','2021-03-28','2021-03-29',1,'2021-03-22 03:28:28',NULL,NULL,'everyday','[{\"iid\": 3, \"src\": \"/img/intern.svg\", \"value\": \"Ly Tran Quang\"}, {\"iid\": 5, \"src\": \"/img/intern.svg\", \"value\": \"Do Tran Quang\"}, {\"iid\": 9, \"src\": \"/img/intern.svg\", \"value\": \"Ba Loc Dao\"}]','Quy Nhon','OK','/img/event.svg'),(2,'Hoàn thành khoá luận tốt nghiệp','Tasks','fullcalendar-custom-event-tasks','2021-03-01','2021-03-2',1,'2021-03-22 03:52:55',NULL,'2021-03-25 09:54:23','weekdays','[{\"iid\": 2, \"src\": \"/img/intern.svg\", \"value\": \"Y Tran Quang\"}]','Quy Nhon','OK','/img/event.svg'),(3,'1','Holidays','fullcalendar-custom-event-holidays','2021-03-01','2021-03-02',1,'2021-03-29 04:00:45',NULL,'2021-03-29 04:00:45','everyday','[{\"iid\": 3, \"src\": \"/img/intern.svg\", \"value\": \"Ly Tran Quang\"}]','','','/img/event.svg'),(4,'2','Reminders','fullcalendar-custom-event-reminders','2021-03-01','2021-03-02',1,'2021-03-29 04:00:58',NULL,'2021-03-29 04:00:58','everyday','[{\"iid\": 3, \"src\": \"/img/intern.svg\", \"value\": \"Ly Tran Quang\"}]','','','/img/event.svg');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,7 +145,7 @@ CREATE TABLE `interns` (
   CONSTRAINT `FK_Interns_Organization` FOREIGN KEY (`OrganizationId`) REFERENCES `organizations` (`OrganizationId`),
   CONSTRAINT `FK_Interns_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`),
   CONSTRAINT `PK_Intern_Training` FOREIGN KEY (`TrainingId`) REFERENCES `trainings` (`TrainingId`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +154,7 @@ CREATE TABLE `interns` (
 
 LOCK TABLES `interns` WRITE;
 /*!40000 ALTER TABLE `interns` DISABLE KEYS */;
-INSERT INTO `interns` VALUES (1,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(2,'ngotran@t','Y','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:41:01','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(3,'ngotran@t','Ly','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(4,'ngotran@t','Tam','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-03-30 06:30:09','/img/intern.svg','09545845',1,1),(5,'ngotran@t','Do','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:59:57','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(6,'ngotran@t','An','Tran LUY','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-03-30 06:30:09','/img/intern.svg','09545845',1,5),(7,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 01:05:50','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(9,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-03-30 06:30:09','/img/intern.svg','09545845',1,4),(11,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-03-30 06:30:09','/img/intern.svg','4343',1,7),(12,'ngotran@t','An','Riu','female','2021-03-03','20/20/0202 - 20/20/0202',0,'Full time',1,NULL,'2021-03-29 10:29:19','2021-03-30 06:30:09','/img/intern.svg','+09 545 845',1,7);
+INSERT INTO `interns` VALUES (1,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(2,'ngotran@t','Y','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:41:01','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(3,'ngotran@t','Ly','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(4,'ngotran@t','Tam','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-03-30 06:30:09','/img/intern.svg','09545845',1,1),(5,'ngotran@t','Do','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:59:57','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(6,'ngotran@t','Tan','Tran Thien','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-03-31 02:33:57','/img/intern.svg','09545845',1,5),(7,'ngotran@t','An','Tran Yen','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-03-31 03:22:46','/img/intern.svg','4343',1,1),(9,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-03-30 06:30:09','/img/intern.svg','09545845',1,4),(11,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-03-30 06:30:09','/img/intern.svg','4343',1,7),(13,'chithachnguyen@outlook.co','Thach','Nguyen','male','2021-03-31','20/20/0202 - 20/20/0202',1,'Full time',1,NULL,'2021-03-31 02:36:26','2021-03-31 02:36:26','/img/intern.svg','+09 545 845',7,6),(14,'admin@xf','Thach','Tran Yen','male','2021-03-03','20/20/0202 - 20/20/0202',0,'Full time',1,NULL,'2021-03-31 03:23:11','2021-03-31 03:23:11','/img/intern.svg','+09 545 845',1,5),(15,'chithachnguyen@outlook.comuu','Thach','Riu Vi','male','2021-03-03','20/20/0202 - 20/20/0202',0,'Full time',1,NULL,'2021-03-31 03:23:41','2021-03-31 03:23:41','/img/intern.svg','+09 545 845',6,5);
 /*!40000 ALTER TABLE `interns` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,11 +167,11 @@ DROP TABLE IF EXISTS `internshippoints`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `internshippoints` (
   `InternId` int NOT NULL,
-  `TechnicalSkill` decimal(10,2) DEFAULT NULL,
-  `SoftSkill` decimal(10,2) DEFAULT NULL,
-  `Attitude` decimal(10,2) DEFAULT NULL,
-  `Score` decimal(10,2) GENERATED ALWAYS AS ((((`TechnicalSkill` + `SoftSkill`) + `Attitude`) / 3)) STORED,
-  `Passed` enum('true','false') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci GENERATED ALWAYS AS ((`Score` > 5)) STORED,
+  `TechnicalSkill` float(10,2) DEFAULT NULL,
+  `SoftSkill` float(10,2) DEFAULT NULL,
+  `Attitude` float(10,2) DEFAULT NULL,
+  `Score` float(10,2) GENERATED ALWAYS AS ((((`TechnicalSkill` + `SoftSkill`) + `Attitude`) / 3)) STORED,
+  `Passed` tinyint GENERATED ALWAYS AS ((`Score` >= 5)) STORED,
   PRIMARY KEY (`InternId`),
   CONSTRAINT `FK_internshippoints_Intern` FOREIGN KEY (`InternId`) REFERENCES `interns` (`InternId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -184,7 +183,6 @@ CREATE TABLE `internshippoints` (
 
 LOCK TABLES `internshippoints` WRITE;
 /*!40000 ALTER TABLE `internshippoints` DISABLE KEYS */;
-INSERT INTO `internshippoints` (`InternId`, `TechnicalSkill`, `SoftSkill`, `Attitude`) VALUES (1,6.04,6.30,8.00);
 /*!40000 ALTER TABLE `internshippoints` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -211,7 +209,7 @@ CREATE TABLE `organizations` (
 
 LOCK TABLES `organizations` WRITE;
 /*!40000 ALTER TABLE `organizations` DISABLE KEYS */;
-INSERT INTO `organizations` VALUES (1,'Quy Nhon University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156'),(2,'Phu Yen University','18 Trần Phú, Tuy Hòa, Phú Yên, Việt Nam','0257.3842618'),(4,'Pham Van Dong University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156'),(6,'Nha Trang University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156'),(7,'Tay Nguyen University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156');
+INSERT INTO `organizations` VALUES (1,'Quy Nhon University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 16'),(6,'Nha Trang University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156'),(7,'Tay Nguyen University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156');
 /*!40000 ALTER TABLE `organizations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,12 +249,12 @@ DROP TABLE IF EXISTS `trainings`;
 CREATE TABLE `trainings` (
   `TrainingId` int NOT NULL AUTO_INCREMENT,
   `TraName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `TraData` text COLLATE utf8mb4_general_ci NOT NULL,
+  `TraData` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `CreatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreatedBy` int DEFAULT NULL,
   PRIMARY KEY (`TrainingId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -337,7 +335,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EvaluateIntern`(id int, technicalPoint double, softPoint double, attitudePoint double)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EvaluateIntern`(id int, technicalPoint FLOAT(10,2), softPoint FLOAT(10,2), attitudePoint FLOAT(10,2))
 BEGIN
 	INSERT INTO internshippoints (InternId, TechnicalSkill, SoftSkill, Attitude)
     VALUES(id, technicalPoint, softPoint, attitudePoint)
@@ -722,4 +720,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-31  8:01:22
+-- Dump completed on 2021-03-31 17:30:50

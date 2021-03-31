@@ -1,6 +1,5 @@
 ﻿using Internship.Infrastructure;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Internship.Application
 {
@@ -12,15 +11,15 @@ namespace Internship.Application
             _evenTypeRespository = evenTypeRespository;
         }
 
-        public Task<int> GetCountAsync()
+        public int GetCount()
         {
-            return _evenTypeRespository.GetCountAsync();
+            return _evenTypeRespository.GetCount();
         }
 
-        public Task<IReadOnlyList<EventTypeModel>> GetAllAsync()
+        public IList<EventTypeModel> GetAll()
         {
-            var dep = _evenTypeRespository.GetAllAsync();
-            var model = ObjectMapper.Mapper.Map<Task<IReadOnlyList<EventTypeModel>>>(dep);
+            var dep = _evenTypeRespository.GetAll();
+            var model = ObjectMapper.Mapper.Map<IList<EventType>, IList<EventTypeModel>>(dep);
             return model;
         }
     }

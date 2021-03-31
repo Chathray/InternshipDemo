@@ -21,5 +21,11 @@ namespace Internship.Infrastructure
             return _context.Trainings
                  .Single(b => b.TrainingId == trainingId);
         }
+
+        public bool InsertTraining(Training obj)
+        {
+            _context.Trainings.Add(obj);
+            return _context.SaveChanges() > 0;
+        }
     }
 }

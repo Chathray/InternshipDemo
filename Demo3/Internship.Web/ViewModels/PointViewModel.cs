@@ -1,12 +1,15 @@
-﻿namespace Internship.Application
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Internship.Web
 {
-    public class InternshipPointModel
+    public class PointViewModel
     {
         public int InternId { get; set; }
         public float TechnicalSkill { get; set; }
         public float SoftSkill { get; set; }
         public float Attitude { get; set; }
-        public float Score { get; set; }
-        public bool Passed { get; set; }
     }
 }

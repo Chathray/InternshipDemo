@@ -1,6 +1,5 @@
 ﻿using Internship.Infrastructure;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Internship.Application
 {
@@ -12,21 +11,27 @@ namespace Internship.Application
             _trainingRespository = trainingRespository;
         }
 
-        public Task<IReadOnlyList<TrainingModel>> GetAllAsync()
+        public IList<TrainingModel> GetAll()
         {
-            var tra = _trainingRespository.GetAllAsync();
-            return ObjectMapper.Mapper.Map<Task<IReadOnlyList<TrainingModel>>>(tra);
+            var tra = _trainingRespository.GetAll();
+            return ObjectMapper.Mapper.Map<IList<Training>, IList<TrainingModel>>(tra);
         }
 
-        public Task<int> GetCountAsync()
+        public int GetCount()
         {
-            return _trainingRespository.GetCountAsync();
+            return _trainingRespository.GetCount();
         }
 
         public TrainingModel GetTrainingByIntern(int trainingId)
         {
             var obj = _trainingRespository.GetTrainingByIntern(trainingId);
             return ObjectMapper.Mapper.Map<TrainingModel>(obj);
+        }
+
+        public bool InsertTraining(TrainingModel model)
+        {
+            var obj = ObjectMapper.Mapper.Map<Training>(model);
+            return _trainingRespository.InsertTraining(obj);
         }
     }
 }

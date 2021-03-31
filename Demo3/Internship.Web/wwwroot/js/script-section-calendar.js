@@ -24,15 +24,6 @@
     });
 
 
-
-    // INITIALIZATION OF SELECT2
-    // =======================================================
-    $('.js-select2-custom').each(function () {
-        var select2 = $.HSCore.components.HSSelect2.init($(this));
-    });
-
-
-
     // INITIALIZATION OF FILE ATTACH
     // =======================================================
     $('.js-file-attach').each(function () {
@@ -243,7 +234,7 @@
 
         events:
         {
-            url: '/home/getevents',
+            url: '/calendar/getevents',
             method: 'POST',
             failure: function () {
                 alert('There was an error while fetching events!');

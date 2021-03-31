@@ -8,6 +8,9 @@ namespace Internship.Web
     {
         public AutoMapperProfile()
         {
+            CreateMap<IndexViewModel, InternModel>();
+            CreateMap<CalendarViewModel, EventModel>();
+            CreateMap<PointViewModel, InternshipPointModel>();
 
             CreateMap<UserViewModel, UserModel>()
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.RegiterPassword))

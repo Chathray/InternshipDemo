@@ -1,4 +1,4 @@
-﻿@model EventViewModel
+﻿@model CalendarViewModel
 @section Scripts{
     <script src="/js/script-section-calendar.js"></script>
 }
@@ -172,7 +172,7 @@
 <!-- Modal -->
 <div class="modal fade" id="addEventToCalendarModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <form id="create-event" asp-controller="Home" asp-action="CreateEvent">
+        <form id="create-event" asp-controller="Calendar" asp-action="CreateEvent">
             <div class="modal-content">
                 <!-- Header -->
                 <div class="modal-close">

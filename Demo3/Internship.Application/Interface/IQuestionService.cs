@@ -1,12 +1,10 @@
-﻿using Internship.Infrastructure;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Internship.Application
 {
     public interface IQuestionService
     {
-        Task<IReadOnlyList<QuestionModel>> GetAllAsync();
-        Task<int> GetCountAsync();
+        IList<QuestionModel> GetAll();
+        int GetCount();
     }
 }

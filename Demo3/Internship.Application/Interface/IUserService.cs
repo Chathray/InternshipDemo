@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Internship.Application
 {
     public interface IUserService
     {
-        Task<IReadOnlyList<UserModel>> GetAllAsync();
-        Task<int> GetCountAsync();
+        IList<UserModel> GetAll();
+        int GetCount();
 
         UserModel Authenticate(string loginEmail, string loginPassword);
         UserModel GetById(int userId);

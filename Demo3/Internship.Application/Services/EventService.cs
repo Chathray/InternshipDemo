@@ -1,7 +1,6 @@
 ﻿using Internship.Infrastructure;
 using System.Collections.Generic;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Internship.Application
 {
@@ -13,15 +12,15 @@ namespace Internship.Application
             _eventRespository = eventRespository;
         }
 
-        public Task<IReadOnlyList<EventModel>> GetAllAsync()
+        public IList<EventModel> GetAll()
         {
-            var even= _eventRespository.GetAllAsync();
-            return ObjectMapper.Mapper.Map<Task<IReadOnlyList<EventModel>>>(even);
+            var even = _eventRespository.GetAll();
+            return ObjectMapper.Mapper.Map<IList<Event>, IList<EventModel>>(even);
         }
 
-        public Task<int> GetCountAsync()
+        public int GetCount()
         {
-            return _eventRespository.GetCountAsync();
+            return _eventRespository.GetCount();
         }
 
         public DataTable GetEventsIntern()
@@ -63,7 +62,7 @@ namespace Internship.Application
                     break;
             }
             aEvent.ClassName = model.Type;
-            
+
             return _eventRespository.InsertEvent(aEvent);
         }
     }

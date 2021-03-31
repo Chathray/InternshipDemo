@@ -20,15 +20,13 @@ namespace Internship.Web
 
         private readonly IInternService _internService;
         private readonly ITrainingService _trainingService;
-        private readonly IEventService _eventService;
-        private readonly IEventTypeService _eventTypeService;
         private readonly IQuestionService _questionService;
         private readonly IDepartmentService _departmentService;
         private readonly IOrganizationService _organizationService;
         private readonly IUserService _userService;
         private readonly IInternshipPointService _pointService;
 
-        public HomeController(ILogger<HomeController> logger, IInternService internService, ITrainingService trainingService, IDepartmentService departmentService, IOrganizationService organizationService, IMapper mapper, IUserService userService, IEventService eventService, IEventTypeService eventTypeService, IQuestionService questionService, IInternshipPointService pointService)
+        public HomeController(ILogger<HomeController> logger, IInternService internService, ITrainingService trainingService, IDepartmentService departmentService, IOrganizationService organizationService, IMapper mapper, IUserService userService, IQuestionService questionService, IInternshipPointService pointService)
         {
             _logger = logger;
             _mapper = mapper;
@@ -37,8 +35,6 @@ namespace Internship.Web
             _departmentService = departmentService;
             _organizationService = organizationService;
             _userService = userService;
-            _eventService = eventService;
-            _eventTypeService = eventTypeService;
             _questionService = questionService;
             _pointService = pointService;
         }
@@ -58,15 +54,15 @@ namespace Internship.Web
         {
             ViewData["page-1"] = "active";
 
-            var total = _internService.GetCountAsync();
-            var pagination = new PaginationLogic(sort, total.Result, page, size);
+            var total = _internService.GetCount();
+            var pagination = new PaginationLogic(sort, total, page, size);
 
             var m = new IndexViewModel(pagination,
-                _internService.GetInternModelList(pagination.CurrentPage, pagination.PageSize, sort, search_on, search_string),
-                _trainingService.GetAllAsync().Result,
-                _organizationService.GetAllAsync().Result,
-                _departmentService.GetAllAsync().Result,
-                _pointService.GetAllAsync().Result);
+                _internService.GetInternByPage(pagination.CurrentPage, pagination.PageSize, sort, search_on, search_string),
+                _trainingService.GetAll(),
+                _organizationService.GetAll(),
+                _departmentService.GetAll(),
+                _pointService.GetAll());
 
             ViewData["tracount"] = m.Trainings.Count;
             ViewData["orgcount"] = m.Organizations.Count;
@@ -103,7 +99,7 @@ namespace Internship.Web
 
             try
             {
-                _logger.LogInformation(Dump(intern));
+                _logger.LogInformation(DataExtensions.Dump(intern));
                 _internService.UpdateIntern(intern);
             }
             catch (AppException)
@@ -114,7 +110,7 @@ namespace Internship.Web
             return Redirect("/");
         }
 
-        [HttpGet]
+        [HttpGet("/Contact")]
         public IActionResult Contact()
         {
             ViewData["page-4"] = "active";
@@ -122,29 +118,12 @@ namespace Internship.Web
             return View();
         }
 
-        [AcceptVerbs("GET")]
+        [HttpGet("/Question")]
         public IActionResult Question()
         {
             ViewData["page-3"] = "active";
 
-            var model = _questionService.GetAllAsync();
-
-            return View(model);
-        }
-
-        [AcceptVerbs("GET")]
-        public IActionResult Calendar()
-        {
-            ViewData["page-2"] = "active";
-
-
-            var guests = _internService.GetAllAsync().Result;
-            var eventype = _eventTypeService.GetAllAsync().Result;
-
-            var model = new EventViewModel(eventype, guests)
-            {
-                Creator = ViewBag.fullname
-            };
+            var model = _questionService.GetAll();
 
             return View(model);
         }
@@ -155,48 +134,95 @@ namespace Internship.Web
             return _internService.RemoveIntern(id);
         }
 
-        [AcceptVerbs("POST")]
-        public IActionResult CreateEvent(EventViewModel model)
-        {
-            var even = _mapper.Map<EventModel>(model);
-            even.CreatedBy = int.Parse(ViewBag.id);
 
-            var ok = _eventService.InsertEvent(even);
-
-            if (!ok) Response.StatusCode = -1;
-
-            return RedirectToAction("Calendar");
-        }
-
-        [AllowAnonymous]
         [HttpPost]
-        public string GetEvents()
+        public bool EvaluateIntern(PointViewModel model)
         {
-            return _eventService.GetJson();
+            var mark = _mapper.Map<InternshipPointModel>(model);
+            return _pointService.EvaluateIntern(mark);
         }
 
-        [AllowAnonymous]
+
+        [HttpPost]
+        public bool InsertTraining(TrainingModel model)
+        {
+            model.CreatedBy = int.Parse(ViewBag.id);
+            return _trainingService.InsertTraining(model);
+        }
+
+
         [HttpGet]
         public IActionResult GetOrganizations()
         {
-            return Ok(_organizationService.GetAllAsync());
+            return Ok(_organizationService.GetAll());
         }
 
-        [AllowAnonymous]
+        [HttpPost]
+        public bool UpdateOrganization(OrganizationModel model)
+        {
+            return _organizationService.UpdateOrganization(model);
+        }
+
+
+        [HttpPost]
+        public bool DeleteOrganization(int id)
+        {
+            return _organizationService.DeleteOrganization(id);
+        }
+
+
         [HttpGet]
         public IActionResult GetDepartments()
         {
-            return Ok(_departmentService.GetAllAsync());
+            return Ok(_departmentService.GetAll());
         }
 
-        [AllowAnonymous]
+        [HttpPost]
+        public bool UpdateDepartment(DepartmentModel model)
+        {
+            return _departmentService.UpdateDepartment(model);
+        }
+
+        [HttpPost]
+        public bool DeleteDepartment(int id)
+        {
+            return _departmentService.DeleteDepartment(id);
+        }
+
+
         [HttpGet]
         public IActionResult GetInternshipPoints()
         {
-            return Ok(_pointService.GetAllAsync());
+            return Ok(_pointService.GetAll());
         }
 
-        [AllowAnonymous]
+        [HttpPost]
+        public bool UpdatePoint(InternshipPointModel model)
+        {
+            return _pointService.UpdatePoint(model);
+        }
+
+
+        [HttpPost]
+        public bool DeletePoint(int id)
+        {
+            return _pointService.DeletePoint(id);
+        }
+
+
+
+        [HttpGet]
+        public IActionResult GetInternshipPoint(int id)
+        {
+            return Json(_pointService.GetPoint(id));
+        }
+
+        [HttpGet]
+        public int GetPointsCount()
+        {
+            return _pointService.GetCount();
+        }
+
         [HttpPost("Home/GetInternInfo")]
         [HttpPost("GetInternInfo/{id}")]
         public string GetInternInfo(int id)
@@ -204,47 +230,16 @@ namespace Internship.Web
             return _internService.GetInternInfo(id);
         }
 
-        [AllowAnonymous]
         [HttpPost("Home/GetInternDetail")]
         public string GetInternDetail(int id)
         {
             return _internService.GetInternDetail(id);
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        public string GetInternJoined(int internId)
-        {
-            var data = _eventService.GetEventsIntern();
-            JArray array = new();
-
-            foreach (DataRow i in data.Rows)
-            {
-                var json = i["Joined"].ToString().Split(',', '[', ']', ' ');
-
-                foreach (var token in json)
-                {
-                    //_logger.LogInformation(token + ", " + iid);
-                    if (token == internId.ToString())
-                    {
-                        array.Add(new JValue(i["Title"]));
-                        break;
-                    }
-                }
-            }
-            return array.ToString();
-        }
-
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public static string Dump(object anObject)
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(anObject);
         }
     }
 }

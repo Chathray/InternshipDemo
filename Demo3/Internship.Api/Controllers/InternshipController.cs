@@ -46,8 +46,8 @@ namespace Internship.Api
         [HttpGet("GetPage/{page},{size}")]
         public IActionResult GetPage(int page, int size, string sort = "Index")
         {
-            var total = _internService.GetCountAsync();
-            var pagination = new PaginationLogic(sort, total.Result, page, size);
+            var total = _internService.GetCount();
+            var pagination = new PaginationLogic(sort, total, page, size);
 
             return Ok(
                 _internService.GetInternByPage(
@@ -56,23 +56,23 @@ namespace Internship.Api
         }
 
         [HttpGet("GetDepartments")]
-        public async Task<IActionResult> GetDepartmentsAsync()
+        public  IActionResult GetDepartments()
         {
-            var obj = await _departmentService.GetAllAsync();
+            var obj =  _departmentService.GetAll();
             return Ok(obj);
         }
 
         [HttpGet("GetOrganizations")]
-        public async Task<IActionResult> GetOrganizationsAsync()
+        public  IActionResult GetOrganizations()
         {
-            var obj = await _organizationService.GetAllAsync();
+            var obj =  _organizationService.GetAll();
             return Ok(obj);
         }
 
         [HttpGet("GetUsers")]
-        public async Task<IActionResult> GetUsersAsync()
+        public  IActionResult GetUsers()
         {
-            var obj = await _userService.GetAllAsync();
+            var obj =  _userService.GetAll();
             return Ok(obj);
         }
 

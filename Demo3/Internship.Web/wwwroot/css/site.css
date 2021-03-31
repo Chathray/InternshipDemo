@@ -26695,12 +26695,15 @@ body {
 }
 
     body::-webkit-scrollbar {
+        -webkit-appearance: none;
         width: .5125rem;
         height: .5125rem
     }
 
     body::-webkit-scrollbar-thumb {
-        background-color: rgba(189,197,209,.6)
+        border-radius: 8px;
+        border: 2px solid white; /* should match background, can't be transparent */
+        background-color: rgba(0, 0, 0, .5);
     }
 
 .table-responsive {
@@ -26710,9 +26713,12 @@ body {
 }
 
     .table-responsive::-webkit-scrollbar {
-        height: .4825rem
+        height: .5125rem
     }
 
     .table-responsive::-webkit-scrollbar-thumb {
-        background-color: rgba(189,197,209,.6)
+        border-radius: 8px;
+        border: 2px solid white; /* should match background, can't be transparent */
+        background-color: rgba(0, 0, 0, .5);
     }
+

@@ -1,12 +1,12 @@
-﻿using Internship.Infrastructure;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Internship.Application
 {
     public interface IOrganizationService
     {
-        Task<IReadOnlyList<OrganizationModel>> GetAllAsync();
-        Task<int> GetCountAsync();
+        IList<OrganizationModel> GetAll();
+        int GetCount();
+        bool UpdateOrganization(OrganizationModel model);
+        bool DeleteOrganization(int id);
     }
 }

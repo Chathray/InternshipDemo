@@ -43,25 +43,26 @@ namespace Internship.Web
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUserRepository, UserRespository>();
             services.AddScoped<IInternRepository, InternRespository>();
+            services.AddScoped<IInternshipPointRepository, InternshipPointRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<ITrainingRepository, TrainingRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
-            services.AddScoped<IQuestionRepository, QuestionRepository>();
-            services.AddScoped<IInternshipPointRepository, InternshipPointRepository>();
             services.AddScoped<IEventTypeRepository, EventTypeRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
 
-            services.AddAutoMapper(typeof(Startup)); // Add AutoMapper
+            // Add AutoMapper
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<DataContext>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IInternService, InternService>();
+            services.AddScoped<IInternshipPointService, InternshipPointService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IOrganizationService, OrganizationService>();
             services.AddScoped<ITrainingService, TrainingService>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IEventTypeService, EventTypeService>();
-            services.AddScoped<IInternshipPointService, InternshipPointService>();
             services.AddScoped<IQuestionService, QuestionService>();
 
             MySqlConnection connection = new(connectionString);

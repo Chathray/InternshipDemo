@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Internship.Infrastructure
 {
-    [JsonConverter(typeof(WhitelistSerializer))]
     [Table("Interns")]
     public class Intern : EntityBase
     {
@@ -44,33 +43,5 @@ namespace Internship.Infrastructure
 
         [ForeignKey("TrainingId")]
         public Training Trainings { get; set; }
-    }
-
-    public class WhitelistSerializer : JsonConverter
-    {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var name = value as Intern;
-            writer.WriteStartObject();
-
-            writer.WritePropertyName("iid");
-            serializer.Serialize(writer, name.InternId);
-            writer.WritePropertyName("src");
-            serializer.Serialize(writer, name.Avatar);
-            writer.WritePropertyName("value");
-            serializer.Serialize(writer, name.FirstName + " " + name.LastName);
-
-            writer.WriteEndObject();
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(User).IsAssignableFrom(objectType);
-        }
     }
 }

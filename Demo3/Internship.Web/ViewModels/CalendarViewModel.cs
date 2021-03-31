@@ -4,17 +4,17 @@ using System.Collections.Generic;
 
 namespace Internship.Web
 {
-    public class EventViewModel
+    public class CalendarViewModel
     {
-        public EventViewModel() { }
-        public EventViewModel(IReadOnlyList<EventTypeModel> eventtypes, IReadOnlyList<InternModel> interns)
+        public CalendarViewModel() { }
+        public CalendarViewModel(IList<EventTypeModel> eventtypes, IList<InternModel> interns)
         {
             EvenTypes = eventtypes;
             Interns = interns;
         }
          
-        public IReadOnlyList<EventTypeModel> EvenTypes { get; set; }
-        public IReadOnlyList<InternModel> Interns { get; set; }
+        public IList<EventTypeModel> EvenTypes { get; set; }
+        public IList<InternModel> Interns { get; set; }
 
         public string Creator { get; set; }
 

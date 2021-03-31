@@ -24,7 +24,7 @@ namespace Internship.Infrastructure
             return _context.Set<T>().Count();
         }
 
-        public async Task<IReadOnlyList<T>> GetAllAsync()
+        public async Task<IList<T>> GetAllAsync()
         {
             return await _context.Set<T>().ToListAsync();
         }

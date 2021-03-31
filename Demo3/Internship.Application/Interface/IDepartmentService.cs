@@ -1,13 +1,12 @@
-﻿using Internship.Infrastructure;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Internship.Application
 {
     public interface IDepartmentService
     {
-        Task<IReadOnlyList<DepartmentModel>> GetAllAsync();
-        Task<int> GetCountAsync();
-
+        IList<DepartmentModel> GetAll();
+        int GetCount();
+        bool UpdateDepartment(DepartmentModel model);
+        bool DeleteDepartment(int id);
     }
 }

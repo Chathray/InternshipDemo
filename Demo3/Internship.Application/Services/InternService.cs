@@ -1,6 +1,6 @@
 ﻿using Internship.Infrastructure;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Data;
 
 namespace Internship.Application
 {
@@ -12,21 +12,20 @@ namespace Internship.Application
             _internRespository = internRespository;
         }
 
-        public Task<IReadOnlyList<InternModel>> GetAllAsync()
+        public IList<InternModel> GetAll()
         {
-            var obj= _internRespository.GetAllAsync();
-            return ObjectMapper.Mapper.Map<Task<IReadOnlyList<InternModel>>>(obj);
+            var obj = _internRespository.GetAll();
+            return ObjectMapper.Mapper.Map<IList<Intern>, IList<InternModel>>(obj);
         }
 
-        public Task<int> GetCountAsync()
+        public int GetCount()
         {
-            return _internRespository.GetCountAsync();
+            return _internRespository.GetCount();
         }
 
-        public IList<InternModel> GetInternByPage(int page, int size)
+        public DataSet GetInternByPage(int currentPage, int pageSize, int sort, int search_on, string search_string)
         {
-            var obj =  _internRespository.GetInternByPage(page, size);
-            return ObjectMapper.Mapper.Map<IList<InternModel>>(obj);
+            return _internRespository.GetInternModelList(currentPage, pageSize, sort, search_on, search_string);
         }
 
         public IList<InternListModel> GetInternByPage(int page, int size, string sort)
@@ -51,6 +50,12 @@ namespace Internship.Application
             return DataExtensions.ConvertDataTable<InternListModel>(dt);
         }
 
+        public IList<InternModel> GetInternByPage(int page, int size)
+        {
+            var obj = _internRespository.GetInternByPage(page, size);
+            return ObjectMapper.Mapper.Map<IList<InternModel>>(obj);
+        }
+
         public string GetInternInfo(int id)
         {
             return _internRespository.GetInternInfo(id);
@@ -60,6 +65,10 @@ namespace Internship.Application
         {
             return _internRespository.GetInternDetail(id);
         }
+        public bool RemoveIntern(int id)
+        {
+            return _internRespository.RemoveIntern(id);
+        }
 
         public bool InsertIntern(InternModel model)
         {
@@ -67,20 +76,10 @@ namespace Internship.Application
             return _internRespository.InsertIntern(intern);
         }
 
-        public bool RemoveIntern(int id)
-        {
-            return _internRespository.RemoveIntern(id);
-        }
-
         public bool UpdateIntern(InternModel model)
         {
             var intern = ObjectMapper.Mapper.Map<Intern>(model);
             return _internRespository.UpdateIntern(intern);
-        }
-
-        public System.Data.DataSet GetInternModelList(int currentPage, int pageSize, int sort, int search_on, string search_string)
-        {
-            return _internRespository.GetInternModelList(currentPage, pageSize, sort, search_on, search_string);
         }
     }
 }

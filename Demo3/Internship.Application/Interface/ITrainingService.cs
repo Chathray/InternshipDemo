@@ -1,13 +1,12 @@
-﻿using Internship.Infrastructure;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Internship.Application
 {
     public interface ITrainingService
     {
-        Task<IReadOnlyList<TrainingModel>> GetAllAsync();
-        Task<int> GetCountAsync();
+        IList<TrainingModel> GetAll();
+        int GetCount();
         TrainingModel GetTrainingByIntern(int trainingId);
+        bool InsertTraining(TrainingModel model);
     }
 }
