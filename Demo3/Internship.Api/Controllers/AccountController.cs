@@ -100,12 +100,5 @@ namespace Internship.Api
             var obj =  _userService.GetAll();
             return Ok(obj);
         }
-
-        [HttpGet("TotalUser")]
-        public  IActionResult TotalUser()
-        {
-            var obj =  _userService.GetCount();
-            return Ok(obj);
-        }
     }
 }

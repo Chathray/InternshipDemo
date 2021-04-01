@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
+using System.Data;
+using System.Data.Common;
 
 namespace Internship.Web
 {
@@ -43,7 +45,7 @@ namespace Internship.Web
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUserRepository, UserRespository>();
             services.AddScoped<IInternRepository, InternRespository>();
-            services.AddScoped<IInternshipPointRepository, InternshipPointRepository>();
+            services.AddScoped<IPointRepository, PointRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<ITrainingRepository, TrainingRepository>();
@@ -51,13 +53,15 @@ namespace Internship.Web
             services.AddScoped<IEventTypeRepository, EventTypeRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
 
-            // Add AutoMapper
+            // Add AutoMapper and DapperProvider
             services.AddAutoMapper(typeof(Startup));
+            services.AddScoped(typeof(DapperProvider<>));
+
 
             services.AddScoped<DataContext>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IInternService, InternService>();
-            services.AddScoped<IInternshipPointService, InternshipPointService>();
+            services.AddScoped<IPointService, PointService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
             services.AddScoped<IOrganizationService, OrganizationService>();
             services.AddScoped<ITrainingService, TrainingService>();
@@ -66,8 +70,7 @@ namespace Internship.Web
             services.AddScoped<IQuestionService, QuestionService>();
 
             MySqlConnection connection = new(connectionString);
-            DataProvider provider = new(connection);
-            services.AddScoped(p => provider);
+            services.AddTransient<DataProvider>(p => new(connection));
         }
 
 

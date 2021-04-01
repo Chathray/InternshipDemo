@@ -1,4 +1,4 @@
-﻿function InternLeave(iid) {
+﻿function InternLeave(iid, btn) {
 
     $.confirm({
         title: 'Delete',
@@ -9,7 +9,7 @@
         {
             Yes: {
                 action: function () {
-                    $.post("home/internleave", { id: iid })
+                    $.post("home/deleteintern", { id: iid })
                         .done(function (data) {
                             $.alert({
                                 title: 'Alert!',
@@ -17,13 +17,17 @@
                                 buttons:
                                 {
                                     OK: {
-                                        text: 'Reload',
+                                        text: 'Refresh',
                                         action: function () {
-                                            window.location = '/';
+                                            var tr = btn.closest('tr')
+                                            tr.remove()
+                                            refreshInternCount()
                                         }
                                     },
                                 }
                             });
+                        }).fail(function () {
+                            alert("Error");
                         });
                 }
             },
@@ -76,7 +80,7 @@ function InternEvaluate(iid) {
         <div class="col-md-4 ms-auto">
             <!-- Quantity Counter -->
             <div class="js-quantity-counter input-group-quantity-counter">
-                <input id="techpoint" type="number" class="js-result form-control input-group-quantity-counter-control" min="0" max="10">
+                <input id="techpoint" type="number" class="js-result form-control input-group-quantity-counter-control" min="0" value="0" max="10">
 
                 <div class="input-group-quantity-counter-toggle">
                     <a class="js-minus input-group-quantity-counter-btn" href="javascript:;">
@@ -96,7 +100,7 @@ function InternEvaluate(iid) {
         <div class="col-md-4 ms-auto">
             <!-- Quantity Counter -->
             <div class="js-quantity-counter input-group-quantity-counter">
-                <input id="softpoint"  type="number" class="js-result form-control input-group-quantity-counter-control" min="0" max="10">
+                <input id="softpoint"  type="number" class="js-result form-control input-group-quantity-counter-control" min="0" value="0" max="10">
 
                 <div class="input-group-quantity-counter-toggle">
                     <a class="js-minus input-group-quantity-counter-btn" href="javascript:;">
@@ -116,7 +120,7 @@ function InternEvaluate(iid) {
         <div class="col-md-4 ms-auto">
             <!-- Quantity Counter -->
             <div class="js-quantity-counter input-group-quantity-counter">
-                <input id="attipoint" type="number" class="js-result form-control input-group-quantity-counter-control" min="0" max="10">
+                <input id="attipoint" type="number" class="js-result form-control input-group-quantity-counter-control" min="0" value="0" max="10">
 
                 <div class="input-group-quantity-counter-toggle">
                     <a class="js-minus input-group-quantity-counter-btn" href="javascript:;">
@@ -139,7 +143,7 @@ function InternEvaluate(iid) {
             $.getScript('/js/snips/quantity-counter.js');
         },
         onContentReady: function () {
-            $.get("home/getinternshippoint", { id: iid })
+            $.get("home/getpoint", { id: iid })
                 .done(function (data) {
                     if (data == null) return;
                     var t = JSON.parse(JSON.stringify(data))
@@ -171,7 +175,7 @@ function InternEvaluate(iid) {
                                     OK: {
                                         text: 'Close',
                                         action: function () {
-                                            refreshPoint();
+                                            refreshPointCount();
                                         }
                                     },
                                 }
@@ -185,9 +189,29 @@ function InternEvaluate(iid) {
 }
 
 
-function refreshPoint() {
-    $.get("home/getpointscount", function(data) {
-        $('#point-count').html(data);
+function refreshInternCount() {
+    $.get("countbyindex/4", function (data) {
+        $('#interns-count').html(data);
+    });
+}
+function refreshPointCount() {
+    $.get("countbyindex/6", function (data) {
+        $('#points-count').html(data);
+    });
+}
+function refreshTrainingCount() {
+    $.get("countbyindex/8", function (data) {
+        $('#trainings-count').html(data);
+    });
+}
+function refreshDepartmentCount() {
+    $.get("countbyindex/1", function (data) {
+        $('#departments-count').html(data);
+    });
+}
+function refreshOrganizationCount() {
+    $.get("countbyindex/5", function (data) {
+        $('#organizations-count').html(data);
     });
 }
 
@@ -284,7 +308,8 @@ function CreateTraining() {
 
                     $.post("home/inserttraining", { model: { 'TraName': traName, 'TraData': traData } })
                         .done(function (data) {
-                            alert("Result: " + data);
+                            alert("Result: " + data)
+                            refreshTrainingCount()
                         })
                         .fail(function () {
                             alert("Error");
@@ -294,6 +319,7 @@ function CreateTraining() {
         }
     });
 }
+
 
 $(document).on('ready', function () {
 
@@ -338,6 +364,10 @@ $(document).on('ready', function () {
     $('.js-select2-custom').each(function () {
         var select2 = $.HSCore.components.HSSelect2.init($(this));
     });
+
+    // INITIALIZATION OF QUILLJS EDITOR
+    // =======================================================
+    var quill = $.HSCore.components.HSQuill.init('.js-quill-modal-eg');
 
 
     // INITIALIZATION OF FLATPICKR
@@ -591,13 +621,13 @@ $(document).on('ready', function () {
 
 
 
-    ////////////  INTERNSHIPPOINTS
+    ////////////  POINTS
     $(document).on("click", '#point-now', function (e) {
         var items = []
 
         $.ajax({
             method: "GET",
-            url: "home/getinternshippoints",
+            url: "home/getpoints",
         }).done(function (json) {
             var parsedJSON = JSON.parse(JSON.stringify(json))
             var color;
@@ -634,6 +664,17 @@ $(document).on('ready', function () {
         });
     });
 
+
+    ////////////  POINTS
+    $(document).on("click", '#training-now', function (e) {
+
+        $('#traModal').modal('show');
+
+    });
+
+
+
+
     $(document).on("click", '#removedep', function (e) {
         var tr = $(this).closest('tr');
         var id = tr.attr("data-id");
@@ -643,7 +684,7 @@ $(document).on('ready', function () {
         }).done(function (data) {
             alert("Result: " + data);
             tr.remove()
-
+            refreshDepartmentCount()
         }).fail(function () {
             alert("Error");
         });
@@ -659,7 +700,7 @@ $(document).on('ready', function () {
         }).done(function (data) {
             alert("Result: " + data);
             tr.remove()
-
+            refreshOrganizationCount()
         }).fail(function () {
             alert("Error");
         });
@@ -675,7 +716,7 @@ $(document).on('ready', function () {
         }).done(function (data) {
             alert("Result: " + data);
             tr.remove()
-            refreshPoint()
+            refreshPointCount()
         }).fail(function () {
             alert("Error");
         });

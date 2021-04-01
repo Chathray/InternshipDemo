@@ -8,8 +8,10 @@ namespace Internship.Infrastructure
     {
         [Key]
         public int TrainingId { get; set; }
+
+        public int? CreatedBy { get; set; }
+
         public string TraName { get; set; }
         public string TraData { get; set; }
-        public int? CreatedBy { get; set; }
     }
 }

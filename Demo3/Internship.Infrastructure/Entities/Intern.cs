@@ -21,11 +21,6 @@ namespace Internship.Infrastructure
         // This foreign key not be null in model, but can null in DB
         // Exception: 'Data is Null. This method or property cannot be called on Null values.'
         public int? UpdatedBy { get; set; }
-
-        [DisplayFormat(ConvertEmptyStringToNull = true)]
-        public string UpdatedDate { get; set; }
-        [DisplayFormat(ConvertEmptyStringToNull = true)]
-        public string CreatedDate { get; set; }
         public string Duration { get; set; }
         public string Type { get; set; }
         public int DepartmentId { get; set; }

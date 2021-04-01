@@ -5,6 +5,6 @@ namespace Internship.Application
     public interface IQuestionService
     {
         IList<QuestionModel> GetAll();
-        int GetCount();
+
     }
 }

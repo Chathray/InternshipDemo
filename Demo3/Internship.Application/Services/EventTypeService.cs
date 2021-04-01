@@ -11,11 +11,6 @@ namespace Internship.Application
             _evenTypeRespository = evenTypeRespository;
         }
 
-        public int GetCount()
-        {
-            return _evenTypeRespository.GetCount();
-        }
-
         public IList<EventTypeModel> GetAll()
         {
             var dep = _evenTypeRespository.GetAll();

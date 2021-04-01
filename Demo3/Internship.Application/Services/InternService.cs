@@ -18,10 +18,6 @@ namespace Internship.Application
             return ObjectMapper.Mapper.Map<IList<Intern>, IList<InternModel>>(obj);
         }
 
-        public int GetCount()
-        {
-            return _internRespository.GetCount();
-        }
 
         public DataSet GetInternByPage(int currentPage, int pageSize, int sort, int search_on, string search_string)
         {
@@ -65,7 +61,7 @@ namespace Internship.Application
         {
             return _internRespository.GetInternDetail(id);
         }
-        public bool RemoveIntern(int id)
+        public bool DeleteIntern(int id)
         {
             return _internRespository.RemoveIntern(id);
         }

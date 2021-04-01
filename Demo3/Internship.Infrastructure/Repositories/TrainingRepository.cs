@@ -19,13 +19,17 @@ namespace Internship.Infrastructure
                 .Single(b => b.InternId == id).TrainingId;
 
             return _context.Trainings
-                 .Single(b => b.TrainingId == trainingId);
+                .Single(b => b.TrainingId == trainingId);
         }
 
         public bool InsertTraining(Training obj)
         {
             _context.Trainings.Add(obj);
             return _context.SaveChanges() > 0;
+
+            //return _provider.ExecuteNonQuery($"CALL InsertTraining(" +
+            //    $"'{obj.TraName}'," +
+            //    $"'{obj.TraData}')");
         }
     }
 }

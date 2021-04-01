@@ -14,7 +14,7 @@ namespace Internship.Infrastructure
         public DbSet<EventType> EventTypes { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Organization> Organizations { get; set; }
-        public DbSet<InternshipPoint> InternshipPoints { get; set; }
+        public DbSet<Point> Points { get; set; }
         public DbSet<Training> Trainings { get; set; }
     }
 }

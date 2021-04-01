@@ -6,12 +6,12 @@ namespace Internship.Infrastructure
     public class UserRespository : Repository<User>, IUserRepository
     {
         private readonly DataContext _context;
-        private readonly DataProvider _provider;
+        private readonly DapperProvider<User> _dapper;
 
-        public UserRespository(DataContext context, DataProvider provider) : base(context)
+        public UserRespository(DataContext context, DapperProvider<User> dapper) : base(context)
         {
             _context = context;
-            _provider = provider;
+            _dapper = dapper;
         }
 
         public User GetById(int userId)
@@ -24,7 +24,7 @@ namespace Internship.Infrastructure
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _context.Users.SingleOrDefault(x => x.Email == email);
+            var user = _dapper.QuerySingle($"SELECT * FROM users WHERE email = '{email}'");
 
             // check if username exists
             if (user is null)
@@ -49,11 +49,11 @@ namespace Internship.Infrastructure
 
             user.PasswordHash = BC.HashPassword(password);
 
-            return _provider.ExecuteNonQuery($"CALL InsertUser(" +
-                $"'{user.FirstName}', " +
-                $"'{user.LastName}', " +
-                $"'{user.Email}', " +
-                $"'{user.PasswordHash}')");
+            return _dapper.Excute($@"CALL InsertUser(
+                '{user.Email}', 
+                '{user.FirstName}', 
+                '{user.LastName}', 
+                '{user.PasswordHash}')");
         }
     }
 }

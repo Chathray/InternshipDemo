@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Internship.Infrastructure
@@ -8,6 +9,8 @@ namespace Internship.Infrastructure
         public Task<IList<T>> GetAllAsync();
         public Task<int> GetCountAsync();
         public IList<T> GetAll();
-        public int GetCount();
+        public bool Update(T obj);
+        public int Count(Type type);
+        public int CountByIndex(int stt);
     }
 }

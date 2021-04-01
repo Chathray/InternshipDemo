@@ -10,7 +10,7 @@ namespace Internship.Web
         {
             CreateMap<IndexViewModel, InternModel>();
             CreateMap<CalendarViewModel, EventModel>();
-            CreateMap<PointViewModel, InternshipPointModel>();
+            CreateMap<PointViewModel, PointModel>();
 
             CreateMap<UserViewModel, UserModel>()
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.RegiterPassword))

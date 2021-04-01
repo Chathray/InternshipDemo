@@ -23,7 +23,6 @@ $('.js-editable-table tbody tr').editable({
             }
         }).done(function (data) {
             alert("Result: " + data);
-
         }).fail(function () {
             alert("Error");
         });

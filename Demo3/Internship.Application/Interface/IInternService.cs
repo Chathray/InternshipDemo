@@ -6,10 +6,10 @@ namespace Internship.Application
     public interface IInternService
     {
         IList<InternModel> GetAll();
-        int GetCount();
+
 
         public bool InsertIntern(InternModel model);
-        public bool RemoveIntern(int id);
+        public bool DeleteIntern(int id);
         public bool UpdateIntern(InternModel model);
         public string GetInternInfo(int id);
         public string GetInternDetail(int id);

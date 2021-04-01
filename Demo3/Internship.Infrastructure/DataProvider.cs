@@ -20,9 +20,9 @@ namespace Internship.Infrastructure
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                MySqlCommand command = new MySqlCommand(query, conn);
-                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                DataTable data = new DataTable();
+                MySqlCommand command = new(query, conn);
+                MySqlDataAdapter adapter = new(command);
+                DataTable data = new();
                 adapter.Fill(data);
                 return data;
             }
@@ -39,9 +39,9 @@ namespace Internship.Infrastructure
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                MySqlCommand command = new MySqlCommand(query, conn);
-                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                DataSet data = new DataSet();
+                MySqlCommand command = new(query, conn);
+                MySqlDataAdapter adapter = new(command);
+                DataSet data = new();
                 adapter.Fill(data);
                 return data;
             }
@@ -60,7 +60,7 @@ namespace Internship.Infrastructure
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                MySqlCommand command = new MySqlCommand(query, conn);
+                MySqlCommand command = new(query, conn);
                 int ok = command.ExecuteNonQuery();
 
                 conn.Close();
@@ -79,7 +79,7 @@ namespace Internship.Infrastructure
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
-                MySqlCommand command = new MySqlCommand(query, conn);
+                MySqlCommand command = new(query, conn);
                 return command.ExecuteScalar();
             }
             catch (Exception)

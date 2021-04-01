@@ -35,10 +35,10 @@ namespace Internship.Web
         {
             base.OnActionExecuting(context);
 
-            ViewBag.email = User.Claims.ElementAt(0).Value;
-            ViewBag.fullname = User.Claims.ElementAt(1).Value;
-            ViewBag.status = User.Claims.ElementAt(2).Value;
-            ViewBag.id = User.Claims.ElementAt(3).Value;
+            ViewBag.id = User.Claims.ElementAt(0).Value;
+            ViewBag.email = User.Claims.ElementAt(1).Value;
+            ViewBag.fullname = User.Claims.ElementAt(2).Value;
+            ViewBag.status = User.Claims.ElementAt(3).Value;
         }
 
         [HttpGet("/Calendar")]

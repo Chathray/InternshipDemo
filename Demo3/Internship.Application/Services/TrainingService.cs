@@ -17,11 +17,6 @@ namespace Internship.Application
             return ObjectMapper.Mapper.Map<IList<Training>, IList<TrainingModel>>(tra);
         }
 
-        public int GetCount()
-        {
-            return _trainingRespository.GetCount();
-        }
-
         public TrainingModel GetTrainingByIntern(int trainingId)
         {
             var obj = _trainingRespository.GetTrainingByIntern(trainingId);

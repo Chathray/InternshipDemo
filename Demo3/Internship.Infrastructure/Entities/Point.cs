@@ -3,11 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Internship.Infrastructure
 {
-    [Table("InternshipPoints")]
-    public class InternshipPoint:EntityBase
+    [Table("Points")]
+    public class Point:EntityBase
     {
         [Key]
         public int InternId { get; set; }
+        public int Marker { get; set; }
         public float TechnicalSkill { get; set; }
         public float SoftSkill { get; set; }
         public float Attitude { get; set; }

@@ -17,10 +17,6 @@ namespace Internship.Application
             return ObjectMapper.Mapper.Map<IList<Organization>, IList<OrganizationModel>>(org);
         }
 
-        public int GetCount()
-        {
-            return _organizationRespository.GetCount();
-        }
 
         public bool UpdateOrganization(OrganizationModel model)
         {

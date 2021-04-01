@@ -6,7 +6,7 @@ namespace Internship.Application
     public interface IEventService
     {
         IList<EventModel> GetAll();
-        int GetCount();
+
 
         DataTable GetEventsIntern();
         string GetJson();

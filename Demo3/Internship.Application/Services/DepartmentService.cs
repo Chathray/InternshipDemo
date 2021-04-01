@@ -19,15 +19,11 @@ namespace Internship.Application
             return model;
         }
 
-        public int GetCount()
-        {
-            return _departmentRespository.GetCount();
-        }
-
         public bool UpdateDepartment(DepartmentModel model)
         {
             var obj = ObjectMapper.Mapper.Map<Department>(model);
-            return _departmentRespository.Update(obj);        }
+            return _departmentRespository.Update(obj);
+        }
 
         public bool DeleteDepartment(int id)
         {

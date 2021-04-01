@@ -1,8 +1,9 @@
 ﻿namespace Internship.Application
 {
-    public class InternshipPointModel
+    public class PointModel
     {
         public int InternId { get; set; }
+        public int Marker { get; set; }
         public float TechnicalSkill { get; set; }
         public float SoftSkill { get; set; }
         public float Attitude { get; set; }

@@ -19,11 +19,5 @@ namespace Internship.Infrastructure
             _context.Remove(obj);
             return _context.SaveChanges() > 0;
         }
-
-        public bool Update(Organization obj)
-        {
-            _context.Organizations.Update(obj);
-            return _context.SaveChanges() > 0;
-        }
     }
 }

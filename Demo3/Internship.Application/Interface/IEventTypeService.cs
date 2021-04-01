@@ -5,6 +5,6 @@ namespace Internship.Application
     public interface IEventTypeService
     {
         IList<EventTypeModel> GetAll();
-        int GetCount();
+
     }
 }

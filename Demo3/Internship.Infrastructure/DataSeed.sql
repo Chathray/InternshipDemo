@@ -26,6 +26,8 @@ CREATE TABLE `departments` (
   `DepartmentId` int NOT NULL AUTO_INCREMENT,
   `DepName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `DepLocation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`DepartmentId`),
   UNIQUE KEY `Name_UNIQUE` (`DepName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -37,7 +39,7 @@ CREATE TABLE `departments` (
 
 LOCK TABLES `departments` WRITE;
 /*!40000 ALTER TABLE `departments` DISABLE KEYS */;
-INSERT INTO `departments` VALUES (1,'TMA Innovation Park','Quy Nhon City'),(4,'LAB 5','Ho Chi Minh City'),(5,'LAB 6','Ho Chi Minh City'),(6,'LAB 8','Ho Chi Minh City'),(7,'LAB 12','Ho Chi Minh City');
+INSERT INTO `departments` VALUES (1,'TMA Innovation Park','Quy Nhon City','2021-04-01 01:37:49','2021-04-01 01:37:49'),(2,'LAB 5','Ho Chi Minh City','2021-04-01 01:37:49','2021-04-01 08:52:44'),(3,'LAB 6','Ho Chi Minh City','2021-04-01 01:37:49','2021-04-01 08:52:44'),(4,'LAB 12','Ho Chi Minh City','2021-04-01 01:37:49','2021-04-01 08:52:44');
 /*!40000 ALTER TABLE `departments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,6 +97,8 @@ CREATE TABLE `eventtypes` (
   `Type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `ClassName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `Color` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`Type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -105,7 +109,7 @@ CREATE TABLE `eventtypes` (
 
 LOCK TABLES `eventtypes` WRITE;
 /*!40000 ALTER TABLE `eventtypes` DISABLE KEYS */;
-INSERT INTO `eventtypes` VALUES ('Holidays','fullcalendar-custom-event-holidays','warning'),('Personal','fullcalendar-custom-event-hs-team','primary'),('Reminders','fullcalendar-custom-event-reminders','danger'),('Tasks','fullcalendar-custom-event-tasks','success');
+INSERT INTO `eventtypes` VALUES ('Holidays','fullcalendar-custom-event-holidays','warning','2021-04-01 02:36:30','2021-04-01 02:36:30'),('Personal','fullcalendar-custom-event-hs-team','primary','2021-04-01 02:36:30','2021-04-01 02:36:30'),('Reminders','fullcalendar-custom-event-reminders','danger','2021-04-01 02:36:30','2021-04-01 02:36:30'),('Tasks','fullcalendar-custom-event-tasks','success','2021-04-01 02:36:30','2021-04-01 02:36:30');
 /*!40000 ALTER TABLE `eventtypes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,17 +139,18 @@ CREATE TABLE `interns` (
   `OrganizationId` int DEFAULT NULL,
   `DepartmentId` int DEFAULT NULL,
   PRIMARY KEY (`InternId`),
+  UNIQUE KEY `Email_UNIQUE` (`Email`),
   KEY `FK_Events_Mentor_idx` (`Mentor`),
   KEY `FK_Interns_UpdatedBy_idx` (`UpdatedBy`),
   KEY `FK_Interns_DepartmentId_idx` (`DepartmentId`),
   KEY `FK_Interns_OrganizationId_idx` (`OrganizationId`),
   KEY `PK_Interns_TrainingId_idx` (`TrainingId`),
-  CONSTRAINT `FK_Interns_Created` FOREIGN KEY (`Mentor`) REFERENCES `users` (`UserId`),
-  CONSTRAINT `FK_Interns_Department` FOREIGN KEY (`DepartmentId`) REFERENCES `departments` (`DepartmentId`),
-  CONSTRAINT `FK_Interns_Organization` FOREIGN KEY (`OrganizationId`) REFERENCES `organizations` (`OrganizationId`),
-  CONSTRAINT `FK_Interns_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`),
-  CONSTRAINT `PK_Intern_Training` FOREIGN KEY (`TrainingId`) REFERENCES `trainings` (`TrainingId`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  CONSTRAINT `FK_Interns_Created` FOREIGN KEY (`Mentor`) REFERENCES `users` (`UserId`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_Interns_Department` FOREIGN KEY (`DepartmentId`) REFERENCES `departments` (`DepartmentId`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_Interns_Organization` FOREIGN KEY (`OrganizationId`) REFERENCES `organizations` (`OrganizationId`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_Interns_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`) ON UPDATE CASCADE,
+  CONSTRAINT `PK_Intern_Training` FOREIGN KEY (`TrainingId`) REFERENCES `trainings` (`TrainingId`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,36 +159,8 @@ CREATE TABLE `interns` (
 
 LOCK TABLES `interns` WRITE;
 /*!40000 ALTER TABLE `interns` DISABLE KEYS */;
-INSERT INTO `interns` VALUES (1,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(2,'ngotran@t','Y','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:41:01','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(3,'ngotran@t','Ly','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(4,'ngotran@t','Tam','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-03-30 06:30:09','/img/intern.svg','09545845',1,1),(5,'ngotran@t','Do','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:59:57','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(6,'ngotran@t','Tan','Tran Thien','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-03-31 02:33:57','/img/intern.svg','09545845',1,5),(7,'ngotran@t','An','Tran Yen','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-03-31 03:22:46','/img/intern.svg','4343',1,1),(9,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-03-30 06:30:09','/img/intern.svg','09545845',1,4),(11,'ngotran@t','An','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-03-30 06:30:09','/img/intern.svg','4343',1,7),(13,'chithachnguyen@outlook.co','Thach','Nguyen','male','2021-03-31','20/20/0202 - 20/20/0202',1,'Full time',1,NULL,'2021-03-31 02:36:26','2021-03-31 02:36:26','/img/intern.svg','+09 545 845',7,6),(14,'admin@xf','Thach','Tran Yen','male','2021-03-03','20/20/0202 - 20/20/0202',0,'Full time',1,NULL,'2021-03-31 03:23:11','2021-03-31 03:23:11','/img/intern.svg','+09 545 845',1,5),(15,'chithachnguyen@outlook.comuu','Thach','Riu Vi','male','2021-03-03','20/20/0202 - 20/20/0202',0,'Full time',1,NULL,'2021-03-31 03:23:41','2021-03-31 03:23:41','/img/intern.svg','+09 545 845',6,5);
+INSERT INTO `interns` VALUES (1,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(3,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-01 08:53:20','/img/intern.svg','4343',2,1),(4,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-01 08:53:20','/img/intern.svg','09545845',3,1),(6,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-01 08:53:20','/img/intern.svg','09545845',1,3);
 /*!40000 ALTER TABLE `interns` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `internshippoints`
---
-
-DROP TABLE IF EXISTS `internshippoints`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `internshippoints` (
-  `InternId` int NOT NULL,
-  `TechnicalSkill` float(10,2) DEFAULT NULL,
-  `SoftSkill` float(10,2) DEFAULT NULL,
-  `Attitude` float(10,2) DEFAULT NULL,
-  `Score` float(10,2) GENERATED ALWAYS AS ((((`TechnicalSkill` + `SoftSkill`) + `Attitude`) / 3)) STORED,
-  `Passed` tinyint GENERATED ALWAYS AS ((`Score` >= 5)) STORED,
-  PRIMARY KEY (`InternId`),
-  CONSTRAINT `FK_internshippoints_Intern` FOREIGN KEY (`InternId`) REFERENCES `interns` (`InternId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `internshippoints`
---
-
-LOCK TABLES `internshippoints` WRITE;
-/*!40000 ALTER TABLE `internshippoints` DISABLE KEYS */;
-/*!40000 ALTER TABLE `internshippoints` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -198,6 +175,8 @@ CREATE TABLE `organizations` (
   `OrgName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `OrgAddress` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `OrgPhone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`OrganizationId`),
   UNIQUE KEY `Name_UNIQUE` (`OrgName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -209,8 +188,45 @@ CREATE TABLE `organizations` (
 
 LOCK TABLES `organizations` WRITE;
 /*!40000 ALTER TABLE `organizations` DISABLE KEYS */;
-INSERT INTO `organizations` VALUES (1,'Quy Nhon University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 16'),(6,'Nha Trang University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156'),(7,'Tay Nguyen University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156');
+INSERT INTO `organizations` VALUES (1,'Quy Nhon University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 16','2021-04-01 01:36:54','2021-04-01 01:36:54'),(2,'Nha Trang University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156','2021-04-01 01:36:54','2021-04-01 08:50:39'),(3,'Tay Nguyen University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156','2021-04-01 01:36:54','2021-04-01 08:50:39');
 /*!40000 ALTER TABLE `organizations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `points`
+--
+
+DROP TABLE IF EXISTS `points`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `points` (
+  `InternId` int NOT NULL,
+  `Marker` int DEFAULT NULL,
+  `TechnicalSkill` decimal(4,2) DEFAULT NULL,
+  `SoftSkill` decimal(4,2) DEFAULT NULL,
+  `Attitude` decimal(4,2) DEFAULT NULL,
+  `Score` decimal(4,2) GENERATED ALWAYS AS ((((`TechnicalSkill` + `SoftSkill`) + `Attitude`) / 3)) STORED,
+  `Passed` tinyint GENERATED ALWAYS AS ((`Score` >= 5)) STORED,
+  `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`InternId`),
+  KEY `FK_marker_user_idx` (`Marker`),
+  CONSTRAINT `FK_marker_user` FOREIGN KEY (`Marker`) REFERENCES `users` (`UserId`),
+  CONSTRAINT `FK_points_Interns` FOREIGN KEY (`InternId`) REFERENCES `interns` (`InternId`) ON DELETE CASCADE,
+  CONSTRAINT `CHK_Attit` CHECK (((`Attitude` >= 0) and (`Attitude` <= 10))),
+  CONSTRAINT `CHK_Soft` CHECK (((`SoftSkill` >= 0) and (`SoftSkill` <= 10))),
+  CONSTRAINT `CHK_Tech` CHECK (((`TechnicalSkill` >= 0) and (`TechnicalSkill` <= 10)))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `points`
+--
+
+LOCK TABLES `points` WRITE;
+/*!40000 ALTER TABLE `points` DISABLE KEYS */;
+INSERT INTO `points` (`InternId`, `Marker`, `TechnicalSkill`, `SoftSkill`, `Attitude`, `CreatedDate`, `UpdatedDate`) VALUES (1,9,9.60,7.00,7.00,'2021-04-01 09:36:26','2021-04-01 09:36:53'),(3,9,1.00,1.00,3.00,'2021-04-01 09:04:19','2021-04-01 09:04:19'),(4,9,10.00,7.00,7.00,'2021-04-01 07:21:23','2021-04-01 09:02:52');
+/*!40000 ALTER TABLE `points` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -225,6 +241,8 @@ CREATE TABLE `questions` (
   `Group` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `InData` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `OutData` varchar(5000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`QuestionId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -235,7 +253,7 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,'Recruit','Cho em hỏi TMA phỏng vấn tiếng Anh hay tiếng Việt?','Bên mình sẽ phỏng vấn cả tiếng Anh và tiếng Việt nha bạn.'),(2,'Recruit','Anh/chị cho em hỏi nếu test tiếng Anh ở công ty thì đề thi như thế nào ạ? Bao lâu sẽ có kết quả?','Chào bạn, đề thi sẽ theo chuẩn đề TOEIC, thông thường kết quả sẽ được thông báo trong vòng 1 tuần, tùy thuộc vào mỗi dự án.'),(3,'Recruit','Em là SV năm cuối (đang làm luận văn), chuyên ngành: Điện tử - Viễn thông, trường: ĐH Bách Khoa Tp. HCM. Em có 2 câu hỏi: TMA có tuyển thực tập sinh không? Nếu có, yêu cầu cụ thể (GPA, Tiếng Anh,...) như thế nào?','TMA thường xuyên tuyển thực tập sinh, sắp tới bên chị sẽ nhận hồ sơ thực tập để chuẩn bị cho đợt thực tập kế tiếp vào tháng 9. Hồ sơ ứng tuyển bao gồm:<ul class=\'mt-3\'><li>CV Tiếng Anh;</li><li> Bảng điểm hoặc bằng Tiếng Anh(nếu có);</li><li> Hình 3x4;</li><li> Giấy giới thiệu thực tập</li></ul> '),(4,'Internship','Ngoại ngữ có yêu cầu cao không Ad?','Nếu em đã có các bằng như (TOEIC, TOEFL, IELTS) tương đương TOEIC 450 trở lên thì không phải làm bài test em nhé.'),(5,'Internship','Test thực tập đầu vào như thế nào chị?','Bài test đầu vào gồm: IQ (25’) và tiếng Anh (nếu em chưa có bằng)'),(6,'Internship','Thời gian thực tập yêu cầu là bao nhiêu vậy Ad?','Thời gian thực tập kéo dài 3 tháng, 2.5 ngày/tuần em à.');
+INSERT INTO `questions` VALUES (1,'Recruit','Cho em hỏi TMA phỏng vấn tiếng Anh hay tiếng Việt?','Bên mình sẽ phỏng vấn cả tiếng Anh và tiếng Việt nha bạn.','2021-04-01 02:36:57','2021-04-01 02:36:57'),(2,'Recruit','Anh/chị cho em hỏi nếu test tiếng Anh ở công ty thì đề thi như thế nào ạ? Bao lâu sẽ có kết quả?','Chào bạn, đề thi sẽ theo chuẩn đề TOEIC, thông thường kết quả sẽ được thông báo trong vòng 1 tuần, tùy thuộc vào mỗi dự án.','2021-04-01 02:36:57','2021-04-01 02:36:57'),(3,'Recruit','Em là SV năm cuối (đang làm luận văn), chuyên ngành: Điện tử - Viễn thông, trường: ĐH Bách Khoa Tp. HCM. Em có 2 câu hỏi: TMA có tuyển thực tập sinh không? Nếu có, yêu cầu cụ thể (GPA, Tiếng Anh,...) như thế nào?','TMA thường xuyên tuyển thực tập sinh, sắp tới bên chị sẽ nhận hồ sơ thực tập để chuẩn bị cho đợt thực tập kế tiếp vào tháng 9. Hồ sơ ứng tuyển bao gồm:<ul class=\'mt-3\'><li>CV Tiếng Anh;</li><li> Bảng điểm hoặc bằng Tiếng Anh(nếu có);</li><li> Hình 3x4;</li><li> Giấy giới thiệu thực tập</li></ul> ','2021-04-01 02:36:57','2021-04-01 02:36:57'),(4,'Internship','Ngoại ngữ có yêu cầu cao không Ad?','Nếu em đã có các bằng như (TOEIC, TOEFL, IELTS) tương đương TOEIC 450 trở lên thì không phải làm bài test em nhé.','2021-04-01 02:36:57','2021-04-01 02:36:57'),(5,'Internship','Test thực tập đầu vào như thế nào chị?','Bài test đầu vào gồm: IQ (25’) và tiếng Anh (nếu em chưa có bằng)','2021-04-01 02:36:57','2021-04-01 02:36:57'),(6,'Internship','Thời gian thực tập yêu cầu là bao nhiêu vậy Ad?','Thời gian thực tập kéo dài 3 tháng, 2.5 ngày/tuần em à.','2021-04-01 02:36:57','2021-04-01 02:36:57');
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -253,8 +271,10 @@ CREATE TABLE `trainings` (
   `CreatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreatedBy` int DEFAULT NULL,
-  PRIMARY KEY (`TrainingId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`TrainingId`),
+  KEY `FK_createdby_user_idx` (`CreatedBy`),
+  CONSTRAINT `FK_createdby_user` FOREIGN KEY (`CreatedBy`) REFERENCES `users` (`UserId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -263,7 +283,7 @@ CREATE TABLE `trainings` (
 
 LOCK TABLES `trainings` WRITE;
 /*!40000 ALTER TABLE `trainings` DISABLE KEYS */;
-INSERT INTO `trainings` VALUES (0,'None','Content','2021-03-30 06:29:34','2021-03-30 06:29:41',NULL),(1,'ASP.NET','Content','2021-03-30 06:22:41','2021-03-30 06:22:56',NULL),(2,'PHP Laravel 8','Content','2021-03-30 06:22:41','2021-03-30 06:22:56',NULL),(3,'Python Flask','Content','2021-03-30 06:22:41','2021-03-30 06:22:56',NULL);
+INSERT INTO `trainings` VALUES (0,'None','','2021-03-30 06:29:34','2021-04-01 08:49:40',NULL);
 /*!40000 ALTER TABLE `trainings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,7 +308,7 @@ CREATE TABLE `users` (
   `Phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`UserId`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +317,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@x','Thang','Huynh','$2a$11$ZwUGQzP5M.gaE/FzHrbGDuNJrWhefvsoiTmyIDowKnhZuXRMBtux6','success','mentor','2021-03-15 03:39:36',NULL,'../img/user.jpg',NULL),(2,'tan@tma','Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','success','admin','2021-03-16 20:43:28','2021-03-22 04:49:25','../img/user.jpg',NULL),(3,'thanh@qnu','Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff','2021-03-17 18:41:37','2021-03-22 05:37:27','../img/user.jpg',NULL),(8,'by@tma','By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','staff','2021-03-17 02:25:34',NULL,'../img/user.jpg',NULL);
+INSERT INTO `users` VALUES (1,'admin@x','Thang','Huynh','$2a$11$ZwUGQzP5M.gaE/FzHrbGDuNJrWhefvsoiTmyIDowKnhZuXRMBtux6','success','mentor','2021-03-15 03:39:36',NULL,'../img/user.jpg',NULL),(2,'tan@tma','Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','success','admin','2021-03-16 20:43:28','2021-03-22 04:49:25','../img/user.jpg',NULL),(3,'thanh@qnu','Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff','2021-03-17 18:41:37','2021-03-22 05:37:27','../img/user.jpg',NULL),(8,'by@tma','By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','staff','2021-03-17 02:25:34',NULL,'../img/user.jpg',NULL),(9,'lany@d','Lan','Nguyen','$2a$11$x/a3sChFcORDLIH/lENZz.FloqsS/Hm61.sIqtTluqXQNBee2.1xC','success','staff','2021-04-01 06:12:41','2021-04-01 06:12:41','../img/user.jpg',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,11 +355,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EvaluateIntern`(id int, technicalPoint FLOAT(10,2), softPoint FLOAT(10,2), attitudePoint FLOAT(10,2))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EvaluateIntern`(id int, marker int, technicalPoint FLOAT(10,2), softPoint FLOAT(10,2), attitudePoint FLOAT(10,2))
 BEGIN
-	INSERT INTO internshippoints (InternId, TechnicalSkill, SoftSkill, Attitude)
-    VALUES(id, technicalPoint, softPoint, attitudePoint)
+	INSERT INTO points (InternId, Marker, TechnicalSkill, SoftSkill, Attitude)
+    VALUES(id, marker, technicalPoint, softPoint, attitudePoint)
     ON DUPLICATE KEY UPDATE
+    Marker = marker,
     TechnicalSkill = technicalPoint,
     SoftSkill = softPoint,
     Attitude = attitudePoint;
@@ -720,4 +741,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-31 17:30:50
+-- Dump completed on 2021-04-01 17:37:07

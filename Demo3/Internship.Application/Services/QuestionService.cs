@@ -17,9 +17,5 @@ namespace Internship.Application
             return ObjectMapper.Mapper.Map<IList<Question>, IList<QuestionModel>>(ques);
         }
 
-        public int GetCount()
-        {
-            return _questionRespository.GetCount();
-        }
     }
 }

@@ -18,11 +18,6 @@ namespace Internship.Application
             return ObjectMapper.Mapper.Map<IList<Event>, IList<EventModel>>(even);
         }
 
-        public int GetCount()
-        {
-            return _eventRespository.GetCount();
-        }
-
         public DataTable GetEventsIntern()
         {
             return _eventRespository.GetEventsIntern();

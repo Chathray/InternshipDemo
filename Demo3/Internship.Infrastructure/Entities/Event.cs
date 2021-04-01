@@ -15,8 +15,6 @@ namespace Internship.Infrastructure
         public string End { get; set; }
         public int CreatedBy { get; set; }
         public int? UpdatedBy { get; set; }
-        public string UpdatedDate { get; set; }
-        public string CreatedDate { get; set; }
         public string GestsField { get; set; }
         public string RepeatField { get; set; }
         public string EventLocationLabel { get; set; }

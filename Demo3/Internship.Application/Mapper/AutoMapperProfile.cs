@@ -6,7 +6,7 @@ namespace Internship.Application
 {
     public class ObjectMapper
     {
-        private static readonly Lazy<IMapper> Lazy = new Lazy<IMapper>(() =>
+        private static readonly Lazy<IMapper> Lazy = new(() =>
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -30,7 +30,7 @@ namespace Internship.Application
                 CreateMap<DepartmentModel, Department>().ReverseMap();
                 CreateMap<OrganizationModel, Organization>().ReverseMap();
                 CreateMap<TrainingModel, Training>().ReverseMap();
-                CreateMap<InternshipPointModel, InternshipPoint>().ReverseMap();
+                CreateMap<PointModel, Point>().ReverseMap();
                 CreateMap<EventTypeModel, EventType>().ReverseMap();
             }
         }

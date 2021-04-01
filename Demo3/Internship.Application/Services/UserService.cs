@@ -27,11 +27,6 @@ namespace Internship.Application
             return model;
         }
 
-        public int GetCount()
-        {
-            return _userRespository.GetCount();
-        }
-
         public UserModel GetById(int userId)
         {
             var user = _userRespository.GetById(userId);
@@ -42,6 +37,11 @@ namespace Internship.Application
         {
             var user = ObjectMapper.Mapper.Map<User>(model);
             return _userRespository.InsertUser(user, model.Password);
+        }
+
+        public int CountByIndex(int stt)
+        {
+            return _userRespository.CountByIndex(stt);
         }
     }
 }

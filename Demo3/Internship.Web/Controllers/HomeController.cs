@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using Internship.Application;
-using Internship.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
-using System.Data;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -24,9 +22,9 @@ namespace Internship.Web
         private readonly IDepartmentService _departmentService;
         private readonly IOrganizationService _organizationService;
         private readonly IUserService _userService;
-        private readonly IInternshipPointService _pointService;
+        private readonly IPointService _pointService;
 
-        public HomeController(ILogger<HomeController> logger, IInternService internService, ITrainingService trainingService, IDepartmentService departmentService, IOrganizationService organizationService, IMapper mapper, IUserService userService, IQuestionService questionService, IInternshipPointService pointService)
+        public HomeController(ILogger<HomeController> logger, IInternService internService, ITrainingService trainingService, IDepartmentService departmentService, IOrganizationService organizationService, IMapper mapper, IUserService userService, IQuestionService questionService, IPointService pointService)
         {
             _logger = logger;
             _mapper = mapper;
@@ -43,10 +41,10 @@ namespace Internship.Web
         {
             base.OnActionExecuting(context);
 
-            ViewBag.email = User.Claims.ElementAt(0).Value;
-            ViewBag.fullname = User.Claims.ElementAt(1).Value;
-            ViewBag.status = User.Claims.ElementAt(2).Value;
-            ViewBag.id = User.Claims.ElementAt(3).Value;
+            ViewBag.id = User.Claims.ElementAt(0).Value;
+            ViewBag.email = User.Claims.ElementAt(1).Value;
+            ViewBag.fullname = User.Claims.ElementAt(2).Value;
+            ViewBag.status = User.Claims.ElementAt(3).Value;
         }
 
         [HttpGet]
@@ -54,7 +52,7 @@ namespace Internship.Web
         {
             ViewData["page-1"] = "active";
 
-            var total = _internService.GetCount();
+            var total = _userService.CountByIndex(4);
             var pagination = new PaginationLogic(sort, total, page, size);
 
             var m = new IndexViewModel(pagination,
@@ -64,10 +62,10 @@ namespace Internship.Web
                 _departmentService.GetAll(),
                 _pointService.GetAll());
 
-            ViewData["tracount"] = m.Trainings.Count;
-            ViewData["orgcount"] = m.Organizations.Count;
-            ViewData["depcount"] = m.Departments.Count;
-            ViewData["poicount"] = m.InternshipPoints.Count;
+            ViewData["trainings.count"] = m.Trainings.Count;
+            ViewData["organizations.count"] = m.Organizations.Count;
+            ViewData["departments.count"] = m.Departments.Count;
+            ViewData["points.count"] = m.Points.Count;
 
             return View(m);
         }
@@ -128,20 +126,15 @@ namespace Internship.Web
             return View(model);
         }
 
-        [HttpPost]
-        public bool InternLeave(int id)
-        {
-            return _internService.RemoveIntern(id);
-        }
 
-
+        #region INSERT
         [HttpPost]
         public bool EvaluateIntern(PointViewModel model)
         {
-            var mark = _mapper.Map<InternshipPointModel>(model);
+            var mark = _mapper.Map<PointModel>(model);
+            mark.Marker = int.Parse(ViewBag.id);
             return _pointService.EvaluateIntern(mark);
         }
-
 
         [HttpPost]
         public bool InsertTraining(TrainingModel model)
@@ -149,78 +142,60 @@ namespace Internship.Web
             model.CreatedBy = int.Parse(ViewBag.id);
             return _trainingService.InsertTraining(model);
         }
+        #endregion
 
 
-        [HttpGet]
-        public IActionResult GetOrganizations()
-        {
-            return Ok(_organizationService.GetAll());
-        }
-
+        #region DELETE
         [HttpPost]
-        public bool UpdateOrganization(OrganizationModel model)
+        public bool DeleteIntern(int id)
         {
-            return _organizationService.UpdateOrganization(model);
+            return _internService.DeleteIntern(id);
         }
-
-
-        [HttpPost]
-        public bool DeleteOrganization(int id)
-        {
-            return _organizationService.DeleteOrganization(id);
-        }
-
-
-        [HttpGet]
-        public IActionResult GetDepartments()
-        {
-            return Ok(_departmentService.GetAll());
-        }
-
-        [HttpPost]
-        public bool UpdateDepartment(DepartmentModel model)
-        {
-            return _departmentService.UpdateDepartment(model);
-        }
-
-        [HttpPost]
-        public bool DeleteDepartment(int id)
-        {
-            return _departmentService.DeleteDepartment(id);
-        }
-
-
-        [HttpGet]
-        public IActionResult GetInternshipPoints()
-        {
-            return Ok(_pointService.GetAll());
-        }
-
-        [HttpPost]
-        public bool UpdatePoint(InternshipPointModel model)
-        {
-            return _pointService.UpdatePoint(model);
-        }
-
-
         [HttpPost]
         public bool DeletePoint(int id)
         {
             return _pointService.DeletePoint(id);
         }
-
-
-
-        [HttpGet]
-        public IActionResult GetInternshipPoint(int id)
+        [HttpPost]
+        public bool DeleteOrganization(int id)
         {
-            return Json(_pointService.GetPoint(id));
+            return _organizationService.DeleteOrganization(id);
         }
-
-        [HttpGet]
-        public int GetPointsCount()
+        [HttpPost]
+        public bool DeleteDepartment(int id)
         {
-            return _pointService.GetCount();
+            return _departmentService.DeleteDepartment(id);
+        }
+        #endregion
+
+
+
+        #region UPDATE
+        [HttpPost]
+        public bool UpdatePoint(PointModel model)
+        {
+            model.Marker = int.Parse(ViewBag.id);
+            return _pointService.UpdatePoint(model);
+        }
+        [HttpPost]
+        public bool UpdateDepartment(DepartmentModel model)
+        {
+            return _departmentService.UpdateDepartment(model);
+        }
+        [HttpPost]
+        public bool UpdateOrganization(OrganizationModel model)
+        {
+            return _organizationService.UpdateOrganization(model);
+        }
+        #endregion
+
+
+
+        #region GET
+        [HttpGet("CountByIndex/{stt}")]
+        public int CountByIndex(int stt)
+        {
+            return _userService.CountByIndex(stt);
         }
 
         [HttpPost("Home/GetInternInfo")]
@@ -235,6 +210,32 @@ namespace Internship.Web
         {
             return _internService.GetInternDetail(id);
         }
+        //_____________________________________________________
+        
+        [HttpGet]
+        public IActionResult GetPoint(int id)
+        {
+            return Json(_pointService.GetPoint(id));
+        }
+        //_____________________________________________________
+        
+        [HttpGet]
+        public IActionResult GetOrganizations()
+        {
+            return Ok(_organizationService.GetAll());
+        }
+        [HttpGet]
+        public IActionResult GetDepartments()
+        {
+            return Ok(_departmentService.GetAll());
+        }
+        [HttpGet]
+        public IActionResult GetPoints()
+        {
+            return Ok(_pointService.GetAll());
+        }
+        #endregion
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

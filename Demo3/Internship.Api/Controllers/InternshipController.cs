@@ -46,7 +46,7 @@ namespace Internship.Api
         [HttpGet("GetPage/{page},{size}")]
         public IActionResult GetPage(int page, int size, string sort = "Index")
         {
-            var total = _internService.GetCount();
+            var total = _userService.CountByIndex(4);
             var pagination = new PaginationLogic(sort, total, page, size);
 
             return Ok(
@@ -162,7 +162,7 @@ namespace Internship.Api
         [HttpDelete("Remove/{id}")]
         public IActionResult Remove(int id)
         {
-            var result = _internService.RemoveIntern(id);
+            var result = _internService.DeleteIntern(id);
             return Ok(result);
         }
     }

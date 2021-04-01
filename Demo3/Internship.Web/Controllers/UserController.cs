@@ -43,12 +43,12 @@ namespace Internship.Web
                 return View("Authentication", model);
             }
 
-            var claims = new List<Claim>
+            var claims = new Claim[]
             {
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim("FullName", user.FirstName +" " + user.LastName),
-                new Claim("Status", user.Status),
-                new Claim("ID", user.UserId.ToString())
+                new Claim(ClaimTypes.Surname, user.FirstName +" " + user.LastName),
+                new Claim(ClaimTypes.UserData, user.Status),
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -59,7 +59,7 @@ namespace Internship.Web
                 new AuthenticationProperties
                 {
                     IsPersistent = true,
-                    // for test long time
+                    // long time for test
                     ExpiresUtc = DateTime.UtcNow.AddDays(10)
                 });
 
