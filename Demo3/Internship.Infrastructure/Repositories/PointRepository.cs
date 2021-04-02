@@ -1,27 +1,30 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Dapper;
+using System.Data;
 
 namespace Internship.Infrastructure
 {
     public class PointRepository : Repository<Point>, IPointRepository
     {
         private readonly DataContext _context;
-        private readonly DataProvider _provider;
 
-        public PointRepository(DataContext context, DataProvider provider) : base(context)
+
+        public PointRepository(DataContext context) : base(context)
         {
             _context = context;
-            _provider = provider;
+
         }
 
         public bool EvaluateIntern(Point point)
         {
-            return _provider
-                          .ExecuteNonQuery($"CALL EvaluateIntern(" +
+            return _context.Database.GetDbConnection()
+                          .Execute($"CALL EvaluateIntern(" +
                           $"{point.InternId}," +
                           $"{point.Marker}," +
                           $"{point.TechnicalSkill}," +
                           $"{point.SoftSkill}," +
-                          $"{point.Attitude})");
+                          $"{point.Attitude})") > 0;
         }
 
         public Point GetPoint(int id)
@@ -39,5 +42,10 @@ namespace Internship.Infrastructure
             return _context.SaveChanges() > 0;
         }
 
+        public IDataReader GetAllWithName()
+        {            
+            return _context.Database.GetDbConnection()
+                 .ExecuteReader($"CALL GetAllPointWithName()");
+        }
     }
 }

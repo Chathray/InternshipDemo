@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -8,35 +10,35 @@ namespace Internship.Infrastructure
     public class InternRespository : Repository<Intern>, IInternRepository
     {
         private readonly DataContext _context;
-        private readonly DataProvider _provider;
 
-        public InternRespository(DataContext context, DataProvider provider) : base(context)
+        public InternRespository(DataContext context) : base(context)
         {
             _context = context;
-            _provider = provider;
         }
 
         public string GetInternInfo(int id)
         {
-            return _provider
+            return _context.Database.GetDbConnection()
                 .ExecuteScalar($"CALL GetInternInfo('{id}')").ToString();
         }
 
 
         public string GetInternDetail(int id)
         {
-            return _provider
+            return _context.Database.GetDbConnection()
                 .ExecuteScalar($"CALL GetInternDetail('{id}')").ToString();
         }
 
         public DataSet GetInternModelList(int page, int size, int sort, int search_on, string search_string)
         {
-            return _provider.ExecuteReaders($"CALL GetInternList({(page - 1) * size},{size},'{sort}',{search_on},'{search_string}')");
+            return _context.Database.GetDbConnection()
+                .ExecReaders($"CALL GetInternList({(page - 1) * size},{size},'{sort}',{search_on},'{search_string}')");
         }
 
         public DataTable GetInternByPage(int page, int size, string sort)
         {
-            return _provider.ExecuteReader($"CALL GetInternList(" +
+            return _context.Database.GetDbConnection()
+                .ExecReader($"CALL GetInternList(" +
                 $"{(page - 1) * size},{size},'{sort}')");
         }
 
@@ -56,8 +58,8 @@ namespace Internship.Infrastructure
 
         public bool InsertIntern(Intern model)
         {
-            return _provider
-                .ExecuteNonQuery($"CALL InsertIntern(" +
+            return _context.Database.GetDbConnection()
+                .Execute($"CALL InsertIntern(" +
                         $"'{model.Email}', " +
                         $"'{model.Phone}', " +
                         $"'{model.FirstName}', " +
@@ -69,13 +71,13 @@ namespace Internship.Infrastructure
                         $"'{model.Mentor}', " +
                         $"'{model.TrainingId}', " +
                         $"'{model.OrganizationId}', " +
-                        $"'{model.DepartmentId}')");
+                        $"'{model.DepartmentId}')") > 0;
         }
 
         public bool UpdateIntern(Intern model)
         {
-            return _provider
-                .ExecuteNonQuery($"CALL UpdateIntern(" +
+            return _context.Database.GetDbConnection()
+                .Execute($"CALL UpdateIntern(" +
                         $"'{model.InternId}', " +
 
                         $"'{model.Email}', " +
@@ -89,7 +91,7 @@ namespace Internship.Infrastructure
                         $"'{model.Mentor}', " +
                         $"'{model.TrainingId}', " +
                         $"'{model.OrganizationId}', " +
-                        $"'{model.DepartmentId}')");
+                        $"'{model.DepartmentId}')") > 0;
         }
 
         public bool RemoveIntern(int id)

@@ -232,7 +232,7 @@ namespace Internship.Web
         [HttpGet]
         public IActionResult GetPoints()
         {
-            return Ok(_pointService.GetAll());
+            return Ok(_pointService.GetAllWithName());
         }
         #endregion
 

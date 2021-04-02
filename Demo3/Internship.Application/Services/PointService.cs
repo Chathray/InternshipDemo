@@ -1,5 +1,6 @@
 ﻿using Internship.Infrastructure;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Internship.Application
 {
@@ -40,7 +41,14 @@ namespace Internship.Application
         public bool DeletePoint(int id)
         {
             return _pointRespository.Delete(id);
+        }
 
+        public IList<PointListModel> GetAllWithName()
+        {
+            DataTable table = new();
+            table.Load(_pointRespository.GetAllWithName());
+
+            return DataExtensions.ConvertDataTable<PointListModel>(table);
         }
     }
 }

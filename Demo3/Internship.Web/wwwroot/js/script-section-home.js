@@ -351,7 +351,6 @@ $(document).on('ready', function () {
         $('#trainingLabel').val('').change();
     });
 
-
     // INITIALIZATION OF NAV SCROLLER
     // =======================================================
     $('.js-nav-scroller').each(function () {
@@ -501,6 +500,13 @@ $(document).on('ready', function () {
         datatable.column(targetColumnIndex).search(elVal).draw();
     });
 
+
+    $('.js-datatable-search').on('change', function () {
+        var elVal = $(this).val();            
+
+        if (elVal == 0) window.location = "/";
+    });
+
     $('#datatableSearch').on('keyup', function (e) {
         if (event.keyCode != 13)
             return;
@@ -638,6 +644,7 @@ $(document).on('ready', function () {
 
                 items.push(`<tr data-id="${parsedJSON[i].internId}">
                 <td data-field="index">${parsedJSON[i].internId}</td>
+                <td data="surname">${parsedJSON[i].surname}</td>
                 <td data-field="techskill">${parsedJSON[i].technicalSkill}</td>
                 <td data-field="softskill">${parsedJSON[i].softSkill}</td>
                 <td data-field="attitude">${parsedJSON[i].attitude}</td>
@@ -645,6 +652,7 @@ $(document).on('ready', function () {
                 <td data="passed">
                     <span class="badge ${color} p-1">${parsedJSON[i].passed}</span
                 </td>
+                <td data="marker">${parsedJSON[i].marker}</td>
                 <td>
                     <button type="button" class="js-edit btn btn-soft-info btn-icon btn-xs">
                         <i class="tio-edit js-edit-icon"></i>
@@ -665,7 +673,7 @@ $(document).on('ready', function () {
     });
 
 
-    ////////////  POINTS
+    ////////////  TRAINING
     $(document).on("click", '#training-now', function (e) {
 
         $('#traModal').modal('show');

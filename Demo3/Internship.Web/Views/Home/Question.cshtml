@@ -1,8 +1,6 @@
 ﻿@using Internship.Application
 @model IList<QuestionModel>
 @{
-    ViewData["Title"] = " Questions & Answers";
-
     int count = Model.Count;
     int index = 0;
     bool still = true;
@@ -12,14 +10,24 @@
 
 <!-- Page Header -->
 <div class="pl-0">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb breadcrumb-no-gutter">
-            <li class="breadcrumb-item"><a class="breadcrumb-link" href="/">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Question</li>
-        </ol>
-    </nav>
+    <div class="row align-items-end">
+        <div class="col-sm mb-2 mb-sm-0">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-no-gutter">
+                    <li class="breadcrumb-item"><a class="breadcrumb-link" href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Question</li>
+                </ol>
+            </nav>
+            <h3 class="page-header-title mb-5">Questions & Answers</h3>
+        </div>
 
-    <h3 class="page-header-title mb-5">@ViewData["Title"]</h3>
+        <div class="col-sm-auto">
+            <button id="addquestion" type="button" class="btn btn-sm btn-primary mb-4" data-toggle="modal" data-target="#exampleModal">
+                <i class="tio-add-circle-outlined"></i> Add a question
+            </button>
+        </div>
+    </div>
+    <!-- End Row -->
 </div>
 <!-- End Page Header -->
 

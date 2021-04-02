@@ -20,7 +20,7 @@
         </div>
 
         <div class="col-sm-auto">
-            <button id="addibtn" type="button" class="btn btn-pill btn-sm btn-primary mb-4" data-toggle="modal" data-target="#exampleModal">
+            <button id="addibtn" type="button" class="btn btn-sm btn-primary mb-4" data-toggle="modal" data-target="#exampleModal">
                 <i class="tio-add-circle-outlined"></i> Add intern
             </button>
         </div>
@@ -154,7 +154,7 @@
                             <i class="tio-search"></i>
                         </div>
                     </div>
-                    <input id="datatableSearch" type="search" class="form-control pl-5" placeholder="Type here to search" aria-label="Search users">
+                    <input id="datatableSearch" type="search" class="form-control pl-5" placeholder="Type and press Enter to search" aria-label="Search users">
                 </div>
                 <!-- End Search -->
             </div>
@@ -171,11 +171,14 @@
                                 "width": true
                               }'>
                         <option value="0">None</option>
-                        <option value="1">First Name</option>
-                        <option value="2">Last Name</option>
-                        <option value="3">Email</option>
+                        <option value="1">Index</option>
+                        <option value="2">Email</option>
+                        <option value="3">Name</option>
                         <option value="4">Phone</option>
-                        <option value="5">Index</option>
+                        <option value="5">Position</option>
+                        <option value="6">Organization</option>
+                        <option value="7">Training</option>
+                        <option value="8">Mentor</option>
                     </select>
                     <!-- End Select -->
 
@@ -188,11 +191,14 @@
                                 "dropdownAutoWidth": true,
                                 "width": true
                               }'>
-                        <option value="1">Name</option>
-                        <option value="2">Index</option>
-                        <option value="3">Date</option>
-                        <option value="4">Mentor</option>
-                        <option value="5">Training</option>
+                        <option value="1">Index</option>
+                        <option value="2">Email</option>
+                        <option value="3">Name</option>
+                        <option value="4">Phone</option>
+                        <option value="5">Position</option>
+                        <option value="6">Organization</option>
+                        <option value="7">Training</option>
+                        <option value="8">Mentor</option>
                     </select>
                     <!-- End Select -->
                     <!-- Unfold -->
@@ -553,10 +559,12 @@
                     <div class="row form-group">
                         <label for="emailLabel" class="col-sm-3 col-form-label input-label">Duration</label>
                         <div class="col-sm-9">
-                            <input asp-for="Duration" type="text" id="durationLabel" required class="js-masked-input form-control" placeholder="Start Date - End Date"
-                                   data-hs-mask-options='{
-                                   "template": "00/00/0000 - 00/00/0000"
-                                   }'>
+                            <input asp-for="Duration" type="text" id="durationLabel" required class="js-flatpickr form-control flatpickr-custom mb-2" placeholder="Select date range"
+                                   data-hs-flatpickr-options='{
+                         "dateFormat": "Y-m-d",
+                         "mode": "range",
+                         "minDate": "2020-12-20"
+                       }'>
                         </div>
                     </div>
                     <!-- End Form Group -->
@@ -566,7 +574,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
-                                <select asp-for=OrganizationId id="organizationLabel" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                <select asp-for=OrganizationId id="organizationLabel" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                         data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                     <option label="empty"></option>
@@ -586,7 +594,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
-                                <select asp-for=TrainingId id="trainingLabel" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                <select asp-for=TrainingId id="trainingLabel" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                         data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                     <option label="empty"></option>
@@ -607,7 +615,7 @@
                             <div class="input-group input-group-sm-down-break">
                                 <div class="input-group input-group-sm-down-break">
                                     <!-- Select2 -->
-                                    <select asp-for=DepartmentId id="departmentLabel" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                    <select asp-for=DepartmentId id="departmentLabel" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                             data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                         <option label="empty"></option>
@@ -628,7 +636,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
-                                <select asp-for=Type id="typeLabel" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                <select asp-for=Type id="typeLabel" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                         data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                     <option label="empty"></option>
@@ -757,17 +765,19 @@
                     <table id="poitable" class="js-editable-table table-hover table table-md table-borderless table-thead-bordered table-nowrap table-align-middle"
                            data-hs-datatables-options='{
                      "columnDefs": [{
-                        "targets": [5,6],
+                        "targets": [8],
                         "orderable": false
                       }],
                      "order": []
                }'>
                         <colgroup>
+                            <col span="1" style="width: 10%;">
                             <col span="1" style="width: 15%;">
-                            <col span="1" style="width: 15%;">
-                            <col span="1" style="width: 15%;">
-                            <col span="1" style="width: 15%;">
-                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 10%;">
                             <col span="1" style="width: 15%;">
                             <col span="1" style="width: 10%;">
                         </colgroup>
@@ -775,11 +785,13 @@
                         <thead class="">
                             <tr>
                                 <th>Intern ID</th>
+                                <th>Surname</th>
                                 <th>Technical Skill</th>
                                 <th>Soft Skill</th>
                                 <th>Attitude</th>
                                 <th>Score</th>
                                 <th>Passed</th>
+                                <th>Marker</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -813,8 +825,8 @@
                 <!-- Select2 -->
                 <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                         data-hs-select2-options='{
-          "placeholder": "Select a member",
-          "searchInputPlaceholder": "Search a member"
+          "placeholder": "Select a training",
+          "searchInputPlaceholder": "Type a name"
         }'>
                     <option value="1">Bruce Maynard</option>
                     <option value="2">Hollis Clark</option>

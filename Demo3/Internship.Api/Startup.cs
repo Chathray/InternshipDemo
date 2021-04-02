@@ -97,10 +97,6 @@ namespace Internship.Api
             services.AddScoped<IOrganizationService, OrganizationService>();
             services.AddScoped<ITrainingService, TrainingService>();
             services.AddScoped<IEventService, EventService>();
-
-            MySqlConnection connection = new(connectionString);
-            DataProvider provider = new(connection);
-            services.AddScoped(p => provider);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

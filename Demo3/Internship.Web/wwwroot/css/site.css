@@ -22020,7 +22020,7 @@ label.btn {
 
 .nav-link-toggle {
     display: -ms-flexbox;
-/*    display: flex;*/
+    /*    display: flex;*/
     -ms-flex-align: center;
     align-items: center
 }
@@ -26706,6 +26706,7 @@ body {
         background-color: rgba(0, 0, 0, .5);
     }
 
+
 .table-responsive {
     height: 100%;
     overflow-y: hidden;
@@ -26719,6 +26720,5 @@ body {
     .table-responsive::-webkit-scrollbar-thumb {
         border-radius: 8px;
         border: 2px solid white; /* should match background, can't be transparent */
-        background-color: rgba(0, 0, 0, .5);
+        background-color: rgba(0, 0, 0, .3);
     }
-

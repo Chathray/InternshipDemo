@@ -7,8 +7,10 @@ namespace Internship.Infrastructure
     public class Department : EntityBase
     {
         [Key]
-        public int DepartmentId { get; set; }
-        public string DepName { get; set; }
-        public string DepLocation { get; set; }
+        public int DepartmentId { get; private set; }
+        public string DepName { get; private set; }
+        public string DepLocation { get; private set; }
+
+        private Department() { }
     }
 }

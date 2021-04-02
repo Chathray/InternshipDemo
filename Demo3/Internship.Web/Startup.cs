@@ -38,8 +38,9 @@ namespace Internship.Web
                 options.AccessDeniedPath = "/Home/Error";
             });
 
-            // CR:Add database context of webapp
-            services.AddDbContext<DataContext>(options => options.UseMySQL(connectionString));
+            // CR:Add database context pool? of webapp
+            services.AddDbContextPool<DataContext>(options => options
+            .UseMySQL(connectionString));
 
             // configure DI for application services
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -53,10 +54,8 @@ namespace Internship.Web
             services.AddScoped<IEventTypeRepository, EventTypeRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
 
-            // Add AutoMapper and DapperProvider
+            // Add AutoMapper
             services.AddAutoMapper(typeof(Startup));
-            services.AddScoped(typeof(DapperProvider<>));
-
 
             services.AddScoped<DataContext>();
             services.AddScoped<IUserService, UserService>();
@@ -68,9 +67,6 @@ namespace Internship.Web
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IEventTypeService, EventTypeService>();
             services.AddScoped<IQuestionService, QuestionService>();
-
-            MySqlConnection connection = new(connectionString);
-            services.AddTransient<DataProvider>(p => new(connection));
         }
 
 

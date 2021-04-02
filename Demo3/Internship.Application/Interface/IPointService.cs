@@ -10,5 +10,6 @@ namespace Internship.Application
         PointModel GetPoint(int id);
         bool UpdatePoint(PointModel model);
         bool DeletePoint(int id);
+        IList<PointListModel> GetAllWithName();
     }
 }

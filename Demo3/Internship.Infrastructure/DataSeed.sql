@@ -39,7 +39,7 @@ CREATE TABLE `departments` (
 
 LOCK TABLES `departments` WRITE;
 /*!40000 ALTER TABLE `departments` DISABLE KEYS */;
-INSERT INTO `departments` VALUES (1,'TMA Innovation Park','Quy Nhon City','2021-04-01 01:37:49','2021-04-01 01:37:49'),(2,'LAB 5','Ho Chi Minh City','2021-04-01 01:37:49','2021-04-01 08:52:44'),(3,'LAB 6','Ho Chi Minh City','2021-04-01 01:37:49','2021-04-01 08:52:44'),(4,'LAB 12','Ho Chi Minh City','2021-04-01 01:37:49','2021-04-01 08:52:44');
+INSERT INTO `departments` VALUES (1,'DC8-Ext','TMA Innovation Park','2021-04-01 01:37:49','2021-04-02 08:36:17'),(2,'DC13-Ext','TMA Innovation Park','2021-04-01 01:37:49','2021-04-02 08:36:21'),(3,'DC8','TMA Innovation Park','2021-04-01 01:37:49','2021-04-02 08:36:25'),(4,'DC1','LAB 6','2021-04-01 01:37:49','2021-04-02 08:36:50');
 /*!40000 ALTER TABLE `departments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,7 +74,7 @@ CREATE TABLE `events` (
   CONSTRAINT `FK_Events_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `users` (`UserId`),
   CONSTRAINT `FK_Events_EventTypes_Type` FOREIGN KEY (`Type`) REFERENCES `eventtypes` (`Type`),
   CONSTRAINT `FK_Events_UpdatedBy` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,6 +83,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
+INSERT INTO `events` VALUES (1,'dẻ','Personal','fullcalendar-custom-event-hs-team','2021-04-02','2021-04-03',9,'2021-04-02 04:05:11',NULL,'2021-04-02 04:05:11','everyday','[{\"iid\": 1, \"src\": \"/img/intern.svg\", \"value\": \"Khai Tran Quang\"}]','Bien Quy Nhon','df',NULL);
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +140,6 @@ CREATE TABLE `interns` (
   `OrganizationId` int DEFAULT NULL,
   `DepartmentId` int DEFAULT NULL,
   PRIMARY KEY (`InternId`),
-  UNIQUE KEY `Email_UNIQUE` (`Email`),
   KEY `FK_Events_Mentor_idx` (`Mentor`),
   KEY `FK_Interns_UpdatedBy_idx` (`UpdatedBy`),
   KEY `FK_Interns_DepartmentId_idx` (`DepartmentId`),
@@ -150,7 +150,7 @@ CREATE TABLE `interns` (
   CONSTRAINT `FK_Interns_Organization` FOREIGN KEY (`OrganizationId`) REFERENCES `organizations` (`OrganizationId`) ON UPDATE CASCADE,
   CONSTRAINT `FK_Interns_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`) ON UPDATE CASCADE,
   CONSTRAINT `PK_Intern_Training` FOREIGN KEY (`TrainingId`) REFERENCES `trainings` (`TrainingId`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=207 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +159,7 @@ CREATE TABLE `interns` (
 
 LOCK TABLES `interns` WRITE;
 /*!40000 ALTER TABLE `interns` DISABLE KEYS */;
-INSERT INTO `interns` VALUES (1,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(3,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-01 08:53:20','/img/intern.svg','4343',2,1),(4,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-01 08:53:20','/img/intern.svg','09545845',3,1),(6,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-01 08:53:20','/img/intern.svg','09545845',1,3);
+INSERT INTO `interns` VALUES (1,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(3,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(4,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(6,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(22,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(23,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(24,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(25,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(26,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(27,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(28,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(29,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(30,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(31,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(32,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(33,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(34,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(35,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(36,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(37,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(38,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(39,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(40,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(41,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(42,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(43,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(44,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(45,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(46,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(47,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(48,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(49,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(50,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(51,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(52,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(53,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(54,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(55,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(56,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(57,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(58,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(59,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(60,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(61,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(62,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(63,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(64,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(65,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(66,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(67,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(68,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(69,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(70,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(71,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(72,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(73,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(74,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(75,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(76,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(77,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(78,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(79,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(80,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(81,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(82,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(83,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(84,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(85,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(86,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(87,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(88,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(89,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(90,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(91,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(92,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(93,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(94,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(95,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(96,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(97,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(98,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(99,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(100,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(101,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(102,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(103,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(104,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(105,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(106,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(107,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(108,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(109,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(110,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(111,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(112,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(113,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(114,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(115,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(116,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(117,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(118,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(119,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(120,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(121,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(122,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(123,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(124,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(125,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(126,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(127,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(128,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(129,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(130,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(131,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(132,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(133,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(134,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(135,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(136,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(137,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(138,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(139,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(140,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(141,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(142,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(143,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(144,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(145,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(146,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(147,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(148,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(149,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(150,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(151,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(152,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(153,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(154,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(155,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(156,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(157,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(158,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(159,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(160,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(161,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(162,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(163,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(164,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(165,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(166,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(167,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(168,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(169,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(170,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(171,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(172,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(173,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(174,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(175,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(176,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(177,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(178,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(179,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(180,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(181,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(182,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(183,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(184,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(185,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(186,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(187,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(188,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(189,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(190,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(191,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(192,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(193,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(194,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(195,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(196,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(197,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(198,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(199,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(200,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(201,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(202,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1),(203,'ngotran@t3','Tan','Tran Thien','male','2020-02-02','2020-02-22 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 01:05:50','2021-04-02 09:18:09','/img/intern.svg','09545845',1,3),(204,'ngotran@tma','Khai','Tran Quang','male','2020-02-02','2020-02-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-17 02:26:42','2021-03-30 06:30:09','/img/intern.svg','4343',1,1),(205,'ngotran@t1','Ly','Tran Quang','male','2020-02-02','2021-05-02 - 2020-02-02',0,'Full time',8,NULL,'2021-03-18 00:51:05','2021-04-02 09:20:17','/img/intern.svg','4343',2,1),(206,'ngotran@t2','Tam','Tran Quang','male','2020-02-02','2020-05-16 - 2020-02-02',0,'Full time',1,NULL,'2021-03-18 00:13:10','2021-04-02 09:18:09','/img/intern.svg','09545845',3,1);
 /*!40000 ALTER TABLE `interns` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,7 +188,7 @@ CREATE TABLE `organizations` (
 
 LOCK TABLES `organizations` WRITE;
 /*!40000 ALTER TABLE `organizations` DISABLE KEYS */;
-INSERT INTO `organizations` VALUES (1,'Quy Nhon University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 16','2021-04-01 01:36:54','2021-04-01 01:36:54'),(2,'Nha Trang University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156','2021-04-01 01:36:54','2021-04-01 08:50:39'),(3,'Tay Nguyen University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 156','2021-04-01 01:36:54','2021-04-01 08:50:39');
+INSERT INTO `organizations` VALUES (1,'Quy Nhon University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Qui Nhơn, Bình Định','0256 3846 16','2021-04-01 01:36:54','2021-04-02 08:37:26'),(2,'Nha Trang University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Nha Trang','0256 3846 156','2021-04-01 01:36:54','2021-04-02 08:37:37'),(3,'Tay Nguyen University','170 An Dương Vương, Nguyễn Văn Cừ, Thành phố Tây Nguyên','0256 3846 156','2021-04-01 01:36:54','2021-04-02 08:37:49');
 /*!40000 ALTER TABLE `organizations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,7 +225,7 @@ CREATE TABLE `points` (
 
 LOCK TABLES `points` WRITE;
 /*!40000 ALTER TABLE `points` DISABLE KEYS */;
-INSERT INTO `points` (`InternId`, `Marker`, `TechnicalSkill`, `SoftSkill`, `Attitude`, `CreatedDate`, `UpdatedDate`) VALUES (1,9,9.60,7.00,7.00,'2021-04-01 09:36:26','2021-04-01 09:36:53'),(3,9,1.00,1.00,3.00,'2021-04-01 09:04:19','2021-04-01 09:04:19'),(4,9,10.00,7.00,7.00,'2021-04-01 07:21:23','2021-04-01 09:02:52');
+INSERT INTO `points` (`InternId`, `Marker`, `TechnicalSkill`, `SoftSkill`, `Attitude`, `CreatedDate`, `UpdatedDate`) VALUES (1,1,9.60,6.00,7.00,'2021-04-01 09:36:26','2021-04-02 08:29:04'),(3,1,1.00,1.00,3.00,'2021-04-01 09:04:19','2021-04-02 08:35:28'),(4,1,10.00,7.00,7.00,'2021-04-01 07:21:23','2021-04-02 08:35:32');
 /*!40000 ALTER TABLE `points` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,7 +274,7 @@ CREATE TABLE `trainings` (
   PRIMARY KEY (`TrainingId`),
   KEY `FK_createdby_user_idx` (`CreatedBy`),
   CONSTRAINT `FK_createdby_user` FOREIGN KEY (`CreatedBy`) REFERENCES `users` (`UserId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,7 +283,7 @@ CREATE TABLE `trainings` (
 
 LOCK TABLES `trainings` WRITE;
 /*!40000 ALTER TABLE `trainings` DISABLE KEYS */;
-INSERT INTO `trainings` VALUES (0,'None','','2021-03-30 06:29:34','2021-04-01 08:49:40',NULL);
+INSERT INTO `trainings` VALUES (0,'None','','2021-03-30 06:29:34','2021-04-01 08:49:40',NULL),(1,'ASP','{\"ops\":[{\"insert\":\"OK\\n\"}]}','2021-04-02 08:38:23','2021-04-02 08:38:23',1);
 /*!40000 ALTER TABLE `trainings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -364,6 +364,37 @@ BEGIN
     TechnicalSkill = technicalPoint,
     SoftSkill = softPoint,
     Attitude = attitudePoint;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetAllPointWithName` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetAllPointWithName`()
+BEGIN
+	select
+    t1.InternId,
+    TechnicalSkill,
+    SoftSkill,
+    Attitude,
+    Score,
+    Passed,
+    CONCAT(t2.FirstName,' ',t2.LastName) AS Surname,
+    CONCAT(t3.FirstName,' ',t3.LastName) AS Marker
+    from points as t1
+    	JOIN interns t2 ON t2.InternId = t1.InternId
+    	JOIN users t3 ON t3.UserId = t1.Marker;
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -510,22 +541,30 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternList`(offset_value int,
- limit_value int,
- orderby int,
- search_on int,
-  search_string nvarchar(20))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternList`(
+	offset_value int,
+	limit_value int,
+	orderby int,
+	search_on int,
+	search_string nvarchar(20))
 BEGIN
 
 SELECT SQL_CALC_FOUND_ROWS
 	CONCAT(t1.FirstName,' ',t1.LastName) AS FullName,
-    t1.InternId, t1.Email,
-    DateOfBirth, Gender,
-    t1.Phone,
     CONCAT(t5.FirstName,' ',t5.LastName) AS Mentor,
-    t1.Avatar, t1.CreatedDate,
-    Duration, Type, DepName, OrgName,
-    t4.TraName, t4.TrainingId
+	t1.InternId,
+    t1.Email,
+    t1.Avatar,
+    t1.CreatedDate,
+    t1.Phone,
+	t1.DateOfBirth,
+    t1.Gender,
+    t1.Duration, 
+    t1.Type,
+    t2.OrgName,
+	t3.DepName,
+    t4.TraName,
+    t4.TrainingId
 FROM interns t1
 	JOIN organizations t2 ON t2.OrganizationId = t1.OrganizationId
 	JOIN departments t3 ON t3.DepartmentId = t1.DepartmentId
@@ -533,22 +572,191 @@ FROM interns t1
 	JOIN users t5 ON t5.UserId = t1.Mentor
     
 WHERE
-CASE 
+CASE
     WHEN search_on = 0 THEN 1
-    WHEN search_on = 1 AND search_string like t1.FirstName THEN 1
-    WHEN search_on = 2 AND search_string like t1.LastName THEN 1
-    WHEN search_on = 3 AND search_string like t1.Email THEN 1
+    WHEN search_on = 1 AND search_string like t1.InternId THEN 1
+    WHEN search_on = 2 AND search_string like t1.Email THEN 1
+    WHEN search_on = 3 AND search_string like t1.FirstName THEN 1
     WHEN search_on = 4 AND search_string like t1.Phone THEN 1
-    WHEN search_on = 5 AND search_string like t1.InternId THEN 1
+    WHEN search_on = 5 AND search_string like DepName THEN 1
+    WHEN search_on = 6 AND search_string like OrgName THEN 1
+    WHEN search_on = 7 AND search_string like TraName THEN 1
+    WHEN search_on = 8 AND search_string like t5.FirstName THEN 1
     ELSE 0
 END = 1
 
 ORDER BY
-	CASE WHEN orderby=1 THEN FullName END,
-	CASE WHEN orderby=2 THEN InternId END DESC,
-	CASE WHEN orderby=3 THEN t1.CreatedDate END DESC,
-	CASE WHEN orderby=4 THEN Mentor END,
-	CASE WHEN orderby=5 THEN TraName END
+	CASE WHEN orderby=1 THEN t1.InternId END,
+	CASE WHEN orderby=2 THEN t1.Email END,
+	CASE WHEN orderby=3 THEN t1.FirstName END,
+	CASE WHEN orderby=4 THEN t1.Phone END,
+	CASE WHEN orderby=5 THEN DepName END,
+	CASE WHEN orderby=6 THEN OrgName END,
+	CASE WHEN orderby=7 THEN TraName END,
+	CASE WHEN orderby=8 THEN t5.FirstName END
+LIMIT offset_value, limit_value;
+
+SELECT FOUND_ROWS() AS ShowLeadsTotalRows;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetInternListWithCreatedOnFilter` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternListWithCreatedOnFilter`(
+	startDate Date,
+	endDate Date,
+	filterMode int,
+    
+	offset_value int,
+	limit_value int,
+	orderby int,
+	search_on int,
+	search_string nvarchar(20))
+BEGIN
+
+SELECT SQL_CALC_FOUND_ROWS
+	CONCAT(t1.FirstName,' ',t1.LastName) AS FullName,
+    CONCAT(t5.FirstName,' ',t5.LastName) AS Mentor,
+	t1.InternId,
+    t1.Email,
+    t1.Avatar,
+    t1.CreatedDate,
+    t1.Phone,
+	t1.DateOfBirth,
+    t1.Gender,
+    t1.Duration, 
+    t1.Type,
+    t2.OrgName,
+	t3.DepName,
+    t4.TraName,
+    t4.TrainingId
+FROM interns t1
+	JOIN organizations t2 ON t2.OrganizationId = t1.OrganizationId
+	JOIN departments t3 ON t3.DepartmentId = t1.DepartmentId
+	JOIN trainings t4 ON t4.TrainingId = t1.TrainingId
+	JOIN users t5 ON t5.UserId = t1.Mentor
+    
+WHERE
+CASE
+    WHEN search_on = 0 THEN 1
+    WHEN search_on = 1 AND search_string like t1.InternId THEN 1
+    WHEN search_on = 2 AND search_string like t1.Email THEN 1
+    WHEN search_on = 3 AND search_string like t1.FirstName THEN 1
+    WHEN search_on = 4 AND search_string like t1.Phone THEN 1
+    WHEN search_on = 5 AND search_string like DepName THEN 1
+    WHEN search_on = 6 AND search_string like OrgName THEN 1
+    WHEN search_on = 7 AND search_string like TraName THEN 1
+    WHEN search_on = 8 AND search_string like t5.FirstName THEN 1
+    ELSE 0
+END = 1
+
+AND	CASE 
+	WHEN filterMode = 0 AND SUBSTRING(Duration, 1, 10) > startDate THEN 1
+	WHEN filterMode = 1 AND SUBSTRING(Duration, 1, 10) < startDate THEN 1
+	WHEN filterMode = 2 AND SUBSTRING(Duration, 1, 10) >= startDate THEN 1
+	WHEN filterMode = 3 AND SUBSTRING(Duration, 1, 10) <= startDate THEN 1
+	WHEN filterMode = 4 AND SUBSTRING(Duration, 1, 10) between startDate and endDate THEN 1
+	WHEN filterMode = 5 AND SUBSTRING(Duration, 1, 10) not between startDate and endDate THEN 1
+END = 1
+
+ORDER BY
+	CASE WHEN orderby=1 THEN t1.InternId END,
+	CASE WHEN orderby=2 THEN t1.Email END,
+	CASE WHEN orderby=3 THEN t1.FirstName END,
+	CASE WHEN orderby=4 THEN t1.Phone END,
+	CASE WHEN orderby=5 THEN DepName END,
+	CASE WHEN orderby=6 THEN OrgName END,
+	CASE WHEN orderby=7 THEN TraName END,
+	CASE WHEN orderby=8 THEN t5.FirstName END
+LIMIT offset_value, limit_value;
+
+SELECT FOUND_ROWS() AS ShowLeadsTotalRows;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetInternListWithPassedFilter` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternListWithPassedFilter`(
+	inPassed bool,
+  
+	offset_value int,
+	limit_value int,
+	orderby int,
+	search_on int,
+	search_string nvarchar(20))
+BEGIN
+
+SELECT SQL_CALC_FOUND_ROWS
+	CONCAT(t1.FirstName,' ',t1.LastName) AS FullName,
+    CONCAT(t5.FirstName,' ',t5.LastName) AS Mentor,
+	t1.InternId,
+    t1.Email,
+    t1.Avatar,
+    t1.CreatedDate,
+    t1.Phone,
+	t1.DateOfBirth,
+    t1.Gender,
+    t1.Duration, 
+    t1.Type,
+    t2.OrgName,
+	t3.DepName,
+    t4.TraName,
+    t4.TrainingId,
+    t6.passed
+FROM interns t1
+	JOIN organizations t2 ON t2.OrganizationId = t1.OrganizationId
+	JOIN departments t3 ON t3.DepartmentId = t1.DepartmentId
+	JOIN trainings t4 ON t4.TrainingId = t1.TrainingId
+	JOIN users t5 ON t5.UserId = t1.Mentor
+	JOIN points t6 ON t6.InternId = t1.InternId
+    
+WHERE
+CASE
+    WHEN search_on = 0 THEN 1
+    WHEN search_on = 1 AND search_string like t1.InternId THEN 1
+    WHEN search_on = 2 AND search_string like t1.Email THEN 1
+    WHEN search_on = 3 AND search_string like t1.FirstName THEN 1
+    WHEN search_on = 4 AND search_string like t1.Phone THEN 1
+    WHEN search_on = 5 AND search_string like DepName THEN 1
+    WHEN search_on = 6 AND search_string like OrgName THEN 1
+    WHEN search_on = 7 AND search_string like TraName THEN 1
+    WHEN search_on = 8 AND search_string like t5.FirstName THEN 1
+    ELSE 0
+END = 1
+
+AND t6.passed = inPassed
+
+ORDER BY
+	CASE WHEN orderby=1 THEN t1.InternId END,
+	CASE WHEN orderby=2 THEN t1.Email END,
+	CASE WHEN orderby=3 THEN t1.FirstName END,
+	CASE WHEN orderby=4 THEN t1.Phone END,
+	CASE WHEN orderby=5 THEN DepName END,
+	CASE WHEN orderby=6 THEN OrgName END,
+	CASE WHEN orderby=7 THEN TraName END,
+	CASE WHEN orderby=8 THEN t5.FirstName END
 LIMIT offset_value, limit_value;
 
 SELECT FOUND_ROWS() AS ShowLeadsTotalRows;
@@ -741,4 +949,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-01 17:37:07
+-- Dump completed on 2021-04-02 17:33:57

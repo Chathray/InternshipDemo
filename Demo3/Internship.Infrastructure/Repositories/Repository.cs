@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +10,17 @@ namespace Internship.Infrastructure
     public class Repository<T> : IRepository<T> where T : EntityBase
     {
         private readonly DataContext _context;
-        private readonly DapperProvider<T> _dapper;
 
         public Repository(DataContext context)
         {
             _context = context;
-            _dapper = new DapperProvider<T>();
         }
 
         public IList<T> GetAll()
         {
-            //return _context.Set<T>().ToList();
-            return _dapper.Query("SELECT * FROM " + typeof(T).Name.ToLowerInvariant() + "s");
+            return _context.Database.GetDbConnection()
+                .QueryAsync<T>("SELECT * FROM " + typeof(T).Name.ToLowerInvariant() + "s")
+                .Result.AsList();
         }
 
         public bool Update(T obj)
@@ -31,8 +31,9 @@ namespace Internship.Infrastructure
 
         public int Count(Type type)
         {
-            //return _context.Set<T>().Count();
-            var count = _dapper.ExecuteScalar("SELECT Count(*) FROM " + type.Name.ToLower() + "s");
+            var count = _context.Database.GetDbConnection()
+                .ExecuteScalar("SELECT Count(*) FROM " + type.Name.ToLower() + "s");
+
             return Convert.ToInt32(count);
         }
 

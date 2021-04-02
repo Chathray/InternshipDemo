@@ -4,23 +4,16 @@ using System.Data;
 
 namespace Internship.Infrastructure
 {
-    public class DataProvider
+    public static class DataProvider
     {
-        private readonly MySqlConnection conn;
-
-        public DataProvider(MySqlConnection connection)
-        {
-            conn = connection;
-        }
-
         //--
-        public DataTable ExecuteReader(string query)
+        public static DataTable ExecReader(this IDbConnection conn, string query)
         {
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                MySqlCommand command = new(query, conn);
+                MySqlCommand command = new(query, conn as MySqlConnection);
                 MySqlDataAdapter adapter = new(command);
                 DataTable data = new();
                 adapter.Fill(data);
@@ -33,13 +26,13 @@ namespace Internship.Infrastructure
             }
         }
 
-        public DataSet ExecuteReaders(string query)
+        public static DataSet ExecReaders(this IDbConnection conn, string query)
         {
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                MySqlCommand command = new(query, conn);
+                MySqlCommand command = new(query, conn as MySqlConnection);
                 MySqlDataAdapter adapter = new(command);
                 DataSet data = new();
                 adapter.Fill(data);
@@ -54,13 +47,13 @@ namespace Internship.Infrastructure
 
 
         //--
-        public bool ExecuteNonQuery(string query)
+        public static bool ExecNonQuery(this IDbConnection conn, string query)
         {
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
 
-                MySqlCommand command = new(query, conn);
+                MySqlCommand command = new(query, conn as MySqlConnection);
                 int ok = command.ExecuteNonQuery();
 
                 conn.Close();
@@ -74,12 +67,13 @@ namespace Internship.Infrastructure
         }
 
         //--
-        public object ExecuteScalar(string query)
+        public static object ExecScalar(this IDbConnection conn, string query)
         {
             try
             {
                 if (conn.State == ConnectionState.Closed) conn.Open();
-                MySqlCommand command = new(query, conn);
+
+                MySqlCommand command = new(query, conn as MySqlConnection);
                 return command.ExecuteScalar();
             }
             catch (Exception)

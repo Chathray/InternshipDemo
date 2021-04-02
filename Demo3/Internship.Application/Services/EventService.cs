@@ -14,8 +14,8 @@ namespace Internship.Application
 
         public IList<EventModel> GetAll()
         {
-            var even = _eventRespository.GetAll();
-            return ObjectMapper.Mapper.Map<IList<Event>, IList<EventModel>>(even);
+            var evens = _eventRespository.GetAll();
+            return ObjectMapper.Mapper.Map<IList<Event>, IList<EventModel>>(evens);
         }
 
         public DataTable GetEventsIntern()

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Internship.Infrastructure
@@ -6,12 +8,10 @@ namespace Internship.Infrastructure
     public class UserRespository : Repository<User>, IUserRepository
     {
         private readonly DataContext _context;
-        private readonly DapperProvider<User> _dapper;
 
-        public UserRespository(DataContext context, DapperProvider<User> dapper) : base(context)
+        public UserRespository(DataContext context) : base(context)
         {
             _context = context;
-            _dapper = dapper;
         }
 
         public User GetById(int userId)
@@ -24,7 +24,8 @@ namespace Internship.Infrastructure
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _dapper.QuerySingle($"SELECT * FROM users WHERE email = '{email}'");
+            var user = _context.Database.GetDbConnection()
+                .QuerySingle<User>($"SELECT * FROM users WHERE email = '{email}'");
 
             // check if username exists
             if (user is null)
@@ -49,11 +50,12 @@ namespace Internship.Infrastructure
 
             user.PasswordHash = BC.HashPassword(password);
 
-            return _dapper.Excute($@"CALL InsertUser(
+            return _context.Database.GetDbConnection()
+                .Execute($@"CALL InsertUser(
                 '{user.Email}', 
                 '{user.FirstName}', 
                 '{user.LastName}', 
-                '{user.PasswordHash}')");
+                '{user.PasswordHash}')") > 0;
         }
     }
 }

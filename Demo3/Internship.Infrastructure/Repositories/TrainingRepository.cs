@@ -5,12 +5,12 @@ namespace Internship.Infrastructure
     public class TrainingRepository : Repository<Training>, ITrainingRepository
     {
         private readonly DataContext _context;
-        private readonly DataProvider _provider;
 
-        public TrainingRepository(DataContext context, DataProvider provider) : base(context)
+
+        public TrainingRepository(DataContext context) : base(context)
         {
             _context = context;
-            _provider = provider;
+
         }
 
         public Training GetTrainingByIntern(int id)
