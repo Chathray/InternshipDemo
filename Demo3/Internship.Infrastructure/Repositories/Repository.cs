@@ -29,6 +29,20 @@ namespace Internship.Infrastructure
             return _context.SaveChanges() > 0;
         }
 
+        public bool Insert(T obj)
+        {
+            _context.Set<T>().Add(obj);
+            return _context.SaveChanges() > 0;
+        }
+
+        public bool Delete(int id)
+        {
+            var obj = _context.Set<T>().Find(id);
+
+            _context.Set<T>().Remove(obj);
+            return _context.SaveChanges() > 0;
+        }
+
         public int Count(Type type)
         {
             var count = _context.Database.GetDbConnection()

@@ -7,6 +7,7 @@ namespace Internship.Infrastructure
     {
         DataTable GetEventsIntern();
         string GetJson();
-        bool InsertEvent(Event @event);
+        bool CheckOne(string title);
+        bool UpdateByTitle(Event aEvent);
     }
 }

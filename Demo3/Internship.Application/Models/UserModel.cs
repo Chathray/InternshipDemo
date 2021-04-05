@@ -8,6 +8,10 @@
         public string LastName { get; set; }
         public string Password { get; set; }
         public string PasswordHash { get; set; }
-        public string Status { get; set; }
+
+        public string Status { get; set; } = "success";
+        public string Role { get; set; } = "staff";
+        public string Avatar { get; set; } = "/img/user.jpg";
+        public string Phone { get; set; } = null;
     }
 }

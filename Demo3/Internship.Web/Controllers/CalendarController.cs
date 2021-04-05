@@ -70,13 +70,14 @@ namespace Internship.Web
             return RedirectToAction("Calendar");
         }
 
-        [HttpPost]
+
+        [HttpGet]
         public string GetEvents()
         {
             return _eventService.GetJson();
         }
 
-        [HttpPost]
+        [HttpGet]
         public string GetInternJoined(int internId)
         {
             var data = _eventService.GetEventsIntern();

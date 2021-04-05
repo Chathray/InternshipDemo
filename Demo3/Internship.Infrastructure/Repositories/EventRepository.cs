@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using Dapper;
 using System.Data;
+using System.Linq;
 
 namespace Internship.Infrastructure
 {
@@ -12,6 +13,11 @@ namespace Internship.Infrastructure
         public EventRepository(DataContext context) : base(context)
         {
             _context = context;
+        }
+
+        public bool CheckOne(string title)
+        {
+            return _context.Events.SingleOrDefault(o => o.Title == title) is null;
         }
 
         public DataTable GetEventsIntern()
@@ -28,10 +34,20 @@ namespace Internship.Infrastructure
             return obj as string;
         }
 
-        public bool InsertEvent(Event even)
+        public bool UpdateByTitle(Event model)
         {
-            _context.Events.Add(even);
-            return _context.SaveChanges() > 0;
+            return _context.Database.GetDbConnection()
+                .Execute($"CALL UpdateEventByTitle(" +
+                        $"'{model.Title}', " +
+                        $"'{model.Type}', " +
+                        $"'{model.ClassName}', " +
+                        $"'{model.Start}', " +
+                        $"'{model.End}', " +
+                        $"'{model.CreatedBy}', " +
+                        $"'{model.GestsField}', " +
+                        $"'{model.RepeatField}', " +
+                        $"'{model.EventLocationLabel}', " +
+                        $"'{model.EventDescriptionLabel}')") > 0;
         }
     }
 }

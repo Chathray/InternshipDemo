@@ -11,6 +11,11 @@ namespace Internship.Application
             _trainingRespository = trainingRespository;
         }
 
+        public bool DeleteTraining(int id)
+        {
+            return _trainingRespository.Delete(id);
+        }
+
         public IList<TrainingModel> GetAll()
         {
             var tra = _trainingRespository.GetAll();
@@ -23,10 +28,21 @@ namespace Internship.Application
             return ObjectMapper.Mapper.Map<TrainingModel>(obj);
         }
 
+        public string GetTrainingContent(int id)
+        {
+           return _trainingRespository.GetTrainingContent(id);
+        }
+
         public bool InsertTraining(TrainingModel model)
         {
             var obj = ObjectMapper.Mapper.Map<Training>(model);
-            return _trainingRespository.InsertTraining(obj);
+            return _trainingRespository.Insert(obj);
+        }
+
+        public bool UpdateTraining(TrainingModel model)
+        {
+            var obj = ObjectMapper.Mapper.Map<Training>(model);
+            return _trainingRespository.Update(obj);
         }
     }
 }

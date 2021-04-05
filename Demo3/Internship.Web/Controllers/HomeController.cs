@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 
@@ -48,26 +49,52 @@ namespace Internship.Web
         }
 
         [HttpGet]
-        public IActionResult Index(int page, int size, int sort = 1, int search_on = 0, string search_string = "")
+        public IActionResult Index(int page, int size, int sort = 1, int search_on = 0,
+            string search_string = "",
+            int inPassed = 2,
+            string startDate = null,
+            string endDate = null,
+            int filterMode = 0)
         {
             ViewData["page-1"] = "active";
 
             var total = _userService.CountByIndex(4);
             var pagination = new PaginationLogic(sort, total, page, size);
+            DataSet dt;
 
-            var m = new IndexViewModel(pagination,
-                _internService.GetInternByPage(pagination.CurrentPage, pagination.PageSize, sort, search_on, search_string),
+            bool haveFilter = inPassed != 2 || filterMode != 0;
+
+            if (haveFilter)
+                dt = _internService.GetInternByPage(
+                     pagination.CurrentPage,
+                     pagination.PageSize,
+                     sort,
+                     search_on,
+                     search_string,
+                     inPassed,
+                     filterMode,
+                     startDate,
+                     endDate);
+            else
+                dt = _internService.GetInternByPage(
+                     pagination.CurrentPage,
+                     pagination.PageSize,
+                     sort,
+                     search_on,
+                     search_string);
+
+            var model = new IndexViewModel(pagination, dt,
                 _trainingService.GetAll(),
                 _organizationService.GetAll(),
                 _departmentService.GetAll(),
                 _pointService.GetAll());
 
-            ViewData["trainings.count"] = m.Trainings.Count;
-            ViewData["organizations.count"] = m.Organizations.Count;
-            ViewData["departments.count"] = m.Departments.Count;
-            ViewData["points.count"] = m.Points.Count;
+            ViewData["trainings.count"] = model.Trainings.Count;
+            ViewData["organizations.count"] = model.Organizations.Count;
+            ViewData["departments.count"] = model.Departments.Count;
+            ViewData["points.count"] = model.Points.Count;
 
-            return View(m);
+            return View(model);
         }
 
         [HttpPost]
@@ -166,6 +193,11 @@ namespace Internship.Web
         {
             return _departmentService.DeleteDepartment(id);
         }
+        [HttpPost]
+        public bool DeleteTraining(int id)
+        {
+            return _trainingService.DeleteTraining(id);
+        }
         #endregion
 
 
@@ -187,6 +219,12 @@ namespace Internship.Web
         {
             return _organizationService.UpdateOrganization(model);
         }
+        [HttpPost]
+        public bool UpdateTraining(TrainingModel model)
+        {
+            model.CreatedBy = int.Parse(ViewBag.id);
+            return _trainingService.UpdateTraining(model);
+        }
         #endregion
 
 
@@ -198,27 +236,33 @@ namespace Internship.Web
             return _userService.CountByIndex(stt);
         }
 
-        [HttpPost("Home/GetInternInfo")]
-        [HttpPost("GetInternInfo/{id}")]
+        [HttpGet("Home/GetInternInfo")]
+        [HttpGet("GetInternInfo/{id}")]
         public string GetInternInfo(int id)
         {
             return _internService.GetInternInfo(id);
         }
 
-        [HttpPost("Home/GetInternDetail")]
+        [HttpGet("Home/GetInternDetail")]
         public string GetInternDetail(int id)
         {
             return _internService.GetInternDetail(id);
         }
+
+        [HttpGet("Home/GetTrainingContent")]
+        public string GetTrainingContent(int id)
+        {
+            return _trainingService.GetTrainingContent(id);
+        }
         //_____________________________________________________
-        
+
         [HttpGet]
         public IActionResult GetPoint(int id)
         {
             return Json(_pointService.GetPoint(id));
         }
         //_____________________________________________________
-        
+
         [HttpGet]
         public IActionResult GetOrganizations()
         {
@@ -230,9 +274,9 @@ namespace Internship.Web
             return Ok(_departmentService.GetAll());
         }
         [HttpGet]
-        public IActionResult GetPoints()
+        public IActionResult GetTrainings()
         {
-            return Ok(_pointService.GetAllWithName());
+            return Json(_trainingService.GetAll());
         }
         #endregion
 

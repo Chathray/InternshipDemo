@@ -13,9 +13,8 @@ namespace Internship.Application
 
         public IList<EventTypeModel> GetAll()
         {
-            var dep = _evenTypeRespository.GetAll();
-            var model = ObjectMapper.Mapper.Map<IList<EventType>, IList<EventTypeModel>>(dep);
-            return model;
+            var obj = _evenTypeRespository.GetAll();
+            return ObjectMapper.Mapper.Map<IList<EventType>, IList<EventTypeModel>>(obj);
         }
     }
 }

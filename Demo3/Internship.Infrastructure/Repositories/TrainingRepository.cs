@@ -22,14 +22,10 @@ namespace Internship.Infrastructure
                 .Single(b => b.TrainingId == trainingId);
         }
 
-        public bool InsertTraining(Training obj)
+        public string GetTrainingContent(int id)
         {
-            _context.Trainings.Add(obj);
-            return _context.SaveChanges() > 0;
-
-            //return _provider.ExecuteNonQuery($"CALL InsertTraining(" +
-            //    $"'{obj.TraName}'," +
-            //    $"'{obj.TraData}')");
+           var obj = _context.Trainings.SingleOrDefault(o => o.TrainingId == id);
+            return obj.TraData;
         }
     }
 }

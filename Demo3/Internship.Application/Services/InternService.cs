@@ -24,6 +24,11 @@ namespace Internship.Application
             return _internRespository.GetInternModelList(currentPage, pageSize, sort, search_on, search_string);
         }
 
+        public DataSet GetInternByPage(int currentPage, int pageSize, int sort, int search_on, string search_string, int inPassed, int filterMode, string startDate, string endDate)
+        {
+            return _internRespository.GetInternModelList(currentPage, pageSize, sort, search_on, search_string, inPassed, filterMode, startDate, endDate);
+        }
+
         public IList<InternListModel> GetInternByPage(int page, int size, string sort)
         {
             var dt = _internRespository.GetInternByPage(page, size, sort);
@@ -63,19 +68,19 @@ namespace Internship.Application
         }
         public bool DeleteIntern(int id)
         {
-            return _internRespository.RemoveIntern(id);
+            return _internRespository.Delete(id);
         }
 
         public bool InsertIntern(InternModel model)
         {
             var intern = ObjectMapper.Mapper.Map<Intern>(model);
-            return _internRespository.InsertIntern(intern);
+            return _internRespository.Insert(intern);
         }
 
         public bool UpdateIntern(InternModel model)
         {
             var intern = ObjectMapper.Mapper.Map<Intern>(model);
-            return _internRespository.UpdateIntern(intern);
+            return _internRespository.Update(intern);
         }
     }
 }

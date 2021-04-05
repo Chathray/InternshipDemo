@@ -212,11 +212,11 @@
                             <i class="tio-filter-list mr-1"></i> Filter
                         </a>
 
-                        <div id="usersFilterDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right dropdown-card card-dropdown-filter-centered" style="min-width: 22rem;">
+                        <div id="usersFilterDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right dropdown-card card-dropdown-filter-centered" style="min-width: 25rem;">
                             <!-- Card -->
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-header-title">Filter interns</h5>
+                                    <h5 class="card-header-title">Advanced filters</h5>
 
                                     <!-- Toggle Button -->
                                     <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-ghost-secondary ml-2" href="javascript:;"
@@ -234,57 +234,67 @@
                                     <form>
                                         <div class="form-row">
                                             <div class="col-sm form-group">
-                                                <small class="text-cap mb-2">Training</small>
+                                                <small class="text-cap mb-2">Due Date</small>
+                                                <!-- Flatpickr -->
+                                                <input id="start-date" type="text" required class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                                                       data-hs-flatpickr-options='{
+                                                       "dateFormat": "Y-m-d"
+                                                       }'>
+                                                <!-- End Flatpickr -->
+                                            </div>
 
-                                                <!-- Select -->
-                                                <select class="js-select2-custom js-datatable-filter custom-select" size="1" style="opacity: 0;"
-                                                        data-target-column-index="5"
+                                            <div class="col-sm-4 form-group">
+                                                <small class="text-cap mb-4"></small>
+
+                                                <!-- Select2 -->
+                                                <select id="due-date-mode" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                                         data-hs-select2-options='{
-                                          "minimumResultsForSearch": "Infinity"
-                                        }'>
-                                                    <option value="">Any training</option>
-                                                    @foreach (var de in Model.Trainings)
-                                                    {
-                                                        <option value="@de.TraName">@de.TraName</option>
-                                                    }
+                                                        "minimumResultsForSearch": "Infinity",
+                                                        "dropdownAutoWidth": true,
+                                                        "placeholder": "Mode"
+                                                        }'>
+                                                    <option label="empty"></option>
+                                                    <option value="1">Greater</option>
+                                                    <option value="2">Equal</option>
+                                                    <option value="3">Smaller</option>
+                                                    <option value="4">Include</option>
+                                                    <option value="5">Exclude</option>
                                                 </select>
-                                                <!-- End Select -->
+                                                <!-- End Select2 -->
                                             </div>
 
                                             <div class="col-sm form-group">
-                                                <small class="text-cap mb-2">Time</small>
-
-                                                <!-- Select -->
-                                                <select class="js-select2-custom js-datatable-filter custom-select" size="1" style="opacity: 0;"
-                                                        data-target-column-index="2"
-                                                        data-hs-select2-options='{
-                                          "minimumResultsForSearch": "Infinity"
-                                        }'>
-                                                    <option value="">Any time</option>
-                                                    <option value="Full time">Full time</option>
-                                                    <option value="Part time">Part time</option>
-                                                </select>
-                                                <!-- End Select -->
+                                                <small class="text-cap mb-4"></small>
+                                                <!-- Flatpickr -->
+                                                <input id="end-date" type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
+                                                       data-hs-flatpickr-options='{
+                                                       "dateFormat": "Y-m-d"
+                                                       }'>
+                                                <!-- End Flatpickr -->
                                             </div>
 
                                             <div class="col-12 form-group">
-                                                <small class="text-cap mb-2">Organization</small>
+                                                <small class="text-cap mb-2">Passed</small>
 
-                                                <!-- Select -->
-                                                <select class="js-select2-custom js-datatable-filter custom-select" size="1" style="opacity: 0;"
-                                                        data-target-column-index="6">
-                                                    <option value="">Any organization</option>
-                                                    @foreach (var og in Model.Organizations)
-                                                    {
-                                                        <option value="@og.OrgName">@og.OrgName</option>
-                                                    }
+                                                <!-- Select2 -->
+                                                <select id="pass-filter" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                                        data-hs-select2-options='{
+                                                        "minimumResultsForSearch": "Infinity",
+                                                        "placeholder": "Select one"
+                                                        }'>
+                                                    <option label="empty"></option>
+                                                    <option value="1">Pass</option>
+                                                    <option value="0">Fail</option>
                                                 </select>
-                                                <!-- End Select -->
+                                                <!-- End Select2 -->
                                             </div>
                                         </div>
                                         <!-- End Row -->
+
+                                        <a id="ad-filter-submit" class="btn btn-block btn-primary" href="javascript:;">Apply</a>
                                     </form>
                                 </div>
+
                             </div>
                             <!-- End Card -->
                         </div>
@@ -829,21 +839,11 @@
             <div class="modal-body">
                 <label class="input-label mb-2">Training name</label>
                 <!-- Select2 -->
-                <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                <select id="trainingSelector" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                         data-hs-select2-options='{
           "placeholder": "Select a training",
           "searchInputPlaceholder": "Type a name"
         }'>
-                    <option value="1">Bruce Maynard</option>
-                    <option value="2">Hollis Clark</option>
-                    <option value="3">Lester Howard</option>
-                    <option value="4">George Marino</option>
-                    <option value="5">Tyler Johnson</option>
-                    <option value="6">Jennifer Craig</option>
-                    <option value="7">Martha Barnwell</option>
-                    <option value="8">Florencia Todd</option>
-                    <option value="9">Henry Sloan</option>
-                    <option value="10">Abigail Watson</option>
                 </select>
                 <!-- End Select2 -->
 
@@ -857,7 +857,7 @@
                   "toolbarBottom": true,
                   "attach": "#traModal",
                          "modules": {
-                    "toolbar": false
+                    "toolbar": true
                   }
                    }'>
                     </div>
@@ -865,6 +865,10 @@
                 <!-- End Quill -->
             </div>
             <!-- End Body -->
+            <div class="modal-footer">
+                <button id="del-training" type="button" class="btn btn-xs btn-soft-danger">Delete</button>
+                <button id="change-training" type="button" class="btn btn-xs btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
