@@ -2,6 +2,5 @@
 {
     public interface IOrganizationRepository : IRepository<Organization>
     {
-        bool Delete(int id);
     }
 }

@@ -35,13 +35,6 @@ namespace Internship.Infrastructure
             return obj;
         }
 
-        public bool Delete(int id)
-        {
-            var obj = _context.Points.Single(o => o.InternId == id);
-            _context.Remove(obj);
-            return _context.SaveChanges() > 0;
-        }
-
         public IDataReader GetAllWithName()
         {            
             return _context.Database.GetDbConnection()

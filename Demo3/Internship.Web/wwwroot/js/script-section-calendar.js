@@ -39,7 +39,6 @@
     });
 
 
-
     // INITIALIZATION OF TAGIFY
     // =======================================================
     $('.js-tagify').each(function () {
@@ -235,7 +234,7 @@
         events:
         {
             url: '/calendar/getevents',
-            method: 'POST',
+            method: 'GET',
             failure: function () {
                 alert('There was an error while fetching events!');
             }

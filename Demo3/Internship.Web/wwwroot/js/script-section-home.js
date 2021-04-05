@@ -39,7 +39,7 @@
 function InternUpdate(iid) {
 
     $.ajax({
-        method: "POST",
+        method: "GET",
         url: "home/getinterninfo",
         data: { id: iid }
     }).done(function (o) {
@@ -366,7 +366,7 @@ $(document).on('ready', function () {
 
     // INITIALIZATION OF QUILLJS EDITOR
     // =======================================================
-    var quill = $.HSCore.components.HSQuill.init('.js-quill-modal-eg');
+    var quill2 = $.HSCore.components.HSQuill.init('.js-quill-modal-eg');
 
 
     // INITIALIZATION OF FLATPICKR
@@ -436,12 +436,12 @@ $(document).on('ready', function () {
             let eventData = "";
 
             $.ajax({
-                method: "POST",
+                method: "GET",
                 url: "home/getinterndetail",
                 data: { id: internId }
             }).done(function (o) {
                 $.ajax({
-                    method: "POST",
+                    method: "GET",
                     url: "calendar/getinternjoined",
                     data: { internId: internId }
                 }).done(function (msg) {
@@ -502,9 +502,52 @@ $(document).on('ready', function () {
 
 
     $('.js-datatable-search').on('change', function () {
-        var elVal = $(this).val();            
+        var elVal = $(this).val();
 
         if (elVal == 0) window.location = "/";
+    });
+
+    $('#trainingSelector').on('change', function () {
+        var tid = $(this).val();
+
+        $.get("home/gettrainingcontent", {
+            id: tid
+        }).done(function (data) {
+            quill2.setContents(JSON.parse(data), 'api');
+        }).fail(function () {
+            alert("Error");
+        });
+    });
+
+    $('#del-training').on('click', function () {
+        var tid = $('#trainingSelector').val()
+
+        $.post("home/deletetraining", {
+            id: tid
+        }).done(function (data) {
+            alert(data)
+            window.location = "/"
+        }).fail(function () {
+            alert("Error");
+        });
+    });
+
+    $('#change-training').on('click', function () {
+        var tid = $('#trainingSelector').val()
+
+        var traName = $("#trainingSelector option:selected").text();
+
+        $.post("home/updatetraining", {
+            model: {
+                'TrainingId': tid,
+                'TraName': traName,
+                'TraData': JSON.stringify(quill2.getContents())
+            }
+        }).done(function (data) {
+            alert(data)
+        }).fail(function () {
+            alert("Error");
+        });
     });
 
     $('#datatableSearch').on('keyup', function (e) {
@@ -549,6 +592,32 @@ $(document).on('ready', function () {
 
         window.location = "?" + params.toString();
     });
+
+    $('#ad-filter-submit').on('click', function () {
+        var passed = $('#pass-filter').val();
+        var filterDateMode = $('#due-date-mode').val();
+        var params = new URLSearchParams(window.location.search);
+
+        if (passed == 0 || passed == 1) {
+            params.set('inPassed', passed);
+        }
+
+        if (filterDateMode)
+            params.set('filterMode', filterDateMode);
+
+        var st = $('#start-date').val();
+        var en = $('#end-date').val();
+
+        if (st)
+            params.set('startDate', st);
+        if (en)
+            params.set('endDate', en);
+
+        if (passed == 0 || passed == 1 || filterDateMode)
+            window.location = "?" + params.toString();
+    });
+
+
 
     // CR:Init for one thing, not two, 3hours to fix bug!
     var orgtable;
@@ -675,9 +744,17 @@ $(document).on('ready', function () {
 
     ////////////  TRAINING
     $(document).on("click", '#training-now', function (e) {
-
-        $('#traModal').modal('show');
-
+        var options = [];
+        $.get("home/gettrainings").done(function (data) {
+            var parsedJSON = JSON.parse(JSON.stringify(data))
+            for (var i = 0; i < parsedJSON.length; i++) {
+                options.push(`<option value="${parsedJSON[i].trainingId}">${parsedJSON[i].traName}</option>`);
+            }
+            $('#trainingSelector').html(options.join(""))
+            $('#traModal').modal('show');
+        }).fail(function () {
+            alert("Error");
+        });
     });
 
 

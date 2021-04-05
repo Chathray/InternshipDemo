@@ -29,11 +29,20 @@ namespace Internship.Infrastructure
                 .ExecuteScalar($"CALL GetInternDetail('{id}')").ToString();
         }
 
+
+
         public DataSet GetInternModelList(int page, int size, int sort, int search_on, string search_string)
         {
             return _context.Database.GetDbConnection()
                 .ExecReaders($"CALL GetInternList({(page - 1) * size},{size},'{sort}',{search_on},'{search_string}')");
         }
+        public DataSet GetInternModelList(int page, int size, int sort, int search_on, string search_string, int inPassed, int filterMode, string startDate, string endDate)
+        {
+            return _context.Database.GetDbConnection()
+                .ExecReaders($"CALL GetInternListWithPassedFilter({inPassed},{filterMode},{startDate},{endDate},{(page - 1) * size},{size},'{sort}',{search_on},'{search_string}')");
+        }
+
+
 
         public DataTable GetInternByPage(int page, int size, string sort)
         {
@@ -54,53 +63,6 @@ namespace Internship.Infrastructure
                      .Skip((page - 1) * size)
                      .Take(size)
                      .ToList();
-        }
-
-        public bool InsertIntern(Intern model)
-        {
-            return _context.Database.GetDbConnection()
-                .Execute($"CALL InsertIntern(" +
-                        $"'{model.Email}', " +
-                        $"'{model.Phone}', " +
-                        $"'{model.FirstName}', " +
-                        $"'{model.LastName}', " +
-                        $"'{model.DateOfBirth}', " +
-                        $"'{model.Gender}', " +
-                        $"'{model.Duration}', " +
-                        $"'{model.Type}', " +
-                        $"'{model.Mentor}', " +
-                        $"'{model.TrainingId}', " +
-                        $"'{model.OrganizationId}', " +
-                        $"'{model.DepartmentId}')") > 0;
-        }
-
-        public bool UpdateIntern(Intern model)
-        {
-            return _context.Database.GetDbConnection()
-                .Execute($"CALL UpdateIntern(" +
-                        $"'{model.InternId}', " +
-
-                        $"'{model.Email}', " +
-                        $"'{model.Phone}', " +
-                        $"'{model.FirstName}', " +
-                        $"'{model.LastName}', " +
-                        $"'{model.DateOfBirth}', " +
-                        $"'{model.Gender}', " +
-                        $"'{model.Duration}', " +
-                        $"'{model.Type}', " +
-                        $"'{model.Mentor}', " +
-                        $"'{model.TrainingId}', " +
-                        $"'{model.OrganizationId}', " +
-                        $"'{model.DepartmentId}')") > 0;
-        }
-
-        public bool RemoveIntern(int id)
-        {
-            var target = _context.Interns.FirstOrDefault(x => x.InternId == id);
-            _context.Interns.Remove(target);
-            var result = _context.SaveChanges();
-
-            return result > 0;
         }
     }
 }

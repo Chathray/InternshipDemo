@@ -30,35 +30,40 @@ namespace Internship.Application
 
         public bool InsertEvent(EventModel model)
         {
-            Event aEvent = ObjectMapper.Mapper.Map<Event>(model);
+            Event obj = ObjectMapper.Mapper.Map<Event>(model);
 
             var dateArray = model.Deadline.Split(" - ");
             // Ngoại lệ ngày đơn
             try
             {
-                aEvent.Start = dateArray[0];
-                aEvent.End = dateArray[1];
+                obj.Start = dateArray[0];
+                obj.End = dateArray[1];
             }
-            catch { }
+            catch { obj.End = dateArray[0]; }
 
             switch (model.Type)
             {
                 case "fullcalendar-custom-event-hs-team":
-                    aEvent.Type = "Personal";
+                    obj.Type = "Personal";
                     break;
                 case "fullcalendar-custom-event-holidays":
-                    aEvent.Type = "Holidays";
+                    obj.Type = "Holidays";
                     break;
                 case "fullcalendar-custom-event-tasks":
-                    aEvent.Type = "Tasks";
+                    obj.Type = "Tasks";
                     break;
                 case "fullcalendar-custom-event-reminders":
-                    aEvent.Type = "Reminders";
+                    obj.Type = "Reminders";
                     break;
             }
-            aEvent.ClassName = model.Type;
+            obj.ClassName = model.Type;
 
-            return _eventRespository.InsertEvent(aEvent);
+            if (_eventRespository.CheckOne(obj.Title))
+
+                return _eventRespository.Insert(obj);
+            else
+                return _eventRespository.UpdateByTitle(obj);
+
         }
     }
 }

@@ -12,12 +12,5 @@ namespace Internship.Infrastructure
             _context = context;
 
         }
-
-        public bool Delete(int id)
-        {
-            var obj = _context.Departments.Single(o => o.DepartmentId == id);
-            _context.Remove(obj);
-            return _context.SaveChanges() > 0;
-        }
     }
 }

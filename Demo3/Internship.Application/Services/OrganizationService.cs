@@ -28,6 +28,5 @@ namespace Internship.Application
         {
             return _organizationRespository.Delete(id);
         }
-
     }
 }

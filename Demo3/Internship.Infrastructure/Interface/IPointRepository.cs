@@ -6,7 +6,6 @@ namespace Internship.Infrastructure
     {
         bool EvaluateIntern(Point point);
         Point GetPoint(int id);
-        bool Delete(int id);
         IDataReader GetAllWithName();
     }
 }

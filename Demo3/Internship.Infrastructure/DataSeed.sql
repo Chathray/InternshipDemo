@@ -56,7 +56,7 @@ CREATE TABLE `events` (
   `Type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `ClassName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `Start` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `End` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `End` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `CreatedBy` int NOT NULL,
   `CreatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedBy` int DEFAULT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE `events` (
   `GestsField` json DEFAULT NULL,
   `EventLocationLabel` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `EventDescriptionLabel` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Image` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '/img/event.svg',
+  `Image` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '/img/event.svg',
   PRIMARY KEY (`EventId`),
   UNIQUE KEY `Title_UNIQUE` (`Title`),
   KEY `FK_Events_Type_idx` (`Type`),
@@ -83,7 +83,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (1,'dẻ','Personal','fullcalendar-custom-event-hs-team','2021-04-02','2021-04-03',9,'2021-04-02 04:05:11',NULL,'2021-04-02 04:05:11','everyday','[{\"iid\": 1, \"src\": \"/img/intern.svg\", \"value\": \"Khai Tran Quang\"}]','Bien Quy Nhon','df',NULL);
+INSERT INTO `events` VALUES (1,'Leo doi','Holidays','fullcalendar-custom-event-holidays','2021-01-01','2021-01-01',1,'2021-04-05 03:18:25',NULL,'2021-04-05 06:58:14','weekdays','[{\"iid\": 1, \"src\": \"/img/intern.svg\", \"value\": \"Khai Tran Quang\"}, {\"iid\": 4, \"src\": \"/img/intern.svg\", \"value\": \"Tam Tran Quang\"}]','Vung Chua','3',NULL);
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,7 +225,7 @@ CREATE TABLE `points` (
 
 LOCK TABLES `points` WRITE;
 /*!40000 ALTER TABLE `points` DISABLE KEYS */;
-INSERT INTO `points` (`InternId`, `Marker`, `TechnicalSkill`, `SoftSkill`, `Attitude`, `CreatedDate`, `UpdatedDate`) VALUES (1,1,9.60,6.00,7.00,'2021-04-01 09:36:26','2021-04-02 08:29:04'),(3,1,1.00,1.00,3.00,'2021-04-01 09:04:19','2021-04-02 08:35:28'),(4,1,10.00,7.00,7.00,'2021-04-01 07:21:23','2021-04-02 08:35:32');
+INSERT INTO `points` (`InternId`, `Marker`, `TechnicalSkill`, `SoftSkill`, `Attitude`, `CreatedDate`, `UpdatedDate`) VALUES (1,12,9.60,6.00,7.00,'2021-04-01 09:36:26','2021-04-05 03:17:04'),(3,1,1.00,1.00,3.00,'2021-04-01 09:04:19','2021-04-02 08:35:28'),(4,1,10.00,7.00,7.00,'2021-04-01 07:21:23','2021-04-02 08:35:32');
 /*!40000 ALTER TABLE `points` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,9 +272,10 @@ CREATE TABLE `trainings` (
   `UpdatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreatedBy` int DEFAULT NULL,
   PRIMARY KEY (`TrainingId`),
+  UNIQUE KEY `TraName_UNIQUE` (`TraName`),
   KEY `FK_createdby_user_idx` (`CreatedBy`),
   CONSTRAINT `FK_createdby_user` FOREIGN KEY (`CreatedBy`) REFERENCES `users` (`UserId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,7 +284,7 @@ CREATE TABLE `trainings` (
 
 LOCK TABLES `trainings` WRITE;
 /*!40000 ALTER TABLE `trainings` DISABLE KEYS */;
-INSERT INTO `trainings` VALUES (0,'None','','2021-03-30 06:29:34','2021-04-01 08:49:40',NULL),(1,'ASP','{\"ops\":[{\"insert\":\"OK\\n\"}]}','2021-04-02 08:38:23','2021-04-02 08:38:23',1);
+INSERT INTO `trainings` VALUES (0,'None','{\"ops\":[{\"insert\":\"Nothing here\\n\"}]}','2021-03-30 06:29:34','2021-04-05 05:48:01',1),(8,'ASP.NET Core MVC','{\"ops\":[{\"insert\":\"1\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"2\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"3\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"4\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"attributes\":{\"bold\":true},\"insert\":\"5\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"attributes\":{\"bold\":true},\"insert\":\"6\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"}]}','2021-04-05 06:36:10','2021-04-05 06:36:26',1),(9,'PHP','{\"ops\":[{\"insert\":\"5\\n5\\n5\\n5\\n\"}]}','2021-04-05 06:38:30','2021-04-05 06:38:30',1);
 /*!40000 ALTER TABLE `trainings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -300,15 +301,15 @@ CREATE TABLE `users` (
   `FirstName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `LastName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `PasswordHash` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `Status` enum('success','danger','warning') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'success',
-  `Role` enum('admin','mentor','staff') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'staff',
+  `Status` enum('success','danger','warning') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'success',
+  `Role` enum('admin','mentor','staff') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'staff',
   `CreatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Avatar` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '../img/user.jpg',
   `Phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`UserId`),
   UNIQUE KEY `Email_UNIQUE` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -317,7 +318,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@x','Thang','Huynh','$2a$11$ZwUGQzP5M.gaE/FzHrbGDuNJrWhefvsoiTmyIDowKnhZuXRMBtux6','success','mentor','2021-03-15 03:39:36',NULL,'../img/user.jpg',NULL),(2,'tan@tma','Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','success','admin','2021-03-16 20:43:28','2021-03-22 04:49:25','../img/user.jpg',NULL),(3,'thanh@qnu','Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff','2021-03-17 18:41:37','2021-03-22 05:37:27','../img/user.jpg',NULL),(8,'by@tma','By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','staff','2021-03-17 02:25:34',NULL,'../img/user.jpg',NULL),(9,'lany@d','Lan','Nguyen','$2a$11$x/a3sChFcORDLIH/lENZz.FloqsS/Hm61.sIqtTluqXQNBee2.1xC','success','staff','2021-04-01 06:12:41','2021-04-01 06:12:41','../img/user.jpg',NULL);
+INSERT INTO `users` VALUES (1,'admin@x','Thang','Huynh','$2a$11$ZwUGQzP5M.gaE/FzHrbGDuNJrWhefvsoiTmyIDowKnhZuXRMBtux6','success','mentor','2021-03-15 03:39:36',NULL,'../img/user.jpg',NULL),(2,'tan@tma','Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','success','admin','2021-03-16 20:43:28','2021-03-22 04:49:25','../img/user.jpg',NULL),(3,'thanh@qnu','Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff','2021-03-17 18:41:37','2021-03-22 05:37:27','../img/user.jpg',NULL),(8,'by@tma','By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','staff','2021-03-17 02:25:34',NULL,'../img/user.jpg',NULL),(9,'lany@d','Lan','Nguyen','$2a$11$x/a3sChFcORDLIH/lENZz.FloqsS/Hm61.sIqtTluqXQNBee2.1xC','success','staff','2021-04-01 06:12:41','2021-04-01 06:12:41','../img/user.jpg',NULL),(12,'admin@xds','dat','Nguyn','$2a$11$FYKU9vMh4H/IBn./T/o1M.JUTXeqagGdd8wHcAAw1gxK.6bNtdG7O','success','staff','2021-04-05 01:49:07','2021-04-05 01:49:07','/img/user.jpg',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -603,7 +604,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `GetInternListWithCreatedOnFilter` */;
+/*!50003 DROP PROCEDURE IF EXISTS `GetInternListWithFilter` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -613,10 +614,12 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternListWithCreatedOnFilter`(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternListWithFilter`(
+	inPassed int,
+
+	filterMode int,
 	startDate Date,
 	endDate Date,
-	filterMode int,
     
 	offset_value int,
 	limit_value int,
@@ -662,91 +665,18 @@ CASE
 END = 1
 
 AND	CASE 
-	WHEN filterMode = 0 AND SUBSTRING(Duration, 1, 10) > startDate THEN 1
-	WHEN filterMode = 1 AND SUBSTRING(Duration, 1, 10) < startDate THEN 1
-	WHEN filterMode = 2 AND SUBSTRING(Duration, 1, 10) >= startDate THEN 1
-	WHEN filterMode = 3 AND SUBSTRING(Duration, 1, 10) <= startDate THEN 1
+	WHEN filterMode = 1 AND SUBSTRING(Duration, 1, 10) > startDate THEN 1
+	WHEN filterMode = 2 AND SUBSTRING(Duration, 1, 10) = startDate THEN 1
+	WHEN filterMode = 3 AND SUBSTRING(Duration, 1, 10) < startDate THEN 1
 	WHEN filterMode = 4 AND SUBSTRING(Duration, 1, 10) between startDate and endDate THEN 1
 	WHEN filterMode = 5 AND SUBSTRING(Duration, 1, 10) not between startDate and endDate THEN 1
 END = 1
 
-ORDER BY
-	CASE WHEN orderby=1 THEN t1.InternId END,
-	CASE WHEN orderby=2 THEN t1.Email END,
-	CASE WHEN orderby=3 THEN t1.FirstName END,
-	CASE WHEN orderby=4 THEN t1.Phone END,
-	CASE WHEN orderby=5 THEN DepName END,
-	CASE WHEN orderby=6 THEN OrgName END,
-	CASE WHEN orderby=7 THEN TraName END,
-	CASE WHEN orderby=8 THEN t5.FirstName END
-LIMIT offset_value, limit_value;
-
-SELECT FOUND_ROWS() AS ShowLeadsTotalRows;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `GetInternListWithPassedFilter` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetInternListWithPassedFilter`(
-	inPassed bool,
-  
-	offset_value int,
-	limit_value int,
-	orderby int,
-	search_on int,
-	search_string nvarchar(20))
-BEGIN
-
-SELECT SQL_CALC_FOUND_ROWS
-	CONCAT(t1.FirstName,' ',t1.LastName) AS FullName,
-    CONCAT(t5.FirstName,' ',t5.LastName) AS Mentor,
-	t1.InternId,
-    t1.Email,
-    t1.Avatar,
-    t1.CreatedDate,
-    t1.Phone,
-	t1.DateOfBirth,
-    t1.Gender,
-    t1.Duration, 
-    t1.Type,
-    t2.OrgName,
-	t3.DepName,
-    t4.TraName,
-    t4.TrainingId,
-    t6.passed
-FROM interns t1
-	JOIN organizations t2 ON t2.OrganizationId = t1.OrganizationId
-	JOIN departments t3 ON t3.DepartmentId = t1.DepartmentId
-	JOIN trainings t4 ON t4.TrainingId = t1.TrainingId
-	JOIN users t5 ON t5.UserId = t1.Mentor
-	JOIN points t6 ON t6.InternId = t1.InternId
-    
-WHERE
-CASE
-    WHEN search_on = 0 THEN 1
-    WHEN search_on = 1 AND search_string like t1.InternId THEN 1
-    WHEN search_on = 2 AND search_string like t1.Email THEN 1
-    WHEN search_on = 3 AND search_string like t1.FirstName THEN 1
-    WHEN search_on = 4 AND search_string like t1.Phone THEN 1
-    WHEN search_on = 5 AND search_string like DepName THEN 1
-    WHEN search_on = 6 AND search_string like OrgName THEN 1
-    WHEN search_on = 7 AND search_string like TraName THEN 1
-    WHEN search_on = 8 AND search_string like t5.FirstName THEN 1
-    ELSE 0
+AND	CASE 
+	WHEN inPassed = 2 THEN 1
+	WHEN inPassed = 0 AND t6.passed = false THEN 1
+	WHEN inPassed = 1 AND t6.passed = true THEN 1
 END = 1
-
-AND t6.passed = inPassed
 
 ORDER BY
 	CASE WHEN orderby=1 THEN t1.InternId END,
@@ -785,36 +715,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `InsertEvent` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertEvent`(
-	inTitle varchar(500),
-	inType varchar(500),
-	inClassName varchar(500),
-	inStart varchar(500),
-	inEnd varchar(500),
-	inCreatedBy varchar(500),
-	inGestsField json,
-	inRepeatField varchar(500),
-	inEventLocationLabel varchar(500),
-	inEventDescriptionLabel varchar(500))
-BEGIN
-	INSERT INTO events (Title,Type,ClassName,Start,End,CreatedBy,GestsField,RepeatField,EventLocationLabel,EventDescriptionLabel)
-	VALUES (inTitle,inType,inClassName,inStart,inEnd,inCreatedBy,inGestsField,inRepeatField,inEventLocationLabel,inEventDescriptionLabel);
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `InsertIntern` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -847,7 +747,7 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `InsertTraining` */;
+/*!50003 DROP PROCEDURE IF EXISTS `UpdateEventByTitle` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -857,82 +757,31 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertTraining`(
-	inTraName varchar(500),
-	inTraData text)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateEventByTitle`(
+	inTitle nvarchar(500),
+	inType nvarchar(500),
+	inClassName nvarchar(500),
+	inStart nvarchar(500),
+	inEnd nvarchar(500),
+	inCreatedBy nvarchar(500),
+	inGestsField nvarchar(500),
+	inRepeatField nvarchar(500),
+	inEventLocationLabel nvarchar(500),
+	inEventDescriptionLabel nvarchar(500))
 BEGIN
-	INSERT INTO trainings (TraName, TraData)
-    VALUES (inTraName, inTraData);
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `InsertUser` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertUser`(
-	inEmail varchar(500),
-	inFirstName varchar(500),
-	inLastName varchar(500),
-	inPasswordHash varchar(500))
-BEGIN
-	INSERT INTO users (Email, FirstName, LastName, PasswordHash)
-	VALUES (inEmail, inFirstName, inLastName, inPasswordHash);
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `UpdateIntern` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `UpdateIntern`(
-	inInternId int,
-	inEmail varchar(500),
-	inPhone varchar(500),
-	inFirstName varchar(500),
-	inLastName varchar(500),
-	inDateOfBirth varchar(500),
-	inGender varchar(500),
-	inDuration varchar(500),
-	inType varchar(500),
-	inMentor varchar(500),
-	inTrainingId varchar(500),
-	inOrganizationId varchar(500),
-	inDepartmentId varchar(500))
-BEGIN
-	UPDATE interns
-    SET
-		Email=inEmail,
-		Phone=inPhone,
-		FirstName=inFirstName,
-		LastName=inLastName,
-		DateOfBirth=inDateOfBirth,
-		Gender=inGender,
-		Duration=inDuration,
-		Type=inType,
-		Mentor=inMentor,
-		TrainingId=inTrainingId,
-		OrganizationId=inOrganizationId,
-		DepartmentId=inDepartmentId        
-	WHERE Internid = inInternId;
+	UPDATE events
+    SET 
+		Title = inTitle,
+		Type = inType,
+		ClassName = inClassName,
+		Start = inStart,
+		End = inEnd,
+		CreatedBy = inCreatedBy,
+		GestsField = inGestsField,
+		RepeatField = inRepeatField,
+		EventLocationLabel = inEventLocationLabel,
+		EventDescriptionLabel = inEventDescriptionLabel
+    WHERE Title = inTitle;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -949,4 +798,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-02 17:33:57
+-- Dump completed on 2021-04-05 17:20:35

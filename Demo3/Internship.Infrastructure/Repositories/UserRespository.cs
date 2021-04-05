@@ -50,12 +50,7 @@ namespace Internship.Infrastructure
 
             user.PasswordHash = BC.HashPassword(password);
 
-            return _context.Database.GetDbConnection()
-                .Execute($@"CALL InsertUser(
-                '{user.Email}', 
-                '{user.FirstName}', 
-                '{user.LastName}', 
-                '{user.PasswordHash}')") > 0;
+            return Insert(user);
         }
     }
 }
