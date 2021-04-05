@@ -68,6 +68,51 @@ function SetModalData(obj) {
 }
 
 function InternEvaluate(iid) {
+    $.ajax({
+        method: "GET",
+        url: "home/getpoint",
+        data: { id: iid }
+    }).done(function (json) {
+        if (json == null) { InternEvaluateFirstTime(iid); return; }
+
+        var parsedJSON = JSON.parse(JSON.stringify(json))
+        var color;
+
+        if (parsedJSON.passed) color = 'badge-soft-success';
+        else color = 'badge-soft-danger';
+
+        let item = `<tr data-id="${parsedJSON.internId}">
+                <td data-field="index">${parsedJSON.internId}</td>
+                <td data-field="techskill">${parsedJSON.technicalSkill}</td>
+                <td data-field="softskill">${parsedJSON.softSkill}</td>
+                <td data-field="attitude">${parsedJSON.attitude}</td>
+                <td data="score"><i class="tio-star text-warning mr-1"></i> ${parsedJSON.score}</td>
+                <td data="passed">
+                    <span class="badge ${color} p-1">${parsedJSON.passed}</span
+                </td>
+                <td data="marker">${parsedJSON.marker}</td>
+                <td>
+                    <button type="button" class="js-edit btn btn-soft-info btn-icon btn-xs">
+                        <i class="tio-edit js-edit-icon"></i>
+                    </button>                  
+                    <button id="removepoi" type="button" class="ml-2 btn btn-soft-danger btn-icon btn-xs">
+                        <i class="tio-remove js-remove-icon"></i>
+                    </button>                  
+                </td>
+                </tr>`;
+
+        $("#poi-tbody").html(item);
+        if (!poitable)
+            poitable = $.HSCore.components.HSDatatables.init($('#poitable'));
+
+        $.getScript('/js/snips/poi-table-edits.js');
+        $('#poiModal').modal('show');
+    }).fail(function () {
+        alert("Error");
+    });
+}
+
+function InternEvaluateFirstTime(iid) {
 
     $.confirm({
         title: false,
@@ -76,12 +121,10 @@ function InternEvaluate(iid) {
     <h4 class="card-header-title mb-4">Internship evaluation<span class="text-black-50" style="float:right">ID: ${iid}</span></h4>
     <div class="row my-2">
         <label for="emailLabel" class="col-sm-7 col-form-label input-label">Technical skill: </label>
-
         <div class="col-md-4 ms-auto">
             <!-- Quantity Counter -->
             <div class="js-quantity-counter input-group-quantity-counter">
-                <input id="techpoint" type="number" class="js-result form-control input-group-quantity-counter-control" min="0" value="0" max="10">
-
+                <input id="techpoint" type="number" class="js-result form-control input-group-quantity-counter-control" min="0" value="1" max="10">
                 <div class="input-group-quantity-counter-toggle">
                     <a class="js-minus input-group-quantity-counter-btn" href="javascript:;">
                         <i class="tio-remove"></i>
@@ -96,12 +139,10 @@ function InternEvaluate(iid) {
     </div>
     <div class="row my-2">
         <label for="emailLabel" class="col-sm-7 col-form-label input-label">Soft skills: </label>
-
         <div class="col-md-4 ms-auto">
             <!-- Quantity Counter -->
             <div class="js-quantity-counter input-group-quantity-counter">
-                <input id="softpoint"  type="number" class="js-result form-control input-group-quantity-counter-control" min="0" value="0" max="10">
-
+                <input id="softpoint"  type="number" class="js-result form-control input-group-quantity-counter-control" min="0" value="1" max="10">
                 <div class="input-group-quantity-counter-toggle">
                     <a class="js-minus input-group-quantity-counter-btn" href="javascript:;">
                         <i class="tio-remove"></i>
@@ -116,12 +157,10 @@ function InternEvaluate(iid) {
     </div>
     <div class="row my-2">
         <label for="emailLabel" class="col-sm-7 col-form-label input-label">Attitude: </label>
-
         <div class="col-md-4 ms-auto">
             <!-- Quantity Counter -->
             <div class="js-quantity-counter input-group-quantity-counter">
-                <input id="attipoint" type="number" class="js-result form-control input-group-quantity-counter-control" min="0" value="0" max="10">
-
+                <input id="attipoint" type="number" class="js-result form-control input-group-quantity-counter-control" min="0" value="1" max="10">
                 <div class="input-group-quantity-counter-toggle">
                     <a class="js-minus input-group-quantity-counter-btn" href="javascript:;">
                         <i class="tio-remove"></i>
@@ -412,7 +451,8 @@ $(document).on('ready', function () {
                 '<img class="mb-3" src="/img/sorry.svg" alt="Image Description" style="width: 7rem;">' +
                 '<p class="mb-0">No data to show</p>' +
                 '</div>'
-        }
+        },
+        pageLength: 32
     });
 
 
@@ -502,7 +542,7 @@ $(document).on('ready', function () {
 
 
     $('.js-datatable-search').on('change', function () {
-        var elVal = $(this).val();            
+        var elVal = $(this).val();
 
         if (elVal == 0) window.location = "/";
     });
@@ -625,52 +665,6 @@ $(document).on('ready', function () {
         });
     });
 
-
-
-    ////////////  POINTS
-    $(document).on("click", '#point-now', function (e) {
-        var items = []
-
-        $.ajax({
-            method: "GET",
-            url: "home/getpoints",
-        }).done(function (json) {
-            var parsedJSON = JSON.parse(JSON.stringify(json))
-            var color;
-
-            for (var i = 0; i < parsedJSON.length; i++) {
-                if (parsedJSON[i].passed) color = 'badge-soft-success';
-                else color = 'badge-soft-danger';
-
-                items.push(`<tr data-id="${parsedJSON[i].internId}">
-                <td data-field="index">${parsedJSON[i].internId}</td>
-                <td data="surname">${parsedJSON[i].surname}</td>
-                <td data-field="techskill">${parsedJSON[i].technicalSkill}</td>
-                <td data-field="softskill">${parsedJSON[i].softSkill}</td>
-                <td data-field="attitude">${parsedJSON[i].attitude}</td>
-                <td data="score"><i class="tio-star text-warning mr-1"></i> ${parsedJSON[i].score}</td>
-                <td data="passed">
-                    <span class="badge ${color} p-1">${parsedJSON[i].passed}</span
-                </td>
-                <td data="marker">${parsedJSON[i].marker}</td>
-                <td>
-                    <button type="button" class="js-edit btn btn-soft-info btn-icon btn-xs">
-                        <i class="tio-edit js-edit-icon"></i>
-                    </button>                  
-                    <button id="removepoi" type="button" class="ml-2 btn btn-soft-danger btn-icon btn-xs">
-                        <i class="tio-remove js-remove-icon"></i>
-                    </button>                  
-                </td>
-                </tr>`);
-            }
-            $("#poi-tbody").html(`${items.join("")}`);
-            if (!poitable)
-                poitable = $.HSCore.components.HSDatatables.init($('#poitable'));
-
-            $.getScript('/js/snips/poi-table-edits.js');
-            $('#poiModal').modal('show');
-        });
-    });
 
 
     ////////////  TRAINING

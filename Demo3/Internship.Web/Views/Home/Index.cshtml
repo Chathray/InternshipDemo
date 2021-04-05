@@ -399,9 +399,9 @@
                             "width": true
                           }'>
                         <option value="6">6</option>
-                        <option value="8">8</option>
                         <option value="12">12</option>
-                        <option value="16">16</option>
+                        <option value="24">24</option>
+                        <option value="32">32</option>
                     </select>
                     <!-- End Select -->
 
@@ -421,7 +421,7 @@
                                 <li class="paginate_item page-item">
                                     <a href="/?size=@Model.Pager.PageSize&page=@Model.Pager.StartPage&sort=@Model.Pager.Sort"
                                        class="paginate_button page-link">
-                                        <span aria-hidden="true">Start</span>
+                                        <span aria-hidden="true">Previous</span>
                                     </a>
                                 </li>
 
@@ -436,7 +436,7 @@
                                 <li class="paginate_item page-item">
                                     <a href="/?size=@Model.Pager.PageSize&page=@Model.Pager.EndPage&sort=@Model.Pager.Sort"
                                        class="paginate_button page-link">
-                                        <span aria-hidden="true">End</span>
+                                        <span aria-hidden="true">Next</span>
                                     </a>
                                 </li>
                             </ul>
@@ -693,7 +693,11 @@
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Address</th>
-                                <th>Action</th>
+                                <th>
+                                    <span id="insert-org" type="button" class="btn btn-xs btn-ghost-primary">
+                                        Insert
+                                    </span>
+                                </th>
                             </tr>
                         </thead>
 
@@ -738,7 +742,11 @@
                                 <th>Index</th>
                                 <th>Name</th>
                                 <th>Location</th>
-                                <th>Action</th>
+                                <th>
+                                    <span id="insert-dep" type="button" class="btn btn-xs btn-ghost-primary">
+                                        Insert
+                                    </span>
+                                </th>
                             </tr>
                         </thead>
 
@@ -752,7 +760,7 @@
     </div>
 </div>
 
-<!-- Modal point-now -->
+<!-- Modal point-view -->
 <div class="modal fade" id="poiModal" tabindex="-4" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -765,27 +773,25 @@
                     <table id="poitable" class="js-editable-table table-hover table table-md table-borderless table-thead-bordered table-nowrap table-align-middle"
                            data-hs-datatables-options='{
                      "columnDefs": [{
-                        "targets": [8],
+                        "targets": [0,1,2,3,4,5,6,7],
                         "orderable": false
                       }],
                      "order": []
                }'>
                         <colgroup>
-                            <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 12%;">
+                            <col span="1" style="width: 12%;">
+                            <col span="1" style="width: 12%;">
+                            <col span="1" style="width: 12%;">
+                            <col span="1" style="width: 12%;">
+                            <col span="1" style="width: 12%;">
                             <col span="1" style="width: 15%;">
-                            <col span="1" style="width: 10%;">
-                            <col span="1" style="width: 10%;">
-                            <col span="1" style="width: 10%;">
-                            <col span="1" style="width: 10%;">
-                            <col span="1" style="width: 10%;">
-                            <col span="1" style="width: 15%;">
-                            <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 13%;">
                         </colgroup>
 
                         <thead class="">
                             <tr>
                                 <th>Intern ID</th>
-                                <th>Surname</th>
                                 <th>Technical Skill</th>
                                 <th>Soft Skill</th>
                                 <th>Attitude</th>

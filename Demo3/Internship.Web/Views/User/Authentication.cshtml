@@ -91,7 +91,8 @@
                                             </label>
                                             <div class="control is-bigger has-icon">
                                                 <input asp-for="LoginPassword" required id="login-password" type="password" class="input">
-                                                <div> @Html.ValidationMessage("result")</div>
+                                                <div style="color:lightcoral;">@Html.ValidationMessage("fail")</div>
+                                                <div style="color:limegreen;">@Html.ValidationMessage("done")</div>
                                                 <div class="form-icon">
                                                     <i data-feather="lock"></i>
                                                 </div>
@@ -100,7 +101,7 @@
                                         <!--Field-->
                                         <div class="flex-field">
                                             <label class="special-toggle">
-                                                <input type="checkbox">
+                                                <input asp-for="Remember" type="checkbox">
                                                 <span class="toggler">
                                                     <span class="active">
                                                         <i data-feather="check"></i>
@@ -260,10 +261,6 @@
 
 
             $('#login-submit').on('click', function () {
-                if ($('#login-email').val() == "")
-                    return;
-                if ("" == $('#login-password').val())
-                    return;
 
                 var $this = $(this);
                 $this.addClass('is-loading');

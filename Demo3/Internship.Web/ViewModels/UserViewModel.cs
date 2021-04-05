@@ -11,6 +11,8 @@ namespace Internship.Web
 
         public string LoginPassword { get; set; }
 
+        public bool Remember { get; set; }
+
         /*-----------------------------------*/
 
         public string ResetEmail { get; set; }
