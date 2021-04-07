@@ -34,12 +34,12 @@ namespace Internship.Infrastructure
         public DataSet GetInternModelList(int page, int size, int sort, int search_on, string search_string)
         {
             return _context.Database.GetDbConnection()
-                .ExecReaders($"CALL GetInternList({(page - 1) * size},{size},'{sort}',{search_on},'{search_string}')");
+                .ExecReaders($"CALL GetInternList({(page - 1) * size},{size},{sort},{search_on},'{search_string}')");
         }
-        public DataSet GetInternModelList(int page, int size, int sort, int search_on, string search_string, int inPassed, int filterMode, string startDate, string endDate)
+        public DataSet GetInternModelList(int page, int size, int sort, int search_on, string search_string, int on_passed, int date_filter, string start_date, string end_date)
         {
             return _context.Database.GetDbConnection()
-                .ExecReaders($"CALL GetInternListWithPassedFilter({inPassed},{filterMode},{startDate},{endDate},{(page - 1) * size},{size},'{sort}',{search_on},'{search_string}')");
+                .ExecReaders($"CALL GetInternListWithFilter({on_passed},{date_filter},'{start_date}','{end_date}',{(page - 1) * size},{size},{sort},{search_on},'{search_string}')");
         }
 
 
@@ -48,7 +48,7 @@ namespace Internship.Infrastructure
         {
             return _context.Database.GetDbConnection()
                 .ExecReader($"CALL GetInternList(" +
-                $"{(page - 1) * size},{size},'{sort}')");
+                $"{(page - 1) * size},{size},{sort})");
         }
 
         public IList<Intern> GetInternByPage(int page, int size)

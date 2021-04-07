@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Internship.Infrastructure
 {
@@ -11,6 +12,12 @@ namespace Internship.Infrastructure
         {
             _context = context;
 
+        }
+
+        public bool InsertSharedTraining(int sharedId, int depId)
+        {
+            return _context.Database.GetDbConnection()
+                .ExecNonQuery($"CALL SetSharedTraining({sharedId},{depId})");
         }
     }
 }

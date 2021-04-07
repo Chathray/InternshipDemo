@@ -2,6 +2,7 @@
 using System.Linq;
 using Dapper;
 using System.Data;
+using System;
 
 namespace Internship.Infrastructure
 {
@@ -39,6 +40,12 @@ namespace Internship.Infrastructure
         {            
             return _context.Database.GetDbConnection()
                  .ExecuteReader($"CALL GetAllPointWithName()");
+        }
+
+        public int GetPassedCount()
+        {
+            return Convert.ToInt32(_context.Database.GetDbConnection()
+                 .ExecuteScalar($"CALL HowManyPassed()"));
         }
     }
 }

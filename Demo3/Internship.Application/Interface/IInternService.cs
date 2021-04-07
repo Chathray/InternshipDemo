@@ -16,6 +16,6 @@ namespace Internship.Application
         public IList<InternModel> GetInternByPage(int page, int size);
         public IList<InternListModel> GetInternByPage(int page, int size, string sort);
         DataSet GetInternByPage(int currentPage, int pageSize, int sort, int search_on, string search_string);
-        DataSet GetInternByPage(int currentPage, int pageSize, int sort, int search_on, string search_string, int inPassed, int filterMode, string startDate, string endDate);
+        DataSet GetInternByPage(int currentPage, int pageSize, int sort, int search_on, string search_string, int on_passed, int date_filter, string start_date, string end_date);
     }
 }

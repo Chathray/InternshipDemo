@@ -6,16 +6,16 @@ namespace Internship.Web
 {
     public class PaginationLogic
     {
-        public PaginationLogic(int sort, int totalItems, int currentPage, int pageSize, int maxPages = 10)
+        public PaginationLogic(int totalItems, int currentPage, int pageSize, int maxPages = 5)
         {
             // ensure page size isn't out of range
             if (pageSize < 6)
             {
                 pageSize = 6;
             }
-            else if (pageSize > 30)
+            else if (pageSize > 32)
             {
-                pageSize = 30;
+                pageSize = 32;
             }
 
             // calculate total pages
@@ -41,8 +41,8 @@ namespace Internship.Web
             else
             {
                 // total pages more than max so calculate start and end pages
-                var maxPagesBeforeCurrentPage = (int)Math.Floor((decimal)maxPages / (decimal)2);
-                var maxPagesAfterCurrentPage = (int)Math.Ceiling((decimal)maxPages / (decimal)2) - 1;
+                var maxPagesBeforeCurrentPage = (int)Math.Floor(maxPages / (decimal)2);
+                var maxPagesAfterCurrentPage = (int)Math.Ceiling(maxPages / (decimal)2) - 1;
                 if (currentPage <= maxPagesBeforeCurrentPage)
                 {
                     // current page near the start
@@ -72,7 +72,6 @@ namespace Internship.Web
 
             // update object instance with all pager properties required by the view
             TotalItems = totalItems;
-            Sort = sort;
             CurrentPage = currentPage;
             PageSize = pageSize;
             TotalPages = totalPages;
@@ -84,7 +83,6 @@ namespace Internship.Web
         }
 
         public int TotalItems { get; private set; }
-        public int Sort { get; private set; }
         public int CurrentPage { get; private set; }
         public int PageSize { get; private set; }
         public int TotalPages { get; private set; }

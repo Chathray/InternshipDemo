@@ -30,5 +30,9 @@ namespace Internship.Application
             return _departmentRespository.Delete(id);
         }
 
+        public bool InsertSharedTraining(int sharedId, int depId)
+        {
+            return _departmentRespository.InsertSharedTraining(sharedId, depId);
+        }
     }
 }

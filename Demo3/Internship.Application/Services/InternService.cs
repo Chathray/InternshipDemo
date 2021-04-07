@@ -24,9 +24,9 @@ namespace Internship.Application
             return _internRespository.GetInternModelList(currentPage, pageSize, sort, search_on, search_string);
         }
 
-        public DataSet GetInternByPage(int currentPage, int pageSize, int sort, int search_on, string search_string, int inPassed, int filterMode, string startDate, string endDate)
+        public DataSet GetInternByPage(int currentPage, int pageSize, int sort, int search_on, string search_string, int on_passed, int date_filter, string start_date, string end_date)
         {
-            return _internRespository.GetInternModelList(currentPage, pageSize, sort, search_on, search_string, inPassed, filterMode, startDate, endDate);
+            return _internRespository.GetInternModelList(currentPage, pageSize, sort, search_on, search_string, on_passed, date_filter, start_date, end_date);
         }
 
         public IList<InternListModel> GetInternByPage(int page, int size, string sort)

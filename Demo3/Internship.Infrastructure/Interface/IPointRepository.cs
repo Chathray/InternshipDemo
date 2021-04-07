@@ -7,5 +7,6 @@ namespace Internship.Infrastructure
         bool EvaluateIntern(Point point);
         Point GetPoint(int id);
         IDataReader GetAllWithName();
+        int GetPassedCount();
     }
 }

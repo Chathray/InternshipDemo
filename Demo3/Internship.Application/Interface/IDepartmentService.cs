@@ -8,5 +8,6 @@ namespace Internship.Application
 
         bool UpdateDepartment(DepartmentModel model);
         bool DeleteDepartment(int id);
+        bool InsertSharedTraining(int sharedId, int depId);
     }
 }

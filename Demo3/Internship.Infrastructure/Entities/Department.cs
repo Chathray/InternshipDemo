@@ -10,6 +10,7 @@ namespace Internship.Infrastructure
         public int DepartmentId { get; private set; }
         public string DepName { get; private set; }
         public string DepLocation { get; private set; }
+        public string SharedTrainings { get; private set; }
 
         private Department() { }
     }

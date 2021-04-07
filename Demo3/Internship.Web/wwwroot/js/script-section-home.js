@@ -332,6 +332,9 @@ function CreateTraining() {
               </div>
               <!-- End Body -->`,
         columnClass: 'large',
+        container: 'main',
+        containerFluid: false,
+        dragWindowBorder: false,
         backgroundDismiss: true,
         onOpenBefore: function () {
             $.getScript('/js/snips/quilljs-editor.js');
@@ -370,7 +373,7 @@ $(document).on('ready', function () {
     $('#datatableSearch').val(params.get("search_string") ? params.get("search_string") : "");
 
 
-    $(document).on("click", '#addibtn', function (e) {
+    $('#addibtn').on("click", function (e) {
         //var type = $("#cui-submit").text(); //For button
 
         $('#cui-form').attr('action', '/');
@@ -388,6 +391,12 @@ $(document).on('ready', function () {
         $('#organizationLabel').val('').change();
         $('#departmentLabel').val('').change();
         $('#trainingLabel').val('').change();
+    });
+
+    $.get("home/getpassedcount").done(function (data) {
+        $('#passed-count').append(data);
+    }).fail(function () {
+        alert("Have error when get passed.");
     });
 
     // INITIALIZATION OF NAV SCROLLER
@@ -574,6 +583,7 @@ $(document).on('ready', function () {
 
     $('#change-training').on('click', function () {
         var tid = $('#trainingSelector').val()
+        var deparray = $('#depSharedSelector').val()
 
         var traName = $("#trainingSelector option:selected").text();
 
@@ -584,7 +594,16 @@ $(document).on('ready', function () {
                 'TraData': JSON.stringify(quill2.getContents())
             }
         }).done(function (data) {
-            alert(data)
+
+            $.post("home/setsharedtraining", {
+                sharedId: tid,
+                depArray: deparray
+            }).done(function (data) {
+                alert(data)
+            }).fail(function () {
+                alert("Error");
+            });
+
         }).fail(function () {
             alert("Error");
         });
@@ -633,27 +652,40 @@ $(document).on('ready', function () {
         window.location = "?" + params.toString();
     });
 
+    $('.paginate_button').on('click', function () {
+        var params = new URLSearchParams(window.location.search);
+        var curr = $(this).html()
+
+        if (isNaN(curr)) {
+            params.set('page', $(this).attr("data-id"));
+        }
+        else
+            params.set('page', curr);
+
+        window.location = "?" + params.toString();
+    });
+
     $('#ad-filter-submit').on('click', function () {
         var passed = $('#pass-filter').val();
-        var filterDateMode = $('#due-date-mode').val();
+        var dateFilter = $('#due-date-mode').val();
+
         var params = new URLSearchParams(window.location.search);
 
-        if (passed == 0 || passed == 1) {
-            params.set('inPassed', passed);
+        if (passed) {
+            params.set('on_passed', passed);
         }
+        if (dateFilter) {
+            params.set('date_filter', dateFilter);
 
-        if (filterDateMode)
-            params.set('filterMode', filterDateMode);
+            var st = $('#start-date').val();
+            var en = $('#end-date').val();
 
-        var st = $('#start-date').val();
-        var en = $('#end-date').val();
-
-        if (st)
-            params.set('startDate', st);
-        if (en)
-            params.set('endDate', en);
-
-        if (passed == 0 || passed == 1 || filterDateMode)
+            if (st)
+                params.set('start_date', st);
+            if (en)
+                params.set('end_date', en);
+        }
+        if (passed || dateFilter)
             window.location = "?" + params.toString();
     });
 
@@ -662,7 +694,6 @@ $(document).on('ready', function () {
     // CR:Init for one thing, not two, 3hours to fix bug!
     var orgtable;
     var deptable;
-    var poitable;
 
     ////////////  ORGANIZATION
     $(document).on("click", '#organization-now', function (e) {
@@ -750,8 +781,6 @@ $(document).on('ready', function () {
             alert("Error");
         });
     });
-
-
 
 
     $(document).on("click", '#removedep', function (e) {

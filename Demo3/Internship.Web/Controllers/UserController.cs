@@ -39,7 +39,7 @@ namespace Internship.Web
 
             if (user == null)
             {
-                ModelState.AddModelError("result", "Tên người dùng hoặc mật khẩu không chính xác.");
+                ModelState.AddModelError("fail", "The username or password is incorrect!");
                 return View("Authentication", model);
             }
 
@@ -72,13 +72,19 @@ namespace Internship.Web
             var user = _mapper.Map<UserModel>(model);
             try
             {
-                _userService.InsertUser(user);
+                bool réult = _userService.InsertUser(user);
+                if(réult)
+                {
+                    ModelState.AddModelError("done", "Registration complete, login now!");
+                    return View("Authentication");
+                }
             }
             catch (AppException ex)
             {
                 _logger.LogInformation(ex.Message);
             }
-            return RedirectToAction("Authentication");
+            ModelState.AddModelError("fail", "Registration failed, please try again!");
+            return View("Authentication", model);
         }
 
         public async Task<IActionResult> Logout()

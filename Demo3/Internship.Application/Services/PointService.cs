@@ -50,5 +50,10 @@ namespace Internship.Application
 
             return DataExtensions.ConvertDataTable<PointListModel>(table);
         }
+
+        public int GetPassedCount()
+        {
+            return _pointRespository.GetPassedCount();
+        }
     }
 }

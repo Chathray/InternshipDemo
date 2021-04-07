@@ -121,10 +121,13 @@
                     <div class="col">
                         <!-- Media -->
                         <div class="media">
-                            <i class="tio-poi-outlined nav-icon"></i>
+                            <i class="tio-marker-outlined nav-icon"></i>
 
                             <div class="media-body">
-                                <a href="javascript:;" id="point-now" class="mb-1 h5">Points</a>
+                                <span class="mb-1 h5">Points</span>
+                                <span id="passed-count" class="badge badge-soft-success ml-1">
+                                    <i class="tio-all-done"></i>
+                                </span>
                             </div>
                         </div>
                         <!-- End Media -->
@@ -283,8 +286,9 @@
                                                         "placeholder": "Select one"
                                                         }'>
                                                     <option label="empty"></option>
-                                                    <option value="1">Pass</option>
                                                     <option value="0">Fail</option>
+                                                    <option value="1">Pass</option>
+                                                    <option value="2">All</option>
                                                 </select>
                                                 <!-- End Select2 -->
                                             </div>
@@ -418,7 +422,7 @@
                     <span class="text-secondary mr-2">of</span>
 
                     <!-- Pagination Quantity -->
-                    <span id="datatableWithPaginationInfoTotalQty">@Model.Interns.Tables[1].Rows[0]["ShowLeadsTotalRows"]</span>
+                    <span id="datatableWithPaginationInfoTotalQty">@Model.Interns.Tables[1].Rows[0]["FOUND_ROWS"]</span>
                 </div>
             </div>
 
@@ -429,8 +433,8 @@
                         <div class="dataTables_paginate paging_simple_numbers" id="datatable_paginate">
                             <ul id="datatable_pagination" class="pagination datatable-custom-pagination">
                                 <li class="paginate_item page-item">
-                                    <a href="/?size=@Model.Pager.PageSize&page=@Model.Pager.StartPage&sort=@Model.Pager.Sort"
-                                       class="paginate_button page-link">
+                                    <a href="javascript:;"
+                                       class="paginate_button page-link" data-id="@Model.Pager.StartPage">
                                         <span aria-hidden="true">Previous</span>
                                     </a>
                                 </li>
@@ -438,14 +442,14 @@
                                 @foreach (var i in Model.Pager.Pages)
                                 {
                                     <li class="paginate_item page-item @Model.CheckPageActive(i)">
-                                        <a href="/?size=@Model.Pager.PageSize&page=@i&sort=@Model.Pager.Sort"
+                                        <a href="javascript:;"
                                            class="paginate_button page-link">@i</a>
                                     </li>
                                 }
 
                                 <li class="paginate_item page-item">
-                                    <a href="/?size=@Model.Pager.PageSize&page=@Model.Pager.EndPage&sort=@Model.Pager.Sort"
-                                       class="paginate_button page-link">
+                                    <a href="javascript:;"
+                                       class="paginate_button page-link" data-id="@Model.Pager.EndPage">
                                         <span aria-hidden="true">Next</span>
                                     </a>
                                 </li>
@@ -850,24 +854,73 @@
                 <label class="input-label mt-4 mb-2">Content</label>
                 <!-- Quill -->
                 <div class="quill-custom">
-
+                    <div id="qlToolbarContainer2">
+                        <div class="row align-items-center">
+                            <div class="col-sm">
+                                <!-- Toolbar List -->
+                                <ul class="list-inline ql-toolbar-list">
+                                    <li class="list-inline-item">
+                                        <button class="ql-bold"></button>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <button class="ql-italic"></button>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <button class="ql-underline"></button>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <button class="ql-strike"></button>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <button class="ql-link"></button>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <button class="ql-image"></button>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <button class="ql-blockquote"></button>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <button class="ql-code"></button>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <button class="ql-list" value="bullet"></button>
+                                    </li>
+                                </ul>
+                                <!-- End Toolbar List -->
+                            </div>
+                        </div>
+                    </div>
                     <div class="js-quill-modal-eg" style="min-height: 15rem;"
                          data-hs-quill-options='{
-                  "placeholder": "Content is empty...",
-                  "toolbarBottom": true,
-                  "attach": "#traModal",
+                         "placeholder": "Content is empty...",
+                         "toolbarBottom": true,
+                         "attach": "#traModal",
                          "modules": {
-                    "toolbar": true
-                  }
-                   }'>
+                         "toolbar": "#qlToolbarContainer2"
+                         }}'>
                     </div>
                 </div>
                 <!-- End Quill -->
+
+                <label class="input-label mt-4 mb-2">Shared to</label>
+                <!-- Select2 -->
+                <select id="depSharedSelector" class="js-select2-custom custom-select" multiple size="1" style="opacity: 0;"
+                        data-hs-select2-options='{
+                        "minimumResultsForSearch": "Infinity"
+                        }'>
+                    @foreach (var de in Model.Departments)
+                    {
+                        <option value="@de.DepartmentId">@de.DepName</option>
+                    }
+                </select>
+                <!-- End Select2 -->
+
             </div>
             <!-- End Body -->
             <div class="modal-footer">
-                <button id="del-training" type="button" class="btn btn-xs btn-soft-danger">Delete</button>
-                <button id="change-training" type="button" class="btn btn-xs btn-primary">Save changes</button>
+                <button id="del-training" type="button" class="btn btn-soft-danger">Delete</button>
+                <button id="change-training" type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -49,41 +50,36 @@ namespace Internship.Web
         }
 
         [HttpGet]
-        public IActionResult Index(int page, int size, int sort = 1, int search_on = 0,
-            string search_string = "",
-            int inPassed = 2,
-            string startDate = null,
-            string endDate = null,
-            int filterMode = 0)
+        public IActionResult Index(
+            int page = 1, int size = 6, int sort = 1,
+            int search_on = 0, string search_string = "",
+            int on_passed = 2,
+            int date_filter = 0, string start_date = "1970-01-01", string end_date = "2070-01-01")
         {
             ViewData["page-1"] = "active";
 
-            var total = _userService.CountByIndex(4);
-            var pagination = new PaginationLogic(sort, total, page, size);
-            DataSet dt;
+            DataSet dataset;
 
-            bool haveFilter = inPassed != 2 || filterMode != 0;
+            bool haveFilter = on_passed != 2 || date_filter != 0;
 
             if (haveFilter)
-                dt = _internService.GetInternByPage(
-                     pagination.CurrentPage,
-                     pagination.PageSize,
-                     sort,
-                     search_on,
-                     search_string,
-                     inPassed,
-                     filterMode,
-                     startDate,
-                     endDate);
+            {
+                _logger.LogInformation($"{page},{size},{sort},{search_on},{search_string},{on_passed},{date_filter},{start_date},{end_date}");
+                dataset = _internService.GetInternByPage(
+                     page, size, sort,
+                     search_on, search_string,
+                     on_passed,
+                     date_filter, start_date, end_date);
+            }
             else
-                dt = _internService.GetInternByPage(
-                     pagination.CurrentPage,
-                     pagination.PageSize,
-                     sort,
-                     search_on,
-                     search_string);
+                dataset = _internService.GetInternByPage(
+                     page, size, sort,
+                     search_on, search_string);
 
-            var model = new IndexViewModel(pagination, dt,
+            var total = Convert.ToInt32(dataset.Tables[1].Rows[0]["FOUND_ROWS"]);
+            var pagination = new PaginationLogic(total, page, size);
+
+            var model = new IndexViewModel(pagination, dataset,
                 _trainingService.GetAll(),
                 _organizationService.GetAll(),
                 _departmentService.GetAll(),
@@ -154,6 +150,7 @@ namespace Internship.Web
         }
 
 
+
         #region INSERT
         [HttpPost]
         public bool EvaluateIntern(PointViewModel model)
@@ -170,6 +167,7 @@ namespace Internship.Web
             return _trainingService.InsertTraining(model);
         }
         #endregion
+
 
 
         #region DELETE
@@ -203,6 +201,17 @@ namespace Internship.Web
 
 
         #region UPDATE
+        [HttpPost]
+        public bool SetSharedTraining(int sharedId, int[] depArray)
+        {
+            bool result = true;
+            foreach (var depId in depArray)
+            {
+                _logger.LogInformation(depId + "\n");
+                result = result && _departmentService.InsertSharedTraining(sharedId, depId);
+            }
+            return result;
+        }
         [HttpPost]
         public bool UpdatePoint(PointModel model)
         {
@@ -253,6 +262,14 @@ namespace Internship.Web
         public string GetTrainingContent(int id)
         {
             return _trainingService.GetTrainingContent(id);
+        }
+
+        [HttpGet("Home/GetPassedCount")]
+        public string GetPassedCount()
+        {
+            var passed = _pointService.GetPassedCount();
+            var total = _userService.CountByIndex(6);
+            return (passed / (float)total).ToString("0%");
         }
         //_____________________________________________________
 
