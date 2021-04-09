@@ -1,6 +1,8 @@
 using Internship.Application;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 
 namespace Internship.Web
 {
@@ -45,6 +47,25 @@ namespace Internship.Web
         public string CheckPageActive(int page)
         {
             return page == Pager.CurrentPage ? "active" : "";
+        }
+
+        public string GetAvatarHtml(DataRow X)
+        {
+            var img_src = "/img/avatar/" + X["Avatar"];
+            var tooltip = X["InternId"] + ": " + X["CreatedDate"];
+
+            if (File.Exists(Environment.CurrentDirectory + "/wwwroot" + img_src))
+            {
+                return @$"<div class='avatar avatar-sm avatar-circle' data-toggle='tooltip' data-placement='top' title='{tooltip}'>
+                            <img class='avatar-img' src='{img_src}' alt='Image Description'>
+                         </div>";
+            }
+            else
+            {
+                return @$"<div class='avatar avatar-sm avatar-circle avatar-soft-dark' data-toggle='tooltip' data-placement='top' title='{tooltip}'>
+                            <span class='avatar-initials'>{X["FullName"].ToString()[0]}</span>
+                         </div>";
+            }
         }
     }
 }

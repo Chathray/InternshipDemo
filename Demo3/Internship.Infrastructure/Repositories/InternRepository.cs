@@ -33,8 +33,35 @@ namespace Internship.Infrastructure
 
         public DataSet GetInternModelList(int page, int size, int sort, int search_on, string search_string)
         {
+            string search_on_p = search_on switch
+            {
+                1 => $"t1.InternId LIKE '{search_string}'",
+                2 => $"t1.Email LIKE '{search_string}'",
+                3 => $"t1.FirstName LIKE '{search_string}'",
+                4 => $"t1.Phone LIKE '{search_string}'",
+                5 => $"DepName LIKE '{search_string}'",
+                6 => $"OrgName LIKE '{search_string}'",
+                7 => $"TraName LIKE '{search_string}'",
+                8 => $"t5.FirstName LIKE '{search_string}'",
+                _ => "1",
+            };
+
+            string sort_p = sort switch
+            {
+                2 => "t1.Email",
+                3 => "t1.FirstName",
+                4 => "t1.Phone",
+                5 => "DepName",
+                6 => "OrgName",
+                7 => "TraName",
+                8 => "t5.FirstName",
+                _ => "t1.InternId",
+            };
+
+            var p_type = $"{search_on_p} ORDER BY {sort_p} LIMIT {(page - 1) * size},{size}";
+
             return _context.Database.GetDbConnection()
-                .ExecReaders($"CALL GetInternList({(page - 1) * size},{size},{sort},{search_on},'{search_string}')");
+                .ExecReaders($"CALL GetInternList({"\""}{p_type}{"\""})");
         }
         public DataSet GetInternModelList(int page, int size, int sort, int search_on, string search_string, int on_passed, int date_filter, string start_date, string end_date)
         {

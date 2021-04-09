@@ -51,8 +51,18 @@ function InternUpdate(iid) {
     });
 }
 
+function readAvatarURL(input) {
+    var filename = input.files[0]['name'];
+    $('#avatarName').val(filename);
+}
+
 function SetModalData(obj) {
-    $('#avatarImg').prop("src", obj.avatar);
+    $('#avatarImg').attr("src", "img/avatar/" + obj.avatar);
+
+    var filename = obj.avatar;
+    var ext = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
+    $('#avatarName').val(obj.email + "." + ext);
+
     $('#firstNameLabel').val(obj.firstname);
     $('#lastNameLabel').val(obj.lastname);
     $('#birthLabel').val(obj.birth);
@@ -362,6 +372,25 @@ function CreateTraining() {
     });
 }
 
+$(document).on('submit', '#cui-form', function () {
+    var str = $('#avatarName').val();
+    var em = $('#emailLabel').val();
+    var ex = str.substring(str.lastIndexOf(".") + 1);
+
+    var imgname = em + "." + ex;
+    var img64 = $('#avatarImg').attr("src").split(",").pop();
+
+    $('#avatarName').val(imgname)
+
+    $.post("home/UploadAvatar", {
+        ImgStr: img64,
+        ImgName: imgname
+    }).done(function () {
+        alert("Result: Avatar uploaded!");
+    }).fail(function () {
+        alert("Error");
+    });
+});
 
 $(document).on('ready', function () {
 
@@ -371,7 +400,6 @@ $(document).on('ready', function () {
     $('.js-datatable-sort').val(params.get("sort") ? params.get("sort") : 1);
     $('.js-datatable-search').val(params.get("search_on") ? params.get("search_on") : 0);
     $('#datatableSearch').val(params.get("search_string") ? params.get("search_string") : "");
-
 
     $('#addibtn').on("click", function (e) {
         //var type = $("#cui-submit").text(); //For button

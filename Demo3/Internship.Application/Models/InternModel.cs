@@ -32,8 +32,12 @@ namespace Internship.Application
 
             writer.WritePropertyName("iid");
             serializer.Serialize(writer, name.InternId);
+
             writer.WritePropertyName("src");
-            serializer.Serialize(writer, name.Avatar);
+            // This will ensure avatar alway not null, on update, on... etc
+            if (string.IsNullOrEmpty(name.Avatar)) name.Avatar = "intern.jpg";
+            serializer.Serialize(writer, "/img/avatar/" + name.Avatar);
+
             writer.WritePropertyName("value");
             serializer.Serialize(writer, name.FirstName + " " + name.LastName);
 

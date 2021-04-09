@@ -340,9 +340,7 @@
                         <td class="details-control"></td>
                         <td class="table-column-pl-0">
                             <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm avatar-circle" data-toggle="tooltip" data-placement="top" title="@X["InternId"]: @X["CreatedDate"]">
-                                    <img class="avatar-img" src="@X["Avatar"]" alt="Image Description">
-                                </div>
+                                @Html.Raw(Model.GetAvatarHtml(X))
                                 <div class="ml-3">
                                     <span class="d-block h5 text-hover-primary mb-0">@X["FullName"]</span>
                                     <span class="d-block font-size-sm text-body">@X["Email"]</span>
@@ -488,14 +486,14 @@
                             <div class="d-flex align-items-center">
                                 <!-- Avatar -->
                                 <label class="avatar avatar-xl avatar-circle avatar-uploader mr-5" for="avatarUploader">
-                                    <img id="avatarImg" class="avatar-img" src="/img/img1.jpg" alt="Image Description">
-
-                                    <input asp-for="Avatar" type="file" class="js-file-attach avatar-uploader-input" id="avatarUploader" data-hs-file-attach-options='{
+                                    <img id="avatarImg" class="avatar-img" src="/img/avatar/intern.png" alt="Image Description">
+                                    <input id="avatarName" type="text" asp-for="Avatar" style="display: none;" />
+                                    <input type="file" onChange="readAvatarURL(this);" class="js-file-attach avatar-uploader-input" id="avatarUploader" data-hs-file-attach-options='{
                                         "textTarget": "#avatarImg",
                                         "mode": "image",
                                         "targetAttr": "src",
                                         "resetTarget": ".js-file-attach-reset-img",
-                                        "resetImg": "/img/img1.jpg",
+                                        "resetImg": "/img/avatar/intern.png",
                                         "allowTypes": [".png", ".jpeg", ".jpg"]
                                      }'>
 
@@ -529,7 +527,7 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Flatpickr -->
-                                <input asp-for="DateOfBirth" type="text" id="birthLabel" class="js-flatpickr form-control" placeholder="Select dates"
+                                <input asp-for="DateOfBirth" type="text" id="birthLabel" required class="js-flatpickr form-control" placeholder="Select dates"
                                        data-hs-flatpickr-options='{
                                            "dateFormat": "Y-m-d"
                                        }'>
@@ -537,7 +535,7 @@
 
                                 <div class="input-group-append">
                                     <!-- Select2 -->
-                                    <select asp-for=Gender id="genderLabel" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                    <select asp-for=Gender id="genderLabel" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                             data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select gender"}'>
                                         <option label="empty"></option>
@@ -903,7 +901,7 @@
                 </div>
                 <!-- End Quill -->
 
-                <label class="input-label mt-4 mb-2">Shared to</label>
+                <label class="input-label mt-4 mb-2">Share with</label>
                 <!-- Select2 -->
                 <select id="depSharedSelector" class="js-select2-custom custom-select" multiple size="1" style="opacity: 0;"
                         data-hs-select2-options='{

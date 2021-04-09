@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace Internship.Web
@@ -58,28 +59,28 @@ namespace Internship.Web
         {
             ViewData["page-1"] = "active";
 
-            DataSet dataset;
+            DataSet dtset;
 
             bool haveFilter = on_passed != 2 || date_filter != 0;
 
             if (haveFilter)
             {
                 _logger.LogInformation($"{page},{size},{sort},{search_on},{search_string},{on_passed},{date_filter},{start_date},{end_date}");
-                dataset = _internService.GetInternByPage(
+                dtset = _internService.GetInternByPage(
                      page, size, sort,
                      search_on, search_string,
                      on_passed,
                      date_filter, start_date, end_date);
             }
             else
-                dataset = _internService.GetInternByPage(
+                dtset = _internService.GetInternByPage(
                      page, size, sort,
                      search_on, search_string);
 
-            var total = Convert.ToInt32(dataset.Tables[1].Rows[0]["FOUND_ROWS"]);
+            var total = Convert.ToInt32(dtset.Tables[1].Rows[0]["FOUND_ROWS"]);
             var pagination = new PaginationLogic(total, page, size);
 
-            var model = new IndexViewModel(pagination, dataset,
+            var model = new IndexViewModel(pagination, dtset,
                 _trainingService.GetAll(),
                 _organizationService.GetAll(),
                 _departmentService.GetAll(),
@@ -234,6 +235,11 @@ namespace Internship.Web
             model.CreatedBy = int.Parse(ViewBag.id);
             return _trainingService.UpdateTraining(model);
         }
+        [HttpPost]
+        public bool UploadAvatar(string ImgStr, string ImgName)
+        {
+            return SaveImage(ImgStr, ImgName);
+        }
         #endregion
 
 
@@ -302,6 +308,31 @@ namespace Internship.Web
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public bool SaveImage(string ImgStr, string ImgName)
+        {
+            string path = Environment.CurrentDirectory + "\\wwwroot\\img\\avatar"; //Path
+
+            //Check if directory exist
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path); //Create directory if it doesn't exist
+            }
+
+            //set the image path
+            string imgPath = Path.Combine(path, ImgName);
+
+            try
+            {
+                byte[] imageBytes = Convert.FromBase64String(ImgStr);
+                System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
