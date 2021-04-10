@@ -11,6 +11,7 @@ namespace Internship.Web
             CreateMap<IndexViewModel, InternModel>();
             CreateMap<CalendarViewModel, EventModel>();
             CreateMap<PointViewModel, PointModel>();
+            CreateMap<QuestionViewModel, QuestionModel>();
 
             CreateMap<UserViewModel, UserModel>()
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.RegiterPassword))

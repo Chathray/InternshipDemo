@@ -434,37 +434,10 @@ $(document).on('ready', function () {
     });
 
 
-    // INITIALIZATION OF SELECT2
-    // =======================================================
-    $('.js-select2-custom').each(function () {
-        var select2 = $.HSCore.components.HSSelect2.init($(this));
-    });
-
     // INITIALIZATION OF QUILLJS EDITOR
     // =======================================================
     var quill2 = $.HSCore.components.HSQuill.init('.js-quill-modal-eg');
 
-
-    // INITIALIZATION OF FLATPICKR
-    // =======================================================
-    $('.js-flatpickr').each(function () {
-        $.HSCore.components.HSFlatpickr.init($(this));
-    });
-
-    $.HSCore.components.HSFlatpickr.init($('#js-flatpickr-disabling-dates'), {
-        disable: [
-            function (date) {
-                // return true to disable
-                return (date.getDay() === 0 || date.getDay() === 6);
-            }
-        ],
-    });
-
-    // INITIALIZATION OF UNFOLD
-    // =======================================================
-    $('.js-hs-unfold-invoker').each(function () {
-        var unfold = new HSUnfold($(this)).init();
-    });
 
     // INITIALIZATION OF FILE ATTACH
     // =======================================================

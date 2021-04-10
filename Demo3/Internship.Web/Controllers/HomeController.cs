@@ -154,6 +154,13 @@ namespace Internship.Web
 
         #region INSERT
         [HttpPost]
+        public bool InsertQuestion(QuestionViewModel model)
+        {
+            var qa = _mapper.Map<QuestionModel>(model);
+            return _questionService.Insert(qa);
+        }
+
+        [HttpPost]
         public bool EvaluateIntern(PointViewModel model)
         {
             var mark = _mapper.Map<PointModel>(model);

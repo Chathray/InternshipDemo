@@ -1,22 +1,5 @@
 ﻿$(document).on('ready', function () {
 
-    // INITIALIZATION OF FLATPICKR
-    // =======================================================
-    $('.js-flatpickr').each(function () {
-        $.HSCore.components.HSFlatpickr.init($(this));
-    });
-
-    $.HSCore.components.HSFlatpickr.init($('#js-flatpickr-disabling-dates'), {
-        disable: [
-            function (date) {
-                // return true to disable
-                return (date.getDay() === 0 || date.getDay() === 6);
-            }
-        ],
-    });
-
-
-
     // INITIALIZATION OF MASKED INPUT
     // =======================================================
     $('.js-masked-input').each(function () {
@@ -28,14 +11,6 @@
     // =======================================================
     $('.js-file-attach').each(function () {
         var customFile = new HSFileAttach($(this)).init();
-    });
-
-
-
-    // INITIALIZATION OF UNFOLD
-    // =======================================================
-    $('.js-hs-unfold-invoker').each(function () {
-        var unfold = new HSUnfold($(this)).init();
     });
 
 
@@ -85,12 +60,6 @@
         })
 
         gestsField.addTags(settings.whitelist.slice(0, 0));
-    });
-
-    // INITIALIZATION OF FULLCALENDAR SELECT2
-    // =======================================================
-    $('.js-select2-custom').each(function () {
-        var select2 = $.HSCore.components.HSSelect2.init($(this));
     });
 
 
