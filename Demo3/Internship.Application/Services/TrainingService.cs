@@ -11,7 +11,7 @@ namespace Internship.Application
             _trainingRespository = trainingRespository;
         }
 
-        public bool DeleteTraining(int id)
+        public bool Delete(int id)
         {
             return _trainingRespository.Delete(id);
         }

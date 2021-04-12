@@ -162,7 +162,7 @@ namespace Internship.Api
         [HttpDelete("Remove/{id}")]
         public IActionResult Remove(int id)
         {
-            var result = _internService.DeleteIntern(id);
+            var result = _internService.Delete(id);
             return Ok(result);
         }
     }

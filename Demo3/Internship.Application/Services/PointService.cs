@@ -38,7 +38,7 @@ namespace Internship.Application
             return _pointRespository.Update(obj);
         }
 
-        public bool DeletePoint(int id)
+        public bool Delete(int id)
         {
             return _pointRespository.Delete(id);
         }

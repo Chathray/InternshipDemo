@@ -205,7 +205,7 @@
             url: '/calendar/getevents',
             method: 'GET',
             failure: function () {
-                alert('There was an error while fetching events!');
+                $.alert('There was an error while fetching events!');
             }
         }
     })

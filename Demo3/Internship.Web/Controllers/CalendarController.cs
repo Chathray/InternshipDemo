@@ -78,7 +78,7 @@ namespace Internship.Web
         }
 
         [HttpGet]
-        public string GetInternJoined(int internId)
+        public string GetJointEvents(int internId)
         {
             var data = _eventService.GetEventsIntern();
             JArray array = new();

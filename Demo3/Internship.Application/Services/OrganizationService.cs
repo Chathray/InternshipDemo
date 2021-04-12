@@ -24,7 +24,7 @@ namespace Internship.Application
             return _organizationRespository.Update(obj);
         }
 
-        public bool DeleteOrganization(int id)
+        public bool Delete(int id)
         {
             return _organizationRespository.Delete(id);
         }

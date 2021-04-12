@@ -91,5 +91,24 @@ namespace Internship.Infrastructure
                      .Take(size)
                      .ToList();
         }
+
+        public IList<Training> GetJointTrainings(int internId)
+        {
+            List<Training> result = new();
+
+            string list_str = _context.Database.GetDbConnection()
+                 .ExecuteScalar($"CALL GetJointTrainings({internId})").ToString();
+
+            string[] splited = list_str.Split(',');
+
+            var list_id = splited.Distinct().AsList();
+
+            foreach (var training_id in list_id)
+            {
+                var step = _context.Trainings.Find(int.Parse(training_id));
+                result.Add(step);
+            }
+            return result;
+        }
     }
 }

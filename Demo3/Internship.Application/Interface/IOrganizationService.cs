@@ -7,6 +7,6 @@ namespace Internship.Application
         IList<OrganizationModel> GetAll();
 
         bool UpdateOrganization(OrganizationModel model);
-        bool DeleteOrganization(int id);
+        bool Delete(int id);
     }
 }

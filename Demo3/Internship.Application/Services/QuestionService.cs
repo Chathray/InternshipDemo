@@ -11,6 +11,17 @@ namespace Internship.Application
             _questionRespository = questionRespository;
         }
 
+        public bool Delete(int id)
+        {
+            return _questionRespository.Delete(id);
+        }
+
+        public QuestionModel Get(int id)
+        {
+            var obj = _questionRespository.Get(id);
+            return ObjectMapper.Mapper.Map<QuestionModel>(obj);
+        }
+
         public IList<QuestionModel> GetAll()
         {
             var ques = _questionRespository.GetAll();
@@ -21,6 +32,12 @@ namespace Internship.Application
         {
             var qa_obj = ObjectMapper.Mapper.Map<Question>(qa);
             return _questionRespository.Insert(qa_obj);
+        }
+
+        public bool Update(QuestionModel model)
+        {
+            var qa_obj = ObjectMapper.Mapper.Map<Question>(model);
+            return _questionRespository.Update(qa_obj);
         }
     }
 }

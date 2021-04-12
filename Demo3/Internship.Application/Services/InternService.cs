@@ -66,7 +66,7 @@ namespace Internship.Application
         {
             return _internRespository.GetInternDetail(id);
         }
-        public bool DeleteIntern(int id)
+        public bool Delete(int id)
         {
             return _internRespository.Delete(id);
         }
@@ -81,6 +81,14 @@ namespace Internship.Application
         {
             var intern = ObjectMapper.Mapper.Map<Intern>(model);
             return _internRespository.Update(intern);
+        }
+
+        public IList<TrainingModel> GetJointTrainings(int internId)
+        {
+            IList<Training> obj = _internRespository.GetJointTrainings(internId);
+
+            return ObjectMapper.Mapper.Map<IList<Training>, IList<TrainingModel>>(obj);
+
         }
     }
 }

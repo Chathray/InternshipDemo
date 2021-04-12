@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="col-auto">
-                        <button onclick="CreateTraining()" class="btn btn-pill btn-soft-primary btn-icon btn-xs">
+                        <button onclick="TrainingCreate()" class="btn btn-pill btn-soft-primary btn-icon btn-xs">
                             <i class="tio-add"></i>
                         </button>
                     </div>
@@ -384,7 +384,10 @@
                                     <a class="dropdown-item" href="javascript:;" onclick="InternUpdate(@X["InternId"])">Update info</a>
                                     <a class="dropdown-item" href="javascript:;" onclick="InternEvaluate(@X["InternId"])">Evaluate</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" href="javascript:;" onclick="InternLeave(@X["InternId"],this)">Delete</a>
+                                    <a class="dropdown-item" href="javascript:;" onclick="JointEvents(@X["InternId"])">Joint events</a>
+                                    <a class="dropdown-item" href="javascript:;" onclick="JointTrainings(@X["InternId"])">Joint trainings</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-danger" href="javascript:;" onclick="InternDelete(@X["InternId"],this)">Delete</a>
                                 </div>
                             </div>
                         </td>

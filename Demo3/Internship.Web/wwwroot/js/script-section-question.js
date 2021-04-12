@@ -1,5 +1,8 @@
-﻿
+﻿let current_qa = 0;
+
 $('.question-item').on('contextmenu', function (e) {
+    current_qa = $(this).attr("data-id")
+
     var top = e.pageY - 10;
     var left = e.pageX - 90;
     $("#context-menu").css({
@@ -13,11 +16,51 @@ $('.question-item').on('contextmenu', function (e) {
 });
 
 $("#context-menu a").on("click", function () {
+    switch ($(this).attr('data-id')) {
+        case '1':
+            $.confirm({
+                title: 'Confirm!',
+                content: 'Delete confirm!',
+                buttons: {
+                    OK: function () {
+                        $.post("home/deletequestion", {
+                            id: current_qa
+                        }).done(function (data) {
+                            window.location = '/Question'
+                        }).fail(function () {
+                            $.alert("Error");
+                        });
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            }); break;
+        case '2':
+            $.get("home/getquestion", {
+                id: current_qa
+            }).done(function (data) {
+                CreateQuestion("home/updatequestion", current_qa)
+                var obj = JSON.parse(JSON.stringify(data));
+
+                setTimeout(function () {
+                    $('#txtGroup').val(obj.group)
+                    $('#txtQuestion').val(obj.inData)
+                    $('#txtAnswers').val(obj.outData)
+                }, 10);
+
+            }).fail(function () {
+                $.alert("Error");
+            });
+            break;
+    }
+
     $(this).parent().removeClass("show").hide();
 });
 
 
-function CreateQuestion() {
+function CreateQuestion(ex_action = "home/insertquestion", qid = null) {  
+
     $.confirm({
         title: false,
         content: `<!-- Body -->
@@ -66,22 +109,23 @@ function CreateQuestion() {
         buttons:
         {
             Cancel: function () { },
-            Create: {
+            Submit: {
                 btnClass: 'btn-soft-success',
                 action: function () {
-                    var gr  =$('#txtGroup').val()
+                    var gr = $('#txtGroup').val()
                     var inD = $('#txtQuestion').val()
                     var outD = $('#txtAnswers').val()
 
-                    $.post("home/insertquestion", {
+                    $.post(ex_action, {
+                        QuestionId: qid,
                         Group: gr,
                         InData: inD,
                         OutData: outD
                     }).done(function (data) {
-                        alert("Result: " + data);
+                        $.alert("Result: " + data);
                         window.location = '/Question'
                     }).fail(function () {
-                        alert("Error");
+                        $.alert("Error");
                     });
 
                 }

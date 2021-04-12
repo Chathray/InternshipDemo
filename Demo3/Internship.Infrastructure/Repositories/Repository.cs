@@ -35,6 +35,10 @@ namespace Internship.Infrastructure
             return _context.SaveChanges() > 0;
         }
 
+        public T Get(int id)
+        {
+            return _context.Set<T>().Find(id);
+        }
         public bool Delete(int id)
         {
             var obj = _context.Set<T>().Find(id);

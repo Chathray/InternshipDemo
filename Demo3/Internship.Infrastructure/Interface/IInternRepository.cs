@@ -12,5 +12,6 @@ namespace Internship.Infrastructure
         public DataTable GetInternByPage(int page, int size, string sort);
         public IList<Intern> GetInternByPage(int page, int size);
         string GetInternDetail(int id);
+        public IList<Training> GetJointTrainings(int internId);
     }
 }

@@ -1,5 +1,46 @@
-﻿function InternLeave(iid, btn) {
+﻿// #region :Joint
+function JointEvents(iid) {
+    $.ajax({
+        method: "GET",
+        url: "calendar/getjointevents",
+        data: { internId: iid }
+    }).done(function (msg) {
 
+        var eventData = "";
+        var d2 = JSON.parse(msg);
+
+        if (d2.length > 0)
+            $.each(d2, function (i, data) {
+                eventData += "<li>" + "#" + i + 1 + ": " + data + "</li>";
+            })
+        else {
+            eventData = "This person is not involved in any activities."
+        }
+
+        $.alert(eventData)
+    });
+}
+function JointTrainings(iid) {
+    $.ajax({
+        method: "GET",
+        url: "home/GetJointTrainings",
+        data: { internId: iid }
+    }).done(function (msg) {
+        var model = JSON.parse(JSON.stringify(msg))
+
+        var items = []
+        for (var i = 0; i < model.length; i++) {
+            items.push(model[i].traName)
+        }
+
+        $.alert(items.join("<br>"))
+    });
+}
+// #endregion :Joint
+
+
+// #region :Intern
+function InternDelete(iid, btn) {
     $.confirm({
         title: 'Delete',
         icon: 'tio-delete-outlined',
@@ -21,7 +62,7 @@
                                         action: function () {
                                             var tr = btn.closest('tr')
                                             tr.remove()
-                                            refreshInternCount()
+                                            RefreshInternCount()
                                         }
                                     },
                                 }
@@ -35,7 +76,6 @@
         }
     });
 }
-
 function InternUpdate(iid) {
 
     $.ajax({
@@ -46,37 +86,10 @@ function InternUpdate(iid) {
         $('#cui-form').attr('action', '/internupdate/' + iid);
         let obj = JSON.parse(o);
 
-        SetModalData(obj);
+        InternSetModalData(obj);
         $("#exampleModal").modal();
     });
 }
-
-function readAvatarURL(input) {
-    var filename = input.files[0]['name'];
-    $('#avatarName').val(filename);
-}
-
-function SetModalData(obj) {
-    $('#avatarImg').attr("src", "img/avatar/" + obj.avatar);
-
-    var filename = obj.avatar;
-    var ext = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
-    $('#avatarName').val(obj.email + "." + ext);
-
-    $('#firstNameLabel').val(obj.firstname);
-    $('#lastNameLabel').val(obj.lastname);
-    $('#birthLabel').val(obj.birth);
-    $('#emailLabel').val(obj.email);
-    $('#phoneLabel').val(obj.phone);
-    $('#durationLabel').val(obj.duration);
-
-    $('#genderLabel').val(obj.gender).change();
-    $('#typeLabel').val(obj.type).change();
-    $('#organizationLabel').val(obj.organizationid).change();
-    $('#departmentLabel').val(obj.departmentid).change();
-    $('#trainingLabel').val(obj.trainingid).change();
-}
-
 function InternEvaluate(iid) {
     $.ajax({
         method: "GET",
@@ -121,7 +134,6 @@ function InternEvaluate(iid) {
         alert("Error");
     });
 }
-
 function InternEvaluateFirstTime(iid) {
 
     $.confirm({
@@ -224,7 +236,7 @@ function InternEvaluateFirstTime(iid) {
                                     OK: {
                                         text: 'Close',
                                         action: function () {
-                                            refreshPointCount();
+                                            RefreshPointCount();
                                         }
                                     },
                                 }
@@ -236,35 +248,31 @@ function InternEvaluateFirstTime(iid) {
         }
     });
 }
+function InternSetModalData(model) {
+    $('#avatarImg').attr("src", "img/avatar/" + model.avatar);
+
+    var filename = model.avatar;
+    var ext = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
+    $('#avatarName').val(model.email + "." + ext);
+
+    $('#firstNameLabel').val(model.firstname);
+    $('#lastNameLabel').val(model.lastname);
+    $('#birthLabel').val(model.birth);
+    $('#emailLabel').val(model.email);
+    $('#phoneLabel').val(model.phone);
+    $('#durationLabel').val(model.duration);
+
+    $('#genderLabel').val(model.gender).change();
+    $('#typeLabel').val(model.type).change();
+    $('#organizationLabel').val(model.organizationid).change();
+    $('#departmentLabel').val(model.departmentid).change();
+    $('#trainingLabel').val(model.trainingid).change();
+}
+// #endregion :Intern
 
 
-function refreshInternCount() {
-    $.get("countbyindex/4", function (data) {
-        $('#interns-count').html(data);
-    });
-}
-function refreshPointCount() {
-    $.get("countbyindex/6", function (data) {
-        $('#points-count').html(data);
-    });
-}
-function refreshTrainingCount() {
-    $.get("countbyindex/8", function (data) {
-        $('#trainings-count').html(data);
-    });
-}
-function refreshDepartmentCount() {
-    $.get("countbyindex/1", function (data) {
-        $('#departments-count').html(data);
-    });
-}
-function refreshOrganizationCount() {
-    $.get("countbyindex/5", function (data) {
-        $('#organizations-count').html(data);
-    });
-}
-
-function CreateTraining() {
+// #region :Training
+function TrainingCreate() {
     $.confirm({
         title: false,
         content: `<!-- Body -->
@@ -360,8 +368,8 @@ function CreateTraining() {
 
                     $.post("home/inserttraining", { model: { 'TraName': traName, 'TraData': traData } })
                         .done(function (data) {
-                            alert("Result: " + data)
-                            refreshTrainingCount()
+                            $.alert("Result: " + data)
+                            RefreshTrainingCount()
                         })
                         .fail(function () {
                             alert("Error");
@@ -371,6 +379,41 @@ function CreateTraining() {
         }
     });
 }
+// #endregion :Training
+
+
+// #region :Others
+function RefreshInternCount() {
+    $.get("countbyindex/4", function (data) {
+        $('#interns-count').html(data);
+    });
+}
+function RefreshPointCount() {
+    $.get("countbyindex/6", function (data) {
+        $('#points-count').html(data);
+    });
+}
+function RefreshTrainingCount() {
+    $.get("countbyindex/8", function (data) {
+        $('#trainings-count').html(data);
+    });
+}
+function RefreshDepartmentCount() {
+    $.get("countbyindex/1", function (data) {
+        $('#departments-count').html(data);
+    });
+}
+function RefreshOrganizationCount() {
+    $.get("countbyindex/5", function (data) {
+        $('#organizations-count').html(data);
+    });
+}
+function ReadAvatarName(input) {
+    var filename = input.files[0]['name'];
+    $('#avatarName').val(filename);
+}
+// #endregion :Others
+
 
 $(document).on('submit', '#cui-form', function () {
     var str = $('#avatarName').val();
@@ -382,50 +425,17 @@ $(document).on('submit', '#cui-form', function () {
 
     $('#avatarName').val(imgname)
 
-    $.post("home/UploadAvatar", {
+    $.post("home/uploadavatar", {
         ImgStr: img64,
         ImgName: imgname
     }).done(function () {
-        alert("Result: Avatar uploaded!");
+        $.alert("Result: Avatar uploaded!");
     }).fail(function () {
         alert("Error");
     });
 });
 
 $(document).on('ready', function () {
-
-    //Sync sort,size
-    var params = new URLSearchParams(window.location.search);
-    $('#datatableEntries').val(params.get("size") ? params.get("size") : 6);
-    $('.js-datatable-sort').val(params.get("sort") ? params.get("sort") : 1);
-    $('.js-datatable-search').val(params.get("search_on") ? params.get("search_on") : 0);
-    $('#datatableSearch').val(params.get("search_string") ? params.get("search_string") : "");
-
-    $('#addibtn').on("click", function (e) {
-        //var type = $("#cui-submit").text(); //For button
-
-        $('#cui-form').attr('action', '/');
-
-        $('#firstNameLabel').val("");
-        $('#lastNameLabel').val("");
-        $('#birthLabel').val("");
-        $('#emailLabel').val("");
-        $('#phoneLabel').val("");
-        $('#durationLabel').val("");
-
-        $('#genderLabel').val("").change();
-        $('#typeLabel').val("").change();
-
-        $('#organizationLabel').val('').change();
-        $('#departmentLabel').val('').change();
-        $('#trainingLabel').val('').change();
-    });
-
-    $.get("home/getpassedcount").done(function (data) {
-        $('#passed-count').append(data);
-    }).fail(function () {
-        alert("Have error when get passed.");
-    });
 
     // INITIALIZATION OF NAV SCROLLER
     // =======================================================
@@ -483,31 +493,15 @@ $(document).on('ready', function () {
         else {
 
             let internData = "";
-            let eventData = "";
 
             $.ajax({
                 method: "GET",
                 url: "home/getinterndetail",
                 data: { id: internId }
-            }).done(function (o) {
-                $.ajax({
-                    method: "GET",
-                    url: "calendar/getinternjoined",
-                    data: { internId: internId }
-                }).done(function (msg) {
-
-                    internData = JSON.parse(o);
-                    d2 = JSON.parse(msg);
-
-                    if (d2.length > 0)
-                        $.each(d2, function (i, data) {
-                            eventData += "<li>" + "#" + i + 1 + ": " + data + "</li>";
-                        })
-                    else {
-                        eventData = "This person is not involved in any activities."
-                    }
-                    // Open this row
-                    row.child(`<div class="col-sm-3">
+            }).done(function (response) {
+                internData = JSON.parse(response);
+                // Open this row
+                row.child(`<div class="col-sm-3">
                       <h5>Intern info:</h5>
                       <ul class="font-size-sm">
                         <li>Full name: ${internData.fullname}</li>
@@ -528,15 +522,8 @@ $(document).on('ready', function () {
                         <li>Organization: ${internData.organization}</li>
                         <li>Mentor: ${internData.mentor}</li>
                       </ul>
-                </div>
-                <div class="col-sm-3">
-                      <h5>Events:</h5>
-                      <ul class="font-size-sm">
-                        ${eventData}                        
-                      </ul>
                 </div>`).show();
-                    tr.addClass('shown');
-                });
+                tr.addClass('shown');
             });
         }
     });
@@ -575,7 +562,7 @@ $(document).on('ready', function () {
         $.post("home/deletetraining", {
             id: tid
         }).done(function (data) {
-            alert(data)
+            $.alert(data)
             window.location = "/"
         }).fail(function () {
             alert("Error");
@@ -600,7 +587,7 @@ $(document).on('ready', function () {
                 sharedId: tid,
                 depArray: deparray
             }).done(function (data) {
-                alert(data)
+                $.alert(data)
             }).fail(function () {
                 alert("Error");
             });
@@ -617,7 +604,7 @@ $(document).on('ready', function () {
         var searchOn = $('.js-datatable-search').val();
 
         if (searchOn === '0') {
-            alert('You must select the column to search for first!')
+            $.alert('You must select the column to search for first!')
             return;
         }
 
@@ -690,6 +677,38 @@ $(document).on('ready', function () {
             window.location = "?" + params.toString();
     });
 
+    //Sync sort,size
+    var params = new URLSearchParams(window.location.search);
+    $('#datatableEntries').val(params.get("size") ? params.get("size") : 6);
+    $('.js-datatable-sort').val(params.get("sort") ? params.get("sort") : 1);
+    $('.js-datatable-search').val(params.get("search_on") ? params.get("search_on") : 0);
+    $('#datatableSearch').val(params.get("search_string") ? params.get("search_string") : "");
+
+    $('#addibtn').on("click", function (e) {
+        //var type = $("#cui-submit").text(); //For button
+
+        $('#cui-form').attr('action', '/');
+
+        $('#firstNameLabel').val("");
+        $('#lastNameLabel').val("");
+        $('#birthLabel').val("");
+        $('#emailLabel').val("");
+        $('#phoneLabel').val("");
+        $('#durationLabel').val("");
+
+        $('#genderLabel').val("").change();
+        $('#typeLabel').val("").change();
+
+        $('#organizationLabel').val('').change();
+        $('#departmentLabel').val('').change();
+        $('#trainingLabel').val('').change();
+    });
+
+    $.get("home/getpassedcount").done(function (data) {
+        $('#passed-count').append(data);
+    }).fail(function () {
+        $.alert("Have error when get passed.");
+    });
 
 
     // CR:Init for one thing, not two, 3hours to fix bug!
@@ -791,9 +810,9 @@ $(document).on('ready', function () {
         $.post("home/deletedepartment", {
             id: id
         }).done(function (data) {
-            alert("Result: " + data);
+            $.alert("Result: " + data);
             tr.remove()
-            refreshDepartmentCount()
+            RefreshDepartmentCount()
         }).fail(function () {
             alert("Error");
         });
@@ -807,9 +826,9 @@ $(document).on('ready', function () {
         $.post("home/deleteorganization", {
             id: id
         }).done(function (data) {
-            alert("Result: " + data);
+            $.alert("Result: " + data);
             tr.remove()
-            refreshOrganizationCount()
+            RefreshOrganizationCount()
         }).fail(function () {
             alert("Error");
         });
@@ -823,9 +842,9 @@ $(document).on('ready', function () {
         $.post("home/deletepoint", {
             id: id
         }).done(function (data) {
-            alert("Result: " + data);
+            $.alert("Result: " + data);
             tr.remove()
-            refreshPointCount()
+            RefreshPointCount()
         }).fail(function () {
             alert("Error");
         });

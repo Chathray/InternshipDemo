@@ -145,7 +145,9 @@ namespace Internship.Web
         {
             ViewData["page-3"] = "active";
 
-            var model = _questionService.GetAll();
+            var model = _questionService.GetAll()
+                .OrderBy(o => o.Group)
+                .ToList();
 
             return View(model);
         }
@@ -180,29 +182,34 @@ namespace Internship.Web
 
         #region DELETE
         [HttpPost]
+        public bool DeleteQuestion(int id)
+        {
+            return _questionService.Delete(id);
+        }
+        [HttpPost]
         public bool DeleteIntern(int id)
         {
-            return _internService.DeleteIntern(id);
+            return _internService.Delete(id);
         }
         [HttpPost]
         public bool DeletePoint(int id)
         {
-            return _pointService.DeletePoint(id);
+            return _pointService.Delete(id);
         }
         [HttpPost]
         public bool DeleteOrganization(int id)
         {
-            return _organizationService.DeleteOrganization(id);
+            return _organizationService.Delete(id);
         }
         [HttpPost]
         public bool DeleteDepartment(int id)
         {
-            return _departmentService.DeleteDepartment(id);
+            return _departmentService.Delete(id);
         }
         [HttpPost]
         public bool DeleteTraining(int id)
         {
-            return _trainingService.DeleteTraining(id);
+            return _trainingService.Delete(id);
         }
         #endregion
 
@@ -225,6 +232,11 @@ namespace Internship.Web
         {
             model.Marker = int.Parse(ViewBag.id);
             return _pointService.UpdatePoint(model);
+        }
+        [HttpPost]
+        public bool UpdateQuestion(QuestionModel model)
+        {
+            return _questionService.Update(model);
         }
         [HttpPost]
         public bool UpdateDepartment(DepartmentModel model)
@@ -265,24 +277,30 @@ namespace Internship.Web
             return _internService.GetInternInfo(id);
         }
 
-        [HttpGet("Home/GetInternDetail")]
+        [HttpGet]
         public string GetInternDetail(int id)
         {
             return _internService.GetInternDetail(id);
         }
 
-        [HttpGet("Home/GetTrainingContent")]
+        [HttpGet]
         public string GetTrainingContent(int id)
         {
             return _trainingService.GetTrainingContent(id);
         }
 
-        [HttpGet("Home/GetPassedCount")]
+        [HttpGet]
         public string GetPassedCount()
         {
             var passed = _pointService.GetPassedCount();
             var total = _userService.CountByIndex(6);
             return (passed / (float)total).ToString("0%");
+        }
+        [HttpGet]
+        public ActionResult GetJointTrainings(int internId)
+        {
+            var obj = _internService.GetJointTrainings(internId);
+            return Ok(obj);
         }
         //_____________________________________________________
 
@@ -290,6 +308,11 @@ namespace Internship.Web
         public IActionResult GetPoint(int id)
         {
             return Json(_pointService.GetPoint(id));
+        }
+        [HttpGet]
+        public IActionResult GetQuestion(int id)
+        {
+            return Json(_questionService.Get(id));
         }
         //_____________________________________________________
 

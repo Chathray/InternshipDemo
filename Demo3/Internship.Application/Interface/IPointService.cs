@@ -9,7 +9,7 @@ namespace Internship.Application
         bool EvaluateIntern(PointModel mark);
         PointModel GetPoint(int id);
         bool UpdatePoint(PointModel model);
-        bool DeletePoint(int id);
+        bool Delete(int id);
         IList<PointListModel> GetAllWithName();
         int GetPassedCount();
     }

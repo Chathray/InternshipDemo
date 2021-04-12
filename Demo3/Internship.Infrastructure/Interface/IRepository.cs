@@ -11,6 +11,7 @@ namespace Internship.Infrastructure
         public IList<T> GetAll();
         public bool Update(T obj);
         public bool Insert(T obj);
+        public T Get(int id);
         public bool Delete(int id);
         public int Count(Type type);
         public int CountByIndex(int stt);

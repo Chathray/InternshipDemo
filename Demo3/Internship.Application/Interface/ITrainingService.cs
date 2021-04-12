@@ -10,6 +10,6 @@ namespace Internship.Application
         bool InsertTraining(TrainingModel model);
         bool UpdateTraining(TrainingModel model);
         string GetTrainingContent(int id);
-        bool DeleteTraining(int id);
+        bool Delete(int id);
     }
 }

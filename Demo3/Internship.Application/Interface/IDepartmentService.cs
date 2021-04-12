@@ -7,7 +7,7 @@ namespace Internship.Application
         IList<DepartmentModel> GetAll();
 
         bool UpdateDepartment(DepartmentModel model);
-        bool DeleteDepartment(int id);
+        bool Delete(int id);
         bool InsertSharedTraining(int sharedId, int depId);
     }
 }
