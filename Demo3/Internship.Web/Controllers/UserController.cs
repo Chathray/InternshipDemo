@@ -3,10 +3,12 @@ using Internship.Application;
 using Internship.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -26,10 +28,35 @@ namespace Internship.Web
             _logger = logger;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Authentication()
         {
             await Logout();
             return View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Profile()
+        {
+            SetSessionInfo();
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Settings()
+        {
+            SetSessionInfo();
+            return View();
+        }
+
+        private void SetSessionInfo()
+        {
+            ViewBag.id = User.Claims.ElementAt(0).Value;
+            ViewBag.email = User.Claims.ElementAt(1).Value;
+            ViewBag.fullname = User.Claims.ElementAt(2).Value;
+            ViewBag.status = User.Claims.ElementAt(3).Value;
         }
 
         [HttpPost]
@@ -73,7 +100,7 @@ namespace Internship.Web
             try
             {
                 bool réult = _userService.InsertUser(user);
-                if(réult)
+                if (réult)
                 {
                     ModelState.AddModelError("done", "Registration complete, login now!");
                     return View("Authentication");

@@ -427,12 +427,6 @@ $(document).on('ready', function () {
         alert("Have error when get passed.");
     });
 
-    // INITIALIZATION OF NAV SCROLLER
-    // =======================================================
-    $('.js-nav-scroller').each(function () {
-        new HsNavScroller($(this)).init()
-    });
-
 
     // INITIALIZATION OF QUILLJS EDITOR
     // =======================================================

@@ -1,23 +1,4 @@
-﻿
-$('.question-item').on('contextmenu', function (e) {
-    var top = e.pageY - 10;
-    var left = e.pageX - 90;
-    $("#context-menu").css({
-        display: "block",
-        top: top,
-        left: left
-    }).addClass("show");
-    return false; //blocks default Webbrowser right click menu
-}).on("click", function () {
-    $("#context-menu").removeClass("show").hide();
-});
-
-$("#context-menu a").on("click", function () {
-    $(this).parent().removeClass("show").hide();
-});
-
-
-function CreateQuestion() {
+﻿function CreateQuestion() {
     $.confirm({
         title: false,
         content: `<!-- Body -->
@@ -69,7 +50,7 @@ function CreateQuestion() {
             Create: {
                 btnClass: 'btn-soft-success',
                 action: function () {
-                    var gr  =$('#txtGroup').val()
+                    var gr = $('#txtGroup').val()
                     var inD = $('#txtQuestion').val()
                     var outD = $('#txtAnswers').val()
 
@@ -89,3 +70,25 @@ function CreateQuestion() {
         }
     });
 }
+
+
+
+$(document).on('ready', function () {
+
+    $('.question-item').on('contextmenu', function (e) {
+        var top = e.pageY - 10;
+        var left = e.pageX - 90;
+        $("#context-menu").css({
+            display: "block",
+            top: top,
+            left: left
+        }).addClass("show");
+        return false; //blocks default Webbrowser right click menu
+    }).on("click", function () {
+        $("#context-menu").removeClass("show").hide();
+    });
+
+    $("#context-menu a").on("click", function () {
+        $(this).parent().removeClass("show").hide();
+    });
+});

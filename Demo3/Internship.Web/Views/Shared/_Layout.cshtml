@@ -84,59 +84,67 @@
     @RenderSection("Scripts", required: false)
 
     <script>
-        // Đăng xuất
-        $('#signout-cmd').on('click', function () {
-            $.confirm({
-                title: 'Sign out?',
-                icon: 'tio-smile',
-                theme: 'supervan',
-                type: 'red',
-                buttons:
-                {
-                    No: function () { },
-                    logoutUser: {
-                        text: 'Yes',
-                        action: function () {
-                            window.location = '/Logout';
-                        }
-                    },
-                }
+        $(document).on('ready', function () {
+
+            // Đăng xuất
+            $('#signout-cmd').on('click', function () {
+                $.confirm({
+                    title: 'Sign out?',
+                    icon: 'tio-smile',
+                    theme: 'supervan',
+                    type: 'red',
+                    buttons:
+                    {
+                        No: function () { },
+                        logoutUser: {
+                            text: 'Yes',
+                            action: function () {
+                                window.location = '/Logout';
+                            }
+                        },
+                    }
+                });
             });
-        });
 
-        // INITIALIZATION OF MEGA MENU
-        // =======================================================
-        var megaMenu = new HSMegaMenu($('.js-mega-menu'), {
-            desktop: {
-                position: 'left'
-            }
-        }).init();
 
-        // INITIALIZATION OF UNFOLD
-        // =======================================================
-        $('.js-hs-unfold-invoker').each(function () {
-            var unfold = new HSUnfold($(this)).init();
-        });
+            // INITIALIZATION OF UNFOLD
+            // =======================================================
+            $('.js-hs-unfold-invoker').each(function () {
+                var unfold = new HSUnfold($(this)).init();
+            });
 
-        // INITIALIZATION OF SELECT2
-        // =======================================================
-        $('.js-select2-custom').each(function () {
-            var select2 = $.HSCore.components.HSSelect2.init($(this));
-        });
+            // INITIALIZATION OF SELECT2
+            // =======================================================
+            $('.js-select2-custom').each(function () {
+                var select2 = $.HSCore.components.HSSelect2.init($(this));
+            });
 
-        // INITIALIZATION OF FLATPICKR
-        // =======================================================
-        $('.js-flatpickr').each(function () {
-            $.HSCore.components.HSFlatpickr.init($(this));
-        });
+            // INITIALIZATION OF FILE ATTACH
+            // =======================================================
+            $('.js-file-attach').each(function () {
+                var customFile = new HSFileAttach($(this)).init();
+            });
 
-        $.HSCore.components.HSFlatpickr.init($('#js-flatpickr-disabling-dates'), {
-            disable: [
-                function (date) {
-                    // return true to disable
-                    return (date.getDay() === 0 || date.getDay() === 6);
-                }
-            ],
+            // INITIALIZATION OF NAV SCROLLER
+            // =======================================================
+            $('.js-nav-scroller').each(function () {
+                new HsNavScroller($(this)).init()
+            });
+
+            // INITIALIZATION OF FLATPICKR
+            // =======================================================
+            $('.js-flatpickr').each(function () {
+                $.HSCore.components.HSFlatpickr.init($(this));
+            });
+
+            $.HSCore.components.HSFlatpickr.init($('#js-flatpickr-disabling-dates'), {
+                disable: [
+                    function (date) {
+                        // return true to disable
+                        return (date.getDay() === 0 || date.getDay() === 6);
+                    }
+                ],
+            });
         });
     </script>
 </body>
