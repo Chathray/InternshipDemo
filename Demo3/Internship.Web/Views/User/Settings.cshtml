@@ -1,0 +1,457 @@
+﻿@section Scripts{
+    <script src="/js/script-section-settings.js"></script>
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <div class="row align-items-end">
+        <div class="col-sm mb-2 mb-sm-0">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-no-gutter">
+                    <li class="breadcrumb-item"><a class="breadcrumb-link" href="/">User</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Settings</li>
+                </ol>
+            </nav>
+
+            <h2 class="page-header-title mt-3">Settings</h2>
+        </div>
+
+        <div class="col-sm-auto">
+            <a class="btn btn-sm btn-primary" href="/Profile">
+                <i class="tio-user mr-1"></i> My profile
+            </a>
+        </div>
+    </div>
+    <!-- End Row -->
+</div>
+<!-- End Page Header -->
+
+<div class="row">
+    <div class="col-lg-3">
+        <!-- Navbar -->
+        <div class="navbar-vertical navbar-expand-lg mb-3 mb-lg-5">
+            <!-- Navbar Toggle -->
+            <button type="button" class="navbar-toggler btn btn-block btn-white mb-3" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarVerticalNavMenu" data-toggle="collapse" data-target="#navbarVerticalNavMenu">
+                <span class="d-flex justify-content-between align-items-center">
+                    <span class="h5 mb-0">Nav menu</span>
+
+                    <span class="navbar-toggle-default">
+                        <i class="tio-menu-hamburger"></i>
+                    </span>
+
+                    <span class="navbar-toggle-toggled">
+                        <i class="tio-clear"></i>
+                    </span>
+                </span>
+            </button>
+            <!-- End Navbar Toggle -->
+
+            <div id="navbarVerticalNavMenu" class="collapse navbar-collapse">
+                <!-- Navbar Nav -->
+                <ul id="navbarSettings" class="js-sticky-block js-scrollspy navbar-nav navbar-nav-lg nav-tabs card card-navbar-nav"
+                    data-hs-sticky-block-options='{
+                       "parentSelector": "#navbarVerticalNavMenu",
+                       "breakpoint": "lg",
+                       "startPoint": "#navbarVerticalNavMenu",
+                       "endPoint": "#stickyBlockEndPoint",
+                       "stickyOffsetTop": 20
+                     }'>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#content">
+                            <i class="tio-user-outlined nav-icon"></i> Basic information
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#emailSection">
+                            <i class="tio-online nav-icon"></i> Email
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#passwordSection">
+                            <i class="tio-lock-outlined nav-icon"></i> Password
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#deleteAccountSection">
+                            <i class="tio-delete-outlined nav-icon"></i> Delete account
+                        </a>
+                    </li>
+                </ul>
+                <!-- End Navbar Nav -->
+            </div>
+        </div>
+        <!-- End Navbar -->
+    </div>
+
+    <div class="col-lg-9">
+        <!-- Card -->
+        <div class="card mb-3 mb-lg-5">
+            <!-- Profile Cover -->
+            <div class="profile-cover">
+                <div class="profile-cover-img-wrapper">
+                    <img id="profileCoverImg" class="profile-cover-img" src="./assets/img/1920x400/img2.jpg" alt="Image Description">
+
+                    <!-- Custom File Cover -->
+                    <div class="profile-cover-content profile-cover-btn">
+                        <div class="custom-file-btn">
+                            <input type="file" class="js-file-attach custom-file-btn-input" id="profileCoverUplaoder"
+                                   data-hs-file-attach-options='{
+                                "textTarget": "#profileCoverImg",
+                                "mode": "image",
+                                "targetAttr": "src",
+                                "allowTypes": [".png", ".jpeg", ".jpg"]
+                             }'>
+                            <label class="custom-file-btn-label btn btn-sm btn-white" for="profileCoverUplaoder">
+                                <i class="tio-add-photo mr-sm-1"></i>
+                                <span class="d-none d-sm-inline-block">Update your header</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- End Custom File Cover -->
+                </div>
+            </div>
+            <!-- End Profile Cover -->
+            <!-- Avatar -->
+            <label class="avatar avatar-xxl avatar-circle avatar-border-lg avatar-uploader profile-cover-avatar" for="avatarUploader">
+                <img id="avatarImg" class="avatar-img" src="./assets/img/160x160/img6.jpg" alt="Image Description">
+
+                <input type="file" class="js-file-attach avatar-uploader-input" id="avatarUploader"
+                       data-hs-file-attach-options='{
+                          "textTarget": "#avatarImg",
+                          "mode": "image",
+                          "targetAttr": "src",
+                          "allowTypes": [".png", ".jpeg", ".jpg"]
+                       }'>
+
+                <span class="avatar-uploader-trigger">
+                    <i class="tio-edit avatar-uploader-icon shadow-soft"></i>
+                </span>
+            </label>
+            <!-- End Avatar -->
+            <!-- Body -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <span class="d-block font-size-sm mb-2">Who can see your profile photo? <i class="tio-help-outlined" data-toggle="tooltip" data-placement="top" title="Your visibility setting only applies to your profile photo. Your header image is always visible to anyone."></i></span>
+
+                        <!-- Select -->
+                        <div class="select2-custom">
+                            <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                    data-hs-select2-options='{
+                                "minimumResultsForSearch": "Infinity"
+                              }'>
+                                <option value="privacy1" data-option-template='<span class="media"><i class="tio-earth-east tio-lg text-body mr-2" style="margin-top: .125rem;"></i><span class="media-body"><span class="d-block">Anyone</span><small class="select2-custom-hide">Visible to anyone who can view your content. Accessible by installed apps.</small></span></span>'>Anyone</option>
+                                <option value="privacy2" data-option-template='<span class="media"><i class="tio-lock-outlined tio-lg text-body mr-2" style="margin-top: .125rem;"></i><span class="media-body"><span class="d-block">Only you</span><small class="select2-custom-hide">Only visible to you.</small></span></span>'>Only you</option>
+                            </select>
+                        </div>
+                        <!-- End Select -->
+                    </div>
+                </div>
+                <!-- End Row -->
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- End Card -->
+        <!-- Card -->
+        <div class="card mb-3 mb-lg-5">
+            <div class="card-header">
+                <h2 class="card-title h4">Basic information</h2>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body">
+                <!-- Form -->
+                <form>
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="firstNameLabel" class="col-sm-3 col-form-label input-label">Full name <i class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top" title="Displayed on public forums, such as Front."></i></label>
+
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm-down-break">
+                                <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Your first name" aria-label="Your first name" value="Mark">
+                                <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Your last name" aria-label="Your last name" value="Williams">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="emailLabel" class="col-sm-3 col-form-label input-label">Email</label>
+
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" name="email" id="emailLabel" placeholder="Email" aria-label="Email" value="mark@example.com">
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="phoneLabel" class="col-sm-3 col-form-label input-label">Phone <span class="input-label-secondary">(Optional)</span></label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="js-masked-input form-control" name="phone" id="phoneLabel" placeholder="+x(xxx)xxx-xx-xx" aria-label="+x(xxx)xxx-xx-xx" value="+1 (609) 972-22-22"
+                                   data-hs-mask-options='{
+                               "template": "+0(000)000-00-00"
+                             }'>
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="organizationLabel" class="col-sm-3 col-form-label input-label">Organization</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="organization" id="organizationLabel" placeholder="Your organization" aria-label="Your organization" value="Htmlstream">
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="departmentLabel" class="col-sm-3 col-form-label input-label">Department</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="department" id="departmentLabel" placeholder="Your department" aria-label="Your department">
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div id="accountType" class="row form-group">
+                        <label class="col-sm-3 col-form-label input-label">Account type</label>
+
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm-down-break">
+                                <!-- Custom Radio -->
+                                <div class="form-control">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" name="userAccountTypeRadio" id="userAccountTypeRadio1" checked>
+                                        <label class="custom-control-label" for="userAccountTypeRadio1">Individual</label>
+                                    </div>
+                                </div>
+                                <!-- End Custom Radio -->
+                                <!-- Custom Radio -->
+                                <div class="form-control">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" name="userAccountTypeRadio" id="userAccountTypeRadio2">
+                                        <label class="custom-control-label" for="userAccountTypeRadio2">Company</label>
+                                    </div>
+                                </div>
+                                <!-- End Custom Radio -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="locationLabel" class="col-sm-3 col-form-label input-label">Location</label>
+
+                        <div class="col-sm-9">
+                            <!-- Select -->
+                            <div class="mb-3">
+                                <select id="locationLabel"
+                                        data-hs-select2-options='{
+                                  "searchInputPlaceholder": "Search a country"
+                                }'>
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <!-- End Select -->
+
+                            <div class="mb-3">
+                                <input type="text" class="form-control" name="city" id="cityLabel" placeholder="City" aria-label="City" value="London">
+                            </div>
+
+                            <input type="text" class="form-control" name="state" id="stateLabel" placeholder="State" aria-label="State">
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="addressLine1Label" class="col-sm-3 col-form-label input-label">Address line 1</label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="addressLine1" id="addressLine1Label" placeholder="Your address" aria-label="Your address" value="45 Roker Terrace, Latheronwheel">
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="addressLine2Label" class="col-sm-3 col-form-label input-label">Address line 2 <span class="input-label-secondary">(Optional)</span></label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="addressLine2" id="addressLine2Label" placeholder="Your address" aria-label="Your address">
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="zipCodeLabel" class="col-sm-3 col-form-label input-label">Zip code <i class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top" title="You can find your code in a postal address."></i></label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="js-masked-input form-control" name="zipCode" id="zipCodeLabel" placeholder="Your zip code" aria-label="Your zip code" value="KW5 8NW"
+                                   data-hs-mask-options='{
+                               "template": "AA0 0AA"
+                             }'>
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row align-items-center form-group">
+                        <label for="disableAdCheckbox" class="col-sm-3 col-form-label input-label">Disable ads <span class="badge badge-primary text-uppercase ml-1">PRO</span></label>
+
+                        <div class="col-sm-9">
+                            <!-- Custom Checkbox -->
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="disableAdCheckbox">
+                                <label class="custom-control-label" for="disableAdCheckbox">With your Pro account, you can disable ads across the site.</label>
+                            </div>
+                            <!-- End Custom Checkbox -->
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+                <!-- End Form -->
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- End Card -->
+        <!-- Card -->
+        <div id="emailSection" class="card mb-3 mb-lg-5">
+            <div class="card-header">
+                <h3 class="card-title h4">Email</h3>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body">
+                <p>Your current email address is <span class="font-weight-bold">mark@example.com</span></p>
+
+                <!-- Form -->
+                <form>
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="newEmailLabel" class="col-sm-3 col-form-label input-label">New email address</label>
+
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" name="newEmail" id="newEmailLabel" placeholder="Enter new email address" aria-label="Enter new email address">
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+                <!-- End Form -->
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- End Card -->
+        <!-- Card -->
+        <div id="passwordSection" class="card mb-3 mb-lg-5">
+            <div class="card-header">
+                <h4 class="card-title">Change your password</h4>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body">
+                <!-- Form -->
+                <form id="changePasswordForm">
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="currentPasswordLabel" class="col-sm-3 col-form-label input-label">Current password</label>
+
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" name="currentPassword" id="currentPasswordLabel" placeholder="Enter current password" aria-label="Enter current password">
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="newPassword" class="col-sm-3 col-form-label input-label">New password</label>
+
+                        <div class="col-sm-9">
+                            <input type="password" class="js-pwstrength form-control" name="newPassword" id="newPassword" placeholder="Enter new password" aria-label="Enter new password"
+                                   data-hs-pwstrength-options='{
+                               "ui": {
+                                 "container": "#changePasswordForm",
+                                 "viewports": {
+                                   "progress": "#passwordStrengthProgress",
+                                   "verdict": "#passwordStrengthVerdict"
+                                 }
+                               }
+                             }'>
+
+                            <p id="passwordStrengthVerdict" class="form-text mb-2"></p>
+
+                            <div id="passwordStrengthProgress"></div>
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="confirmNewPasswordLabel" class="col-sm-3 col-form-label input-label">Confirm new password</label>
+
+                        <div class="col-sm-9">
+                            <div class="mb-3">
+                                <input type="password" class="form-control" name="confirmNewPassword" id="confirmNewPasswordLabel" placeholder="Confirm your new password" aria-label="Confirm your new password">
+                            </div>
+
+                            <h5>Password requirements:</h5>
+
+                            <p class="font-size-sm mb-2">Ensure that these requirements are met:</p>
+
+                            <ul class="font-size-sm">
+                                <li>Minimum 8 characters long - the more, the better</li>
+                                <li>At least one lowercase character</li>
+                                <li>At least one uppercase character</li>
+                                <li>At least one number, symbol, or whitespace character</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+                <!-- End Form -->
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- End Card -->
+
+        <!-- Card -->
+        <div id="deleteAccountSection" class="card mb-3 mb-lg-5">
+            <div class="card-header">
+                <h4 class="card-title">Delete your account</h4>
+            </div>
+
+            <!-- Body -->
+            <div class="card-body">
+                <p class="card-text">When you delete your account, you lose access to Front account services, and we permanently delete your personal data. You can cancel the deletion for 14 days.</p>
+
+                <div class="form-group">
+                    <!-- Custom Checkbox -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="deleteAccountCheckbox">
+                        <label class="custom-control-label" for="deleteAccountCheckbox">Confirm that I want to delete my account.</label>
+                    </div>
+                    <!-- End Custom Checkbox -->
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <a class="btn btn-white mr-2" href="#">Learn more <i class="tio-open-in-new ml-1"></i></a>
+
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+            <!-- End Body -->
+        </div>
+        <!-- End Card -->
+        <!-- Sticky Block End Point -->
+        <div id="stickyBlockEndPoint"></div>
+    </div>
+</div>
+<!-- End Row -->

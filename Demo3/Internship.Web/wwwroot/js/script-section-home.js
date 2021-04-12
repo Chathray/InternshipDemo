@@ -437,10 +437,37 @@ $(document).on('submit', '#cui-form', function () {
 
 $(document).on('ready', function () {
 
-    // INITIALIZATION OF NAV SCROLLER
-    // =======================================================
-    $('.js-nav-scroller').each(function () {
-        new HsNavScroller($(this)).init()
+    //Sync sort,size
+    var params = new URLSearchParams(window.location.search);
+    $('#datatableEntries').val(params.get("size") ? params.get("size") : 6);
+    $('.js-datatable-sort').val(params.get("sort") ? params.get("sort") : 1);
+    $('.js-datatable-search').val(params.get("search_on") ? params.get("search_on") : 0);
+    $('#datatableSearch').val(params.get("search_string") ? params.get("search_string") : "");
+
+    $('#addibtn').on("click", function (e) {
+        //var type = $("#cui-submit").text(); //For button
+
+        $('#cui-form').attr('action', '/');
+
+        $('#firstNameLabel').val("");
+        $('#lastNameLabel').val("");
+        $('#birthLabel').val("");
+        $('#emailLabel').val("");
+        $('#phoneLabel').val("");
+        $('#durationLabel').val("");
+
+        $('#genderLabel').val("").change();
+        $('#typeLabel').val("").change();
+
+        $('#organizationLabel').val('').change();
+        $('#departmentLabel').val('').change();
+        $('#trainingLabel').val('').change();
+    });
+
+    $.get("home/getpassedcount").done(function (data) {
+        $('#passed-count').append(data);
+    }).fail(function () {
+        alert("Have error when get passed.");
     });
 
 

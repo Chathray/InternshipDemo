@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Application", "I
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Infrastructure", "Internship.Infrastructure\Internship.Infrastructure.csproj", "{87B28C2F-0701-4CB7-9EE3-05D2F6B73308}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Internship.Web", "Internship.Web\Internship.Web.csproj", "{787C736A-266C-4999-96DA-F3BC50B51813}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Web", "Internship.Web\Internship.Web.csproj", "{787C736A-266C-4999-96DA-F3BC50B51813}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Internship.Api", "Internship.Api\Internship.Api.csproj", "{471D6A60-F9D6-49DE-800F-FB6EC5EB3ADD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Api", "Internship.Api\Internship.Api.csproj", "{471D6A60-F9D6-49DE-800F-FB6EC5EB3ADD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Internship.Infrastructure.Test", "Internship.Infrastructure.Test\Internship.Infrastructure.Test.csproj", "{189A18EB-03B5-4C6D-863C-598584ADB8F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{471D6A60-F9D6-49DE-800F-FB6EC5EB3ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{471D6A60-F9D6-49DE-800F-FB6EC5EB3ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{471D6A60-F9D6-49DE-800F-FB6EC5EB3ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{189A18EB-03B5-4C6D-863C-598584ADB8F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{189A18EB-03B5-4C6D-863C-598584ADB8F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{189A18EB-03B5-4C6D-863C-598584ADB8F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{189A18EB-03B5-4C6D-863C-598584ADB8F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

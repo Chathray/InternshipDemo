@@ -24,8 +24,7 @@ namespace Internship.Infrastructure
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _context.Database.GetDbConnection()
-                .QuerySingle<User>($"SELECT * FROM users WHERE email = '{email}'");
+            var user = _context.Users.SingleOrDefault(x => x.Email == email);
 
             // check if username exists
             if (user is null)
