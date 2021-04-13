@@ -21,7 +21,7 @@ $('.js-editable-table tbody tr').editable({
                 'DepLocation': values.location
             }
         }).done(function (data) {
-            alert("Result: " + data);
+            $.alert("Result: " + data);
         }).fail(function () {
             alert("Error");
         });

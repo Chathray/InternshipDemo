@@ -69,8 +69,6 @@ namespace Internship.Infrastructure
                 .ExecReaders($"CALL GetInternListWithFilter({on_passed},{date_filter},'{start_date}','{end_date}',{(page - 1) * size},{size},{sort},{search_on},'{search_string}')");
         }
 
-
-
         public DataTable GetInternByPage(int page, int size, string sort)
         {
             return _context.Database.GetDbConnection()

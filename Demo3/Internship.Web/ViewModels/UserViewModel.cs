@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,8 +8,12 @@ namespace Internship.Web
 {
     public class UserViewModel
     {
+        [Required]
+        [EmailAddress]
         public string LoginEmail { get; set; }
 
+        [Required]
+        [MinLength(6)]
         public string LoginPassword { get; set; }
 
         public bool Remember { get; set; }

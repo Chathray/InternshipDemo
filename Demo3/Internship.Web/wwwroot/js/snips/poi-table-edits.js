@@ -22,7 +22,7 @@ $('.js-editable-table tbody tr').editable({
                 'Attitude': parseFloat(values.attitude)
             }
         }).done(function (data) {
-            alert("Result: " + data);
+            $.alert("Result: " + data);
         }).fail(function () {
             alert("Error");
         });

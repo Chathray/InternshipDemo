@@ -22,7 +22,7 @@ $('.js-editable-table tbody tr').editable({
                 'OrgPhone': values.phone
             }
         }).done(function (data) {
-            alert("Result: " + data);
+            $.alert("Result: " + data);
         }).fail(function () {
             alert("Error");
         });

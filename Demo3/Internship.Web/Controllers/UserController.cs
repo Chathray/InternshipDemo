@@ -62,13 +62,11 @@ namespace Internship.Web
         [HttpPost]
         public async Task<IActionResult> Login(UserViewModel model)
         {
+            if (!ModelState.IsValid) goto Fail;
+
             UserModel user = _userService.Authenticate(model.LoginEmail, model.LoginPassword);
 
-            if (user == null)
-            {
-                ModelState.AddModelError("fail", "The username or password is incorrect!");
-                return View("Authentication", model);
-            }
+            if (user == null) goto Fail;
 
             var claims = new Claim[]
             {
@@ -85,12 +83,16 @@ namespace Internship.Web
                 new ClaimsPrincipal(claimsIdentity),
                 new AuthenticationProperties
                 {
-                    IsPersistent = true,
-                    // long time for test
-                    ExpiresUtc = DateTime.UtcNow.AddDays(10)
+                    IsPersistent = model.Remember,
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(15)
                 });
+            goto Done;
 
+        Done:
             return Redirect("/");
+        Fail:
+            ModelState.AddModelError("fail", "The username or password is incorrect!");
+            return View("Authentication", model);
         }
 
         [HttpPost]
@@ -99,17 +101,19 @@ namespace Internship.Web
             var user = _mapper.Map<UserModel>(model);
             try
             {
-                bool réult = _userService.InsertUser(user);
-                if (réult)
-                {
-                    ModelState.AddModelError("done", "Registration complete, login now!");
-                    return View("Authentication");
-                }
+                bool result = _userService.InsertUser(user);
+                if (result) goto Done;
             }
             catch (AppException ex)
             {
                 _logger.LogInformation(ex.Message);
             }
+            goto Fail;
+
+        Done:
+            ModelState.AddModelError("done", "Registration complete, login now!");
+            return View("Authentication");
+        Fail:
             ModelState.AddModelError("fail", "Registration failed, please try again!");
             return View("Authentication", model);
         }

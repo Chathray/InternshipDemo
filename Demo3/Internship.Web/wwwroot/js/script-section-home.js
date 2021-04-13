@@ -429,47 +429,13 @@ $(document).on('submit', '#cui-form', function () {
         ImgStr: img64,
         ImgName: imgname
     }).done(function () {
-        $.alert("Result: Avatar uploaded!");
+        alert("Done, refresh now?");
     }).fail(function () {
         alert("Error");
     });
 });
 
 $(document).on('ready', function () {
-
-    //Sync sort,size
-    var params = new URLSearchParams(window.location.search);
-    $('#datatableEntries').val(params.get("size") ? params.get("size") : 6);
-    $('.js-datatable-sort').val(params.get("sort") ? params.get("sort") : 1);
-    $('.js-datatable-search').val(params.get("search_on") ? params.get("search_on") : 0);
-    $('#datatableSearch').val(params.get("search_string") ? params.get("search_string") : "");
-
-    $('#addibtn').on("click", function (e) {
-        //var type = $("#cui-submit").text(); //For button
-
-        $('#cui-form').attr('action', '/');
-
-        $('#firstNameLabel').val("");
-        $('#lastNameLabel').val("");
-        $('#birthLabel').val("");
-        $('#emailLabel').val("");
-        $('#phoneLabel').val("");
-        $('#durationLabel').val("");
-
-        $('#genderLabel').val("").change();
-        $('#typeLabel').val("").change();
-
-        $('#organizationLabel').val('').change();
-        $('#departmentLabel').val('').change();
-        $('#trainingLabel').val('').change();
-    });
-
-    $.get("home/getpassedcount").done(function (data) {
-        $('#passed-count').append(data);
-    }).fail(function () {
-        alert("Have error when get passed.");
-    });
-
 
     // INITIALIZATION OF QUILLJS EDITOR
     // =======================================================
@@ -501,7 +467,6 @@ $(document).on('ready', function () {
         },
         pageLength: 32
     });
-
 
 
     // ADD EVENT LISTENER FOR OPENING AND CLOSING DETAILS
@@ -571,6 +536,7 @@ $(document).on('ready', function () {
         if (elVal == 0) window.location = "/";
     });
 
+
     $('#trainingSelector').on('change', function () {
         var tid = $(this).val();
 
@@ -582,6 +548,7 @@ $(document).on('ready', function () {
             alert("Error");
         });
     });
+
 
     $('#del-training').on('click', function () {
         var tid = $('#trainingSelector').val()
@@ -595,6 +562,7 @@ $(document).on('ready', function () {
             alert("Error");
         });
     });
+
 
     $('#change-training').on('click', function () {
         var tid = $('#trainingSelector').val()
@@ -624,6 +592,7 @@ $(document).on('ready', function () {
         });
     });
 
+
     $('#datatableSearch').on('keyup', function (e) {
         if (event.keyCode != 13)
             return;
@@ -647,6 +616,7 @@ $(document).on('ready', function () {
         window.location = "?" + params.toString();
     });
 
+
     $('.js-datatable-sort').on('change', function () {
         var $this = $(this),
             elVal = $this.val();
@@ -657,6 +627,7 @@ $(document).on('ready', function () {
         window.location = "?" + params.toString();
     });
 
+
     $('#datatableEntries').on('change', function () {
         var $this = $(this),
             elVal = $this.val();
@@ -666,6 +637,7 @@ $(document).on('ready', function () {
 
         window.location = "?" + params.toString();
     });
+
 
     $('.paginate_button').on('click', function () {
         var params = new URLSearchParams(window.location.search);
@@ -679,6 +651,7 @@ $(document).on('ready', function () {
 
         window.location = "?" + params.toString();
     });
+
 
     $('#ad-filter-submit').on('click', function () {
         var passed = $('#pass-filter').val();
@@ -703,6 +676,7 @@ $(document).on('ready', function () {
         if (passed || dateFilter)
             window.location = "?" + params.toString();
     });
+
 
     //Sync sort,size
     var params = new URLSearchParams(window.location.search);
@@ -731,10 +705,11 @@ $(document).on('ready', function () {
         $('#trainingLabel').val('').change();
     });
 
+
     $.get("home/getpassedcount").done(function (data) {
         $('#passed-count').append(data);
     }).fail(function () {
-        $.alert("Have error when get passed.");
+        alert("Have error when get passed.");
     });
 
 
@@ -813,7 +788,6 @@ $(document).on('ready', function () {
     });
 
 
-
     ////////////  TRAINING
     $(document).on("click", '#training-now', function (e) {
         var options = [];
@@ -877,4 +851,3 @@ $(document).on('ready', function () {
         });
     });
 });
-

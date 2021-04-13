@@ -8,10 +8,9 @@ using Xunit;
 namespace Internship.Infrastructure.Test
 {
     public class InternTests
-    {
-        
+    {        
         [Fact]
-        public void GetByIdAsync_Returns_Product()
+        public void InternInfo_CanGet()
         {
             //Setup DbContext and DbSet mock  
             var dbContextMock = new Mock<DataContext>();
