@@ -20,10 +20,10 @@ namespace Internship.Infrastructure
             return _context.Events.SingleOrDefault(o => o.Title == title) is null;
         }
 
-        public DataTable GetEventsIntern()
+        public DataTable GetJointEvents()
         {
             return _context.Database.GetDbConnection()
-                .ExecReader($"CALL GetEventsJoined()");
+                .ExecReader($"CALL GetJointEvents()");
         }
 
         public string GetJson()
@@ -36,18 +36,30 @@ namespace Internship.Infrastructure
 
         public bool UpdateByTitle(Event model)
         {
+            var parameter = new DynamicParameters();
+            parameter.Add("Title", model.Title);
+            parameter.Add("Type", model.Type);
+            parameter.Add("ClassName", model.ClassName);
+            parameter.Add("Start", model.Start);
+            parameter.Add("End", model.End);
+            parameter.Add("CreatedBy", model.CreatedBy, DbType.Int32);
+            parameter.Add("GestsField", model.GestsField);
+            parameter.Add("RepeatField", model.RepeatField);
+            parameter.Add("EventLocationLabel", model.EventLocationLabel);
+            parameter.Add("EventDescriptionLabel", model.EventDescriptionLabel);
+
             return _context.Database.GetDbConnection()
-                .Execute($"CALL UpdateEventByTitle(" +
-                        $"'{model.Title}', " +
-                        $"'{model.Type}', " +
-                        $"'{model.ClassName}', " +
-                        $"'{model.Start}', " +
-                        $"'{model.End}', " +
-                        $"'{model.CreatedBy}', " +
-                        $"'{model.GestsField}', " +
-                        $"'{model.RepeatField}', " +
-                        $"'{model.EventLocationLabel}', " +
-                        $"'{model.EventDescriptionLabel}')") > 0;
+                .Execute($@"CALL UpdateEventByTitle(
+                          @Title
+                        , @Type
+                        , @ClassName
+                        , @Start
+                        , @End
+                        , @CreatedBy
+                        , @GestsField
+                        , @RepeatField
+                        , @EventLocationLabel
+                        , @EventDescriptionLabel)", parameter) > 0;
         }
     }
 }

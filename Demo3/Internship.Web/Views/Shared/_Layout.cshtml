@@ -13,8 +13,7 @@
     <!-- CSS Implementing -->
     <link rel="stylesheet" href="/css/vendor.min.css">
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/site.css?v=1.0">
-    <link rel="stylesheet" href="/css/jquery-confirm.css">
+    <link rel="stylesheet" href="/css/site.css">
 </head>
 
 <body class="   footer-offset">
@@ -79,12 +78,37 @@
     <!-- JS Implementing Plugins -->
     <script src="/js/vendor.min.js"></script>
     <script src="/js/theme.min.js"></script>
+    <link rel="stylesheet" href="/css/jquery-confirm.css">
     <script src="/js/jquery-confirm.js"></script>
 
     @RenderSection("Scripts", required: false)
 
     <script>
         $(document).on('ready', function () {
+            // INITIALIZATION OF UNFOLD
+            // =======================================================
+            $('.js-hs-unfold-invoker').each(function () {
+                var unfold = new HSUnfold($(this)).init();
+            });
+
+            // INITIALIZATION OF FILE ATTACH
+            // =======================================================
+            $('.js-file-attach').each(function () {
+                var customFile = new HSFileAttach($(this)).init();
+            });
+
+            // INITIALIZATION OF MASKED INPUT
+            // =======================================================
+            $('.js-masked-input').each(function () {
+                var mask = $.HSCore.components.HSMask.init($(this));
+            });
+
+            // INITIALIZATION OF SELECT2
+            // =======================================================
+            $('.js-select2-custom').each(function () {
+                var select2 = $.HSCore.components.HSSelect2.init($(this));
+            });
+
 
             // Đăng xuất
             $('#signout-cmd').on('click', function () {
@@ -104,46 +128,6 @@
                         },
                     }
                 });
-            });
-
-
-            // INITIALIZATION OF UNFOLD
-            // =======================================================
-            $('.js-hs-unfold-invoker').each(function () {
-                var unfold = new HSUnfold($(this)).init();
-            });
-
-            // INITIALIZATION OF SELECT2
-            // =======================================================
-            $('.js-select2-custom').each(function () {
-                var select2 = $.HSCore.components.HSSelect2.init($(this));
-            });
-
-            // INITIALIZATION OF FILE ATTACH
-            // =======================================================
-            $('.js-file-attach').each(function () {
-                var customFile = new HSFileAttach($(this)).init();
-            });
-
-            // INITIALIZATION OF NAV SCROLLER
-            // =======================================================
-            $('.js-nav-scroller').each(function () {
-                new HsNavScroller($(this)).init()
-            });
-
-            // INITIALIZATION OF FLATPICKR
-            // =======================================================
-            $('.js-flatpickr').each(function () {
-                $.HSCore.components.HSFlatpickr.init($(this));
-            });
-
-            $.HSCore.components.HSFlatpickr.init($('#js-flatpickr-disabling-dates'), {
-                disable: [
-                    function (date) {
-                        // return true to disable
-                        return (date.getDay() === 0 || date.getDay() === 6);
-                    }
-                ],
             });
         });
     </script>

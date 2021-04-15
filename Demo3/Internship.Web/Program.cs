@@ -2,6 +2,8 @@ using Internship.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Linq;
 
 namespace Internship.Web
 {
@@ -22,6 +24,36 @@ namespace Internship.Web
 
             context.Database.EnsureCreated();
             // Do seed action here
+            string[] list_fname = {"Thanh", "Viet", "Quoc", "Lan", "Lura", "Theo", "Jamel", "Lizbeth", "Esmeralda", "Rolf", "Kendall", "Rubi", "Korey", "Debora", "Jarvis", "Madge", "Marquis", "Reta", "Alysa", "Eldora", "Dorene", "Danika", "Tamar", "Domitila" };
+            string[] list_lname = { "Laborde", "Turley", "Jensen", "Lafortune", "Enriquez", "Roberson", "Kees", "Rae", "Kibler", "Demar", "Jenney", "Mong", "Mayville", "Ringdahl", "Adcox", "Eberhard", "Dekker", "Diangelo", "Trostle", "Dunkle" };
+
+            if (!context.Interns.Any())
+                for (int i = 0; i < 100; i++)
+                {
+                    int indexer = i + 1;
+
+                    int fid = new Random().Next(0, list_fname.Length);
+                    int lid = new Random().Next(0, list_lname.Length);
+
+                    var temp = new Intern
+                    {
+                        Email = list_fname[fid] + "@" + indexer,
+                        FirstName = list_fname[fid],
+                        LastName = list_lname[lid],
+                        Gender = (indexer % 2) == 0 ? "Male" : "Female",
+                        DateOfBirth = "1998-07-20",
+                        Phone = "0943154555",
+                        Duration = "2020-05-16 - 2021-02-02",
+                        TrainingId = 0,
+                        DepartmentId = new Random().Next(1, 5),
+                        OrganizationId = new Random().Next(1, 4),
+                        Avatar = "intern.png",
+                        Mentor = new Random().Next(1, 6),
+                        Type = "Part time"
+                    };
+                    context.Interns.Add(temp);
+                }
+            context.SaveChanges();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)

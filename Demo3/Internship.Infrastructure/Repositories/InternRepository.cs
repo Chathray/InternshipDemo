@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Data;
@@ -10,10 +11,12 @@ namespace Internship.Infrastructure
     public class InternRespository : Repository<Intern>, IInternRepository
     {
         private readonly DataContext _context;
+        private readonly ILogger<InternRespository> _logger;
 
-        public InternRespository(DataContext context) : base(context)
+        public InternRespository(DataContext context, ILogger<InternRespository> logger) : base(context)
         {
             _context = context;
+            _logger = logger;
         }
 
         public string GetInternInfo(int id)
@@ -35,6 +38,9 @@ namespace Internship.Infrastructure
         {
             string search_on_p = search_on switch
             {
+                9 => $"MATCH (t1.firstname, t1.lastname, t1.email, t1.phone)" +
+                     $"AGAINST('{search_string}' IN NATURAL LANGUAGE MODE)",
+
                 1 => $"t1.InternId LIKE '{search_string}'",
                 2 => $"t1.Email LIKE '{search_string}'",
                 3 => $"t1.FirstName LIKE '{search_string}'",
@@ -58,7 +64,9 @@ namespace Internship.Infrastructure
                 _ => "t1.InternId",
             };
 
-            var p_type = $"{search_on_p} ORDER BY {sort_p} LIMIT {(page - 1) * size},{size}";
+            string p_type = $"{search_on_p} ORDER BY {sort_p} LIMIT {(page - 1) * size},{size}";
+            
+            _logger.LogInformation(p_type);
 
             return _context.Database.GetDbConnection()
                 .ExecReaders($"CALL GetInternList({"\""}{p_type}{"\""})");
@@ -94,18 +102,21 @@ namespace Internship.Infrastructure
         {
             List<Training> result = new();
 
-            string list_str = _context.Database.GetDbConnection()
-                 .ExecuteScalar($"CALL GetJointTrainings({internId})").ToString();
-
-            string[] splited = list_str.Split(',');
-
-            var list_id = splited.Distinct().AsList();
-
-            foreach (var training_id in list_id)
+            var str = _context.Database.GetDbConnection()
+                 .ExecuteScalar($"CALL GetJointTrainings({internId})");
+            try
             {
-                var step = _context.Trainings.Find(int.Parse(training_id));
-                result.Add(step);
+                string[] splited = str.ToString().Split(',');
+
+                var list_id = splited.Distinct().AsList();
+
+                foreach (var training_id in list_id)
+                {
+                    var step = _context.Trainings.Find(int.Parse(training_id));
+                    result.Add(step);
+                }
             }
+            catch { }
             return result;
         }
     }

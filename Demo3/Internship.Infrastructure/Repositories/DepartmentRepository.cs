@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using Dapper;
+using MySql.Data.MySqlClient;
+using System;
 
 namespace Internship.Infrastructure
 {
@@ -28,8 +30,12 @@ namespace Internship.Infrastructure
             }
             else array = sharedId + "";
 
+            var parameter = new DynamicParameters();
+            parameter.Add("depId", depId);
+            parameter.Add("sharedArray", array);
+
             return _context.Database.GetDbConnection()
-                .ExecNonQuery($"CALL SetSharedTraining({depId},'{array}')");
+                .Execute($"CALL SetSharedTraining(@depId,@sharedArray)", parameter) > 0;
         }
     }
 }

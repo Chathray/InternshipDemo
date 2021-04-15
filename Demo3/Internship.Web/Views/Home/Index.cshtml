@@ -157,7 +157,7 @@
                             <i class="tio-search"></i>
                         </div>
                     </div>
-                    <input id="datatableSearch" type="search" class="form-control pl-5" placeholder="Type and press Enter to search" aria-label="Search users">
+                    <input id="datatableSearch" type="search" class="form-control pl-5" placeholder="Search by Name, Email, Phone" aria-label="Search users">
                 </div>
                 <!-- End Search -->
             </div>
@@ -173,7 +173,8 @@
                                 "dropdownAutoWidth": true,
                                 "width": true
                               }'>
-                        <option value="0">None</option>
+                        <option value="0" data-option-template="<b class='text-warning'>Clear search</b>"></option>
+                        <option value="9">All</option>
                         <option value="1">Index</option>
                         <option value="2">Email</option>
                         <option value="3">Name</option>
@@ -324,19 +325,19 @@
                 <tr>
                     <th></th>
                     <th>Name</th>
+                    <th>Gender</th>
                     <th>Phone</th>
                     <th>Duration</th>
                     <th>Position</th>
                     <th>Organization</th>
                     <th>Mentor</th>
-                    <th>Action</th>
                 </tr>
             </thead>
 
             <tbody>
                 @foreach (DataRow X in Model.Interns.Tables[0].Rows)
                 {
-                    <tr data-id="@X["InternId"]">
+                    <tr class="intern-row" data-id="@X["InternId"]">
                         <td class="details-control"></td>
                         <td class="table-column-pl-0">
                             <div class="d-flex align-items-center">
@@ -346,6 +347,9 @@
                                     <span class="d-block font-size-sm text-body">@X["Email"]</span>
                                 </div>
                             </div>
+                        </td>
+                        <td>
+                            <span>@X["Gender"]</span>
                         </td>
                         <td>
                             <span class="badge badge-soft-info">
@@ -365,30 +369,6 @@
                         <td>
                             <div class="ml-3">
                                 <span class="d-block text-hover-primary mb-0">@X["Mentor"] <i class="tio-verified text-primary" data-toggle="tooltip" data-placement="bottom" title="@X["Email"]"></i></span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="hs-unfold">
-                                <div class="js-hs-unfold-invoker btn btn-sm btn-ghost-secondary"
-                                     data-hs-unfold-options='{
-                                    "target": "#intern-@X["InternId"]",
-                                    "type": "css-animation",
-                                    "event": "hover",
-                                    "duration": 100,
-                                    "smartPositionOffEl": "#datatable"
-                                   }'>
-                                    More <i class="tio-chevron-down ml-1"></i>
-                                </div>
-
-                                <div id="intern-@X["InternId"]" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                    <a class="dropdown-item" href="javascript:;" onclick="InternUpdate(@X["InternId"])">Update info</a>
-                                    <a class="dropdown-item" href="javascript:;" onclick="InternEvaluate(@X["InternId"])">Evaluate</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="javascript:;" onclick="JointEvents(@X["InternId"])">Joint events</a>
-                                    <a class="dropdown-item" href="javascript:;" onclick="JointTrainings(@X["InternId"])">Joint trainings</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-danger" href="javascript:;" onclick="InternDelete(@X["InternId"],this)">Delete</a>
-                                </div>
                             </div>
                         </td>
                     </tr>
@@ -542,8 +522,9 @@
                                             data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select gender"}'>
                                         <option label="empty"></option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Unspecified">Unspecified</option>
                                     </select>
                                     <!-- End Select2 -->
                                 </div>
@@ -927,3 +908,13 @@
     </div>
 </div>
 <!-- End Modal -->
+
+<div class="dropdown-menu dropdown-menu-sm shadow-soft" id="intern-menu">
+    <a data-id="1" class="dropdown-item" href="javascript:;">Update info</a>
+    <a data-id="2" class="dropdown-item" href="javascript:;">Evaluate</a>
+    <div class="dropdown-divider"></div>
+    <a data-id="3" class="dropdown-item" href="javascript:;">Joint events</a>
+    <a data-id="4" class="dropdown-item" href="javascript:;">Joint trainings</a>
+    <div class="dropdown-divider"></div>
+    <a data-id="5" class="dropdown-item text-danger" href="javascript:;">Delete</a>
+</div>

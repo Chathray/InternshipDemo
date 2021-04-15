@@ -1,4 +1,5 @@
 ﻿using Internship.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -20,7 +21,7 @@ namespace Internship.Application
 
         public DataTable GetEventsIntern()
         {
-            return _eventRespository.GetEventsIntern();
+            return _eventRespository.GetJointEvents();
         }
 
         public string GetJson()
@@ -36,10 +37,10 @@ namespace Internship.Application
             // Ngoại lệ ngày đơn
             try
             {
-                obj.Start = dateArray[0];
-                obj.End = dateArray[1];
+                obj.Start = DateTime.ParseExact(dateArray[0], "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
+                obj.End = DateTime.ParseExact(dateArray[1], "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
             }
-            catch { obj.End = dateArray[0]; }
+            catch { obj.End = obj.Start; }
 
             switch (model.Type)
             {

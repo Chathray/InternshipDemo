@@ -27,20 +27,22 @@ function JointTrainings(iid) {
         data: { internId: iid }
     }).done(function (msg) {
         var model = JSON.parse(JSON.stringify(msg))
-
-        var items = []
-        for (var i = 0; i < model.length; i++) {
-            items.push(model[i].traName)
+        if (model.length > 0) {
+            var items = []
+            for (var i = 0; i < model.length; i++) {
+                items.push(model[i].traName)
+            }
+            $.alert(items.join("<br>"))
         }
-
-        $.alert(items.join("<br>"))
+        else
+            $.alert('No trainings to show')
     });
 }
 // #endregion :Joint
 
 
 // #region :Intern
-function InternDelete(iid, btn) {
+function InternDelete(iid) {
     $.confirm({
         title: 'Delete',
         icon: 'tio-delete-outlined',
@@ -60,9 +62,7 @@ function InternDelete(iid, btn) {
                                     OK: {
                                         text: 'Refresh',
                                         action: function () {
-                                            var tr = btn.closest('tr')
-                                            tr.remove()
-                                            RefreshInternCount()
+                                            window.location = "/"
                                         }
                                     },
                                 }
@@ -435,25 +435,21 @@ $(document).on('submit', '#cui-form', function () {
     });
 });
 
+let current_intern_id = 0;
+
 $(document).on('ready', function () {
+
+    // INITIALIZATION OF MEGA MENU
+    // =======================================================
+    var megaMenu = new HSMegaMenu($('.js-mega-menu'), {
+        desktop: {
+            position: 'left'
+        }
+    }).init();
 
     // INITIALIZATION OF QUILLJS EDITOR
     // =======================================================
     var quill2 = $.HSCore.components.HSQuill.init('.js-quill-modal-eg');
-
-
-    // INITIALIZATION OF FILE ATTACH
-    // =======================================================
-    $('.js-file-attach').each(function () {
-        var customFile = new HSFileAttach($(this)).init();
-    });
-
-
-    // INITIALIZATION OF MASKED INPUT
-    // =======================================================
-    $('.js-masked-input').each(function () {
-        var mask = $.HSCore.components.HSMask.init($(this));
-    });
 
 
     // INITIALIZATION OF DATATABLES
@@ -582,7 +578,7 @@ $(document).on('ready', function () {
                 sharedId: tid,
                 depArray: deparray
             }).done(function (data) {
-                $.alert(data)
+                $.alert("Result: " + data)
             }).fail(function () {
                 alert("Error");
             });
@@ -682,7 +678,7 @@ $(document).on('ready', function () {
     var params = new URLSearchParams(window.location.search);
     $('#datatableEntries').val(params.get("size") ? params.get("size") : 6);
     $('.js-datatable-sort').val(params.get("sort") ? params.get("sort") : 1);
-    $('.js-datatable-search').val(params.get("search_on") ? params.get("search_on") : 0);
+    $('.js-datatable-search').val(params.get("search_on") ? params.get("search_on") : 9);
     $('#datatableSearch').val(params.get("search_string") ? params.get("search_string") : "");
 
     $('#addibtn').on("click", function (e) {
@@ -849,5 +845,41 @@ $(document).on('ready', function () {
         }).fail(function () {
             alert("Error");
         });
+    });
+
+    $('.intern-row').on('contextmenu', function (e) {
+        current_intern_id = $(this).attr('data-id')
+
+        var top = e.pageY - 10;
+        var left = e.pageX - 90;
+        $("#intern-menu").css({
+            display: "block",
+            top: top,
+            left: left
+        }).addClass("show");
+        return false; //blocks default Webbrowser right click menu
+    }).on("click", function () {
+        $("#intern-menu").removeClass("show").hide();
+    });
+
+    $("#intern-menu a").on("click", function () {
+        switch ($(this).attr('data-id')) {
+            case '1':
+                InternUpdate(current_intern_id)
+                break;
+            case '2':
+                InternEvaluate(current_intern_id)
+                break;
+            case '3':
+                JointEvents(current_intern_id)
+                break;
+            case '4':
+                JointTrainings(current_intern_id)
+                break;
+            case '5':
+                InternDelete(current_intern_id)
+                break;
+        }
+        $(this).parent().removeClass("show").hide();
     });
 });

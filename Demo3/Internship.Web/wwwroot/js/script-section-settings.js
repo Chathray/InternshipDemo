@@ -1,14 +1,7 @@
 ﻿$(document).on('ready', function () {
 
-    $('body').attr('data-offset', '80')
+    $('body').attr('data-offset', '400')
     $('body').attr('data-hs-scrollspy-options', '{"target": "#navbarSettings"}')
-
-
-    // INITIALIZATION OF MASKED INPUT
-    // =======================================================
-    $('.js-masked-input').each(function () {
-        $.HSCore.components.HSMask.init($(this));
-    });
 
 
     // INITIALIZATION OF MEGA MENU

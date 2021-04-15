@@ -10,22 +10,20 @@ namespace Internship.Infrastructure
     {
         private readonly DataContext _context;
 
-
         public PointRepository(DataContext context) : base(context)
         {
             _context = context;
-
         }
 
         public bool EvaluateIntern(Point point)
         {
             return _context.Database.GetDbConnection()
-                          .Execute($"CALL EvaluateIntern(" +
-                          $"{point.InternId}," +
-                          $"{point.Marker}," +
-                          $"{point.TechnicalSkill}," +
-                          $"{point.SoftSkill}," +
-                          $"{point.Attitude})") > 0;
+                          .Execute($@"CALL EvaluateIntern(
+                           {point.InternId}
+                         , {point.Marker}
+                         , {point.TechnicalSkill}
+                         , {point.SoftSkill}
+                         , {point.Attitude})") > 0;
         }
 
         public Point GetPoint(int id)
@@ -37,7 +35,7 @@ namespace Internship.Infrastructure
         }
 
         public IDataReader GetAllWithName()
-        {            
+        {
             return _context.Database.GetDbConnection()
                  .ExecuteReader($"CALL GetAllPointWithName()");
         }

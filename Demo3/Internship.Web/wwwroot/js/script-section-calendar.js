@@ -1,16 +1,38 @@
 ﻿$(document).on('ready', function () {
 
-    // INITIALIZATION OF MASKED INPUT
+    // INITIALIZATION OF MEGA MENU
     // =======================================================
-    $('.js-masked-input').each(function () {
-        var mask = $.HSCore.components.HSMask.init($(this));
+    var megaMenu = new HSMegaMenu($('.js-mega-menu'), {
+        desktop: {
+            position: 'left'
+        }
+    }).init();
+
+
+    // INITIALIZATION OF NAVBAR VERTICAL NAVIGATION
+    // =======================================================
+    var sidebar = $('.js-navbar-vertical-aside').hsSideNav({
+        onMini: function () {
+            setTimeout(function () {
+                fullcalendarEditable.updateSize()
+            }, 200)
+        },
+        onFull: function () {
+            setTimeout(function () {
+                fullcalendarEditable.updateSize()
+            }, 200)
+        }
     });
 
 
-    // INITIALIZATION OF FILE ATTACH
+    // INITIALIZATION OF TOOLTIP IN NAVBAR VERTICAL MENU
     // =======================================================
-    $('.js-file-attach').each(function () {
-        var customFile = new HSFileAttach($(this)).init();
+    $('.js-nav-tooltip-link').tooltip({ boundary: 'window' })
+
+    $(".js-nav-tooltip-link").on("show.bs.tooltip", function (e) {
+        if (!$("body").hasClass("navbar-vertical-aside-mini-mode")) {
+            return false;
+        }
     });
 
 
@@ -63,6 +85,13 @@
     });
 
 
+    // INITIALIZATION OF FULLCALENDAR SELECT2
+    // =======================================================
+    $('.js-select2-custom').each(function () {
+        var select2 = $.HSCore.components.HSSelect2.init($(this));
+    });
+
+
     // INITIALIZATION OF FLATPICKR
     // =======================================================
     const eventDateRange = $.HSCore.components.HSFlatpickr.init($('#eventDateRangeLabel'));
@@ -87,7 +116,7 @@
 
     var fullcalendarEditable = $.HSCore.components.HSFullcalendar.init($('#js-fullcalendar'), {
         initialDate: moment().format("YYYY-MM-DD"),
-        headerToolbar: false,
+        headerToolbar: true,
         editable: true,
         defaultAllDay: false,
         datesSet(dateSet) {
@@ -300,9 +329,10 @@
             editableEvent.setStart(moment(date[0]).format('YYYY-MM-DD'))
             editableEvent.setEnd(date.length > 1 ? moment(date[1]).format('YYYY-MM-DD') : moment(date[0]).format('YYYY-MM-DD'))
         }
-        $('#addEventToCalendarModal').modal('hide');
-        filterSearchExample.filter();
+        $('#addEventToCalendarModal').modal('hide')
+        filterSearchExample.filter()
     })
+
 
     // Set Form
     function prepareData(title, start, end, event = {}) {
@@ -310,7 +340,7 @@
         $('#processEvent').text('Save')
 
         titleField.val(title)
-        eventDateRange.setDate([moment(start).format('MM/DD/YYYY'), moment(end).format('MM/DD/YYYY')])
+        eventDateRange.setDate([moment(start).format('DD/MM/YYYY'), moment(end).format('DD/MM/YYYY')])
 
         if (Object.keys(event).length) {
             repeatField.val(event.extendedProps.repeatField)
@@ -340,6 +370,7 @@
 
         $('#processEvent').text('Create Event')
     }
+
 
     // Filter
     const filterSearchExample = new HSFullcalendarFilter(fullcalendarEditable)

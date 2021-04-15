@@ -1,4 +1,4 @@
-using Internship.Application;
+﻿using Internship.Application;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +9,6 @@ namespace Internship.Web
     public class IndexViewModel
     {
         public PaginationLogic Pager { get; set; }
-
         public DataSet Interns { get; set; }
         public IList<OrganizationModel> Organizations { get; set; }
         public IList<DepartmentModel> Departments { get; set; }
