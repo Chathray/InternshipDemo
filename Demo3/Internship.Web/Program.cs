@@ -1,7 +1,9 @@
+using Autofac.Extensions.DependencyInjection;
 using Internship.Infrastructure;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 
@@ -11,20 +13,24 @@ namespace Internship.Web
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            var host = WebHost.CreateDefaultBuilder(args)
+                .ConfigureServices(services => services.AddAutofac())
+                .UseStartup<Startup>()
+                .Build();
+
             SeedDatabase(host);
             host.Run();
         }
 
-        private static void SeedDatabase(IHost host)
+        private static void SeedDatabase(IWebHost host)
         {
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
-            var context = services.GetRequiredService<DataContext>();
+            var context = services.GetRequiredService<RepositoryContext>();
 
             context.Database.EnsureCreated();
             // Do seed action here
-            string[] list_fname = {"Thanh", "Viet", "Quoc", "Lan", "Lura", "Theo", "Jamel", "Lizbeth", "Esmeralda", "Rolf", "Kendall", "Rubi", "Korey", "Debora", "Jarvis", "Madge", "Marquis", "Reta", "Alysa", "Eldora", "Dorene", "Danika", "Tamar", "Domitila" };
+            string[] list_fname = { "Thanh", "Viet", "Quoc", "Lan", "Lura", "Theo", "Jamel", "Lizbeth", "Esmeralda", "Rolf", "Kendall", "Rubi", "Korey", "Debora", "Jarvis", "Madge", "Marquis", "Reta", "Alysa", "Eldora", "Dorene", "Danika", "Tamar", "Domitila" };
             string[] list_lname = { "Laborde", "Turley", "Jensen", "Lafortune", "Enriquez", "Roberson", "Kees", "Rae", "Kibler", "Demar", "Jenney", "Mong", "Mayville", "Ringdahl", "Adcox", "Eberhard", "Dekker", "Diangelo", "Trostle", "Dunkle" };
 
             if (!context.Interns.Any())
@@ -54,14 +60,6 @@ namespace Internship.Web
                     context.Interns.Add(temp);
                 }
             context.SaveChanges();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            return Host
-                .CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder
-                => webBuilder.UseStartup<Startup>());
         }
     }
 }

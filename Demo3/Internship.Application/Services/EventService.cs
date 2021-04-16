@@ -61,7 +61,7 @@ namespace Internship.Application
 
             if (_eventRespository.CheckOne(obj.Title))
 
-                return _eventRespository.Insert(obj);
+                return _eventRespository.Create(obj);
             else
                 return _eventRespository.UpdateByTitle(obj);
 

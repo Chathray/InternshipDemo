@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using MySql.Data.MySqlClient;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -77,12 +76,12 @@ namespace Internship.Api
 
 
             // CR:Add database context of webapp
-            services.AddDbContext<DataContext>(options => options.UseMySQL(connectionString));
+            services.AddDbContext<RepositoryContext>(options => options.UseMySQL(connectionString));
 
             // configure DI for application services
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IUserRepository, UserRespository>();
-            services.AddScoped<IInternRepository, InternRespository>();
+            services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IInternRepository, InternRepository>();
             services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<ITrainingRepository, TrainingRepository>();
@@ -90,7 +89,7 @@ namespace Internship.Api
 
             services.AddAutoMapper(typeof(Startup)); // Add AutoMapper
 
-            services.AddScoped<DataContext>();
+            services.AddScoped<RepositoryContext>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IInternService, InternService>();
             services.AddScoped<IDepartmentService, DepartmentService>();

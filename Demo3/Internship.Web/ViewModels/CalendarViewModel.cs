@@ -12,7 +12,7 @@ namespace Internship.Web
             EvenTypes = eventtypes;
             Interns = interns;
         }
-         
+
         public IList<EventTypeModel> EvenTypes { get; set; }
         public IList<InternModel> Interns { get; set; }
 

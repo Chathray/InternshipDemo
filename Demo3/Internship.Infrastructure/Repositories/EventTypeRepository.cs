@@ -1,15 +1,13 @@
 ﻿namespace Internship.Infrastructure
 {
-    public class EventTypeRepository : Repository<EventType>, IEventTypeRepository
+    public class EventTypeRepository : RepositoryBase<EventType>, IEventTypeRepository
     {
-        private readonly DataContext _context;
-        
+        private readonly RepositoryContext _context;
 
-        public EventTypeRepository(DataContext context) : base(context)
+
+        public EventTypeRepository(RepositoryContext context) : base(context)
         {
             _context = context;
-
         }
-
     }
 }

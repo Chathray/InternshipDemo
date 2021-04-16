@@ -30,13 +30,13 @@ namespace Internship.Application
 
         public string GetTrainingContent(int id)
         {
-           return _trainingRespository.GetTrainingContent(id);
+            return _trainingRespository.GetTrainingContent(id);
         }
 
         public bool InsertTraining(TrainingModel model)
         {
             var obj = ObjectMapper.Mapper.Map<Training>(model);
-            return _trainingRespository.Insert(obj);
+            return _trainingRespository.Create(obj);
         }
 
         public bool UpdateTraining(TrainingModel model)

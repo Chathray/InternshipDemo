@@ -1,19 +1,18 @@
 ﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
 namespace Internship.Infrastructure
 {
-    public class InternRespository : Repository<Intern>, IInternRepository
+    public class InternRepository : RepositoryBase<Intern>, IInternRepository
     {
-        private readonly DataContext _context;
-        private readonly ILogger<InternRespository> _logger;
+        private readonly RepositoryContext _context;
+        private readonly ILogger<InternRepository> _logger;
 
-        public InternRespository(DataContext context, ILogger<InternRespository> logger) : base(context)
+        public InternRepository(RepositoryContext context, ILogger<InternRepository> logger) : base(context)
         {
             _context = context;
             _logger = logger;
@@ -31,7 +30,6 @@ namespace Internship.Infrastructure
             return _context.Database.GetDbConnection()
                 .ExecuteScalar($"CALL GetInternDetail('{id}')").ToString();
         }
-
 
 
         public DataSet GetInternModelList(int page, int size, int sort, int search_on, string search_string)
@@ -65,7 +63,7 @@ namespace Internship.Infrastructure
             };
 
             string p_type = $"{search_on_p} ORDER BY {sort_p} LIMIT {(page - 1) * size},{size}";
-            
+
             _logger.LogInformation(p_type);
 
             return _context.Database.GetDbConnection()

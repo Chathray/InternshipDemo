@@ -1,23 +1,21 @@
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 using Xunit;
 
 namespace Internship.Infrastructure.Test
 {
     public class UserTests
     {
-        private readonly UserRespository _userRespository;
-        private readonly DataContext _memContext;
+        private readonly UserRepository _userRespository;
+        private readonly RepositoryContext _memContext;
 
         public UserTests()
         {
-            var dbOptions = new DbContextOptionsBuilder<DataContext>()
+            var dbOptions = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase(databaseName: "tmainternship")
                 .Options;
 
-            _memContext = new DataContext(dbOptions);
-            _userRespository = new UserRespository(_memContext);
+            _memContext = new RepositoryContext(dbOptions);
+            _userRespository = new UserRepository(_memContext);
         }
 
         [Fact]

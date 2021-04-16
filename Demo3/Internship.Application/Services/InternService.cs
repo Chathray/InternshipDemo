@@ -74,7 +74,7 @@ namespace Internship.Application
         public bool InsertIntern(InternModel model)
         {
             var intern = ObjectMapper.Mapper.Map<Intern>(model);
-            return _internRespository.Insert(intern);
+            return _internRespository.Create(intern);
         }
 
         public bool UpdateIntern(InternModel model)

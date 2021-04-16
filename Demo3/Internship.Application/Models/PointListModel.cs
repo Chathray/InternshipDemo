@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Internship.Application
+﻿namespace Internship.Application
 {
     public class PointListModel
     {

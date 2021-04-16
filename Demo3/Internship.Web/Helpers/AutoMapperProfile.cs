@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Internship.Application;
-using Internship.Infrastructure;
 
 namespace Internship.Web
 {

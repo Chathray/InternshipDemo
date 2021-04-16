@@ -1,4 +1,4 @@
-using Internship.Application;
+using Autofac;
 using Internship.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -7,9 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MySql.Data.MySqlClient;
-using System.Data;
-using System.Data.Common;
 
 namespace Internship.Web
 {
@@ -22,6 +19,16 @@ namespace Internship.Web
             Configuration = configuration;
         }
 
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            // Add any Autofac modules or registrations.
+            // This is called AFTER ConfigureServices so things you
+            // register here OVERRIDE things registered in ConfigureServices.
+
+            // You must have the call to AddAutofac in the Program.Main
+            // method or this won't be called.
+            builder.RegisterModule(new AutoFacModule());
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -39,34 +46,11 @@ namespace Internship.Web
             });
 
             // CR:Add database context pool? of webapp
-            services.AddDbContextPool<DataContext>(options => options
+            services.AddDbContextPool<RepositoryContext>(options => options
             .UseMySQL(connectionString));
-
-            // configure DI for application services
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IUserRepository, UserRespository>();
-            services.AddScoped<IInternRepository, InternRespository>();
-            services.AddScoped<IPointRepository, PointRepository>();
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<IOrganizationRepository, OrganizationRepository>();
-            services.AddScoped<ITrainingRepository, TrainingRepository>();
-            services.AddScoped<IEventRepository, EventRepository>();
-            services.AddScoped<IEventTypeRepository, EventTypeRepository>();
-            services.AddScoped<IQuestionRepository, QuestionRepository>();
 
             // Add AutoMapper
             services.AddAutoMapper(typeof(Startup));
-
-            services.AddScoped<DataContext>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IInternService, InternService>();
-            services.AddScoped<IPointService, PointService>();
-            services.AddScoped<IDepartmentService, DepartmentService>();
-            services.AddScoped<IOrganizationService, OrganizationService>();
-            services.AddScoped<ITrainingService, TrainingService>();
-            services.AddScoped<IEventService, EventService>();
-            services.AddScoped<IEventTypeService, EventTypeService>();
-            services.AddScoped<IQuestionService, QuestionService>();
         }
 
 

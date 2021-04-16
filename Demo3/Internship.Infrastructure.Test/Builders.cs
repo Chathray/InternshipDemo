@@ -1,8 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using Xunit;
-
 namespace Internship.Infrastructure.Test
 {
     public class Builders
@@ -17,6 +12,6 @@ namespace Internship.Infrastructure.Test
                 PasswordHash = "$2a$11$ZwUGQzP5M.gaE/FzHrbGDuNJrWhefvsoiTmyIDowKnhZuXRMBtux6"
             };
         }
-        
+
     }
 }

@@ -1,12 +1,10 @@
-﻿using System.Linq;
-
-namespace Internship.Infrastructure
+﻿namespace Internship.Infrastructure
 {
-    public class OrganizationRepository : Repository<Organization>, IOrganizationRepository
+    public class OrganizationRepository : RepositoryBase<Organization>, IOrganizationRepository
     {
-        private readonly DataContext _context;
+        private readonly RepositoryContext _context;
 
-        public OrganizationRepository(DataContext context) : base(context)
+        public OrganizationRepository(RepositoryContext context) : base(context)
         {
             _context = context;
         }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Internship.Infrastructure
 {
     [Table("EventTypes")]
-    public class EventType: EntityBase
+    public class EventType : EntityBase
     {
         [Key]
         public string Type { get; set; }

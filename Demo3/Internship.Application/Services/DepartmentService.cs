@@ -11,7 +11,6 @@ namespace Internship.Application
             _departmentRespository = departmentRespository;
         }
 
-
         public IList<DepartmentModel> GetAll()
         {
             var dep = _departmentRespository.GetAll();

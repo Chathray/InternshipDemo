@@ -9,7 +9,6 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Internship.Api
 {
@@ -95,9 +94,9 @@ namespace Internship.Api
         }
 
         [HttpGet("UserList")]
-        public  IActionResult UserList()
+        public IActionResult UserList()
         {
-            var obj =  _userService.GetAll();
+            var obj = _userService.GetAll();
             return Ok(obj);
         }
     }

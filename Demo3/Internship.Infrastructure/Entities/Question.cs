@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Internship.Infrastructure
 {
     [Table("Questions")]
-    public class Question:EntityBase
+    public class Question : EntityBase
     {
         [Key]
         public int QuestionId { get; set; }

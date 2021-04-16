@@ -1,15 +1,13 @@
-﻿using Dapper;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+﻿using System.Linq;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Internship.Infrastructure
 {
-    public class UserRespository : Repository<User>, IUserRepository
+    public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        private readonly DataContext _context;
+        private readonly RepositoryContext _context;
 
-        public UserRespository(DataContext context) : base(context)
+        public UserRepository(RepositoryContext context) : base(context)
         {
             _context = context;
         }
@@ -49,7 +47,7 @@ namespace Internship.Infrastructure
 
             user.PasswordHash = BC.HashPassword(password);
 
-            return Insert(user);
+            return Create(user);
         }
     }
 }

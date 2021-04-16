@@ -1,16 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Dapper;
-using MySql.Data.MySqlClient;
-using System;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace Internship.Infrastructure
 {
-    public class DepartmentRepository : Repository<Department>, IDepartmentRepository
+    public class DepartmentRepository : RepositoryBase<Department>, IDepartmentRepository
     {
-        private readonly DataContext _context;
+        private readonly RepositoryContext _context;
 
 
-        public DepartmentRepository(DataContext context) : base(context)
+        public DepartmentRepository(RepositoryContext context) : base(context)
         {
             _context = context;
         }

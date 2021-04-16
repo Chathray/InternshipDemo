@@ -2,18 +2,22 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Internship.Infrastructure
 {
-    public class Repository<T> : IRepository<T> where T : EntityBase
+    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBase
     {
-        private readonly DataContext _context;
+        private readonly RepositoryContext _context;
 
-        public Repository(DataContext context)
+        public RepositoryBase(RepositoryContext context)
         {
             _context = context;
+        }
+
+        public T Get(int key)
+        {
+            return _context.Set<T>().Find(key);
         }
 
         public IList<T> GetAll()
@@ -23,25 +27,21 @@ namespace Internship.Infrastructure
                 .Result.AsList();
         }
 
-        public bool Update(T obj)
+        public bool Update(T entity)
         {
-            _context.Set<T>().Update(obj);
+            _context.Set<T>().Update(entity);
             return _context.SaveChanges() > 0;
         }
 
-        public bool Insert(T obj)
+        public bool Create(T entity)
         {
-            _context.Set<T>().Add(obj);
+            _context.Set<T>().Add(entity);
             return _context.SaveChanges() > 0;
         }
 
-        public T Get(int id)
+        public bool Delete(int key)
         {
-            return _context.Set<T>().Find(id);
-        }
-        public bool Delete(int id)
-        {
-            var obj = _context.Set<T>().Find(id);
+            var obj = _context.Set<T>().Find(key);
 
             _context.Set<T>().Remove(obj);
             return _context.SaveChanges() > 0;
@@ -55,19 +55,9 @@ namespace Internship.Infrastructure
             return Convert.ToInt32(count);
         }
 
-        public async Task<IList<T>> GetAllAsync()
+        public int CountByIndex(int index)
         {
-            return await _context.Set<T>().ToListAsync();
-        }
-
-        public async Task<int> GetCountAsync()
-        {
-            return await _context.Set<T>().CountAsync();
-        }
-
-        public int CountByIndex(int stt)
-        {
-            return stt switch
+            return index switch
             {
                 1 => Count(typeof(Department)),
                 2 => Count(typeof(Event)),
@@ -80,6 +70,16 @@ namespace Internship.Infrastructure
                 9 => Count(typeof(User)),
                 _ => 0
             };
+        }
+
+        public async Task<IList<T>> GetAllAsync()
+        {
+            return await _context.Set<T>().ToListAsync();
+        }
+
+        public async Task<int> GetCountAsync()
+        {
+            return await _context.Set<T>().CountAsync();
         }
     }
 }

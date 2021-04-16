@@ -3,7 +3,7 @@ namespace Internship.Application
     public class EventModel
     {
         public EventModel() { }
-        
+
         public int EventId { get; set; }
         public int CreatedBy { get; set; }
 

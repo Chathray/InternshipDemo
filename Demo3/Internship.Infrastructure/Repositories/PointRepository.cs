@@ -1,16 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using Dapper;
-using System.Data;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Data;
+using System.Linq;
 
 namespace Internship.Infrastructure
 {
-    public class PointRepository : Repository<Point>, IPointRepository
+    public class PointRepository : RepositoryBase<Point>, IPointRepository
     {
-        private readonly DataContext _context;
+        private readonly RepositoryContext _context;
 
-        public PointRepository(DataContext context) : base(context)
+        public PointRepository(RepositoryContext context) : base(context)
         {
             _context = context;
         }

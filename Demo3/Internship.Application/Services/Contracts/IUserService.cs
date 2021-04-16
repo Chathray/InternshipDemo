@@ -6,7 +6,6 @@ namespace Internship.Application
     {
         IList<UserModel> GetAll();
 
-
         UserModel Authenticate(string loginEmail, string loginPassword);
         UserModel GetById(int userId);
         bool InsertUser(UserModel model);

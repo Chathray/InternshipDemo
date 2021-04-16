@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using Internship.Application;
-using Internship.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Internship.Api
 {
@@ -56,23 +54,23 @@ namespace Internship.Api
         }
 
         [HttpGet("GetDepartments")]
-        public  IActionResult GetDepartments()
+        public IActionResult GetDepartments()
         {
-            var obj =  _departmentService.GetAll();
+            var obj = _departmentService.GetAll();
             return Ok(obj);
         }
 
         [HttpGet("GetOrganizations")]
-        public  IActionResult GetOrganizations()
+        public IActionResult GetOrganizations()
         {
-            var obj =  _organizationService.GetAll();
+            var obj = _organizationService.GetAll();
             return Ok(obj);
         }
 
         [HttpGet("GetUsers")]
-        public  IActionResult GetUsers()
+        public IActionResult GetUsers()
         {
-            var obj =  _userService.GetAll();
+            var obj = _userService.GetAll();
             return Ok(obj);
         }
 

@@ -2,12 +2,12 @@
 
 namespace Internship.Infrastructure
 {
-    public class TrainingRepository : Repository<Training>, ITrainingRepository
+    public class TrainingRepository : RepositoryBase<Training>, ITrainingRepository
     {
-        private readonly DataContext _context;
+        private readonly RepositoryContext _context;
 
 
-        public TrainingRepository(DataContext context) : base(context)
+        public TrainingRepository(RepositoryContext context) : base(context)
         {
             _context = context;
 
@@ -24,7 +24,7 @@ namespace Internship.Infrastructure
 
         public string GetTrainingContent(int id)
         {
-           var obj = _context.Trainings.SingleOrDefault(o => o.TrainingId == id);
+            var obj = _context.Trainings.SingleOrDefault(o => o.TrainingId == id);
             return obj.TraData;
         }
     }

@@ -31,7 +31,7 @@ namespace Internship.Application
         public bool Insert(QuestionModel qa)
         {
             var qa_obj = ObjectMapper.Mapper.Map<Question>(qa);
-            return _questionRespository.Insert(qa_obj);
+            return _questionRespository.Create(qa_obj);
         }
 
         public bool Update(QuestionModel model)

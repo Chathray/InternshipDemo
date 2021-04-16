@@ -2,7 +2,7 @@
 
 namespace Internship.Infrastructure
 {
-    public interface IPointRepository : IRepository<Point>
+    public interface IPointRepository : IRepositoryBase<Point>
     {
         bool EvaluateIntern(Point point);
         Point GetPoint(int id);

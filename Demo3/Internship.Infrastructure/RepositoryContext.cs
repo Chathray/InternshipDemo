@@ -2,9 +2,10 @@
 
 namespace Internship.Infrastructure
 {
-    public class DataContext : DbContext
+    public class RepositoryContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        public RepositoryContext(DbContextOptions<RepositoryContext> options)
+            : base(options)
         { }
 
         public DbSet<User> Users { get; set; }

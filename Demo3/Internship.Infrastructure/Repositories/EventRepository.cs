@@ -1,16 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
-using Dapper;
+﻿using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Linq;
 
 namespace Internship.Infrastructure
 {
-    public class EventRepository : Repository<Event>, IEventRepository
+    public class EventRepository : RepositoryBase<Event>, IEventRepository
     {
-        private readonly DataContext _context;
+        private readonly RepositoryContext _context;
 
-        public EventRepository(DataContext context) : base(context)
+        public EventRepository(RepositoryContext context) : base(context)
         {
             _context = context;
         }
