@@ -1,15 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace Internship.Application
 {
-    public interface IPointService
+    public interface IPointService : IServiceBase<PointModel, Point>
     {
-        IList<PointModel> GetAll();
-
         bool EvaluateIntern(PointModel mark);
-        PointModel GetPoint(int id);
-        bool UpdatePoint(PointModel model);
-        bool Delete(int id);
         IList<PointListModel> GetAllWithName();
         int GetPassedCount();
     }

@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Internship.Infrastructure;
 
 namespace Internship.Application
 {
-    public interface IEventTypeService
+    public interface IEventTypeService : IServiceBase<EventTypeModel, EventType>
     {
-        IList<EventTypeModel> GetAll();
-
     }
 }

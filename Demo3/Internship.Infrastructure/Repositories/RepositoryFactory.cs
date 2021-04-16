@@ -1,6 +1,6 @@
 ﻿namespace Internship.Infrastructure
 {
-    public class RepositoryManager : IRepositoryManager
+    public class RepositoryFactory : IRepositoryFactory
     {
         private readonly RepositoryContext _repositoryContext;
         private readonly IUserRepository _userRepository;
@@ -13,7 +13,7 @@
         private readonly IEventTypeRepository _eventTypeRepository;
         private readonly IQuestionRepository _questionRepository;
 
-        public RepositoryManager(
+        public RepositoryFactory(
             RepositoryContext repositoryContext,
             IUserRepository userRepository,
             IInternRepository internRepository,

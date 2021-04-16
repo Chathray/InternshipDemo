@@ -35,7 +35,7 @@ namespace Internship.Api
         [AllowAnonymous]
         public IActionResult Check()
         {
-            return Ok(_userService.GetById(1));
+            return Ok(_userService.GetOne(1));
         }
 
 
@@ -83,7 +83,7 @@ namespace Internship.Api
             {
                 var userModel = _mapper.Map<UserModel>(model);
                 // create user
-                _userService.InsertUser(userModel);
+                _userService.Create(userModel);
                 return Ok();
             }
             catch (AppException ex)

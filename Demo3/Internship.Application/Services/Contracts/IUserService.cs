@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Internship.Infrastructure;
 
 namespace Internship.Application
 {
-    public interface IUserService
+    public interface IUserService : IServiceBase<UserModel, User>
     {
-        IList<UserModel> GetAll();
-
         UserModel Authenticate(string loginEmail, string loginPassword);
-        UserModel GetById(int userId);
-        bool InsertUser(UserModel model);
-        int CountByIndex(int stt);
+        int CountByIndex(int index);
     }
 }

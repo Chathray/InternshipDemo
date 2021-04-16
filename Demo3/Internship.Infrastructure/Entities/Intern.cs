@@ -24,6 +24,9 @@ namespace Internship.Infrastructure
         public int DepartmentId { get; set; }
         public int OrganizationId { get; set; }
         public int TrainingId { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+
 
         [ForeignKey("OrganizationId")]
         public Organization Organizations { get; set; }

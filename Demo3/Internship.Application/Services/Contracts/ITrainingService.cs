@@ -1,15 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Internship.Infrastructure;
 
 namespace Internship.Application
 {
-    public interface ITrainingService
+    public interface ITrainingService : IServiceBase<TrainingModel, Training>
     {
-        IList<TrainingModel> GetAll();
 
         TrainingModel GetTrainingByIntern(int trainingId);
-        bool InsertTraining(TrainingModel model);
-        bool UpdateTraining(TrainingModel model);
         string GetTrainingContent(int id);
-        bool Delete(int id);
     }
 }

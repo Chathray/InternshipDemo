@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Internship.Infrastructure;
 
 namespace Internship.Application
 {
-    public interface IDepartmentService
+    public interface IDepartmentService : IServiceBase<DepartmentModel, Department>
     {
-        IList<DepartmentModel> GetAll();
-
-        bool UpdateDepartment(DepartmentModel model);
-        bool Delete(int id);
         bool InsertSharedTraining(int sharedId, int depId);
     }
 }

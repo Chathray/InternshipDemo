@@ -1,6 +1,6 @@
 ﻿namespace Internship.Infrastructure
 {
-    public interface IRepositoryManager
+    public interface IRepositoryFactory
     {
         IUserRepository User { get; }
         IInternRepository Intern { get; }

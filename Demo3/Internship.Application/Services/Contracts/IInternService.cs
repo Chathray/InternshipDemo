@@ -1,16 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Internship.Infrastructure;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Internship.Application
 {
-    public interface IInternService
+    public interface IInternService : IServiceBase<InternModel, Intern>
     {
-        IList<InternModel> GetAll();
-
-
-        bool InsertIntern(InternModel model);
-        bool Delete(int id);
-        bool UpdateIntern(InternModel model);
         string GetInternInfo(int id);
         string GetInternDetail(int id);
         IList<InternModel> GetInternByPage(int page, int size);

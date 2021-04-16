@@ -8,7 +8,9 @@ namespace Internship.Web
     {
         protected override void Load(ContainerBuilder builder)
         {
-            //builder.RegisterType<QuestionService>().As<IQuestionService>();
+            builder.RegisterType<ServiceFactory>()
+                .As<IServiceFactory>()
+                .InstancePerLifetimeScope();
 
             var assembly_app = typeof(InternService).Assembly;
             builder.RegisterAssemblyTypes(assembly_app)

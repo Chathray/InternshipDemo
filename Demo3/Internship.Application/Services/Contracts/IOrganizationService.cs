@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Internship.Infrastructure;
 
 namespace Internship.Application
 {
-    public interface IOrganizationService
+    public interface IOrganizationService : IServiceBase<OrganizationModel, Organization>
     {
-        IList<OrganizationModel> GetAll();
-
-        bool UpdateOrganization(OrganizationModel model);
-        bool Delete(int id);
     }
 }

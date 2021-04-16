@@ -1,13 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Internship.Infrastructure;
 
 namespace Internship.Application
 {
-    public interface IQuestionService
+    public interface IQuestionService : IServiceBase<QuestionModel, Question>
     {
-        IList<QuestionModel> GetAll();
-        bool Insert(QuestionModel qa);
-        bool Delete(int id);
-        QuestionModel Get(int id);
-        bool Update(QuestionModel model);
     }
 }

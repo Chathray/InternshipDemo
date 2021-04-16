@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Internship.Infrastructure;
 using System.Data;
 
 namespace Internship.Application
 {
-    public interface IEventService
+    public interface IEventService : IServiceBase<EventModel, Event>
     {
-        IList<EventModel> GetAll();
-
-
         DataTable GetEventsIntern();
         string GetJson();
         bool InsertEvent(EventModel model);

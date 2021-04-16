@@ -1,22 +1,15 @@
 ﻿using Internship.Infrastructure;
 using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace Internship.Application
 {
-    public class EventService : IEventService
+    public class EventService : ServiceBase<EventModel, Event>, IEventService
     {
         private readonly IEventRepository _eventRespository;
-        public EventService(IEventRepository eventRespository)
+        public EventService(IEventRepository eventRespository) : base(eventRespository)
         {
             _eventRespository = eventRespository;
-        }
-
-        public IList<EventModel> GetAll()
-        {
-            var evens = _eventRespository.GetAll();
-            return ObjectMapper.Mapper.Map<IList<Event>, IList<EventModel>>(evens);
         }
 
         public DataTable GetEventsIntern()

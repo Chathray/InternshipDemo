@@ -4,18 +4,12 @@ using System.Data;
 
 namespace Internship.Application
 {
-    public class InternService : IInternService
+    public class InternService : ServiceBase<InternModel, Intern>, IInternService
     {
         private readonly IInternRepository _internRespository;
-        public InternService(IInternRepository internRespository)
+        public InternService(IInternRepository internRespository) : base(internRespository)
         {
             _internRespository = internRespository;
-        }
-
-        public IList<InternModel> GetAll()
-        {
-            var obj = _internRespository.GetAll();
-            return ObjectMapper.Mapper.Map<IList<Intern>, IList<InternModel>>(obj);
         }
 
 
@@ -66,22 +60,7 @@ namespace Internship.Application
         {
             return _internRespository.GetInternDetail(id);
         }
-        public bool Delete(int id)
-        {
-            return _internRespository.Delete(id);
-        }
 
-        public bool InsertIntern(InternModel model)
-        {
-            var intern = ObjectMapper.Mapper.Map<Intern>(model);
-            return _internRespository.Create(intern);
-        }
-
-        public bool UpdateIntern(InternModel model)
-        {
-            var intern = ObjectMapper.Mapper.Map<Intern>(model);
-            return _internRespository.Update(intern);
-        }
 
         public IList<TrainingModel> GetJointTrainings(int internId)
         {

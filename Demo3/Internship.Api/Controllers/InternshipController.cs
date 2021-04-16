@@ -116,7 +116,7 @@ namespace Internship.Api
 
             try
             {
-                _internService.InsertIntern(model);
+                _internService.Create(model);
             }
             catch (AppException)
             {
@@ -148,7 +148,7 @@ namespace Internship.Api
             try
             {
                 _logger.LogInformation(DataExtensions.Dump(model));
-                _internService.UpdateIntern(model);
+                _internService.Update(model);
             }
             catch (AppException)
             {

@@ -54,7 +54,7 @@ namespace Internship.Api
                     {
                         var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
                         var userId = int.Parse(context.Principal.Identity.Name);
-                        var user = userService.GetById(userId);
+                        var user = userService.GetOne(userId);
                         if (user == null)
                         {
                             // return unauthorized if user no longer exists

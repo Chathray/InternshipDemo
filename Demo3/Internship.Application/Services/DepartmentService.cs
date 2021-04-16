@@ -1,37 +1,18 @@
 ﻿using Internship.Infrastructure;
-using System.Collections.Generic;
 
 namespace Internship.Application
 {
-    public class DepartmentService : IDepartmentService
+    public class DepartmentService : ServiceBase<DepartmentModel, Department>, IDepartmentService
     {
-        private readonly IDepartmentRepository _departmentRespository;
-        public DepartmentService(IDepartmentRepository departmentRespository)
+        private readonly IDepartmentRepository _departmentRepository;
+        public DepartmentService(IDepartmentRepository departmentRepository) : base(departmentRepository)
         {
-            _departmentRespository = departmentRespository;
-        }
-
-        public IList<DepartmentModel> GetAll()
-        {
-            var dep = _departmentRespository.GetAll();
-            var model = ObjectMapper.Mapper.Map<IList<Department>, IList<DepartmentModel>>(dep);
-            return model;
-        }
-
-        public bool UpdateDepartment(DepartmentModel model)
-        {
-            var obj = ObjectMapper.Mapper.Map<Department>(model);
-            return _departmentRespository.Update(obj);
-        }
-
-        public bool Delete(int id)
-        {
-            return _departmentRespository.Delete(id);
+            _departmentRepository = departmentRepository;
         }
 
         public bool InsertSharedTraining(int sharedId, int depId)
         {
-            return _departmentRespository.InsertSharedTraining(sharedId, depId);
+            return _departmentRepository.InsertSharedTraining(sharedId, depId);
         }
     }
 }

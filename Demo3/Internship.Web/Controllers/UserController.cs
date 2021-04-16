@@ -99,7 +99,7 @@ namespace Internship.Web
             var user = _mapper.Map<UserModel>(model);
             try
             {
-                bool result = _userService.InsertUser(user);
+                bool result = _userService.Create(user);
                 if (result) goto Done;
             }
             catch (AppException ex)
@@ -120,6 +120,33 @@ namespace Internship.Web
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/");
+        }
+        
+        [HttpPatch]
+        public bool UserUpdateBasic(UserViewModel model)
+        {
+            var user = _mapper.Map<UserModel>(model);
+            return _userService.Update(user);
+        } 
+        
+        [HttpPatch]
+        public bool UserUpdatePassword(UserViewModel model)
+        {
+            var user = _mapper.Map<UserModel>(model);
+            return _userService.Update(user);
+        }
+
+        [HttpPatch]
+        public bool UserUpdateEmail(UserViewModel model)
+        {
+            var user = _mapper.Map<UserModel>(model);
+            return _userService.Update(user);
+        }
+
+        [HttpPost]
+        public bool UserDelete(int id)
+        {
+            return _userService.Delete(id);
         }
     }
 }

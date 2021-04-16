@@ -4,21 +4,15 @@ using System.Data;
 
 namespace Internship.Application
 {
-    public class PointService : IPointService
+    public class PointService : ServiceBase<PointModel, Point>, IPointService
     {
         private readonly IPointRepository _pointRespository;
-        public PointService(IPointRepository pointRespository)
+        public PointService(IPointRepository pointRespository) : base(pointRespository)
         {
             _pointRespository = pointRespository;
         }
 
 
-        public IList<PointModel> GetAll()
-        {
-            var dep = _pointRespository.GetAll();
-            var model = ObjectMapper.Mapper.Map<IList<Point>, IList<PointModel>>(dep);
-            return model;
-        }
 
         public bool EvaluateIntern(PointModel mark)
         {
@@ -26,22 +20,6 @@ namespace Internship.Application
             return _pointRespository.EvaluateIntern(point);
         }
 
-        public PointModel GetPoint(int id)
-        {
-            var point = _pointRespository.GetPoint(id);
-            return ObjectMapper.Mapper.Map<PointModel>(point);
-        }
-
-        public bool UpdatePoint(PointModel model)
-        {
-            var obj = ObjectMapper.Mapper.Map<Point>(model);
-            return _pointRespository.Update(obj);
-        }
-
-        public bool Delete(int id)
-        {
-            return _pointRespository.Delete(id);
-        }
 
         public IList<PointListModel> GetAllWithName()
         {

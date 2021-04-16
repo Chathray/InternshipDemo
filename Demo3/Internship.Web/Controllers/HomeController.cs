@@ -17,26 +17,13 @@ namespace Internship.Web
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IMapper _mapper;
+        private readonly IServiceFactory _serviceFactory;
 
-        private readonly IInternService _internService;
-        private readonly ITrainingService _trainingService;
-        private readonly IQuestionService _questionService;
-        private readonly IDepartmentService _departmentService;
-        private readonly IOrganizationService _organizationService;
-        private readonly IUserService _userService;
-        private readonly IPointService _pointService;
-
-        public HomeController(ILogger<HomeController> logger, IInternService internService, ITrainingService trainingService, IDepartmentService departmentService, IOrganizationService organizationService, IMapper mapper, IUserService userService, IQuestionService questionService, IPointService pointService)
+        public HomeController(ILogger<HomeController> logger, IMapper mapper, IServiceFactory serviceFactory)
         {
             _logger = logger;
             _mapper = mapper;
-            _internService = internService;
-            _trainingService = trainingService;
-            _departmentService = departmentService;
-            _organizationService = organizationService;
-            _userService = userService;
-            _questionService = questionService;
-            _pointService = pointService;
+            _serviceFactory = serviceFactory;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -69,14 +56,14 @@ namespace Internship.Web
             if (haveFilter)
             {
                 _logger.LogInformation($"{page},{size},{sort},{search_on},{search_string},{on_passed},{date_filter},{start_date},{end_date}");
-                dtset = _internService.GetInternByPage(
+                dtset = _serviceFactory.Intern.GetInternByPage(
                      page, size, sort,
                      search_on, search_string,
                      on_passed,
                      date_filter, start_date, end_date);
             }
             else
-                dtset = _internService.GetInternByPage(
+                dtset = _serviceFactory.Intern.GetInternByPage(
                      page, size, sort,
                      search_on, search_string);
 
@@ -84,10 +71,10 @@ namespace Internship.Web
             var pagination = new PaginationLogic(total, page, size);
 
             var model = new IndexViewModel(pagination, dtset,
-                _trainingService.GetAll(),
-                _organizationService.GetAll(),
-                _departmentService.GetAll(),
-                _pointService.GetAll());
+                _serviceFactory.Training.GetAll(),
+                _serviceFactory.Organization.GetAll(),
+                _serviceFactory.Department.GetAll(),
+                _serviceFactory.Point.GetAll());
 
             ViewData["trainings.count"] = model.Trainings.Count;
             ViewData["organizations.count"] = model.Organizations.Count;
@@ -105,7 +92,7 @@ namespace Internship.Web
 
             try
             {
-                _internService.InsertIntern(intern);
+                _serviceFactory.Intern.Create(intern);
             }
             catch (AppException)
             {
@@ -125,7 +112,7 @@ namespace Internship.Web
             try
             {
                 _logger.LogInformation(DataExtensions.Dump(intern));
-                _internService.UpdateIntern(intern);
+                _serviceFactory.Intern.Update(intern);
             }
             catch (AppException)
             {
@@ -148,7 +135,7 @@ namespace Internship.Web
         {
             ViewData["page-3"] = "active";
 
-            var model = _questionService.GetAll()
+            var model = _serviceFactory.Question.GetAll()
                 .OrderBy(o => o.Group)
                 .ToList();
 
@@ -162,7 +149,7 @@ namespace Internship.Web
         public bool InsertQuestion(QuestionViewModel model)
         {
             var qa = _mapper.Map<QuestionModel>(model);
-            return _questionService.Insert(qa);
+            return _serviceFactory.Question.Create(qa);
         }
 
         [HttpPost]
@@ -170,14 +157,14 @@ namespace Internship.Web
         {
             var mark = _mapper.Map<PointModel>(model);
             mark.Marker = int.Parse(ViewBag.id);
-            return _pointService.EvaluateIntern(mark);
+            return _serviceFactory.Point.EvaluateIntern(mark);
         }
 
         [HttpPost]
         public bool InsertTraining(TrainingModel model)
         {
             model.CreatedBy = int.Parse(ViewBag.id);
-            return _trainingService.InsertTraining(model);
+            return _serviceFactory.Training.Create(model);
         }
         #endregion
 
@@ -187,32 +174,32 @@ namespace Internship.Web
         [HttpPost]
         public bool DeleteQuestion(int id)
         {
-            return _questionService.Delete(id);
+            return _serviceFactory.Question.Delete(id);
         }
         [HttpPost]
         public bool DeleteIntern(int id)
         {
-            return _internService.Delete(id);
+            return _serviceFactory.Intern.Delete(id);
         }
         [HttpPost]
         public bool DeletePoint(int id)
         {
-            return _pointService.Delete(id);
+            return _serviceFactory.Point.Delete(id);
         }
         [HttpPost]
         public bool DeleteOrganization(int id)
         {
-            return _organizationService.Delete(id);
+            return _serviceFactory.Organization.Delete(id);
         }
         [HttpPost]
         public bool DeleteDepartment(int id)
         {
-            return _departmentService.Delete(id);
+            return _serviceFactory.Department.Delete(id);
         }
         [HttpPost]
         public bool DeleteTraining(int id)
         {
-            return _trainingService.Delete(id);
+            return _serviceFactory.Training.Delete(id);
         }
         #endregion
 
@@ -226,7 +213,7 @@ namespace Internship.Web
             foreach (var depId in depArray)
             {
                 _logger.LogInformation(depId + "\n");
-                result = result && _departmentService.InsertSharedTraining(sharedId, depId);
+                result = result && _serviceFactory.Department.InsertSharedTraining(sharedId, depId);
             }
             return result;
         }
@@ -234,28 +221,28 @@ namespace Internship.Web
         public bool UpdatePoint(PointModel model)
         {
             model.Marker = int.Parse(ViewBag.id);
-            return _pointService.UpdatePoint(model);
+            return _serviceFactory.Point.Update(model);
         }
         [HttpPost]
         public bool UpdateQuestion(QuestionModel model)
         {
-            return _questionService.Update(model);
+            return _serviceFactory.Question.Update(model);
         }
         [HttpPost]
         public bool UpdateDepartment(DepartmentModel model)
         {
-            return _departmentService.UpdateDepartment(model);
+            return _serviceFactory.Department.Update(model);
         }
         [HttpPost]
         public bool UpdateOrganization(OrganizationModel model)
         {
-            return _organizationService.UpdateOrganization(model);
+            return _serviceFactory.Organization.Update(model);
         }
         [HttpPost]
         public bool UpdateTraining(TrainingModel model)
         {
             model.CreatedBy = int.Parse(ViewBag.id);
-            return _trainingService.UpdateTraining(model);
+            return _serviceFactory.Training.Update(model);
         }
         [HttpPost]
         public bool UploadAvatar(string ImgStr, string ImgName)
@@ -270,39 +257,39 @@ namespace Internship.Web
         [HttpGet("CountByIndex/{stt}")]
         public int CountByIndex(int stt)
         {
-            return _userService.CountByIndex(stt);
+            return _serviceFactory.User.CountByIndex(stt);
         }
 
         [HttpGet("Home/GetInternInfo")]
         [HttpGet("GetInternInfo/{id}")]
         public string GetInternInfo(int id)
         {
-            return _internService.GetInternInfo(id);
+            return _serviceFactory.Intern.GetInternInfo(id);
         }
 
         [HttpGet]
         public string GetInternDetail(int id)
         {
-            return _internService.GetInternDetail(id);
+            return _serviceFactory.Intern.GetInternDetail(id);
         }
 
         [HttpGet]
         public string GetTrainingContent(int id)
         {
-            return _trainingService.GetTrainingContent(id);
+            return _serviceFactory.Training.GetTrainingContent(id);
         }
 
         [HttpGet]
         public string GetPassedCount()
         {
-            var passed = _pointService.GetPassedCount();
-            var total = _userService.CountByIndex(6);
+            var passed = _serviceFactory.Point.GetPassedCount();
+            var total = _serviceFactory.User.CountByIndex(6);
             return (passed / (float)total).ToString("0%");
         }
         [HttpGet]
         public ActionResult GetJointTrainings(int internId)
         {
-            var obj = _internService.GetJointTrainings(internId);
+            var obj = _serviceFactory.Intern.GetJointTrainings(internId);
             return Ok(obj);
         }
         //_____________________________________________________
@@ -310,29 +297,29 @@ namespace Internship.Web
         [HttpGet]
         public IActionResult GetPoint(int id)
         {
-            return Json(_pointService.GetPoint(id));
+            return Json(_serviceFactory.Point.GetOne(id));
         }
         [HttpGet]
         public IActionResult GetQuestion(int id)
         {
-            return Json(_questionService.Get(id));
+            return Json(_serviceFactory.Question.GetOne(id));
         }
         //_____________________________________________________
 
         [HttpGet]
         public IActionResult GetOrganizations()
         {
-            return Ok(_organizationService.GetAll());
+            return Ok(_serviceFactory.Organization.GetAll());
         }
         [HttpGet]
         public IActionResult GetDepartments()
         {
-            return Ok(_departmentService.GetAll());
+            return Ok(_serviceFactory.Department.GetAll());
         }
         [HttpGet]
         public IActionResult GetTrainings()
         {
-            return Json(_trainingService.GetAll());
+            return Json(_serviceFactory.Training.GetAll());
         }
         #endregion
 
