@@ -53,7 +53,7 @@ namespace Internship.Web
                         TrainingId = 0,
                         DepartmentId = new Random().Next(1, 5),
                         OrganizationId = new Random().Next(1, 4),
-                        Avatar = "intern.png",
+                        Avatar = "_intern.jpg",
                         Mentor = new Random().Next(1, 6),
                         Type = "Part time"
                     };

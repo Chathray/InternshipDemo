@@ -7,6 +7,7 @@ namespace Internship.Web
     {
         public AutoMapperProfile()
         {
+            // Normal
             CreateMap<IndexViewModel, InternModel>();
             CreateMap<CalendarViewModel, EventModel>();
             CreateMap<PointViewModel, PointModel>();
@@ -18,6 +19,9 @@ namespace Internship.Web
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.RegiterFirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.RegiterLastName));
 
+
+            // Reverse
+            CreateMap<SettingsViewModel, UserModel>().ReverseMap();
         }
     }
 }

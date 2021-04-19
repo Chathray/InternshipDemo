@@ -1,4 +1,6 @@
-﻿@section Scripts{
+﻿@model SettingsViewModel
+
+@section Scripts{
     <script src="/js/script-section-settings.js"></script>
 }
 
@@ -89,7 +91,7 @@
             <!-- Profile Cover -->
             <div class="profile-cover">
                 <div class="profile-cover-img-wrapper">
-                    <img id="profileCoverImg" class="profile-cover-img" src="./assets/img/1920x400/img2.jpg" alt="Image Description">
+                    <img id="profileCoverImg" class="profile-cover-img" src="/img/avatar/_header.jpg" alt="Image Description">
 
                     <!-- Custom File Cover -->
                     <div class="profile-cover-content profile-cover-btn">
@@ -113,7 +115,7 @@
             <!-- End Profile Cover -->
             <!-- Avatar -->
             <label class="avatar avatar-xxl avatar-circle avatar-border-lg avatar-uploader profile-cover-avatar" for="avatarUploader">
-                <img id="avatarImg" class="avatar-img" src="./assets/img/160x160/img6.jpg" alt="Image Description">
+                <img id="avatarImg" class="avatar-img" src="/img/avatar/_user.jpg" alt="Image Description">
 
                 <input type="file" class="js-file-attach avatar-uploader-input" id="avatarUploader"
                        data-hs-file-attach-options='{
@@ -136,12 +138,12 @@
 
                         <!-- Select -->
                         <div class="select2-custom">
-                            <select class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                            <select asp-for="AvatarVisibility" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                     data-hs-select2-options='{
                                 "minimumResultsForSearch": "Infinity"
                               }'>
-                                <option value="privacy1" data-option-template='<span class="media"><i class="tio-earth-east tio-lg text-body mr-2" style="margin-top: .125rem;"></i><span class="media-body"><span class="d-block">Anyone</span><small class="select2-custom-hide">Visible to anyone who can view your content. Accessible by installed apps.</small></span></span>'>Anyone</option>
-                                <option value="privacy2" data-option-template='<span class="media"><i class="tio-lock-outlined tio-lg text-body mr-2" style="margin-top: .125rem;"></i><span class="media-body"><span class="d-block">Only you</span><small class="select2-custom-hide">Only visible to you.</small></span></span>'>Only you</option>
+                                <option value='true' data-option-template='<span class="media"><i class="tio-earth-east tio-lg text-body mr-2" style="margin-top: .125rem;"></i><span class="media-body"><span class="d-block">Anyone</span><small class="select2-custom-hide">Visible to anyone who can view your content. Accessible by installed apps.</small></span></span>'>Anyone</option>
+                                <option value='false' data-option-template='<span class="media"><i class="tio-lock-outlined tio-lg text-body mr-2" style="margin-top: .125rem;"></i><span class="media-body"><span class="d-block">Only you</span><small class="select2-custom-hide">Only visible to you.</small></span></span>'>Only you</option>
                             </select>
                         </div>
                         <!-- End Select -->
@@ -168,8 +170,8 @@
 
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
-                                <input type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Your first name" aria-label="Your first name" value="Mark">
-                                <input type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Your last name" aria-label="Your last name" value="Williams">
+                                <input asp-for="FirstName" type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Your first name" aria-label="Your first name">
+                                <input asp-for="LastName" type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Your last name" aria-label="Your last name">
                             </div>
                         </div>
                     </div>
@@ -179,7 +181,7 @@
                         <label for="emailLabel" class="col-sm-3 col-form-label input-label">Email</label>
 
                         <div class="col-sm-9">
-                            <input type="email" class="form-control" name="email" id="emailLabel" placeholder="Email" aria-label="Email" value="mark@example.com">
+                            <input asp-for="Email" type="email" class="form-control" name="email" id="emailLabel" placeholder="Email" aria-label="Email">
                         </div>
                     </div>
                     <!-- End Form Group -->
@@ -188,19 +190,10 @@
                         <label for="phoneLabel" class="col-sm-3 col-form-label input-label">Phone <span class="input-label-secondary">(Optional)</span></label>
 
                         <div class="col-sm-9">
-                            <input type="text" class="js-masked-input form-control" name="phone" id="phoneLabel" placeholder="+x(xxx)xxx-xx-xx" aria-label="+x(xxx)xxx-xx-xx" value="+1 (609) 972-22-22"
+                            <input asp-for="Phone" type="text" class="js-masked-input form-control" name="phone" id="phoneLabel" placeholder="+x(xxx)xxx-xx-xx" aria-label="+x(xxx)xxx-xx-xx"
                                    data-hs-mask-options='{
                                "template": "+0(000)000-00-00"
                              }'>
-                        </div>
-                    </div>
-                    <!-- End Form Group -->
-                    <!-- Form Group -->
-                    <div class="row form-group">
-                        <label for="organizationLabel" class="col-sm-3 col-form-label input-label">Organization</label>
-
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="organization" id="organizationLabel" placeholder="Your organization" aria-label="Your organization" value="Htmlstream">
                         </div>
                     </div>
                     <!-- End Form Group -->
@@ -244,7 +237,7 @@
                         <label for="addressLine1Label" class="col-sm-3 col-form-label input-label">Address line 1</label>
 
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="addressLine1" id="addressLine1Label" placeholder="Your address" aria-label="Your address" value="45 Roker Terrace, Latheronwheel">
+                            <input asp-for="Address1" type="text" class="form-control" name="addressLine1" id="addressLine1Label" placeholder="Your address 1" aria-label="Your address">
                         </div>
                     </div>
                     <!-- End Form Group -->
@@ -253,7 +246,7 @@
                         <label for="addressLine2Label" class="col-sm-3 col-form-label input-label">Address line 2 <span class="input-label-secondary">(Optional)</span></label>
 
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="addressLine2" id="addressLine2Label" placeholder="Your address" aria-label="Your address">
+                            <input asp-for="Address2" type="text" class="form-control" name="addressLine2" id="addressLine2Label" placeholder="Your address 2" aria-label="Your address">
                         </div>
                     </div>
                     <!-- End Form Group -->
@@ -262,24 +255,10 @@
                         <label for="zipCodeLabel" class="col-sm-3 col-form-label input-label">Zip code <i class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top" title="You can find your code in a postal address."></i></label>
 
                         <div class="col-sm-9">
-                            <input type="text" class="js-masked-input form-control" name="zipCode" id="zipCodeLabel" placeholder="Your zip code" aria-label="Your zip code" value="KW5 8NW"
+                            <input asp-for="ZipCode" type="text" class="js-masked-input form-control" name="zipCode" id="zipCodeLabel" placeholder="Your zip code" aria-label="Your zip code"
                                    data-hs-mask-options='{
                                "template": "AA0 0AA"
                              }'>
-                        </div>
-                    </div>
-                    <!-- End Form Group -->
-                    <!-- Form Group -->
-                    <div class="row align-items-center form-group">
-                        <label for="disableAdCheckbox" class="col-sm-3 col-form-label input-label">Disable ads <span class="badge badge-primary text-uppercase ml-1">PRO</span></label>
-
-                        <div class="col-sm-9">
-                            <!-- Custom Checkbox -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="disableAdCheckbox">
-                                <label class="custom-control-label" for="disableAdCheckbox">With your Pro account, you can disable ads across the site.</label>
-                            </div>
-                            <!-- End Custom Checkbox -->
                         </div>
                     </div>
                     <!-- End Form Group -->
@@ -301,7 +280,7 @@
 
             <!-- Body -->
             <div class="card-body">
-                <p>Your current email address is <span class="font-weight-bold">mark@example.com</span></p>
+                <p>Your current email address is <span class="font-weight-bold">@Model.Email</span></p>
 
                 <!-- Form -->
                 <form>
@@ -397,7 +376,6 @@
             <!-- End Body -->
         </div>
         <!-- End Card -->
-
         <!-- Card -->
         <div id="deleteAccountSection" class="card mb-3 mb-lg-5">
             <div class="card-header">

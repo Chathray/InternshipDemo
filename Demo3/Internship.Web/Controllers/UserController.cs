@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
 
 namespace Internship.Web
 {
@@ -38,7 +40,11 @@ namespace Internship.Web
         public IActionResult Profile()
         {
             SetSessionInfo();
-            return View();
+            int userId = int.Parse(ViewBag.id);
+
+            DataTable user = _userService.GetView(userId);
+            var model = DataExtensions.GetItem<ProfileViewModel>(user.Rows[0]);
+            return View(model);
         }
 
         [HttpGet]
@@ -46,7 +52,11 @@ namespace Internship.Web
         public IActionResult Settings()
         {
             SetSessionInfo();
-            return View();
+            int userId = int.Parse(ViewBag.id);
+
+            UserModel user = _userService.GetOne(userId);
+            SettingsViewModel model = _mapper.Map<SettingsViewModel>(user);
+            return View(model);
         }
 
         private void SetSessionInfo()
@@ -99,7 +109,7 @@ namespace Internship.Web
             var user = _mapper.Map<UserModel>(model);
             try
             {
-                bool result = _userService.Create(user);
+                bool result = _userService.InsertUser(user);
                 if (result) goto Done;
             }
             catch (AppException ex)
@@ -121,14 +131,14 @@ namespace Internship.Web
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/");
         }
-        
+
         [HttpPatch]
         public bool UserUpdateBasic(UserViewModel model)
         {
             var user = _mapper.Map<UserModel>(model);
             return _userService.Update(user);
-        } 
-        
+        }
+
         [HttpPatch]
         public bool UserUpdatePassword(UserViewModel model)
         {

@@ -23,6 +23,7 @@ namespace Internship.Application
 
         public int Mentor { get; set; }
         public int InternId { get; set; }
+        public int? UpdatedBy { get; set; }
     }
 
     public class WhitelistSerializer : JsonConverter
@@ -37,7 +38,7 @@ namespace Internship.Application
 
             writer.WritePropertyName("src");
             // This will ensure avatar alway not null, on update, on... etc
-            if (string.IsNullOrEmpty(name.Avatar)) name.Avatar = "intern.jpg";
+            if (string.IsNullOrEmpty(name.Avatar)) name.Avatar = "_intern.jpg";
             serializer.Serialize(writer, "/img/avatar/" + name.Avatar);
 
             writer.WritePropertyName("value");

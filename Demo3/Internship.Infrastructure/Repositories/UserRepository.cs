@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Linq;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Internship.Infrastructure
@@ -36,6 +38,12 @@ namespace Internship.Infrastructure
             return user;
         }
 
+        public DataTable GetView(int id)
+        {
+            return _context.Database.GetDbConnection()
+                .ExecReader($"CALL GetProfileView({id})");
+        }
+
         public bool InsertUser(User user, string password)
         {
             // validation
@@ -46,7 +54,6 @@ namespace Internship.Infrastructure
                 return false;
 
             user.PasswordHash = BC.HashPassword(password);
-
             return Create(user);
         }
     }

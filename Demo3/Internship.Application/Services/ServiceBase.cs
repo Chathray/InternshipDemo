@@ -1,6 +1,9 @@
-﻿using Internship.Infrastructure;
+﻿using Dapper;
+using Internship.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Internship.Application
 {

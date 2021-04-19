@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Web", "Internshi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Api", "Internship.Api\Internship.Api.csproj", "{471D6A60-F9D6-49DE-800F-FB6EC5EB3ADD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Internship.Infrastructure.Test", "Internship.Infrastructure.Test\Internship.Infrastructure.Test.csproj", "{189A18EB-03B5-4C6D-863C-598584ADB8F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Infrastructure.Test", "Internship.Infrastructure.Test\Internship.Infrastructure.Test.csproj", "{189A18EB-03B5-4C6D-863C-598584ADB8F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{69B60567-DB80-4EB4-A57E-DDB3B134FB38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{189A18EB-03B5-4C6D-863C-598584ADB8F9} = {69B60567-DB80-4EB4-A57E-DDB3B134FB38}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2B98C6EC-0B91-4F70-BD8C-8FEB091E891D}

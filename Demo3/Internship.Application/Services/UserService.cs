@@ -1,4 +1,5 @@
 ﻿using Internship.Infrastructure;
+using System.Data;
 
 namespace Internship.Application
 {
@@ -16,6 +17,17 @@ namespace Internship.Application
             var user = _userRespository.GetUser(loginEmail, loginPassword);
             var model = ObjectMapper.Mapper.Map<UserModel>(user);
             return model;
+        }
+
+        public DataTable GetView(int id)
+        {
+            return _userRespository.GetView(id);
+        }
+        
+        public bool InsertUser(UserModel model)
+        {
+            var user = ObjectMapper.Mapper.Map<User>(model);
+            return _userRespository.InsertUser(user, model.Password);
         }
     }
 }

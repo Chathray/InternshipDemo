@@ -16,7 +16,6 @@ namespace Internship.Infrastructure
         public string Gender { get; set; }
         public string Phone { get; set; }
         public int Mentor { get; set; }
-        // This foreign key not be null in model, but can null in DB
         // Exception: 'Data is Null. This method or property cannot be called on Null values.'
         public int? UpdatedBy { get; set; }
         public string Duration { get; set; }

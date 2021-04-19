@@ -36,7 +36,11 @@ namespace Internship.Application
                 foreach (PropertyInfo pro in temp.GetProperties())
                 {
                     if (pro.Name == column.ColumnName)
-                        pro.SetValue(obj, dr[column.ColumnName], null);
+                        pro.SetValue(
+                            obj,
+                            dr[column.ColumnName] == DBNull.Value ?
+                            "-" : dr[column.ColumnName],
+                            null);
                     else
                         continue;
                 }

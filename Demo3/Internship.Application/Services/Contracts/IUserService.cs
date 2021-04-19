@@ -1,4 +1,5 @@
 ﻿using Internship.Infrastructure;
+using System.Data;
 
 namespace Internship.Application
 {
@@ -6,5 +7,7 @@ namespace Internship.Application
     {
         UserModel Authenticate(string loginEmail, string loginPassword);
         int CountByIndex(int index);
+        bool InsertUser(UserModel model);
+        DataTable GetView(int id);
     }
 }
