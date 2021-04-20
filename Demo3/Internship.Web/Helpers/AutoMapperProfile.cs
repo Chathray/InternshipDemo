@@ -21,7 +21,9 @@ namespace Internship.Web
 
 
             // Reverse
-            CreateMap<SettingsViewModel, UserModel>().ReverseMap();
+            CreateMap<SettingsViewModel, UserModel>()
+                .ForMember(dest => dest.DepartmentId, opt => opt.MapFrom(src => src.Department))
+                .ReverseMap();
         }
     }
 }

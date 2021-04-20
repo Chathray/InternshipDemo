@@ -129,6 +129,27 @@
                     }
                 });
             });
+
+            $('#navSubmenuPagesAccountDropdown1 .dropdown-item').on('click', function () {
+                $('#user-status').removeClass('avatar-status-success');
+                $('#user-status').removeClass('avatar-status-warning');
+                $('#user-status').removeClass('avatar-status-danger');
+
+                switch ($(this).attr('data-id')) {
+                    case '2':
+                        $('#user-status').addClass('avatar-status-warning');
+                        //
+                        break;
+                    case '3':
+                        $('#user-status').addClass('avatar-status-danger');
+                        //
+                        break;
+                    default:
+                        $('#user-status').addClass('avatar-status-success');
+                        //
+                        break;
+                }
+            });
         });
     </script>
 </body>

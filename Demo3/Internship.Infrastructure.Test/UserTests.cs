@@ -15,7 +15,7 @@ namespace Internship.Infrastructure.Test
                 .Options;
 
             _memContext = new RepositoryContext(dbOptions);
-            _userRespository = new UserRepository(_memContext);
+           // _userRespository = new UserRepository(_memContext);
         }
 
         [Fact]

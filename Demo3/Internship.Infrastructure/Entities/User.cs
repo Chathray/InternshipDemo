@@ -20,6 +20,7 @@ namespace Internship.Infrastructure
         public string HeaderPhoto { get; set; }
         public string Avatar { get; set; }
         public bool AvatarVisibility { get; set; }
+        public bool IsDeleted { get; set; }
         public string ZipCode { get; set; }
         public int? DepartmentId { get; set; }
     }

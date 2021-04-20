@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Internship.Application;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Internship.Web
 {
     public class SettingsViewModel
     {
+        public IList<DepartmentModel> Departments { get; set; }
+
         public string HeaderPhoto { get; set; }
         public string Avatar { get; set; }
         
@@ -16,10 +20,11 @@ namespace Internship.Web
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string ZipCode { get; set; }
+        public string Role { get; set; }
 
 
         public string ComeFrom { get; set; }      //  
         public string JoinedDate { get; set; }        
-        public bool AvatarVisibility { get; set; }
+        public bool AvatarVisibility { get; set; }        
     }
 }

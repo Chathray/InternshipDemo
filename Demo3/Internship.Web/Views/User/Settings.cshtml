@@ -4,6 +4,16 @@
     <script src="/js/script-section-settings.js"></script>
 }
 
+@if (TempData["notification"] != null)
+{
+    @Html.Raw(@"<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+  <strong>" + TempData["notification"] + @"</strong>
+  <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+    <i class='tio-clear tio-lg'></i>
+  </button>
+</div>")
+}
+
 <!-- Page Header -->
 <div class="page-header">
     <div class="row align-items-end">
@@ -61,11 +71,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="#content">
                             <i class="tio-user-outlined nav-icon"></i> Basic information
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#emailSection">
-                            <i class="tio-online nav-icon"></i> Email
                         </a>
                     </li>
                     <li class="nav-item">
@@ -163,99 +168,103 @@
             <!-- Body -->
             <div class="card-body">
                 <!-- Form -->
-                <form>
+                <form method="post" action="/User/UpdateBasic">
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="firstNameLabel" class="col-sm-3 col-form-label input-label">Full name <i class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top" title="Displayed on public forums, such as Front."></i></label>
+                        <label for="firstNameSetting" class="col-sm-3 col-form-label input-label">Full name <i class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top" title="Displayed on public forums, such as Front."></i></label>
 
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
-                                <input asp-for="FirstName" type="text" class="form-control" name="firstName" id="firstNameLabel" placeholder="Your first name" aria-label="Your first name">
-                                <input asp-for="LastName" type="text" class="form-control" name="lastName" id="lastNameLabel" placeholder="Your last name" aria-label="Your last name">
+                                <input asp-for="FirstName" type="text" required class="form-control" id="firstNameSetting" placeholder="Your first name" aria-label="Your first name">
+                                <input asp-for="LastName" type="text" required class="form-control" id="lastNameSetting" placeholder="Your last name" aria-label="Your last name">
                             </div>
                         </div>
                     </div>
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="emailLabel" class="col-sm-3 col-form-label input-label">Email</label>
+                        <label for="emailSetting" class="col-sm-3 col-form-label input-label">Email</label>
 
                         <div class="col-sm-9">
-                            <input asp-for="Email" type="email" class="form-control" name="email" id="emailLabel" placeholder="Email" aria-label="Email">
+                            <input asp-for="Email" type="email" required class="form-control" id="emailSetting" placeholder="Email" aria-label="Email">
                         </div>
                     </div>
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="phoneLabel" class="col-sm-3 col-form-label input-label">Phone <span class="input-label-secondary">(Optional)</span></label>
+                        <label for="phoneSetting" class="col-sm-3 col-form-label input-label">Phone <span class="input-label-secondary">(Optional)</span></label>
 
                         <div class="col-sm-9">
-                            <input asp-for="Phone" type="text" class="js-masked-input form-control" name="phone" id="phoneLabel" placeholder="+x(xxx)xxx-xx-xx" aria-label="+x(xxx)xxx-xx-xx"
+                            <input asp-for="Phone" type="text" id="phoneSetting" required class="js-masked-input form-control" placeholder="+84 000 000 000"
                                    data-hs-mask-options='{
-                               "template": "+0(000)000-00-00"
-                             }'>
+                                   "template": "+84 000 000 000"
+                                   }' maxlength="16" />
                         </div>
                     </div>
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="departmentLabel" class="col-sm-3 col-form-label input-label">Department</label>
-
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="department" id="departmentLabel" placeholder="Your department" aria-label="Your department">
-                        </div>
-                    </div>
-                    <!-- End Form Group -->
-                    <!-- Form Group -->
-                    <div id="accountType" class="row form-group">
-                        <label class="col-sm-3 col-form-label input-label">Account type</label>
+                        <label for="departmentSetting" class="col-sm-3 col-form-label input-label">Department</label>
 
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
-                                <!-- Custom Radio -->
-                                <div class="form-control">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" name="userAccountTypeRadio" id="userAccountTypeRadio1" checked>
-                                        <label class="custom-control-label" for="userAccountTypeRadio1">Individual</label>
-                                    </div>
-                                </div>
-                                <!-- End Custom Radio -->
-                                <!-- Custom Radio -->
-                                <div class="form-control">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" name="userAccountTypeRadio" id="userAccountTypeRadio2">
-                                        <label class="custom-control-label" for="userAccountTypeRadio2">Company</label>
-                                    </div>
-                                </div>
-                                <!-- End Custom Radio -->
+                                <!-- Select2 -->
+                                <select asp-for=Department id="departmentSetting" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
+                                                                  "placeholder": "Select one"}'>
+                                    <option label="empty"></option>
+                                    @foreach (var de in Model.Departments)
+                                    {
+                                        <option value="@de.DepartmentId">@de.DepName</option>
+                                    }
+                                </select>
+                                <!-- End Select2 -->
                             </div>
                         </div>
                     </div>
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="addressLine1Label" class="col-sm-3 col-form-label input-label">Address line 1</label>
-
+                        <label class="col-sm-3 col-form-label input-label">Account type</label>
                         <div class="col-sm-9">
-                            <input asp-for="Address1" type="text" class="form-control" name="addressLine1" id="addressLine1Label" placeholder="Your address 1" aria-label="Your address">
+                            <div class="input-group input-group-sm-down-break">
+                                <!-- Select2 -->
+                                <select asp-for=Role id="roleSetting" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
+                                                                  "placeholder": "Select role"}'>
+                                    <option label="empty"></option>
+                                    <option value="mentor">Mentor</option>
+                                    <option value="staff">Staff</option>
+                                </select>
+                                <!-- End Select2 -->
+                            </div>
                         </div>
                     </div>
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="addressLine2Label" class="col-sm-3 col-form-label input-label">Address line 2 <span class="input-label-secondary">(Optional)</span></label>
+                        <label for="addressLine1Setting" class="col-sm-3 col-form-label input-label">Address line 1</label>
 
                         <div class="col-sm-9">
-                            <input asp-for="Address2" type="text" class="form-control" name="addressLine2" id="addressLine2Label" placeholder="Your address 2" aria-label="Your address">
+                            <input asp-for="Address1" type="text" required class="form-control" id="addressLine1Setting" placeholder="Your address 1" aria-label="Your address">
                         </div>
                     </div>
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="zipCodeLabel" class="col-sm-3 col-form-label input-label">Zip code <i class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top" title="You can find your code in a postal address."></i></label>
+                        <label for="addressLine2Setting" class="col-sm-3 col-form-label input-label">Address line 2 <span class="input-label-secondary">(Optional)</span></label>
 
                         <div class="col-sm-9">
-                            <input asp-for="ZipCode" type="text" class="js-masked-input form-control" name="zipCode" id="zipCodeLabel" placeholder="Your zip code" aria-label="Your zip code"
+                            <input asp-for="Address2" type="text" class="form-control" id="addressLine2Setting" placeholder="Your address 2" aria-label="Your address">
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label for="zipCodeSetting" class="col-sm-3 col-form-label input-label">Zip code <i class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top" title="You can find your code in a postal address."></i></label>
+
+                        <div class="col-sm-9">
+                            <input asp-for="ZipCode" type="text" required class="js-masked-input form-control" id="zipCodeSetting" placeholder="Your zip code" aria-label="Your zip code"
                                    data-hs-mask-options='{
                                "template": "AA0 0AA"
                              }'>
@@ -272,37 +281,7 @@
             <!-- End Body -->
         </div>
         <!-- End Card -->
-        <!-- Card -->
-        <div id="emailSection" class="card mb-3 mb-lg-5">
-            <div class="card-header">
-                <h3 class="card-title h4">Email</h3>
-            </div>
 
-            <!-- Body -->
-            <div class="card-body">
-                <p>Your current email address is <span class="font-weight-bold">@Model.Email</span></p>
-
-                <!-- Form -->
-                <form>
-                    <!-- Form Group -->
-                    <div class="row form-group">
-                        <label for="newEmailLabel" class="col-sm-3 col-form-label input-label">New email address</label>
-
-                        <div class="col-sm-9">
-                            <input type="email" class="form-control" name="newEmail" id="newEmailLabel" placeholder="Enter new email address" aria-label="Enter new email address">
-                        </div>
-                    </div>
-                    <!-- End Form Group -->
-
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-                <!-- End Form -->
-            </div>
-            <!-- End Body -->
-        </div>
-        <!-- End Card -->
         <!-- Card -->
         <div id="passwordSection" class="card mb-3 mb-lg-5">
             <div class="card-header">
@@ -312,13 +291,13 @@
             <!-- Body -->
             <div class="card-body">
                 <!-- Form -->
-                <form id="changePasswordForm">
+                <form id="changePasswordForm" method="post" asp-controller="User" asp-action="UpdatePassword">
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="currentPasswordLabel" class="col-sm-3 col-form-label input-label">Current password</label>
+                        <label for="currentPasswordSetting" class="col-sm-3 col-form-label input-label">Current password</label>
 
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" name="currentPassword" id="currentPasswordLabel" placeholder="Enter current password" aria-label="Enter current password">
+                            <input type="password" class="form-control" name="currentPassword" id="currentPasswordSetting" placeholder="Enter current password" aria-label="Enter current password">
                         </div>
                     </div>
                     <!-- End Form Group -->
@@ -346,11 +325,11 @@
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="confirmNewPasswordLabel" class="col-sm-3 col-form-label input-label">Confirm new password</label>
+                        <label for="confirmNewPasswordSetting" class="col-sm-3 col-form-label input-label">Confirm new password</label>
 
                         <div class="col-sm-9">
                             <div class="mb-3">
-                                <input type="password" class="form-control" name="confirmNewPassword" id="confirmNewPasswordLabel" placeholder="Confirm your new password" aria-label="Confirm your new password">
+                                <input type="password" class="form-control" name="confirmNewPassword" id="confirmNewPasswordSetting" placeholder="Confirm your new password" aria-label="Confirm your new password">
                             </div>
 
                             <h5>Password requirements:</h5>
@@ -398,7 +377,7 @@
                 <div class="d-flex justify-content-end">
                     <a class="btn btn-white mr-2" href="#">Learn more <i class="tio-open-in-new ml-1"></i></a>
 
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button onclick="UserDelete(@ViewBag.id)" class="btn btn-danger">Delete</button>
                 </div>
             </div>
             <!-- End Body -->

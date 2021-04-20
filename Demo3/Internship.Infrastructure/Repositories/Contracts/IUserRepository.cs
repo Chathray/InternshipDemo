@@ -8,6 +8,8 @@ namespace Internship.Infrastructure
         bool InsertUser(User user, string password);
         User GetById(int userId);
         DataTable GetView(int id);
-
+        bool UpdatePassword(int userId, string hash);
+        bool UpdateBasic(User user);
+        bool UserDelete(int userId);
     }
 }

@@ -9,5 +9,8 @@ namespace Internship.Application
         int CountByIndex(int index);
         bool InsertUser(UserModel model);
         DataTable GetView(int id);
+        bool UpdatePassword(int userId, string newPassword);
+        bool UpdateBasic(UserModel user);
+        bool UserDelete(int userId);
     }
 }

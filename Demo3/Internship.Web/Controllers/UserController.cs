@@ -18,12 +18,12 @@ namespace Internship.Web
     public class UserController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly IUserService _userService;
+        private readonly IServiceFactory _serviceFactory;
         private readonly ILogger<UserController> _logger;
 
-        public UserController(IMapper mapper, IUserService users, ILogger<UserController> logger)
+        public UserController(IMapper mapper, ILogger<UserController> logger, IServiceFactory serviceFactory)
         {
-            _userService = users;
+            _serviceFactory = serviceFactory;
             _mapper = mapper;
             _logger = logger;
         }
@@ -42,7 +42,7 @@ namespace Internship.Web
             SetSessionInfo();
             int userId = int.Parse(ViewBag.id);
 
-            DataTable user = _userService.GetView(userId);
+            DataTable user = _serviceFactory.User.GetView(userId);
             var model = DataExtensions.GetItem<ProfileViewModel>(user.Rows[0]);
             return View(model);
         }
@@ -54,8 +54,9 @@ namespace Internship.Web
             SetSessionInfo();
             int userId = int.Parse(ViewBag.id);
 
-            UserModel user = _userService.GetOne(userId);
+            UserModel user = _serviceFactory.User.GetOne(userId);
             SettingsViewModel model = _mapper.Map<SettingsViewModel>(user);
+            model.Departments = _serviceFactory.Department.GetAll();
             return View(model);
         }
 
@@ -65,6 +66,7 @@ namespace Internship.Web
             ViewBag.email = User.Claims.ElementAt(1).Value;
             ViewBag.fullname = User.Claims.ElementAt(2).Value;
             ViewBag.status = User.Claims.ElementAt(3).Value;
+            ViewBag.role = User.Claims.ElementAt(4).Value;
         }
 
         [HttpPost]
@@ -72,7 +74,7 @@ namespace Internship.Web
         {
             if (!ModelState.IsValid) goto Fail;
 
-            UserModel user = _userService.Authenticate(model.LoginEmail, model.LoginPassword);
+            UserModel user = _serviceFactory.User.Authenticate(model.LoginEmail, model.LoginPassword);
 
             if (user == null) goto Fail;
 
@@ -82,6 +84,7 @@ namespace Internship.Web
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Surname, user.FirstName +" " + user.LastName),
                 new Claim(ClaimTypes.UserData, user.Status),
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -109,7 +112,7 @@ namespace Internship.Web
             var user = _mapper.Map<UserModel>(model);
             try
             {
-                bool result = _userService.InsertUser(user);
+                bool result = _serviceFactory.User.InsertUser(user);
                 if (result) goto Done;
             }
             catch (AppException ex)
@@ -132,31 +135,46 @@ namespace Internship.Web
             return Redirect("/");
         }
 
-        [HttpPatch]
-        public bool UserUpdateBasic(UserViewModel model)
+        [HttpPost("/User/UpdateBasic")]
+        public IActionResult UserUpdateBasic(SettingsViewModel model)
         {
             var user = _mapper.Map<UserModel>(model);
-            return _userService.Update(user);
+            var userId = User.Claims.ElementAt(0).Value;
+            user.UserId = int.Parse(userId);
+
+            bool result = _serviceFactory.User.UpdateBasic(user);
+
+            TempData["notification"] = "Update basic information: " + result;
+
+            return Redirect("/Settings");
         }
 
-        [HttpPatch]
-        public bool UserUpdatePassword(UserViewModel model)
+        [HttpPost("/User/UpdatePassword")]
+        public IActionResult UserUpdatePassword(string currentPassword, string newPassword, string confirmNewPassword)
         {
-            var user = _mapper.Map<UserModel>(model);
-            return _userService.Update(user);
-        }
+            if (newPassword != confirmNewPassword) goto Failed;
 
-        [HttpPatch]
-        public bool UserUpdateEmail(UserViewModel model)
-        {
-            var user = _mapper.Map<UserModel>(model);
-            return _userService.Update(user);
+            var email = User.Claims.ElementAt(1).Value;
+            UserModel user = _serviceFactory.User.Authenticate(email, currentPassword);
+
+            if (user is null) goto Failed;
+            else
+            {
+                bool result = _serviceFactory.User.UpdatePassword(user.UserId, newPassword);
+                if (result) goto Success;
+            }
+
+        Failed:
+            TempData["notification"] = "Password change failed!";
+        Success:
+            TempData["notification"] = "Password change success!";
+            return Redirect("/Settings");
         }
 
         [HttpPost]
-        public bool UserDelete(int id)
+        public bool UserDelete(int userId)
         {
-            return _userService.Delete(id);
+            return _serviceFactory.User.UserDelete(userId);
         }
     }
 }

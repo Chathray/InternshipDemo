@@ -1,4 +1,14 @@
-﻿$(document).on('ready', function () {
+﻿function UserDelete(id) {
+    $.post("/UserDelete", {
+        userId: id
+    }).done(function (data) {
+        $.alert("Delete success!")
+    }).fail(function () {
+        alert("Error");
+    });
+}
+
+$(document).on('ready', function () {
 
     $('body').attr('data-offset', '400')
     $('body').attr('data-hs-scrollspy-options', '{"target": "#navbarSettings"}')

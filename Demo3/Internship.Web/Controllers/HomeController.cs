@@ -37,6 +37,10 @@ namespace Internship.Web
                 ViewBag.email = User.Claims.ElementAt(1).Value;
                 ViewBag.fullname = User.Claims.ElementAt(2).Value;
                 ViewBag.status = User.Claims.ElementAt(3).Value;
+                ViewBag.role = User.Claims.ElementAt(4).Value;
+
+                // By Calling in View
+                // @ViewBag.email or @ViewData["email"], they are same
             }
         }
 

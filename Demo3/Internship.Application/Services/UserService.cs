@@ -23,11 +23,27 @@ namespace Internship.Application
         {
             return _userRespository.GetView(id);
         }
-        
+
         public bool InsertUser(UserModel model)
         {
             var user = ObjectMapper.Mapper.Map<User>(model);
             return _userRespository.InsertUser(user, model.Password);
+        }
+
+        public bool UpdateBasic(UserModel model)
+        {
+            var user = ObjectMapper.Mapper.Map<User>(model);
+            return _userRespository.UpdateBasic(user);
+        }
+
+        public bool UpdatePassword(int userId, string newPassword)
+        {
+            return _userRespository.UpdatePassword(userId, newPassword);
+        }
+
+        public bool UserDelete(int userId)
+        {
+            return _userRespository.UserDelete(userId);
         }
     }
 }
