@@ -9,5 +9,10 @@ namespace Internship.Web
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
+
+        public async Task SendMessage2(string message)
+        {
+            await Clients.All.SendAsync("ReceiveMessage", message);
+        }
     }
 }

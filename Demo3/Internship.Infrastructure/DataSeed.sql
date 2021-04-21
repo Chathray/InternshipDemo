@@ -28,7 +28,7 @@ CREATE TABLE `departments` (
   `DepLocation` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `SharedTrainings` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `SharedTrainings` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`DepartmentId`),
   UNIQUE KEY `Name_UNIQUE` (`DepName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -40,7 +40,7 @@ CREATE TABLE `departments` (
 
 LOCK TABLES `departments` WRITE;
 /*!40000 ALTER TABLE `departments` DISABLE KEYS */;
-INSERT INTO `departments` VALUES (1,'DC8-Ext','TMA Innovation Park 2','2021-04-01 01:37:49','2021-04-15 09:10:21',NULL),(2,'DC13-Ext','TMA Innovation Park','2021-04-01 01:37:49','2021-04-15 09:10:27','8'),(3,'DC8','TMA Innovation Park','2021-04-01 01:37:49','2021-04-15 09:10:27','8'),(4,'DC1','LAB 6','2021-04-01 01:37:49','2021-04-14 01:07:51',NULL);
+INSERT INTO `departments` VALUES (1,'DC8-Ext','TMA Innovation Park 2','2021-04-01 01:37:49','2021-04-20 23:30:35','2'),(2,'DC13-Ext','TMA Innovation Park','2021-04-01 01:37:49','2021-04-20 23:30:00','18'),(3,'DC8','TMA Innovation Park','2021-04-01 01:37:49','2021-04-20 23:31:42','2,19'),(4,'DC1','LAB 6','2021-04-01 01:37:49','2021-04-20 23:31:36','18,2,19');
 /*!40000 ALTER TABLE `departments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,8 +140,8 @@ CREATE TABLE `interns` (
   `OrganizationId` int DEFAULT NULL,
   `DepartmentId` int DEFAULT NULL,
   `IsDeleted` tinyint DEFAULT NULL,
-  `Address1` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Address2` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Address1` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Address2` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`InternId`),
   UNIQUE KEY `Email_UNIQUE` (`Email`),
   KEY `FK_Events_Mentor_idx` (`Mentor`),
@@ -155,7 +155,7 @@ CREATE TABLE `interns` (
   CONSTRAINT `FK_Interns_Organization` FOREIGN KEY (`OrganizationId`) REFERENCES `organizations` (`OrganizationId`) ON UPDATE CASCADE,
   CONSTRAINT `FK_Interns_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`) ON UPDATE CASCADE,
   CONSTRAINT `PK_Intern_Training` FOREIGN KEY (`TrainingId`) REFERENCES `trainings` (`TrainingId`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=304 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -247,7 +247,7 @@ CREATE TABLE `questions` (
   `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`QuestionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -256,7 +256,7 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (1,'Recruit','Cho em hỏi TMA phỏng vấn tiếng Anh hay tiếng Việt?','Bên mình sẽ phỏng vấn cả tiếng Anh và tiếng Việt nha bạn.','2021-04-01 02:36:57','2021-04-01 02:36:57'),(2,'Recruit','Anh/chị cho em hỏi nếu test tiếng Anh ở công ty thì đề thi như thế nào ạ? Bao lâu sẽ có kết quả?','Chào bạn, đề thi sẽ theo chuẩn đề TOEIC, thông thường kết quả sẽ được thông báo trong vòng 1 tuần, tùy thuộc vào mỗi dự án.','2021-04-01 02:36:57','2021-04-01 02:36:57'),(3,'Recruit','Em là SV năm cuối (đang làm luận văn), chuyên ngành: Điện tử - Viễn thông, trường: ĐH Bách Khoa Tp. HCM. Em có 2 câu hỏi: TMA có tuyển thực tập sinh không? Nếu có, yêu cầu cụ thể (GPA, Tiếng Anh,...) như thế nào?','TMA thường xuyên tuyển thực tập sinh, sắp tới bên chị sẽ nhận hồ sơ thực tập để chuẩn bị cho đợt thực tập kế tiếp vào tháng 9. Hồ sơ ứng tuyển bao gồm:<ul class=\'mt-3\'><li>CV Tiếng Anh;</li><li> Bảng điểm hoặc bằng Tiếng Anh(nếu có);</li><li> Hình 3x4;</li><li> Giấy giới thiệu thực tập</li></ul> ','2021-04-01 02:36:57','2021-04-01 02:36:57'),(4,'Internship','Ngoại ngữ có yêu cầu cao không Ad?','Nếu em đã có các bằng như (TOEIC, TOEFL, IELTS) tương đương TOEIC 450 trở lên thì không phải làm bài test em nhé.','2021-04-01 02:36:57','2021-04-01 02:36:57'),(6,'Internship','Thời gian thực tập yêu cầu là bao nhiêu vậy Ad?','Thời gian thực tập kéo dài 3 tháng, 2.5 ngày/tuần em à.','2021-04-01 02:36:57','2021-04-01 02:36:57');
+INSERT INTO `questions` VALUES (1,'Recruit','Cho em hỏi TMA phỏng vấn tiếng Anh hay tiếng Việt?','Bên mình sẽ phỏng vấn cả tiếng Anh và tiếng Việt nha bạn.','2021-04-01 02:36:57','2021-04-01 02:36:57'),(2,'Recruit','Anh/chị cho em hỏi nếu test tiếng Anh ở công ty thì đề thi như thế nào ạ? Bao lâu sẽ có kết quả?','Chào bạn, đề thi sẽ theo chuẩn đề TOEIC, thông thường kết quả sẽ được thông báo trong vòng 1 tuần, tùy thuộc vào mỗi dự án.','2021-04-01 02:36:57','2021-04-01 02:36:57'),(3,'Recruit','Em là SV năm cuối (đang làm luận văn), chuyên ngành: Điện tử - Viễn thông, trường: ĐH Bách Khoa Tp. HCM. Em có 2 câu hỏi: TMA có tuyển thực tập sinh không? Nếu có, yêu cầu cụ thể (GPA, Tiếng Anh,...) như thế nào?','TMA thường xuyên tuyển thực tập sinh, sắp tới bên chị sẽ nhận hồ sơ thực tập để chuẩn bị cho đợt thực tập kế tiếp vào tháng 9. Hồ sơ ứng tuyển bao gồm:<ul class=\'mt-3\'><li>CV Tiếng Anh;</li><li> Bảng điểm hoặc bằng Tiếng Anh(nếu có);</li><li> Hình 3x4;</li><li> Giấy giới thiệu thực tập</li></ul> ','2021-04-01 02:36:57','2021-04-01 02:36:57'),(4,'Internship','Ngoại ngữ có yêu cầu cao không Ad?','Nếu em đã có các bằng như (TOEIC, TOEFL, IELTS) tương đương TOEIC 450 trở lên thì không phải làm bài test em nhé.','2021-04-01 02:36:57','2021-04-01 02:36:57'),(6,'Internship','Thời gian thực tập yêu cầu là bao nhiêu vậy Ad?','Thời gian thực tập kéo dài 3 tháng, 2.5 ngày/tuần em à.','2021-04-01 02:36:57','2021-04-01 02:36:57'),(10,'Other','Nhân viên của công ty có nhiều con gái không?','Không nhiều lắm!','2021-04-20 15:02:31','2021-04-20 23:45:39');
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,13 +272,13 @@ CREATE TABLE `trainings` (
   `TraName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `TraData` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `CreatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UpdatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreatedBy` int DEFAULT NULL,
   PRIMARY KEY (`TrainingId`),
   UNIQUE KEY `TraName_UNIQUE` (`TraName`),
   KEY `FK_createdby_user_idx` (`CreatedBy`),
   CONSTRAINT `FK_createdby_user` FOREIGN KEY (`CreatedBy`) REFERENCES `users` (`UserId`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +287,7 @@ CREATE TABLE `trainings` (
 
 LOCK TABLES `trainings` WRITE;
 /*!40000 ALTER TABLE `trainings` DISABLE KEYS */;
-INSERT INTO `trainings` VALUES (0,'None','{\"ops\":[{\"insert\":\"Nothing here\\n\"}]}','2021-03-30 06:29:34','2021-04-05 05:48:01',1),(2,'ASP.NET Core MVC','{\"ops\":[{\"insert\":\"Basic\"},{\"attributes\":{\"list\":\"ordered\"},\"insert\":\"\\n\"},{\"insert\":\"Inter\"},{\"attributes\":{\"list\":\"ordered\"},\"insert\":\"\\n\"},{\"insert\":\"Advanced\"},{\"attributes\":{\"list\":\"ordered\"},\"insert\":\"\\n\"}]}','2021-04-05 06:36:10','2021-04-20 10:29:28',1);
+INSERT INTO `trainings` VALUES (0,'None','{\"ops\":[{\"insert\":\"Nothing here\\n\"}]}','2021-03-30 06:29:34','2021-04-05 05:48:01',1),(2,'ASP.NET Core MVC','{\"ops\":[{\"attributes\":{\"underline\":true},\"insert\":\"Basic\"},{\"attributes\":{\"list\":\"ordered\"},\"insert\":\"\\n\"},{\"insert\":\"Inter\"},{\"attributes\":{\"list\":\"ordered\"},\"insert\":\"\\n\"},{\"insert\":\"Advanced\"},{\"attributes\":{\"list\":\"ordered\"},\"insert\":\"\\n\"}]}','2021-04-05 06:36:10','2021-04-20 13:23:01',1),(18,'Javascript Ninja','{\"ops\":[{\"insert\":\"1\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"3\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"4\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"4434\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"33\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"43\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"4434\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"3434\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"34\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"},{\"insert\":\"4333\"},{\"attributes\":{\"list\":\"bullet\"},\"insert\":\"\\n\"}]}','2021-04-20 14:00:28','2021-04-20 14:00:28',1),(19,'Python API','{\"ops\":[{\"insert\":\"A\\nB\\nC\\n\"}]}','2021-04-20 23:31:29','2021-04-20 23:31:29',1);
 /*!40000 ALTER TABLE `trainings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,11 +309,11 @@ CREATE TABLE `users` (
   `Role` enum('admin','mentor','staff') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'staff',
   `DepartmentId` int DEFAULT NULL,
   `Avatar` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '/img/user.jpg',
-  `Address1` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `Address2` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `ZipCode` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Address1` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Address2` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ZipCode` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `IsDeleted` tinyint NOT NULL DEFAULT '0',
-  `HeaderPhoto` varchar(100) COLLATE utf8mb4_general_ci DEFAULT '/img/header.jpg',
+  `HeaderPhoto` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '/img/header.jpg',
   `CreatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `AvatarVisibility` tinyint NOT NULL DEFAULT '1',
@@ -330,7 +330,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@x','+84 091 553 354','Thang','Huynh','$2a$11$iBuYgmi5HepRRCVY5ntpE.h4UUjtgm5ewSCawDiGcP6N45KyUwiKW','success','mentor',1,'/img/avatar/_user.jpg','HCM City','','454',0,'/img/avatar/_header.jpg','2021-03-15 03:39:36','2021-04-20 09:41:27',1),(2,'tan@tma',NULL,'Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','success','admin',1,'/img/avatar/_user.jpg','Ha Noi',NULL,'5',0,'/img/avatar/_header.jpg','2021-03-16 20:43:28','2021-04-20 08:58:21',1),(3,'thanh@qnu',NULL,'Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff',1,'/img/avatar/_user.jpg','Da Nang',NULL,'65',0,'/img/avatar/_header.jpg','2021-03-17 18:41:37','2021-04-20 08:58:21',1),(4,'by@tma',NULL,'By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','staff',2,'/img/avatar/_user.jpg','Quy Nhon',NULL,'65',0,'/img/avatar/_header.jpg','2021-03-17 02:25:34','2021-04-20 08:58:21',1),(5,'dat@n',NULL,'Dat','Nguyen','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','mentor',NULL,'/img/avatar/_user.jpg','Quy Nhon',NULL,NULL,0,'/img/avatar/_header.jpg','2021-04-05 01:49:07','2021-04-20 10:29:15',1);
+INSERT INTO `users` VALUES (1,'admin@x','+84 091 553 354','Thang','Huynh','$2a$11$iBuYgmi5HepRRCVY5ntpE.h4UUjtgm5ewSCawDiGcP6N45KyUwiKW','success','mentor',1,'/img/avatar/_user.jpg','HCM City','','454',0,'/img/avatar/_header.jpg','2021-03-15 03:39:36','2021-04-21 14:03:19',1),(2,'tan@tma',NULL,'Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','warning','admin',1,'/img/avatar/_user.jpg','Ha Noi',NULL,'5',0,'/img/avatar/_header.jpg','2021-03-16 20:43:28','2021-04-20 14:37:51',1),(3,'thanh@qnu',NULL,'Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff',1,'/img/avatar/_user.jpg','Da Nang',NULL,'65',0,'/img/avatar/_header.jpg','2021-03-17 18:41:37','2021-04-20 08:58:21',1),(4,'by@tma',NULL,'By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','warning','staff',2,'/img/avatar/_user.jpg','Quy Nhon',NULL,'65',0,'/img/avatar/_header.jpg','2021-03-17 02:25:34','2021-04-20 14:19:05',1),(5,'dat@n',NULL,'Dat','Nguyen','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','mentor',NULL,'/img/avatar/_user.jpg','Quy Nhon',NULL,NULL,0,'/img/avatar/_header.jpg','2021-04-05 01:49:07','2021-04-20 10:29:15',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -467,6 +467,8 @@ SELECT
 			'gender',t1.Gender,
 			'birth',t1.DateOfBirth,
 			'phone',t1.Phone,
+            'address1',t1.Address1,
+            'address2',t1.Address2,
 			'type',t1.Type,
 			'duration',t1.Duration,
 			'organization',OrgName,
@@ -824,6 +826,30 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `SetUserStatus` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SetUserStatus`(
+    inUserId int,
+	inStatus varchar(10))
+BEGIN
+	UPDATE users
+    SET 
+		Status = inStatus
+    WHERE UserId = inUserId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `UpdateEventByTitle` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -875,4 +901,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-20 17:31:48
+-- Dump completed on 2021-04-21 21:25:25

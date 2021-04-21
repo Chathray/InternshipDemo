@@ -194,7 +194,7 @@ namespace Internship.Web
         {
             var userId = int.Parse(User.Claims.ElementAt(0).Value);
 
-            await _hubContext.Clients.All.SendCoreAsync("Notify", $"Home page loaded at: {DateTime.Now}");
+            await _hubContext.Clients.All.SendAsync("SendMessage2", $"Home page loaded at: {DateTime.Now}");
 
             if (Request.Method == "POST")
                 return _serviceFactory.User.SetStatus(userId, status);
