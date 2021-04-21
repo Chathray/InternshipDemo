@@ -30,6 +30,11 @@ namespace Internship.Application
             return _userRespository.InsertUser(user, model.Password);
         }
 
+        public bool SetStatus(int userId, string status)
+        {
+            return _userRespository.SetStatus(userId, status);
+        }
+
         public bool UpdateBasic(UserModel model)
         {
             var user = ObjectMapper.Mapper.Map<User>(model);

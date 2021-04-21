@@ -1,20 +1,26 @@
 ﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Internship.Infrastructure
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBase
     {
-        private readonly RepositoryContext _context;
+        private readonly DataContext _context;
+        private readonly IDataShaper<T> _dataShaper;
 
-        public RepositoryBase(RepositoryContext context)
+
+        public RepositoryBase(DataContext context)
         {
             _context = context;
+            _dataShaper = new DataShaper<T>();
         }
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges)
@@ -42,11 +48,21 @@ namespace Internship.Infrastructure
             return _context.Set<T>().Find(key);
         }
 
+        public ExpandoObject GetOneShaped(int key, string fields)
+        {
+            var obj = GetOne(key);
+            return _dataShaper.ShapeData(obj, fields);
+        }
+
         public IList<T> GetAll()
         {
-            return _context.Database.GetDbConnection()
-                .QueryAsync<T>("SELECT * FROM " + typeof(T).Name.ToLowerInvariant() + "s")
-                .Result.AsList();
+            return FindAll(false).ToList();
+        }
+
+        public IList<ExpandoObject> GetAllShaped(string fields)
+        {
+            var objs = GetAll();
+            return _dataShaper.ShapeDatas(objs, fields);
         }
 
         public bool Update(T entity)
@@ -69,27 +85,21 @@ namespace Internship.Infrastructure
             return _context.SaveChanges() > 0;
         }
 
-        public int Count(Type type)
-        {
-            var count = _context.Database.GetDbConnection()
-                .ExecuteScalar("SELECT Count(*) FROM " + type.Name.ToLower() + "s");
-
-            return Convert.ToInt32(count);
-        }
+        public int Count() => _context.Set<T>().Count();
 
         public int CountByIndex(int index)
         {
             return index switch
             {
-                1 => Count(typeof(Department)),
-                2 => Count(typeof(Event)),
-                3 => Count(typeof(EventType)),
-                4 => Count(typeof(Intern)),
-                5 => Count(typeof(Organization)),
-                6 => Count(typeof(Point)),
-                7 => Count(typeof(Question)),
-                8 => Count(typeof(Training)),
-                9 => Count(typeof(User)),
+                1 => _context.Departments.Count(),
+                2 => _context.Events.Count(),
+                3 => _context.EventTypes.Count(),
+                4 => _context.Interns.Count(),
+                5 => _context.Organizations.Count(),
+                6 => _context.Points.Count(),
+                7 => _context.Questions.Count(),
+                8 => _context.Trainings.Count(),
+                9 => _context.Users.Count(),
                 _ => 0
             };
         }

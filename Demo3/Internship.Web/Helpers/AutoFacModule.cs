@@ -12,6 +12,9 @@ namespace Internship.Web
                 .As<IServiceFactory>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<UptimeService>()
+                .SingleInstance();
+
             var assembly_app = typeof(InternService).Assembly;
             builder.RegisterAssemblyTypes(assembly_app)
                 .Where(t => t.Name.EndsWith("Service"))

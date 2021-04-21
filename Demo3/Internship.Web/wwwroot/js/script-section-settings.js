@@ -2,7 +2,8 @@
     $.post("/UserDelete", {
         userId: id
     }).done(function (data) {
-        $.alert("Delete success!")
+        if (data)
+            window.location = '/Authentication';
     }).fail(function () {
         alert("Error");
     });

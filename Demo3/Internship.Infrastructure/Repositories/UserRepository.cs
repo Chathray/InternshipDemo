@@ -8,10 +8,10 @@ namespace Internship.Infrastructure
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        private readonly RepositoryContext _context;
+        private readonly DataContext _context;
         private readonly ILogger<UserRepository> _logger;
 
-        public UserRepository(RepositoryContext context, ILogger<UserRepository> logger) : base(context)
+        public UserRepository(DataContext context, ILogger<UserRepository> logger) : base(context)
         {
             _context = context;
             _logger = logger;
@@ -60,6 +60,13 @@ namespace Internship.Infrastructure
             return Create(user);
         }
 
+        public bool SetStatus(int userId, string status)
+        {
+            return _context.Database.GetDbConnection()
+                .ExecNonQuery($"CALL SetUserStatus({userId},'{status}')");
+
+        }
+
         public bool UpdateBasic(User user)
         {
             return _context.Database.GetDbConnection()
@@ -77,7 +84,6 @@ namespace Internship.Infrastructure
                       , ZipCode = '{user.ZipCode}'
                     WHERE
                         UserId = {user.UserId}");
-
         }
 
         public bool UpdatePassword(int userId, string newPassword)

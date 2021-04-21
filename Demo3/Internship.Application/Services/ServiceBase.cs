@@ -45,9 +45,9 @@ namespace Internship.Application
             return _base.Delete(key);
         }
 
-        public int Count(Type type)
+        public int Count()
         {
-            return _base.Count(type);
+            return _base.Count();
         }
 
         public int CountByIndex(int index)

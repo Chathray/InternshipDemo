@@ -11,5 +11,6 @@ namespace Internship.Infrastructure
         bool UpdatePassword(int userId, string hash);
         bool UpdateBasic(User user);
         bool UserDelete(int userId);
+        bool SetStatus(int userId, string status);
     }
 }

@@ -4,11 +4,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Net.WebSockets;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 
 namespace Internship.Web
 {
@@ -33,14 +39,13 @@ namespace Internship.Web
             string[] allow = { "GET", "POST" };
             if (allow.Contains(context.HttpContext.Request.Method))
             {
+                // By Calling in View
+                // @ViewBag.email or @ViewData["email"], they are same
+
                 ViewBag.id = User.Claims.ElementAt(0).Value;
                 ViewBag.email = User.Claims.ElementAt(1).Value;
                 ViewBag.fullname = User.Claims.ElementAt(2).Value;
-                ViewBag.status = User.Claims.ElementAt(3).Value;
-                ViewBag.role = User.Claims.ElementAt(4).Value;
-
-                // By Calling in View
-                // @ViewBag.email or @ViewData["email"], they are same
+                ViewBag.role = User.Claims.ElementAt(3).Value;
             }
         }
 
@@ -53,37 +58,32 @@ namespace Internship.Web
         {
             ViewData["page-1"] = "active";
 
-            DataSet dtset;
+            DataSet internList;
 
             bool haveFilter = on_passed != 2 || date_filter != 0;
 
             if (haveFilter)
             {
-                _logger.LogInformation($"{page},{size},{sort},{search_on},{search_string},{on_passed},{date_filter},{start_date},{end_date}");
-                dtset = _serviceFactory.Intern.GetInternByPage(
+                internList = _serviceFactory.Intern.GetInternByPage(
                      page, size, sort,
                      search_on, search_string,
                      on_passed,
                      date_filter, start_date, end_date);
             }
             else
-                dtset = _serviceFactory.Intern.GetInternByPage(
+                internList = _serviceFactory.Intern.GetInternByPage(
                      page, size, sort,
                      search_on, search_string);
 
-            var total = Convert.ToInt32(dtset.Tables[1].Rows[0]["FOUND_ROWS"]);
+            var total = Convert.ToInt32(internList.Tables[1].Rows[0]["FOUND_ROWS"]);
             var pagination = new PaginationLogic(total, page, size);
 
-            var model = new IndexViewModel(pagination, dtset,
-                _serviceFactory.Training.GetAll(),
-                _serviceFactory.Organization.GetAll(),
-                _serviceFactory.Department.GetAll(),
-                _serviceFactory.Point.GetAll());
+            var model = new IndexViewModel(pagination, internList);
 
-            ViewData["trainings.count"] = model.Trainings.Count;
-            ViewData["organizations.count"] = model.Organizations.Count;
-            ViewData["departments.count"] = model.Departments.Count;
-            ViewData["points.count"] = model.Points.Count;
+            ViewData["trainings.count"] = CountByIndex(8) - 1; // Prevent default training: 'None'
+            ViewData["organizations.count"] = CountByIndex(5);
+            ViewData["departments.count"] = CountByIndex(1);
+            ViewData["points.count"] = CountByIndex(6);
 
             return View(model);
         }
@@ -100,7 +100,7 @@ namespace Internship.Web
             }
             catch (AppException)
             {
-                Response.StatusCode = -1;
+                return BadRequest();
             }
 
             return Redirect("/");
@@ -126,14 +126,6 @@ namespace Internship.Web
             return Redirect("/");
         }
 
-        [HttpGet("/Contact")]
-        public IActionResult Contact()
-        {
-            ViewData["page-4"] = "active";
-
-            return View();
-        }
-
         [HttpGet("/Question")]
         public IActionResult Question()
         {
@@ -145,7 +137,6 @@ namespace Internship.Web
 
             return View(model);
         }
-
 
 
         #region INSERT
@@ -258,10 +249,10 @@ namespace Internship.Web
 
 
         #region GET
-        [HttpGet("CountByIndex/{stt}")]
-        public int CountByIndex(int stt)
+        [HttpGet("CountByIndex/{index}")]
+        public int CountByIndex(int index)
         {
-            return _serviceFactory.User.CountByIndex(stt);
+            return _serviceFactory.User.CountByIndex(index);
         }
 
         [HttpGet("Home/GetInternInfo")]
@@ -287,43 +278,50 @@ namespace Internship.Web
         public string GetPassedCount()
         {
             var passed = _serviceFactory.Point.GetPassedCount();
-            var total = _serviceFactory.User.CountByIndex(6);
+            var total = CountByIndex(6);
             return (passed / (float)total).ToString("0%");
         }
         [HttpGet]
-        public ActionResult GetJointTrainings(int internId)
+        [Produces("application/json")]
+        public IList<TrainingModel> GetJointTrainings(int internId)
         {
             var obj = _serviceFactory.Intern.GetJointTrainings(internId);
-            return Ok(obj);
+            return obj;
         }
         //_____________________________________________________
 
         [HttpGet]
         public IActionResult GetPoint(int id)
         {
-            return Json(_serviceFactory.Point.GetOne(id));
+            return Ok(_serviceFactory.Point.GetOne(id));
         }
         [HttpGet]
         public IActionResult GetQuestion(int id)
         {
-            return Json(_serviceFactory.Question.GetOne(id));
+            return Ok(_serviceFactory.Question.GetOne(id));
         }
         //_____________________________________________________
+        [HttpGet]
+        public IActionResult GetTrainingManagerData()
+        {
+            var TrainingList = _serviceFactory.Training.GetAll();
+            TrainingList.RemoveAt(0);
 
-        [HttpGet]
-        public IActionResult GetOrganizations()
-        {
-            return Ok(_serviceFactory.Organization.GetAll());
+            ExpandoObject list = new();
+            list.TryAdd("Training", TrainingList);
+            list.TryAdd("Department", _serviceFactory.Department.GetAll());
+
+            return Json(list);
         }
         [HttpGet]
-        public IActionResult GetDepartments()
+        public IActionResult GetAllBy(string[] fields)
         {
-            return Ok(_serviceFactory.Department.GetAll());
-        }
-        [HttpGet]
-        public IActionResult GetTrainings()
-        {
-            return Json(_serviceFactory.Training.GetAll());
+            ExpandoObject list = new();
+            foreach (var field in fields)
+            {
+                list.TryAdd(field, _serviceFactory.GetAllDynamic(field));
+            }
+            return Ok(list);
         }
         #endregion
 

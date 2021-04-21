@@ -8,9 +8,9 @@ namespace Internship.Infrastructure
 {
     public class PointRepository : RepositoryBase<Point>, IPointRepository
     {
-        private readonly RepositoryContext _context;
+        private readonly DataContext _context;
 
-        public PointRepository(RepositoryContext context) : base(context)
+        public PointRepository(DataContext context) : base(context)
         {
             _context = context;
         }

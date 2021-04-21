@@ -6,6 +6,21 @@
     <script src="/js/script-section-home.js"></script>
 }
 
+@{
+    if (TempData["avatar"] != null && TempData["status"] != null)
+    {
+        string AVA = TempData["avatar"].ToString();
+        string STS = TempData["status"].ToString();
+
+        @Html.Raw($@"
+        <script>
+            localStorage.setItem('user_avatar','{AVA}');
+            localStorage.setItem('user_status','{STS}');
+        </script>");
+    }
+}
+
+
 <!-- Page Header -->
 <div class="pl-0">
     <div class="row align-items-end">
@@ -148,7 +163,7 @@
     <!-- Header -->
     <div class="card-header">
         <div class="row justify-content-between align-items-center flex-grow-1">
-            <div class="col-12 col-sm ">
+            <div class="col-md-7">
                 <!-- Search -->
                 <div class="input-group input-group-merge input-group-borderless">
                     <div class="input-group-prepend">
@@ -172,7 +187,6 @@
                                 "dropdownAutoWidth": true,
                                 "width": true
                               }'>
-                        <option value="0" data-option-template="<b class='text-warning'>Clear search</b>"></option>
                         <option value="9">All</option>
                         <option value="1">Index</option>
                         <option value="2">Email</option>
@@ -569,14 +583,10 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
-                                <select asp-for=OrganizationId id="organizationLabel" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                <select asp-for=OrganizationId id="orgInternSelector" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                         data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                     <option label="empty"></option>
-                                    @foreach (var og in Model.Organizations)
-                                    {
-                                        <option value="@og.OrganizationId">@og.OrgName</option>
-                                    }
                                 </select>
                                 <!-- End Select2 -->
                             </div>
@@ -589,14 +599,10 @@
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
-                                <select asp-for=TrainingId id="trainingLabel" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                <select asp-for=TrainingId id="traInternSelector" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                         data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                     <option label="empty"></option>
-                                    @foreach (var e in Model.Trainings)
-                                    {
-                                        <option value="@e.TrainingId">@e.TraName</option>
-                                    }
                                 </select>
                                 <!-- End Select2 -->
                             </div>
@@ -610,14 +616,10 @@
                             <div class="input-group input-group-sm-down-break">
                                 <div class="input-group input-group-sm-down-break">
                                     <!-- Select2 -->
-                                    <select asp-for=DepartmentId id="departmentLabel" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                    <select asp-for=DepartmentId id="depInternSelector" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                             data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                         <option label="empty"></option>
-                                        @foreach (var de in Model.Departments)
-                                        {
-                                            <option value="@de.DepartmentId">@de.DepName</option>
-                                        }
                                     </select>
                                     <!-- End Select2 -->
                                 </div>
@@ -888,19 +890,16 @@
                 <!-- Select2 -->
                 <select id="depSharedSelector" class="js-select2-custom custom-select" multiple size="1" style="opacity: 0;"
                         data-hs-select2-options='{
-                        "minimumResultsForSearch": "Infinity"
+                        "minimumResultsForSearch": "Infinity",
+                        "placeholder": "Select to share"
                         }'>
-                    @foreach (var de in Model.Departments)
-                    {
-                        <option value="@de.DepartmentId">@de.DepName</option>
-                    }
                 </select>
                 <!-- End Select2 -->
 
             </div>
             <!-- End Body -->
             <div class="modal-footer">
-                <button id="del-training" type="button" class="btn btn-soft-danger">Delete</button>
+                <button id="delTraining" type="button" class="btn btn-soft-danger">Delete</button>
                 <button id="change-training" type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>

@@ -6,18 +6,18 @@ function JointEvents(iid) {
         data: { internId: iid }
     }).done(function (msg) {
 
-        var eventData = "";
+        var events = "";
         var d2 = JSON.parse(msg);
 
         if (d2.length > 0)
             $.each(d2, function (i, data) {
-                eventData += "<li>" + "#" + i + 1 + ": " + data + "</li>";
+                events += `<li data-id = ${i}>${data}</li>`;
             })
         else {
-            eventData = "This person is not involved in any activities."
+            events = "This person is not involved in any activities."
         }
 
-        $.alert(eventData)
+        $.alert(events)
     });
 }
 function JointTrainings(iid) {
@@ -28,11 +28,11 @@ function JointTrainings(iid) {
     }).done(function (msg) {
         var model = JSON.parse(JSON.stringify(msg))
         if (model.length > 0) {
-            var items = []
-            for (var i = 0; i < model.length; i++) {
-                items.push(model[i].traName)
+            var tras = []
+            for (var i = 1; i < model.length; i++) {
+                tras.push("<li data-id=" + i + ">" + model[i].traName + "</li>")
             }
-            $.alert(items.join("<br>"))
+            $.alert(tras.join(''))
         }
         else
             $.alert('No trainings to show')
@@ -104,7 +104,7 @@ function InternEvaluate(iid) {
         if (parsedJSON.passed) color = 'badge-soft-success';
         else color = 'badge-soft-danger';
 
-        let item = `<tr data-id="${parsedJSON.internId}">
+        var item = `<tr data-id="${parsedJSON.internId}">
                 <td data-field="index">${parsedJSON.internId}</td>
                 <td data-field="techskill">${parsedJSON.technicalSkill}</td>
                 <td data-field="softskill">${parsedJSON.softSkill}</td>
@@ -227,20 +227,9 @@ function InternEvaluateFirstTime(iid) {
                     }
 
                     $.post("home/evaluateintern", { model: values })
-                        .done(function (data) {
-                            $.alert({
-                                title: 'Alert!',
-                                content: 'Result: ' + data,
-                                buttons:
-                                {
-                                    OK: {
-                                        text: 'Close',
-                                        action: function () {
-                                            RefreshPointCount();
-                                        }
-                                    },
-                                }
-                            });
+                        .done(function () {
+                            $.alert('Evaluated: ' + iid)
+                            RefreshPointView();
                         });
                 }
             },
@@ -264,9 +253,10 @@ function InternSetModalData(model) {
 
     $('#genderLabel').val(model.gender).change();
     $('#typeLabel').val(model.type).change();
-    $('#organizationLabel').val(model.organizationid).change();
-    $('#departmentLabel').val(model.departmentid).change();
-    $('#trainingLabel').val(model.trainingid).change();
+
+    $('#orgInternSelector').val(model.organizationid).change();
+    $('#depInternSelector').val(model.departmentid).change();
+    $('#traInternSelector').val(model.trainingid).change();
 }
 // #endregion :Intern
 
@@ -382,20 +372,29 @@ function TrainingCreate() {
 // #endregion :Training
 
 
-// #region :Others
+// #region :Refresh
 function RefreshInternCount() {
     $.get("countbyindex/4", function (data) {
         $('#interns-count').html(data);
     });
 }
-function RefreshPointCount() {
+function RefreshPointView() {
     $.get("countbyindex/6", function (data) {
         $('#points-count').html(data);
     });
+    RefreshPassed();
 }
+function RefreshPassed() {
+    $.get("home/getpassedcount").done(function (data) {
+        $('#passed-count').html(data);
+    }).fail(function () {
+        alert("Have error when get passed.");
+    });
+}
+
 function RefreshTrainingCount() {
     $.get("countbyindex/8", function (data) {
-        $('#trainings-count').html(data);
+        $('#trainings-count').html(data - 1);
     });
 }
 function RefreshDepartmentCount() {
@@ -408,12 +407,17 @@ function RefreshOrganizationCount() {
         $('#organizations-count').html(data);
     });
 }
+// #endregion :Count
+
 function ReadAvatarName(input) {
     var filename = input.files[0]['name'];
     $('#avatarName').val(filename);
 }
-// #endregion :Others
 
+function Refresh(ok) {
+    if (ok) alert("Refresh now!");
+    window.location = "/";
+}
 
 $(document).on('submit', '#cui-form', function () {
     var str = $('#avatarName').val();
@@ -497,6 +501,8 @@ $(document).on('ready', function () {
                         <li>Gender: ${internData.gender}</li>
                         <li>Phone number: ${internData.phone}</li>
                         <li>Email: ${internData.email}</li>
+                        <li>Address 1: ${internData.address1}</li>
+                        <li>Address 2: ${internData.address2}</li>
                         <li>Join Date: ${internData.joindate}</li>
                       </ul>
                     </div>
@@ -546,14 +552,13 @@ $(document).on('ready', function () {
     });
 
 
-    $('#del-training').on('click', function () {
-        var tid = $('#trainingSelector').val()
+    $('#delTraining').on('click', function () {
+        var trainingId = $('#trainingSelector').val()
 
         $.post("home/deletetraining", {
-            id: tid
-        }).done(function (data) {
-            $.alert(data)
-            window.location = "/"
+            id: trainingId
+        }).done(function () {
+            Refresh(true);
         }).fail(function () {
             alert("Error");
         });
@@ -561,21 +566,21 @@ $(document).on('ready', function () {
 
 
     $('#change-training').on('click', function () {
-        var tid = $('#trainingSelector').val()
+        var trainingId = $('#trainingSelector').val()
         var deparray = $('#depSharedSelector').val()
 
         var traName = $("#trainingSelector option:selected").text();
 
         $.post("home/updatetraining", {
             model: {
-                'TrainingId': tid,
+                'TrainingId': trainingId,
                 'TraName': traName,
                 'TraData': JSON.stringify(quill2.getContents())
             }
         }).done(function (data) {
 
             $.post("home/setsharedtraining", {
-                sharedId: tid,
+                sharedId: trainingId,
                 depArray: deparray
             }).done(function (data) {
                 $.alert("Result: " + data)
@@ -594,11 +599,6 @@ $(document).on('ready', function () {
             return;
 
         var searchOn = $('.js-datatable-search').val();
-
-        if (searchOn === '0') {
-            $.alert('You must select the column to search for first!')
-            return;
-        }
 
         var params = new URLSearchParams(window.location.search);
 
@@ -681,6 +681,40 @@ $(document).on('ready', function () {
     $('.js-datatable-search').val(params.get("search_on") ? params.get("search_on") : 9);
     $('#datatableSearch').val(params.get("search_string") ? params.get("search_string") : "");
 
+
+    var org_opt = [];
+    var dep_opt = [];
+    var tra_opt = [];
+
+    $.get("home/getallby", $.param({
+        fields: ["Department", "Organization", "Training"]
+    }, true)).done(function (data) {
+        var parsedJSON = JSON.parse(JSON.stringify(data))
+
+        var orgs = parsedJSON.Organization;
+        for (var i = 0; i < orgs.length; i++) {
+            org_opt.push(`<option value="${orgs[i].organizationId}">${orgs[i].orgName}</option>`);
+        }
+
+        var tras = parsedJSON.Department;
+        for (var i = 0; i < tras.length; i++) {
+            dep_opt.push(`<option value="${tras[i].departmentId}">${tras[i].depName}</option>`);
+        }
+
+        var deps = parsedJSON.Training;
+        for (var i = 0; i < deps.length; i++) {
+            tra_opt.push(`<option value="${deps[i].trainingId}">${deps[i].traName}</option>`);
+        }
+
+        $('#orgInternSelector').html(org_opt.join(""))
+        $('#depInternSelector').html(dep_opt.join(""))
+        $('#traInternSelector').html(tra_opt.join(""))
+
+    }).fail(function () {
+        alert("Error on fetch relative data");
+    });
+
+
     $('#addibtn').on("click", function (e) {
         //var type = $("#cui-submit").text(); //For button
 
@@ -696,18 +730,12 @@ $(document).on('ready', function () {
         $('#genderLabel').val("").change();
         $('#typeLabel').val("").change();
 
-        $('#organizationLabel').val('').change();
-        $('#departmentLabel').val('').change();
-        $('#trainingLabel').val('').change();
+        $('#orgInternSelector').val('').change();
+        $('#depInternSelector').val('').change();
+        $('#traInternSelector').val('').change();
     });
 
-
-    $.get("home/getpassedcount").done(function (data) {
-        $('#passed-count').append(data);
-    }).fail(function () {
-        alert("Have error when get passed.");
-    });
-
+    RefreshPassed()
 
     // CR:Init for one thing, not two, 3hours to fix bug!
     var orgtable;
@@ -717,18 +745,17 @@ $(document).on('ready', function () {
     $(document).on("click", '#organization-now', function (e) {
         var items = []
 
-        $.ajax({
-            method: "GET",
-            url: "home/getorganizations",
-        }).done(function (json) {
-            var parsedJSON = JSON.parse(JSON.stringify(json))
+        $.get("home/getallby", $.param({
+            fields: ["Organization"]
+        }, true)).done(function (json) {
+            var orgs = JSON.parse(JSON.stringify(json)).Organization
 
-            for (var i = 0; i < parsedJSON.length; i++) {
-                items.push(`<tr data-id="${parsedJSON[i].organizationId}">
-                <td data-field="index">${parsedJSON[i].organizationId}</td>
-                <td data-field="name">${parsedJSON[i].orgName}</td>
-                <td data-field="phone">${parsedJSON[i].orgPhone}</td>
-                <td data-field="address">${parsedJSON[i].orgAddress}</td>
+            for (var i = 0; i < orgs.length; i++) {
+                items.push(`<tr data-id="${orgs[i].organizationId}">
+                <td data-field="index">${orgs[i].organizationId}</td>
+                <td data-field="name">${orgs[i].orgName}</td>
+                <td data-field="phone">${orgs[i].orgPhone}</td>
+                <td data-field="address">${orgs[i].orgAddress}</td>
                 <td>
                     <button type="button" class="js-edit btn btn-soft-info btn-icon btn-xs">
                         <i class="tio-edit js-edit-icon"></i>
@@ -755,15 +782,16 @@ $(document).on('ready', function () {
 
         $.ajax({
             method: "GET",
-            url: "home/getdepartments",
+            url: "Home/GetAllBy",
+            data: $.param({ fields: ["Department"] }, true)
         }).done(function (json) {
-            var parsedJSON = JSON.parse(JSON.stringify(json))
+            var deps = JSON.parse(stringify(json)).Department
 
-            for (var i = 0; i < parsedJSON.length; i++) {
-                items.push(`<tr data-id="${parsedJSON[i].departmentId}">
-                <td data-field="index">${parsedJSON[i].departmentId}</td>
-                <td data-field="name">${parsedJSON[i].depName}</td>
-                <td data-field="location">${parsedJSON[i].depLocation}</td>
+            for (var i = 0; i < deps.length; i++) {
+                items.push(`<tr data-id="${deps[i].departmentId}">
+                <td data-field="index">${deps[i].departmentId}</td>
+                <td data-field="name">${deps[i].depName}</td>
+                <td data-field="location">${deps[i].depLocation}</td>
                 <td>
                     <button type="button" class="js-edit btn btn-soft-info btn-icon btn-xs">
                         <i class="tio-edit js-edit-icon"></i>
@@ -786,20 +814,35 @@ $(document).on('ready', function () {
 
     ////////////  TRAINING
     $(document).on("click", '#training-now', function (e) {
-        var options = [];
-        $.get("home/gettrainings").done(function (data) {
+        var tra_options = ['<option label="empty"></option>'];
+        var dep_options = [];
+        $.get("home/gettrainingmanagerdata").done(function (data) {
             var parsedJSON = JSON.parse(JSON.stringify(data))
-            for (var i = 0; i < parsedJSON.length; i++) {
-                options.push(`<option value="${parsedJSON[i].trainingId}">${parsedJSON[i].traName}</option>`);
+
+            var tras = parsedJSON.Training;
+            for (var i = 0; i < tras.length; i++) {
+                tra_options.push(`<option value="${tras[i].trainingId}">${tras[i].traName}</option>`);
             }
-            $('#trainingSelector').html(options.join(""))
+
+            var deps = parsedJSON.Department;
+            for (var i = 0; i < deps.length; i++) {
+                dep_options.push(`<option value="${deps[i].departmentId}">${deps[i].depName}</option>`);
+            }
+
+            $('#trainingSelector').html(tra_options.join(''))
+            $('#depSharedSelector').html(dep_options.join(''))
+
+            quill2.setContents(null);
+
             $('#traModal').modal('show');
+
         }).fail(function () {
             alert("Error");
         });
     });
 
 
+    // #region :Remove on -now
     $(document).on("click", '#removedep', function (e) {
         var tr = $(this).closest('tr');
         var id = tr.attr("data-id");
@@ -807,9 +850,7 @@ $(document).on('ready', function () {
         $.post("home/deletedepartment", {
             id: id
         }).done(function (data) {
-            $.alert("Result: " + data);
-            tr.remove()
-            RefreshDepartmentCount()
+            Refresh(true);
         }).fail(function () {
             alert("Error");
         });
@@ -823,9 +864,7 @@ $(document).on('ready', function () {
         $.post("home/deleteorganization", {
             id: id
         }).done(function (data) {
-            $.alert("Result: " + data);
-            tr.remove()
-            RefreshOrganizationCount()
+            Refresh(true);
         }).fail(function () {
             alert("Error");
         });
@@ -841,11 +880,14 @@ $(document).on('ready', function () {
         }).done(function (data) {
             $.alert("Result: " + data);
             tr.remove()
-            RefreshPointCount()
+            RefreshPointView()
         }).fail(function () {
             alert("Error");
         });
     });
+
+    // #endregion
+
 
     $('.intern-row').on('contextmenu', function (e) {
         current_intern_id = $(this).attr('data-id')

@@ -2,9 +2,9 @@
 {
     public class QuestionRepository : RepositoryBase<Question>, IQuestionRepository
     {
-        private readonly RepositoryContext _context;
+        private readonly DataContext _context;
 
-        public QuestionRepository(RepositoryContext context) : base(context)
+        public QuestionRepository(DataContext context) : base(context)
         {
             _context = context;
         }

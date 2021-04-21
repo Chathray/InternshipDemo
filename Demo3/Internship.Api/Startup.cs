@@ -76,7 +76,7 @@ namespace Internship.Api
 
 
             // CR:Add database context of webapp
-            services.AddDbContext<RepositoryContext>(options => options.UseMySQL(connectionString));
+            services.AddDbContext<DataContext>(options => options.UseMySQL(connectionString));
 
             // configure DI for application services
             services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
@@ -89,7 +89,7 @@ namespace Internship.Api
 
             services.AddAutoMapper(typeof(Startup)); // Add AutoMapper
 
-            services.AddScoped<RepositoryContext>();
+            services.AddScoped<DataContext>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IInternService, InternService>();
             services.AddScoped<IDepartmentService, DepartmentService>();

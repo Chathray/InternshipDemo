@@ -15,6 +15,7 @@ namespace Internship.Web
         {
             var host = WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices(services => services.AddAutofac())
+                .UseKestrel()
                 .UseStartup<Startup>()
                 .Build();
 
@@ -26,7 +27,7 @@ namespace Internship.Web
         {
             using var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
-            var context = services.GetRequiredService<RepositoryContext>();
+            var context = services.GetRequiredService<DataContext>();
 
             context.Database.EnsureCreated();
             // Do seed action here

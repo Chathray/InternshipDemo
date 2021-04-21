@@ -12,5 +12,6 @@ namespace Internship.Application
         bool UpdatePassword(int userId, string newPassword);
         bool UpdateBasic(UserModel user);
         bool UserDelete(int userId);
+        bool SetStatus(int userId, string status);
     }
 }

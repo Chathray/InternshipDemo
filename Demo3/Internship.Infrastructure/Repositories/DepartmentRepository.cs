@@ -5,10 +5,10 @@ namespace Internship.Infrastructure
 {
     public class DepartmentRepository : RepositoryBase<Department>, IDepartmentRepository
     {
-        private readonly RepositoryContext _context;
+        private readonly DataContext _context;
 
 
-        public DepartmentRepository(RepositoryContext context) : base(context)
+        public DepartmentRepository(DataContext context) : base(context)
         {
             _context = context;
         }

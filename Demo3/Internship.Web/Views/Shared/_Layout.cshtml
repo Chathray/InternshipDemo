@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
     <!-- CSS Implementing -->
-    <link rel="stylesheet" href="/css/vendor.min.css">
+    <link rel="stylesheet" href="~/lib/front/vendor.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/site.css">
 </head>
@@ -32,7 +32,7 @@
         <div class="footer">
             <div class="row justify-content-between align-items-center">
                 <div class="col">
-                    <p class="font-size-sm mb-0">&copy; Front. <span class="d-none d-sm-inline-block">@DateTime.Now.Year Htmlstream.</span></p>
+                    <p class="font-size-sm mb-0">&copy; Industry Internship. <span class="d-none d-sm-inline-block">@DateTime.Now.Year TMA.</span></p>
                 </div>
                 <div class="col-auto">
                     <div class="d-flex justify-content-end">
@@ -74,14 +74,53 @@
     <!-- ========== END MAIN CONTENT ========== -->
     <!-- ========== SECONDARY CONTENTS ========== -->
     @await Html.PartialAsync("/Views/Shared/_KeyboardShortcuts.cshtml")
+    @await Html.PartialAsync("/Views/Shared/_ActivityStream.cshtml")
     <!-- ========== END SECONDARY CONTENTS ========== -->
     <!-- JS Implementing Plugins -->
-    <script src="/js/vendor.min.js"></script>
-    <script src="/js/theme.min.js"></script>
-    <link rel="stylesheet" href="/css/jquery-confirm.css">
-    <script src="/js/jquery-confirm.js"></script>
+    <script src="/lib/front/vendor.min.js"></script>
+    <script src="/lib/front/theme.min.js"></script>
+
+    <link rel="stylesheet" href="~/lib/jquery-confirm/jquery-confirm.min.css">
+    <script src="/lib/jquery-confirm/jquery-confirm.min.js"></script>
+
+    <script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+
+    <script>
+        "use strict";
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+        connection.on("ReceiveMessage", function (user, message) {
+            var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            var encodedMsg = user + " says " + msg;
+
+            alert(encodedMsg);
+        });
+
+        connection.start().then(function () {
+            // alert('Starting...');
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        function SendSMS(user, message) {
+            connection.invoke("SendMessage", user, message).catch(function (err) {
+                return console.error(err.toString());
+            });
+        }
+    </script>
+
+    <script>
+        var ava_url = localStorage.getItem("user_avatar");
+        $('#user-ava1').attr('src', ava_url);
+        $('#user-ava2').attr('src', ava_url);
+
+        var user_sts = localStorage.getItem("user_status");
+        $('#user-status').addClass('avatar-status-' + user_sts);
+    </script>
 
     @RenderSection("Scripts", required: false)
+
 
     <script>
         $(document).on('ready', function () {
@@ -135,20 +174,19 @@
                 $('#user-status').removeClass('avatar-status-warning');
                 $('#user-status').removeClass('avatar-status-danger');
 
+                var txt = 'success';
                 switch ($(this).attr('data-id')) {
                     case '2':
-                        $('#user-status').addClass('avatar-status-warning');
-                        //
+                        txt = 'warning'
                         break;
                     case '3':
-                        $('#user-status').addClass('avatar-status-danger');
-                        //
-                        break;
-                    default:
-                        $('#user-status').addClass('avatar-status-success');
-                        //
+                        txt = 'danger'
                         break;
                 }
+                $('#user-status').addClass('avatar-status-' + txt);
+                localStorage.setItem('user_status', txt);
+                //
+                $.post("User/SetStatus", { status: txt })
             });
         });
     </script>

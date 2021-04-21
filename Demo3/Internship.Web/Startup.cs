@@ -1,4 +1,5 @@
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Internship.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Unicode;
 
 namespace Internship.Web
 {
@@ -33,9 +35,8 @@ namespace Internship.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = Configuration.GetConnectionString("MYSQL");
-
             services.AddControllersWithViews();
+            services.AddSignalR();
 
             // CR:Using cookie
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -46,8 +47,9 @@ namespace Internship.Web
             });
 
             // CR:Add database context pool? of webapp
-            services.AddDbContextPool<RepositoryContext>(options => options
-            .UseMySQL(connectionString));
+            string connectionString = Configuration.GetConnectionString("MYSQL");
+            services.AddDbContextPool<DataContext>(options => options
+             .UseMySQL(connectionString));
 
             // Add AutoMapper
             services.AddAutoMapper(typeof(Startup));
@@ -69,6 +71,9 @@ namespace Internship.Web
                 app.UseHsts();
             }
 
+            app.UseMiddleware<ContentMiddleware>();
+            app.UseMiddleware<ErrorMiddleware>();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -82,6 +87,8 @@ namespace Internship.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Data;
@@ -21,17 +22,21 @@ namespace Internship.Web
         private readonly IServiceFactory _serviceFactory;
         private readonly ILogger<UserController> _logger;
 
-        public UserController(IMapper mapper, ILogger<UserController> logger, IServiceFactory serviceFactory)
+        private readonly IHubContext<ChatHub> _hubContext;
+
+        public UserController(IMapper mapper, ILogger<UserController> logger, IServiceFactory serviceFactory, IHubContext<ChatHub> hubContext)
         {
             _serviceFactory = serviceFactory;
             _mapper = mapper;
             _logger = logger;
+
+            _hubContext = hubContext;
         }
 
         [HttpGet]
         public async Task<IActionResult> Authentication()
         {
-            await Logout();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return View();
         }
 
@@ -65,8 +70,7 @@ namespace Internship.Web
             ViewBag.id = User.Claims.ElementAt(0).Value;
             ViewBag.email = User.Claims.ElementAt(1).Value;
             ViewBag.fullname = User.Claims.ElementAt(2).Value;
-            ViewBag.status = User.Claims.ElementAt(3).Value;
-            ViewBag.role = User.Claims.ElementAt(4).Value;
+            ViewBag.role = User.Claims.ElementAt(3).Value;
         }
 
         [HttpPost]
@@ -83,9 +87,12 @@ namespace Internship.Web
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Surname, user.FirstName +" " + user.LastName),
-                new Claim(ClaimTypes.UserData, user.Status),
                 new Claim(ClaimTypes.Role, user.Role)
             };
+
+            // Pass to index ViewResult
+            TempData["avatar"] = user.Avatar;
+            TempData["status"] = user.Status;
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -132,7 +139,7 @@ namespace Internship.Web
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("/");
+            return Redirect("/Authentication");
         }
 
         [HttpPost("/User/UpdateBasic")]
@@ -172,9 +179,27 @@ namespace Internship.Web
         }
 
         [HttpPost]
-        public bool UserDelete(int userId)
+        public async Task<bool> UserDelete(int userId)
         {
-            return _serviceFactory.User.UserDelete(userId);
+            var result = _serviceFactory.User.UserDelete(userId);
+            if (result)
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return result;
+        }
+
+        [HttpGet("/User/GetStatus")]
+        [HttpPost("/User/SetStatus")]
+        public async Task<dynamic> StatusAsync(string status)
+        {
+            var userId = int.Parse(User.Claims.ElementAt(0).Value);
+
+            await _hubContext.Clients.All.SendCoreAsync("Notify", $"Home page loaded at: {DateTime.Now}");
+
+            if (Request.Method == "POST")
+                return _serviceFactory.User.SetStatus(userId, status);
+            else
+                return _serviceFactory.User.GetOne(userId).Status;
         }
     }
 }

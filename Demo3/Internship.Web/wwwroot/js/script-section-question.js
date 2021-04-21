@@ -31,9 +31,7 @@ $("#context-menu a").on("click", function () {
                             $.alert("Error");
                         });
                     },
-                    cancel: function () {
-                        $.alert('Canceled!');
-                    }
+                    cancel: function () {}
                 }
             }); break;
         case '2':
@@ -122,12 +120,11 @@ function CreateQuestion(ex_action = "home/insertquestion", qid = null) {
                         InData: inD,
                         OutData: outD
                     }).done(function (data) {
-                        $.alert("Result: " + data);
+                        alert("Done, refresh now!");
                         window.location = '/Question'
                     }).fail(function () {
                         $.alert("Error");
                     });
-
                 }
             },
         }

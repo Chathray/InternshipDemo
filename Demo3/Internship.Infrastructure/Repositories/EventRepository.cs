@@ -7,9 +7,9 @@ namespace Internship.Infrastructure
 {
     public class EventRepository : RepositoryBase<Event>, IEventRepository
     {
-        private readonly RepositoryContext _context;
+        private readonly DataContext _context;
 
-        public EventRepository(RepositoryContext context) : base(context)
+        public EventRepository(DataContext context) : base(context)
         {
             _context = context;
         }

@@ -6,15 +6,15 @@ namespace Internship.Infrastructure.Test
     public class UserTests
     {
         private readonly UserRepository _userRespository;
-        private readonly RepositoryContext _memContext;
+        private readonly DataContext _memContext;
 
         public UserTests()
         {
-            var dbOptions = new DbContextOptionsBuilder<RepositoryContext>()
+            var dbOptions = new DbContextOptionsBuilder<DataContext>()
                 .UseInMemoryDatabase(databaseName: "tmainternship")
                 .Options;
 
-            _memContext = new RepositoryContext(dbOptions);
+            //_memContext = new DataContext(dbOptions);
            // _userRespository = new UserRepository(_memContext);
         }
 

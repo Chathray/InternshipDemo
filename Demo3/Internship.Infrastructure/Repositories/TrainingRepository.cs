@@ -4,10 +4,10 @@ namespace Internship.Infrastructure
 {
     public class TrainingRepository : RepositoryBase<Training>, ITrainingRepository
     {
-        private readonly RepositoryContext _context;
+        private readonly DataContext _context;
 
 
-        public TrainingRepository(RepositoryContext context) : base(context)
+        public TrainingRepository(DataContext context) : base(context)
         {
             _context = context;
 

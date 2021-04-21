@@ -9,10 +9,10 @@ namespace Internship.Infrastructure
 {
     public class InternRepository : RepositoryBase<Intern>, IInternRepository
     {
-        private readonly RepositoryContext _context;
+        private readonly DataContext _context;
         private readonly ILogger<InternRepository> _logger;
 
-        public InternRepository(RepositoryContext context, ILogger<InternRepository> logger) : base(context)
+        public InternRepository(DataContext context, ILogger<InternRepository> logger) : base(context)
         {
             _context = context;
             _logger = logger;

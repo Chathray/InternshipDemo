@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Internship.Infrastructure
 {
-    public class RepositoryContext : DbContext
+    public class DataContext : DbContext
     {
-        public RepositoryContext(DbContextOptions<RepositoryContext> options)
-            : base(options)
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }
 
         public DbSet<User> Users { get; set; }

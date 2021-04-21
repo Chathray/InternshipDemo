@@ -2,9 +2,9 @@
 {
     public class OrganizationRepository : RepositoryBase<Organization>, IOrganizationRepository
     {
-        private readonly RepositoryContext _context;
+        private readonly DataContext _context;
 
-        public OrganizationRepository(RepositoryContext context) : base(context)
+        public OrganizationRepository(DataContext context) : base(context)
         {
             _context = context;
         }

@@ -56,5 +56,15 @@
         public IQuestionService Question => _questionService;
         #endregion GET
 
+        public object GetAllDynamic(string field)
+        {
+            return field switch
+            {
+                "Training" => Training.GetAll(),
+                "Organization" => Organization.GetAll(),
+                "Department" => Department.GetAll(),
+                _ => null,
+            };
+        }
     }
 }

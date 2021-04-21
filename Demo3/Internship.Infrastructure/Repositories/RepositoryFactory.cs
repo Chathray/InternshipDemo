@@ -2,7 +2,7 @@
 {
     public class RepositoryFactory : IRepositoryFactory
     {
-        private readonly RepositoryContext _repositoryContext;
+        private readonly DataContext _repositoryContext;
         private readonly IUserRepository _userRepository;
         private readonly IInternRepository _internRepository;
         private readonly IPointRepository _pointRepository;
@@ -14,7 +14,7 @@
         private readonly IQuestionRepository _questionRepository;
 
         public RepositoryFactory(
-            RepositoryContext repositoryContext,
+            DataContext repositoryContext,
             IUserRepository userRepository,
             IInternRepository internRepository,
             IPointRepository pointRepository,
