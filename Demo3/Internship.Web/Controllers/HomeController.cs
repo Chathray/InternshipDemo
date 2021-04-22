@@ -314,12 +314,12 @@ namespace Internship.Web
             return Json(list);
         }
         [HttpGet]
-        public IActionResult GetAllBy(string[] fields)
+        public IActionResult GetAllDynamic(string[] fields)
         {
             ExpandoObject list = new();
             foreach (var field in fields)
             {
-                list.TryAdd(field, _serviceFactory.GetAllDynamic(field));
+                list.TryAdd(field, _serviceFactory.GetAll(field));
             }
             return Ok(list);
         }
@@ -330,6 +330,13 @@ namespace Internship.Web
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        // For all wrong routes
+        [Route("/Welcome")]
+        public IActionResult Welcome()
+        {
+            return View();
         }
 
         public bool SaveImage(string ImgStr, string ImgName)

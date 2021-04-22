@@ -22,9 +22,9 @@ namespace Internship.Web
         private readonly IServiceFactory _serviceFactory;
         private readonly ILogger<UserController> _logger;
 
-        private readonly IHubContext<ChatHub> _hubContext;
+        private readonly IHubContext<EchoHub> _hubContext;
 
-        public UserController(IMapper mapper, ILogger<UserController> logger, IServiceFactory serviceFactory, IHubContext<ChatHub> hubContext)
+        public UserController(IMapper mapper, ILogger<UserController> logger, IServiceFactory serviceFactory, IHubContext<EchoHub> hubContext)
         {
             _serviceFactory = serviceFactory;
             _mapper = mapper;
@@ -152,27 +152,27 @@ namespace Internship.Web
             bool result = _serviceFactory.User.UpdateBasic(user);
 
             TempData["notification"] = "Update basic information: " + result;
-
             return Redirect("/Settings");
         }
 
         [HttpPost("/User/UpdatePassword")]
-        public IActionResult UserUpdatePassword(string currentPassword, string newPassword, string confirmNewPassword)
+        public IActionResult UserUpdatePassword(PasswordUpdateModel model)
         {
-            if (newPassword != confirmNewPassword) goto Failed;
+            if (model.NewPassword != model.ConfirmNewPassword) goto Failed;
 
             var email = User.Claims.ElementAt(1).Value;
-            UserModel user = _serviceFactory.User.Authenticate(email, currentPassword);
+            UserModel user = _serviceFactory.User.Authenticate(email, model.CurrentPassword);
 
             if (user is null) goto Failed;
             else
             {
-                bool result = _serviceFactory.User.UpdatePassword(user.UserId, newPassword);
+                bool result = _serviceFactory.User.UpdatePassword(user.UserId, model.NewPassword);
                 if (result) goto Success;
             }
 
         Failed:
             TempData["notification"] = "Password change failed!";
+            return Redirect("/Settings");
         Success:
             TempData["notification"] = "Password change success!";
             return Redirect("/Settings");
@@ -194,10 +194,15 @@ namespace Internship.Web
         {
             var userId = int.Parse(User.Claims.ElementAt(0).Value);
 
-            await _hubContext.Clients.All.SendAsync("SendMessage2", $"Home page loaded at: {DateTime.Now}");
-
             if (Request.Method == "POST")
-                return _serviceFactory.User.SetStatus(userId, status);
+            {
+                var result = _serviceFactory.User.SetStatus(userId, status);
+                if (result)
+                    await _hubContext.Clients.User(userId + "")
+                        .SendAsync("ClientStatus", status);
+
+                return result;
+            }
             else
                 return _serviceFactory.User.GetOne(userId).Status;
         }

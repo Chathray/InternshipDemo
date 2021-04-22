@@ -11,7 +11,7 @@ namespace Internship.Web
 
         public string HeaderPhoto { get; set; }
         public string Avatar { get; set; }
-        
+
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -24,7 +24,7 @@ namespace Internship.Web
 
 
         public string ComeFrom { get; set; }      //  
-        public string JoinedDate { get; set; }        
-        public bool AvatarVisibility { get; set; }        
+        public string JoinedDate { get; set; }
+        public bool AvatarVisibility { get; set; }
     }
 }

@@ -12,6 +12,6 @@
         IEventTypeService EventType { get; }
         IQuestionService Question { get; }
 
-        object GetAllDynamic(string field);
+        object GetAll(string field);
     }
 }

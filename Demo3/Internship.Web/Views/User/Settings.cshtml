@@ -6,7 +6,7 @@
 
 @if (TempData["notification"] != null)
 {
-    @Html.Raw(@"<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+    @Html.Raw(@"<div class='alert alert-soft-success alert-dismissible fade show' role='alert'>
   <strong>" + TempData["notification"] + @"</strong>
   <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
     <i class='tio-clear tio-lg'></i>
@@ -297,16 +297,16 @@
                         <label for="currentPasswordSetting" class="col-sm-3 col-form-label input-label">Current password</label>
 
                         <div class="col-sm-9">
-                            <input type="password" class="form-control" name="currentPassword" id="currentPasswordSetting" placeholder="Enter current password" aria-label="Enter current password">
+                            <input type="password" required class="form-control" name="CurrentPassword" id="currentPasswordSetting" placeholder="Enter current password" aria-label="Enter current password">
                         </div>
                     </div>
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="newPassword" class="col-sm-3 col-form-label input-label">New password</label>
+                        <label for="newPasswordSetting" class="col-sm-3 col-form-label input-label">New password</label>
 
                         <div class="col-sm-9">
-                            <input type="password" class="js-pwstrength form-control" name="newPassword" id="newPassword" placeholder="Enter new password" aria-label="Enter new password"
+                            <input type="password" required class="js-pwstrength form-control" name="NewPassword" id="newPasswordSetting" placeholder="Enter new password" aria-label="Enter new password"
                                    data-hs-pwstrength-options='{
                                "ui": {
                                  "container": "#changePasswordForm",
@@ -329,7 +329,7 @@
 
                         <div class="col-sm-9">
                             <div class="mb-3">
-                                <input type="password" class="form-control" name="confirmNewPassword" id="confirmNewPasswordSetting" placeholder="Confirm your new password" aria-label="Confirm your new password">
+                                <input type="password" required class="form-control" name="ConfirmNewPassword" id="confirmNewPasswordSetting" placeholder="Confirm your new password" aria-label="Confirm your new password">
                             </div>
 
                             <h5>Password requirements:</h5>

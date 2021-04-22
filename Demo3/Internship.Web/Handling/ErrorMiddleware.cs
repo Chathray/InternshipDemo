@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,8 +21,7 @@ namespace Internship.Web
             }
             else if (httpContext.Response.StatusCode == 404)
             {
-                await httpContext.Response
-                .WriteAsync("No content middleware response", Encoding.UTF8);
+                httpContext.Response.Redirect("/Welcome");
             }
         }
     }

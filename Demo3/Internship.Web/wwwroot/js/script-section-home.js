@@ -686,7 +686,7 @@ $(document).on('ready', function () {
     var dep_opt = [];
     var tra_opt = [];
 
-    $.get("home/getallby", $.param({
+    $.get("Home/GetAllDynamic", $.param({
         fields: ["Department", "Organization", "Training"]
     }, true)).done(function (data) {
         var parsedJSON = JSON.parse(JSON.stringify(data))
@@ -745,7 +745,7 @@ $(document).on('ready', function () {
     $(document).on("click", '#organization-now', function (e) {
         var items = []
 
-        $.get("home/getallby", $.param({
+        $.get("Home/GetAllDynamic", $.param({
             fields: ["Organization"]
         }, true)).done(function (json) {
             var orgs = JSON.parse(JSON.stringify(json)).Organization
@@ -782,10 +782,10 @@ $(document).on('ready', function () {
 
         $.ajax({
             method: "GET",
-            url: "Home/GetAllBy",
+            url: "Home/GetAllDynamic",
             data: $.param({ fields: ["Department"] }, true)
         }).done(function (json) {
-            var deps = JSON.parse(stringify(json)).Department
+            var deps = JSON.parse(JSON.stringify(json)).Department
 
             for (var i = 0; i < deps.length; i++) {
                 items.push(`<tr data-id="${deps[i].departmentId}">
@@ -923,5 +923,9 @@ $(document).on('ready', function () {
                 break;
         }
         $(this).parent().removeClass("show").hide();
+    });
+
+    $("#datatable thead tr th").on("click", function () {
+       // CR: Client sort enable
     });
 });

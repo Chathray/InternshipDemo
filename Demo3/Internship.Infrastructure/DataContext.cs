@@ -17,5 +17,6 @@ namespace Internship.Infrastructure
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Point> Points { get; set; }
         public DbSet<Training> Trainings { get; set; }
+        public DbSet<Activity> Activities { get; set; }
     }
 }

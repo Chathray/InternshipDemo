@@ -90,21 +90,27 @@
 
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-        connection.on("ReceiveMessage", function (user, message) {
-            var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            var encodedMsg = user + " says " + msg;
-
-            alert(encodedMsg);
-        });
-
         connection.start().then(function () {
             // alert('Starting...');
         }).catch(function (err) {
             return console.error(err.toString());
         });
 
-        function SendSMS(user, message) {
-            connection.invoke("SendMessage", user, message).catch(function (err) {
+        connection.on("ClientMasterMessage", function (message) {
+            $.alert(message);
+        });
+
+        connection.on("ClientStatus", function (status) {
+            $('#user-status').removeClass('avatar-status-success');
+            $('#user-status').removeClass('avatar-status-warning');
+            $('#user-status').removeClass('avatar-status-danger');
+
+            $('#user-status').addClass('avatar-status-' + status);
+            localStorage.setItem('user_status', status);
+        });
+
+        function SendSMS(message) {
+            connection.invoke("ToastMaster", message).catch(function (err) {
                 return console.error(err.toString());
             });
         }
@@ -170,10 +176,6 @@
             });
 
             $('#navSubmenuPagesAccountDropdown1 .dropdown-item').on('click', function () {
-                $('#user-status').removeClass('avatar-status-success');
-                $('#user-status').removeClass('avatar-status-warning');
-                $('#user-status').removeClass('avatar-status-danger');
-
                 var txt = 'success';
                 switch ($(this).attr('data-id')) {
                     case '2':
@@ -183,10 +185,36 @@
                         txt = 'danger'
                         break;
                 }
-                $('#user-status').addClass('avatar-status-' + txt);
-                localStorage.setItem('user_status', txt);
-                //
                 $.post("User/SetStatus", { status: txt })
+            });
+
+            $('#activities-invoke').on('click', function () {
+                var items = [];
+
+                $.get("Home/GetAllDynamic", $.param({
+                    fields: ["Activity"]
+                }, true)).done(function (json) {
+                    var acts = JSON.parse(JSON.stringify(json)).Activity
+
+                    for (var i = 0; i < acts.length; i++) {
+                        items.push(`<!-- Step Item -->
+                            <li class="step-item">
+                                <div class="step-content-wrapper">
+                                    <span class="step-icon step-icon-pseudo step-icon-soft-dark"></span>
+
+                                    <div class="step-content">
+                                        <h5 class="mb-1">${acts[i].activityName}</h5>
+
+                                        <p class="font-size-sm mb-1">${acts[i].activityDescription}</p>
+
+                                        <small class="text-muted text-uppercase">${acts[i].updatedDate}</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- End Step Item -->`);
+                    }
+                    $('#user-activities').html(items.join(''))
+                });
             });
         });
     </script>

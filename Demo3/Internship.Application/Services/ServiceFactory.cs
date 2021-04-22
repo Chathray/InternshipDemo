@@ -11,6 +11,7 @@
         private readonly IEventService _eventService;
         private readonly IEventTypeService _eventTypeService;
         private readonly IQuestionService _questionService;
+        private readonly IActivityService _activityService;
 
         public ServiceFactory(
             IUserService userService,
@@ -21,8 +22,8 @@
             IEventTypeService eventTypeService,
             IQuestionService questionService,
             IEventService eventService,
-            IOrganizationService organizationService
-            )
+            IOrganizationService organizationService,
+            IActivityService activityService)
         {
             _userService = userService;
             _internService = internService;
@@ -33,6 +34,7 @@
             _eventService = eventService;
             _eventTypeService = eventTypeService;
             _questionService = questionService;
+            _activityService = activityService;
         }
 
 
@@ -54,15 +56,18 @@
         public IEventTypeService EventType => _eventTypeService;
 
         public IQuestionService Question => _questionService;
+
+        public IActivityService Activity => _activityService;
         #endregion GET
 
-        public object GetAllDynamic(string field)
+        public object GetAll(string field)
         {
             return field switch
             {
                 "Training" => Training.GetAll(),
                 "Organization" => Organization.GetAll(),
                 "Department" => Department.GetAll(),
+                "Activity" => Activity.GetAll(),
                 _ => null,
             };
         }
