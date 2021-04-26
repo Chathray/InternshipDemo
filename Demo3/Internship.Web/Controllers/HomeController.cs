@@ -25,9 +25,11 @@ namespace Internship.Web
         private readonly IMapper _mapper;
         private readonly IServiceFactory _serviceFactory;
 
-        public HomeController(ILogger<HomeController> logger, IMapper mapper, IServiceFactory serviceFactory)
+        public HomeController(IMapper mapper, IServiceFactory serviceFactory)
         {
-            _logger = logger;
+            var loggerFactory = LoggerFactory.Create(_ => _.AddConsole());
+            _logger = new Logger<HomeController>(loggerFactory);
+            
             _mapper = mapper;
             _serviceFactory = serviceFactory;
         }
