@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-
-namespace Internship.Application
+﻿namespace Internship.Application
 {
     public class InternModel
     {

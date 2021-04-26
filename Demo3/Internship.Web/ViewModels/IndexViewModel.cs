@@ -1,6 +1,4 @@
-﻿using Internship.Application;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data;
 using System.IO;
 

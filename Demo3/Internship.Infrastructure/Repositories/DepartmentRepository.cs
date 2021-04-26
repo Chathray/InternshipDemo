@@ -5,13 +5,8 @@ namespace Internship.Infrastructure
 {
     public class DepartmentRepository : RepositoryBase<Department>, IDepartmentRepository
     {
-        private readonly DataContext _context;
-
-
         public DepartmentRepository(DataContext context) : base(context)
-        {
-            _context = context;
-        }
+        { }
 
         public bool InsertSharedTraining(int sharedId, int depId)
         {

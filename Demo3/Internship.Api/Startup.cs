@@ -40,7 +40,7 @@ namespace Internship.Api
                 {
                     UseOneOfForPolymorphism = true,
                     UseAllOfToExtendReferenceSchemas = true,
-                    IgnoreObsoleteProperties = true,                    
+                    IgnoreObsoleteProperties = true,
                 };
             });
 

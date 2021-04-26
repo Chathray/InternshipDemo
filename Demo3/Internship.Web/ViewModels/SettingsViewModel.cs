@@ -1,7 +1,5 @@
 ﻿using Internship.Application;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Internship.Web
 {

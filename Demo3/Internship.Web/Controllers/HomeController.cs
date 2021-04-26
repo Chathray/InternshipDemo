@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -13,24 +12,17 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-using System.Net.WebSockets;
-using System.Text.Encodings.Web;
-using System.Text.Json;
 
 namespace Internship.Web
 {
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IMapper _mapper;
         private readonly IServiceFactory _serviceFactory;
 
         public HomeController(IMapper mapper, IServiceFactory serviceFactory)
         {
-            var loggerFactory = LoggerFactory.Create(_ => _.AddConsole());
-            _logger = new Logger<HomeController>(loggerFactory);
-            
             _mapper = mapper;
             _serviceFactory = serviceFactory;
         }
@@ -60,7 +52,7 @@ namespace Internship.Web
             int date_filter = 0, string start_date = "1970-01-01", string end_date = "2070-01-01")
         {
             ViewData["page-1"] = "active";
-            Log.Information("yty");
+
             DataSet internList;
 
             bool haveFilter = on_passed != 2 || date_filter != 0;
@@ -118,7 +110,6 @@ namespace Internship.Web
 
             try
             {
-                _logger.LogInformation(DataExtensions.Dump(intern));
                 _serviceFactory.Intern.Update(intern);
             }
             catch (AppException)
@@ -210,7 +201,6 @@ namespace Internship.Web
             bool result = true;
             foreach (var depId in depArray)
             {
-                _logger.LogInformation(depId + "\n");
                 result = result && _serviceFactory.Department.InsertSharedTraining(sharedId, depId);
             }
             return result;

@@ -30,7 +30,8 @@ namespace Internship.Web
                         .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
                         .MinimumLevel.Information()
                         .Enrich.FromLogContext()
-                        .WriteTo.Console();
+                        .WriteTo.Console()
+                        .WriteTo.Seq("http://localhost:5341");
                 })
                 .ConfigureServices(services => services.AddAutofac())
                 .UseIISIntegration()

@@ -1,7 +1,6 @@
 ﻿using Internship.Infrastructure;
 using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
 
 namespace Internship.Application
 {

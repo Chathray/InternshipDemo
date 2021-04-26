@@ -1,5 +1,4 @@
 using Autofac;
-using Microsoft.Extensions.Logging;
 using Internship.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +35,7 @@ namespace Internship.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSignalR();         
+            services.AddSignalR();
 
             // CR:Using cookie
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

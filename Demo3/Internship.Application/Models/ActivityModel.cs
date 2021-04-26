@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Internship.Infrastructure
+﻿namespace Internship.Infrastructure
 {
     public class ActivityModel : EntityBase
     {

@@ -7,12 +7,8 @@ namespace Internship.Infrastructure
 {
     public class EventRepository : RepositoryBase<Event>, IEventRepository
     {
-        private readonly DataContext _context;
-
         public EventRepository(DataContext context) : base(context)
-        {
-            _context = context;
-        }
+        { }
 
         public bool CheckOne(string title)
         {

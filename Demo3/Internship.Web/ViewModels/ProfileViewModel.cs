@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Internship.Web
+﻿namespace Internship.Web
 {
     public class ProfileViewModel
     {
@@ -11,8 +8,8 @@ namespace Internship.Web
         public string Avatar { get; set; }
         public string Phone { get; set; }
         public string ComeFrom { get; set; }      //  
-        public string JoinedDate { get; set; }        
-        public string Department { get; set; }        
-        public string Organization { get; set; }        
+        public string JoinedDate { get; set; }
+        public string Department { get; set; }
+        public string Organization { get; set; }
     }
 }

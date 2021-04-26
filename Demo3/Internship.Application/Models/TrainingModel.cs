@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Internship.Application
+﻿namespace Internship.Application
 {
     public class TrainingModel
     {

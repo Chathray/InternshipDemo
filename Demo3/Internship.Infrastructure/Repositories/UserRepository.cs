@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System.Data;
 using System.Linq;
 using BC = BCrypt.Net.BCrypt;
@@ -22,7 +21,7 @@ namespace Internship.Infrastructure
 
         public User GetUser(string email, string password)
         {
-            
+
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 return null;
 

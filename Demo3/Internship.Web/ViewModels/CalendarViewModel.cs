@@ -1,7 +1,5 @@
 using Internship.Application;
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Dynamic;
 
 namespace Internship.Web
 {

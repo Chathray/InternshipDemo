@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Data;
 using System.Linq;
@@ -20,15 +21,13 @@ namespace Internship.Web
     {
         private readonly IMapper _mapper;
         private readonly IServiceFactory _serviceFactory;
-        private readonly ILogger<UserController> _logger;
 
         private readonly IHubContext<EchoHub> _hubContext;
 
-        public UserController(IMapper mapper, ILogger<UserController> logger, IServiceFactory serviceFactory, IHubContext<EchoHub> hubContext)
+        public UserController(IMapper mapper, IServiceFactory serviceFactory, IHubContext<EchoHub> hubContext)
         {
             _serviceFactory = serviceFactory;
             _mapper = mapper;
-            _logger = logger;
 
             _hubContext = hubContext;
         }
@@ -124,7 +123,7 @@ namespace Internship.Web
             }
             catch (AppException ex)
             {
-                _logger.LogInformation(ex.Message);
+                Log.Error(ex.Message);
             }
             goto Fail;
 

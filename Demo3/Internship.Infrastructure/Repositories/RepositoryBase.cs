@@ -1,19 +1,16 @@
-﻿using Dapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Internship.Infrastructure
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBase
     {
-        private readonly DataContext _context;
+        protected readonly DataContext _context;
         private readonly IDataShaper<T> _dataShaper;
 
 

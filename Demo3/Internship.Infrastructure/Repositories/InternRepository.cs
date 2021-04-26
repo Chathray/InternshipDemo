@@ -3,21 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Data;
-using System.Dynamic;
 using System.Linq;
 
 namespace Internship.Infrastructure
 {
     public class InternRepository : RepositoryBase<Intern>, IInternRepository
     {
-        private readonly DataContext _context;
-        private readonly ILogger<InternRepository> _logger;
-
-        public InternRepository(DataContext context, ILogger<InternRepository> logger) : base(context)
-        {
-            _context = context;
-            _logger = logger;
-        }
+        public InternRepository(DataContext context) : base(context)
+        { }
 
         public string GetInternInfo(int id)
         {
@@ -64,8 +57,6 @@ namespace Internship.Infrastructure
             };
 
             string p_type = $"{search_on_p} ORDER BY {sort_p} LIMIT {(page - 1) * size},{size}";
-
-            _logger.LogInformation(p_type);
 
             return _context.Database.GetDbConnection()
                 .ExecReaders($"CALL GetInternList({"\""}{p_type}{"\""})");
@@ -121,8 +112,8 @@ namespace Internship.Infrastructure
 
         public string GetWhitelist()
         {
-           return _context.Database.GetDbConnection()
-                .ExecuteScalar("CALL GetWhitelist()").ToString();
+            return _context.Database.GetDbConnection()
+                 .ExecuteScalar("CALL GetWhitelist()").ToString();
         }
     }
 }

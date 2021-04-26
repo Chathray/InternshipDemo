@@ -13,7 +13,6 @@ namespace Internship.Web
     [Authorize]
     public class CalendarController : Controller
     {
-        private readonly ILogger<CalendarController> _logger;
         private readonly IMapper _mapper;
 
         private readonly IInternService _internService;
@@ -21,10 +20,9 @@ namespace Internship.Web
         private readonly IEventTypeService _eventTypeService;
 
 
-        public CalendarController(ILogger<CalendarController> logger, IMapper mapper, IInternService internService, IEventService eventService, IEventTypeService eventTypeService)
+        public CalendarController(IMapper mapper, IInternService internService, IEventService eventService, IEventTypeService eventTypeService)
         {
             _mapper = mapper;
-            _logger = logger;
 
             _internService = internService;
             _eventService = eventService;

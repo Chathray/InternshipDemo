@@ -9,7 +9,7 @@ namespace Internship.Web
 
         public async Task ToastMaster(string message, string owner)
         {
-            
+
             await Clients.All.SendAsync("ClientMasterMessage", message, owner);
         }
 
