@@ -46,7 +46,7 @@ namespace Internship.Web
         {
             ViewData["page-2"] = "active";
 
-            var guests = _internService.GetAll();
+            string guests = _internService.GetWhitelist();
             var eventype = _eventTypeService.GetAll();
 
             var model = new CalendarViewModel(eventype, guests)

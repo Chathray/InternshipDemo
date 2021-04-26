@@ -26,7 +26,7 @@ $("#context-menu a").on("click", function () {
                         $.post("home/deletequestion", {
                             id: current_qa
                         }).done(function (data) {
-                            window.location = '/Question'
+                            window.location = window.location
                         }).fail(function () {
                             $.alert("Error");
                         });
@@ -121,7 +121,7 @@ function CreateQuestion(ex_action = "home/insertquestion", qid = null) {
                         OutData: outD
                     }).done(function (data) {
                         alert("Done, refresh now!");
-                        window.location = '/Question'
+                        window.location = window.location
                     }).fail(function () {
                         $.alert("Error");
                     });

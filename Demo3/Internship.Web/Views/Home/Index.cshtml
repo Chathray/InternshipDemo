@@ -159,25 +159,128 @@
 </div>
 <!-- End Stats -->
 <!-- Card -->
-<div class="card mb-3 mb-lg-5">
+<div id="main-docker" class="card mb-3 mb-lg-5">
     <!-- Header -->
     <div class="card-header">
         <div class="row justify-content-between align-items-center flex-grow-1">
-            <div class="col-lg-6">
-                <!-- Search -->
-                <div class="input-group input-group-merge input-group-borderless">
-                    <div class="input-group-prepend">
-                        <div class="pl-0 input-group-text">
-                            <i class="tio-search"></i>
+            <div class="col-md-5 mb-3 mb-md-0">
+                <div class="d-flex align-items-center">
+                    <!-- Unfold -->
+                    <div class="hs-unfold mr-3">
+                        <a class="js-hs-unfold-invoker btn btn-sm btn-white" href="javascript:;"
+                            data-hs-unfold-options='{
+                                "target": "#usersFilterDropdown",
+                                "type": "css-animation",
+                                "smartPositionOff": true
+                            }'>
+                            <i class="tio-filter-list mr-1"></i> Filter
+                        </a>
+
+                        <div id="usersFilterDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-lg-left dropdown-card card-dropdown-filter-centered" style="min-width: 30rem;">
+                            <!-- Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-header-title">Advanced filters</h5>
+
+                                    <!-- Toggle Button -->
+                                    <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-ghost-secondary ml-2" href="javascript:;"
+                                       data-hs-unfold-options='{
+                                    "target": "#usersFilterDropdown",
+                                    "type": "css-animation"
+                                    }'>
+                                        <i class="tio-clear tio-lg"></i>
+                                    </a>
+                                    <!-- End Toggle Button -->
+                                </div>
+
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-row">
+                                            <!-- Form Group -->
+                                            <div class="col-sm form-group">
+                                                <small class="text-cap mb-2">Due date</small>
+
+                                                <div id="start-dateFlatpickr" class="js-flatpickr flatpickr-custom input-group"
+                                                     data-hs-flatpickr-options='{
+                                                        "appendTo": "#start-dateFlatpickr",
+                                                        "dateFormat": "Y-m-d",
+                                                        "wrap": true
+                                                     }'>
+                                                    <div class="input-group-prepend" data-toggle>
+                                                        <div class="input-group-text">
+                                                            <i class="tio-date-range"></i>
+                                                        </div>
+                                                    </div>
+
+                                                    <input id="start-date" type="text" class="flatpickr-custom-form-control form-control" placeholder="Select dates" data-input>
+                                                </div>
+                                            </div>
+                                            <!-- End Form Group -->
+                                            <div class="col-sm-3 form-group">
+                                                <label for="end-date" class="input-label mt-4"></label>
+
+                                                <!-- Select2 -->
+                                                <select id="due-date-mode" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                                        data-hs-select2-options='{
+                                                        "minimumResultsForSearch": "Infinity",
+                                                        "dropdownAutoWidth": true,
+                                                        "placeholder": "Mode"
+                                                        }'>
+                                                    <option label="empty"></option>
+                                                    <option value="1">Greater</option>
+                                                    <option value="2">Equal</option>
+                                                    <option value="3">Smaller</option>
+                                                    <option value="4">Include</option>
+                                                    <option value="5">Exclude</option>
+                                                </select>
+                                                <!-- End Select2 -->
+                                            </div>
+
+                                            <!-- Form Group -->
+                                            <div class="col-sm-4 form-group">
+                                                <label for="end-date" class="input-label mt-4"></label>
+
+                                                <div id="end-dateFlatpickr" class="js-flatpickr flatpickr-custom input-group"
+                                                     data-hs-flatpickr-options='{
+                                                     "appendTo": "#end-dateFlatpickr",
+                                                     "dateFormat": "Y-m-d",
+                                                     "wrap": true
+                                                     }'>
+
+                                                    <input id="end-date" type="text" class="flatpickr-custom-form-control form-control" placeholder="Select dates" data-input>
+                                                </div>
+                                            </div>
+                                            <!-- End Form Group -->
+
+                                            <div class="col-12 form-group">
+                                                <small class="text-cap mb-2">Passed</small>
+
+                                                <!-- Select2 -->
+                                                <select id="pass-filter" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                                        data-hs-select2-options='{
+                                                        "minimumResultsForSearch": "Infinity",
+                                                        "placeholder": "Select one"
+                                                        }'>
+                                                    <option label="empty"></option>
+                                                    <option value="0">Fail</option>
+                                                    <option value="1">Pass</option>
+                                                    <option value="2">All</option>
+                                                </select>
+                                                <!-- End Select2 -->
+                                            </div>
+                                        </div>
+                                        <!-- End Row -->
+
+                                        <a id="ad-filter-submit" class="btn btn-block btn-primary" href="javascript:;">Apply</a>
+                                    </form>
+                                </div>
+
+                            </div>
+                            <!-- End Card -->
                         </div>
                     </div>
-                    <input id="datatableSearch" type="search" class="form-control pl-5" placeholder="Search by Name, Email, Phone" aria-label="Search users">
-                </div>
-                <!-- End Search -->
-            </div>
+                    <!-- End Unfold -->
 
-            <div class="col-auto">
-                <div class="d-flex align-items-center">
                     <span class="text-secondary mx-2">Search on:</span>
                     <!-- Select -->
                     <select class="js-select2-custom js-datatable-search custom-select-sm mr-2" size="1" style="opacity: 0;"
@@ -210,6 +313,8 @@
                               }'>
                         <option value="1">Index</option>
                         <option value="2">Email</option>
+                        <option value="9">Duration</option>
+                        <option value="10">Birth</option>
                         <option value="3">Name</option>
                         <option value="4">Phone</option>
                         <option value="5">Position</option>
@@ -218,108 +323,20 @@
                         <option value="8">Mentor</option>
                     </select>
                     <!-- End Select -->
-                    <!-- Unfold -->
-                    <div class="ml-4 hs-unfold">
-                        <a class="js-hs-unfold-invoker btn btn-sm btn-white" href="javascript:;"
-                           data-hs-unfold-options='{
-                         "target": "#usersFilterDropdown",
-                         "type": "css-animation",
-                         "smartPositionOff": true
-                       }'>
-                            <i class="tio-filter-list mr-1"></i> Filter
-                        </a>
+                </div>
+            </div>
 
-                        <div id="usersFilterDropdown" class="hs-unfold-content dropdown-unfold dropdown-menu dropdown-menu-sm-right dropdown-card card-dropdown-filter-centered" style="min-width: 25rem;">
-                            <!-- Card -->
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-header-title">Advanced filters</h5>
-
-                                    <!-- Toggle Button -->
-                                    <a class="js-hs-unfold-invoker btn btn-icon btn-xs btn-ghost-secondary ml-2" href="javascript:;"
-                                       data-hs-unfold-options='{
-                              "target": "#usersFilterDropdown",
-                              "type": "css-animation",
-                              "smartPositionOff": true
-                             }'>
-                                        <i class="tio-clear tio-lg"></i>
-                                    </a>
-                                    <!-- End Toggle Button -->
-                                </div>
-
-                                <div class="card-body">
-                                    <form>
-                                        <div class="form-row">
-                                            <div class="col-sm form-group">
-                                                <small class="text-cap mb-2">Due Date</small>
-                                                <!-- Flatpickr -->
-                                                <input id="start-date" type="text" required class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
-                                                       data-hs-flatpickr-options='{
-                                                       "dateFormat": "Y-m-d"
-                                                       }'>
-                                                <!-- End Flatpickr -->
-                                            </div>
-
-                                            <div class="col-sm-4 form-group">
-                                                <small class="text-cap mb-4"></small>
-
-                                                <!-- Select2 -->
-                                                <select id="due-date-mode" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
-                                                        data-hs-select2-options='{
-                                                        "minimumResultsForSearch": "Infinity",
-                                                        "dropdownAutoWidth": true,
-                                                        "placeholder": "Mode"
-                                                        }'>
-                                                    <option label="empty"></option>
-                                                    <option value="1">Greater</option>
-                                                    <option value="2">Equal</option>
-                                                    <option value="3">Smaller</option>
-                                                    <option value="4">Include</option>
-                                                    <option value="5">Exclude</option>
-                                                </select>
-                                                <!-- End Select2 -->
-                                            </div>
-
-                                            <div class="col-sm form-group">
-                                                <small class="text-cap mb-4"></small>
-                                                <!-- Flatpickr -->
-                                                <input id="end-date" type="text" class="js-flatpickr form-control flatpickr-custom" placeholder="Select dates"
-                                                       data-hs-flatpickr-options='{
-                                                       "dateFormat": "Y-m-d"
-                                                       }'>
-                                                <!-- End Flatpickr -->
-                                            </div>
-
-                                            <div class="col-12 form-group">
-                                                <small class="text-cap mb-2">Passed</small>
-
-                                                <!-- Select2 -->
-                                                <select id="pass-filter" class="js-select2-custom custom-select" size="1" style="opacity: 0;"
-                                                        data-hs-select2-options='{
-                                                        "minimumResultsForSearch": "Infinity",
-                                                        "placeholder": "Select one"
-                                                        }'>
-                                                    <option label="empty"></option>
-                                                    <option value="0">Fail</option>
-                                                    <option value="1">Pass</option>
-                                                    <option value="2">All</option>
-                                                </select>
-                                                <!-- End Select2 -->
-                                            </div>
-                                        </div>
-                                        <!-- End Row -->
-
-                                        <a id="ad-filter-submit" class="btn btn-block btn-primary" href="javascript:;">Apply</a>
-                                    </form>
-                                </div>
-
-                            </div>
-                            <!-- End Card -->
+            <div class="col-auto">
+                <!-- Search -->
+                <div class="input-group input-group-merge input-group-borderless">
+                    <div class="input-group-prepend">
+                        <div class="pl-0 input-group-text">
+                            <i class="tio-search"></i>
                         </div>
                     </div>
-                    <!-- End Unfold -->
-
+                    <input style="min-width:260px" id="datatableSearch" type="search" class="form-control pl-5" placeholder="Search by Name, Email, Phone" aria-label="Search users">
                 </div>
+                <!-- End Search -->
             </div>
         </div>
     </div>
@@ -406,10 +423,10 @@
                             "dropdownAutoWidth": true,
                             "width": true
                           }'>
-                        <option value="6">6</option>
-                        <option value="12">12</option>
-                        <option value="24">24</option>
-                        <option value="32">32</option>
+                        <option value="7">7</option>
+                        <option value="12">14</option>
+                        <option value="24">28</option>
+                        <option value="32">36</option>
                     </select>
                     <!-- End Select -->
 
@@ -506,7 +523,24 @@
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="firstNameLabel" class="col-sm-3 col-form-label input-label">Full name <i class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Displayed on public forums, such as Front."></i></label>
+                        <label class="col-sm-3 col-form-label input-label">Duration <i class="tio-help-outlined text-body ml-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Time range of internship plan."></i></label>
+                        <div class="col-sm-9">
+                            <label for="durationLabel" class="sr-only">Date</label>
+
+                            <!-- Flatpickr -->
+                            <input asp-for="Duration" type="text" id="durationLabel" required class="js-flatpickr form-control flatpickr-custom mb-2" placeholder="Select dates"
+                                   data-hs-flatpickr-options='{
+                         "dateFormat": "Y-m-d",
+                         "mode": "range",
+                         "minDate": "1998-07-20"
+                       }'>
+                            <!-- End Flatpickr -->
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label input-label">Full name</label>
 
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
@@ -518,7 +552,7 @@
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="firstNameLabel" class="col-sm-3 col-form-label input-label">Birthday</label>
+                        <label class="col-sm-3 col-form-label input-label">Birthday</label>
 
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
@@ -546,7 +580,7 @@
                     </div>
                     <!-- End Form Group --> <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="emailLabel" class="col-sm-3 col-form-label input-label">Email</label>
+                        <label class="col-sm-3 col-form-label input-label">Email</label>
 
                         <div class="col-sm-9">
                             <input asp-for="Email" type="email" required class="form-control" name="email" id="emailLabel" placeholder="clarice@example.com" aria-label="clarice@example.com">
@@ -555,7 +589,7 @@
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="emailLabel" class="col-sm-3 col-form-label input-label">Phone</label>
+                        <label class="col-sm-3 col-form-label input-label">Phone</label>
                         <div class="col-sm-9">
                             <input asp-for="Phone" type="text" id="phoneLabel" required class="js-masked-input form-control" placeholder="+84 000 000 000"
                                    data-hs-mask-options='{
@@ -566,40 +600,11 @@
                     <!-- End Form Group -->
                     <!-- Form Group -->
                     <div class="row form-group">
-                        <label for="emailLabel" class="col-sm-3 col-form-label input-label">Duration</label>
-                        <div class="col-sm-9">
-                            <input asp-for="Duration" type="text" id="durationLabel" required class="js-flatpickr form-control flatpickr-custom mb-2" placeholder="Select date range"
-                                   data-hs-flatpickr-options='{
-                         "dateFormat": "Y-m-d",
-                         "mode": "range",
-                         "minDate": "2020-12-20"
-                       }'>
-                        </div>
-                    </div>
-                    <!-- End Form Group -->
-                    <!-- Form Group -->
-                    <div class="row form-group">
                         <label class="col-sm-3 col-form-label input-label">Organization</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
                                 <!-- Select2 -->
                                 <select asp-for=OrganizationId id="orgInternSelector" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
-                                        data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
-                                                                  "placeholder": "Select one"}'>
-                                    <option label="empty"></option>
-                                </select>
-                                <!-- End Select2 -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Form Group -->
-                    <!-- Form Group -->
-                    <div class="row form-group">
-                        <label class="col-sm-3 col-form-label input-label">Training</label>
-                        <div class="col-sm-9">
-                            <div class="input-group input-group-sm-down-break">
-                                <!-- Select2 -->
-                                <select asp-for=TrainingId id="traInternSelector" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
                                         data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
                                                                   "placeholder": "Select one"}'>
                                     <option label="empty"></option>
@@ -628,7 +633,7 @@
                     </div>
                     <!-- End Form Group -->
                     <!-- Form Group -->
-                    <div class="row">
+                    <div class="row form-group">
                         <label class="col-sm-3 col-form-label input-label">Time</label>
                         <div class="col-sm-9">
                             <div class="input-group input-group-sm-down-break">
@@ -639,6 +644,22 @@
                                     <option label="empty"></option>
                                     <option value="Full time">Full time</option>
                                     <option value="Part time">Part time</option>
+                                </select>
+                                <!-- End Select2 -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Form Group -->
+                    <!-- Form Group -->
+                    <div class="row form-group">
+                        <label class="col-sm-3 col-form-label input-label">Training</label>
+                        <div class="col-sm-9">
+                            <div class="input-group input-group-sm-down-break">
+                                <!-- Select2 -->
+                                <select asp-for=TrainingId id="traInternSelector" required class="js-select2-custom custom-select" size="1" style="opacity: 0;"
+                                        data-hs-select2-options='{"minimumResultsForSearch": "Infinity",
+                                                                  "placeholder": "Select one"}'>
+                                    <option label="empty"></option>
                                 </select>
                                 <!-- End Select2 -->
                             </div>

@@ -77,18 +77,19 @@
     @await Html.PartialAsync("/Views/Shared/_ActivityStream.cshtml")
     <!-- ========== END SECONDARY CONTENTS ========== -->
     <!-- JS Implementing Plugins -->
-    <script src="/lib/front/vendor.min.js"></script>
-    <script src="/lib/front/theme.min.js"></script>
+    <script src="~/lib/front/vendor.min.js"></script>
+    <script src="~/lib/front/theme.min.js"></script>
 
     <link rel="stylesheet" href="~/lib/jquery-confirm/jquery-confirm.min.css">
-    <script src="/lib/jquery-confirm/jquery-confirm.min.js"></script>
+    <script src="~/lib/jquery-confirm/jquery-confirm.min.js"></script>
 
-    <script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 
     <script>
-        "use strict";
 
-        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        "use strict";
+        var connection = new signalR.HubConnectionBuilder().withUrl("/EchoHub").build();
+        var uuid;
 
         connection.start().then(function () {
             // alert('Starting...');
@@ -96,8 +97,9 @@
             return console.error(err.toString());
         });
 
-        connection.on("ClientMasterMessage", function (message) {
-            $.alert(message);
+        connection.on("ClientMasterMessage", function (message, owner) {
+            if (owner !== uuid)
+                $.alert(message)
         });
 
         connection.on("ClientStatus", function (status) {
@@ -109,14 +111,40 @@
             localStorage.setItem('user_status', status);
         });
 
-        function SendSMS(message) {
-            connection.invoke("ToastMaster", message).catch(function (err) {
+        function OpenToastMaster() {
+            $.confirm({
+                title: false,
+                content: `<div class="card-body">
+                            <h2 class="card-header-title mb-4">Create Toast</h2>
+                            <!-- Form Group -->
+                            <div class="form-group mb-0">
+                                <textarea id="txtToast" class="form-control" placeholder="Enter your message here" style="height: 150px;"></textarea>
+                            </div>
+                            </div>`,
+                columnClass: 'medium',
+                container: 'main',
+                backgroundDismiss: true,
+                buttons:
+                {
+                    Cancel: function () { },
+                    Create: {
+                        btnClass: 'btn-soft-success',
+                        action: function () {
+                            var cont = $('#txtToast').val()
+                            uuid = $('#uuid').attr('data-id');
+                            SendSMS(cont, uuid);
+                        }
+                    },
+                }
+            });
+        }
+
+        function SendSMS(message, owner) {
+            connection.invoke("ToastMaster", message, owner).catch(function (err) {
                 return console.error(err.toString());
             });
         }
-    </script>
 
-    <script>
         var ava_url = localStorage.getItem("user_avatar");
         $('#user-ava1').attr('src', ava_url);
         $('#user-ava2').attr('src', ava_url);
@@ -126,7 +154,6 @@
     </script>
 
     @RenderSection("Scripts", required: false)
-
 
     <script>
         $(document).on('ready', function () {
@@ -201,12 +228,12 @@
                             <li class="step-item">
                                 <div class="step-content-wrapper">
                                     <span class="step-icon step-icon-pseudo step-icon-soft-dark"></span>
-
+                            
                                     <div class="step-content">
                                         <h5 class="mb-1">${acts[i].activityName}</h5>
-
+                            
                                         <p class="font-size-sm mb-1">${acts[i].activityDescription}</p>
-
+                            
                                         <small class="text-muted text-uppercase">${acts[i].updatedDate}</small>
                                     </div>
                                 </div>

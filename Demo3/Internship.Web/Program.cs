@@ -1,9 +1,11 @@
-using Autofac.Extensions.DependencyInjection;
+﻿using Autofac.Extensions.DependencyInjection;
 using Internship.Infrastructure;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using Serilog.Events;
 using System;
 using System.Linq;
 
@@ -13,14 +15,55 @@ namespace Internship.Web
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                        .WriteTo.Console()
+                        .CreateBootstrapLogger();
+
+            Log.Information("Starting up!");
+
             var host = WebHost.CreateDefaultBuilder(args)
+                .UseSerilog((context, config) =>
+                {
+                    config
+                        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                        // Filter out ASP.NET Core infrastructre logs that are Information and below
+                        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                        .MinimumLevel.Information()
+                        .Enrich.FromLogContext()
+                        .WriteTo.Console();
+                })
                 .ConfigureServices(services => services.AddAutofac())
-                .UseKestrel()
+                .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
 
-            SeedDatabase(host);
-            host.Run();
+            //Generator.AutoService("D:\\", "Internship.Service", ".cs", new[] {
+            //    "Activity",
+            //    "Department",
+            //    "EntityBase",
+            //    "Event",
+            //    "EventType",
+            //    "Intern",
+            //    "Organization",
+            //    "Point",
+            //    "Question",
+            //    "Training",
+            //    "User"});
+
+            try
+            {
+                SeedDatabase(host);
+                host.Run();
+                Log.Information("Stopped cleanly");
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "An unhandled exception occured during bootstrapping");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         private static void SeedDatabase(IWebHost host)
@@ -50,7 +93,7 @@ namespace Internship.Web
                         Gender = (indexer % 2) == 0 ? "Male" : "Female",
                         DateOfBirth = "1998-07-20",
                         Phone = "0943154555",
-                        Duration = "2020-05-16 - 2021-02-02",
+                        Duration = "2021-05-16 - 2021-02-02",
                         TrainingId = 0,
                         DepartmentId = new Random().Next(1, 5),
                         OrganizationId = new Random().Next(1, 4),

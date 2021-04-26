@@ -9,13 +9,13 @@ namespace Internship.Web
         public PaginationLogic(int totalItems, int currentPage, int pageSize, int maxPages = 5)
         {
             // ensure page size isn't out of range
-            if (pageSize < 6)
+            if (pageSize < 7)
             {
-                pageSize = 6;
+                pageSize = 7;
             }
-            else if (pageSize > 32)
+            else if (pageSize > 36)
             {
-                pageSize = 32;
+                pageSize = 36;
             }
 
             // calculate total pages

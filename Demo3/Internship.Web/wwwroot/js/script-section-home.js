@@ -62,7 +62,7 @@ function InternDelete(iid) {
                                     OK: {
                                         text: 'Refresh',
                                         action: function () {
-                                            window.location = "/"
+                                            window.location = window.location
                                         }
                                     },
                                 }
@@ -246,10 +246,15 @@ function InternSetModalData(model) {
 
     $('#firstNameLabel').val(model.firstname);
     $('#lastNameLabel').val(model.lastname);
-    $('#birthLabel').val(model.birth);
+
+    eventBirth.setDate([moment(model.birth).format('YYYY-MM-DD')])
+
     $('#emailLabel').val(model.email);
     $('#phoneLabel').val(model.phone);
     $('#durationLabel').val(model.duration);
+
+    var d = model.duration.split(' - ');
+    eventDuration.setDate([moment(d[0]).format('YYYY-MM-DD'), moment(d[1]).format('YYYY-MM-DD')])
 
     $('#genderLabel').val(model.gender).change();
     $('#typeLabel').val(model.type).change();
@@ -416,7 +421,7 @@ function ReadAvatarName(input) {
 
 function Refresh(ok) {
     if (ok) alert("Refresh now!");
-    window.location = "/";
+    window.location = window.location;
 }
 
 $(document).on('submit', '#cui-form', function () {
@@ -440,20 +445,23 @@ $(document).on('submit', '#cui-form', function () {
 });
 
 let current_intern_id = 0;
+let eventBirth;
+let eventDuration;
 
 $(document).on('ready', function () {
-
-    // INITIALIZATION OF MEGA MENU
-    // =======================================================
-    var megaMenu = new HSMegaMenu($('.js-mega-menu'), {
-        desktop: {
-            position: 'left'
-        }
-    }).init();
 
     // INITIALIZATION OF QUILLJS EDITOR
     // =======================================================
     var quill2 = $.HSCore.components.HSQuill.init('.js-quill-modal-eg');
+
+
+    // INITIALIZATION OF FLATPICKR
+    // =======================================================
+    eventDuration = $.HSCore.components.HSFlatpickr.init($('#durationLabel'));
+    eventBirth = $.HSCore.components.HSFlatpickr.init($('#birthLabel'));
+
+    $.HSCore.components.HSFlatpickr.init($('#start-dateFlatpickr'));
+    $.HSCore.components.HSFlatpickr.init($('#end-dateFlatpickr'));
 
 
     // INITIALIZATION OF DATATABLES
@@ -522,6 +530,8 @@ $(document).on('ready', function () {
         }
     });
 
+    var calHeight = $('.footer').height() * 11.26;
+    $('#main-docker').css('height', calHeight + 'px')
 
     $('.js-datatable-filter').on('change', function () {
         var $this = $(this),
@@ -535,7 +545,7 @@ $(document).on('ready', function () {
     $('.js-datatable-search').on('change', function () {
         var elVal = $(this).val();
 
-        if (elVal == 0) window.location = "/";
+        if (elVal == 0) window.location = window.location;
     });
 
 
@@ -676,7 +686,7 @@ $(document).on('ready', function () {
 
     //Sync sort,size
     var params = new URLSearchParams(window.location.search);
-    $('#datatableEntries').val(params.get("size") ? params.get("size") : 6);
+    $('#datatableEntries').val(params.get("size") ? params.get("size") : 7);
     $('.js-datatable-sort').val(params.get("sort") ? params.get("sort") : 1);
     $('.js-datatable-search').val(params.get("search_on") ? params.get("search_on") : 9);
     $('#datatableSearch').val(params.get("search_string") ? params.get("search_string") : "");
@@ -926,6 +936,6 @@ $(document).on('ready', function () {
     });
 
     $("#datatable thead tr th").on("click", function () {
-       // CR: Client sort enable
+        // CR: Client sort enable
     });
 });

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -53,13 +54,13 @@ namespace Internship.Web
 
         [HttpGet]
         public IActionResult Index(
-            int page = 1, int size = 6, int sort = 1,
+            int page = 1, int size = 7, int sort = 1,
             int search_on = 0, string search_string = "",
             int on_passed = 2,
             int date_filter = 0, string start_date = "1970-01-01", string end_date = "2070-01-01")
         {
             ViewData["page-1"] = "active";
-
+            Log.Information("yty");
             DataSet internList;
 
             bool haveFilter = on_passed != 2 || date_filter != 0;

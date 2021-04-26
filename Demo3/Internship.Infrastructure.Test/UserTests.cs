@@ -14,8 +14,8 @@ namespace Internship.Infrastructure.Test
                 .UseInMemoryDatabase(databaseName: "tmainternship")
                 .Options;
 
-            //_memContext = new DataContext(dbOptions);
-           // _userRespository = new UserRepository(_memContext);
+            _memContext = new DataContext(dbOptions);
+            _userRespository = new UserRepository(_memContext);
         }
 
         [Fact]

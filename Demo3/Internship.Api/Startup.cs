@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,7 +33,16 @@ namespace Internship.Api
             services.AddCors();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options =>
+            {
+                options.UseAllOfForInheritance();
+                options.SchemaGeneratorOptions = new SchemaGeneratorOptions
+                {
+                    UseOneOfForPolymorphism = true,
+                    UseAllOfToExtendReferenceSchemas = true,
+                    IgnoreObsoleteProperties = true,                    
+                };
+            });
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -79,23 +89,33 @@ namespace Internship.Api
             services.AddDbContext<DataContext>(options => options.UseMySQL(connectionString));
 
             // configure DI for application services
-            services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IInternRepository, InternRepository>();
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<IOrganizationRepository, OrganizationRepository>();
-            services.AddScoped<ITrainingRepository, TrainingRepository>();
-            services.AddScoped<IEventRepository, EventRepository>();
-
             services.AddAutoMapper(typeof(Startup)); // Add AutoMapper
 
-            services.AddScoped<DataContext>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IActivityRepository, ActivityRepository>();
+            services.AddScoped<IInternRepository, InternRepository>();
+            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IEventTypeRepository, EventTypeRepository>();
+            services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+            services.AddScoped<ITrainingRepository, TrainingRepository>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IPointRepository, PointRepository>();
+
+            services.AddScoped<IServiceFactory, ServiceFactory>();
+
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IActivityService, ActivityService>();
             services.AddScoped<IInternService, InternService>();
             services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IEventTypeService, EventTypeService>();
             services.AddScoped<IOrganizationService, OrganizationService>();
             services.AddScoped<ITrainingService, TrainingService>();
+            services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IPointService, PointService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,7 +135,7 @@ namespace Internship.Api
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Internship API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "OPENII V1");
             });
 
             app.UseRouting();

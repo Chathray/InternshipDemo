@@ -9,12 +9,10 @@ namespace Internship.Infrastructure
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
         private readonly DataContext _context;
-        private readonly ILogger<UserRepository> _logger;
 
-        public UserRepository(DataContext context, ILogger<UserRepository> logger) : base(context)
+        public UserRepository(DataContext context) : base(context)
         {
             _context = context;
-            _logger = logger;
         }
 
         public User GetById(int userId)
@@ -24,6 +22,7 @@ namespace Internship.Infrastructure
 
         public User GetUser(string email, string password)
         {
+            
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 return null;
 

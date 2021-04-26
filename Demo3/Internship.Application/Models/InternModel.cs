@@ -3,7 +3,6 @@ using System;
 
 namespace Internship.Application
 {
-    [JsonConverter(typeof(WhitelistSerializer))]
     public class InternModel
     {
         public string Avatar { get; set; }
@@ -24,37 +23,5 @@ namespace Internship.Application
         public int Mentor { get; set; }
         public int InternId { get; set; }
         public int? UpdatedBy { get; set; }
-    }
-
-    public class WhitelistSerializer : JsonConverter
-    {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var name = value as InternModel;
-            writer.WriteStartObject();
-
-            writer.WritePropertyName("iid");
-            serializer.Serialize(writer, name.InternId);
-
-            writer.WritePropertyName("src");
-            // This will ensure avatar alway not null, on update, on... etc
-            if (string.IsNullOrEmpty(name.Avatar)) name.Avatar = "_intern.jpg";
-            serializer.Serialize(writer, "/img/avatar/" + name.Avatar);
-
-            writer.WritePropertyName("value");
-            serializer.Serialize(writer, name.FirstName + " " + name.LastName);
-
-            writer.WriteEndObject();
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return typeof(InternModel).IsAssignableFrom(objectType);
-        }
     }
 }

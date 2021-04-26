@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Linq;
 
 namespace Internship.Infrastructure
@@ -116,6 +117,12 @@ namespace Internship.Infrastructure
             }
             catch { }
             return result;
+        }
+
+        public string GetWhitelist()
+        {
+           return _context.Database.GetDbConnection()
+                .ExecuteScalar("CALL GetWhitelist()").ToString();
         }
     }
 }

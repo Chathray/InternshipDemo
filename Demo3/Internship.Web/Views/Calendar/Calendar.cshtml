@@ -277,7 +277,7 @@
                             <input asp-for="GestsField" required class="tagify-form-control form-control" id="eventGestsLabel" placeholder="Add guests" aria-label="Add guests"
                                    data-hs-tagify-options='{
                          "delimiters": null,
-                         "whitelist": @Model.GetWhitelist(),
+                         "whitelist": @Model.Whitelist,
                          "dropdown": {
                            "enabled": 0,
                            "classname": "tagify__dropdown__menu"
@@ -333,9 +333,9 @@
 
                         <div class="col-sm">
                             <!-- Media -->
-                            <a class="d-inline-flex align-items-center" href="./user-profile.html">
+                            <a class="d-inline-flex align-items-center" href="/Profile">
                                 <div class="avatar avatar-sm avatar-circle mr-3">
-                                    <img class="avatar-img" src="/img/chathray.jpg" alt="Image Description">
+                                    <img id="user-ava" class="avatar-img" src="~/img/avatar/_user.jpg" alt="Image Description">
                                 </div>
                                 <div class="media-body"><span class="h5 text-hover-primary">@Model.Creator</span></div>
                             </a>

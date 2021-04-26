@@ -14,14 +14,14 @@ namespace Internship.Api
 {
     [ApiController]
     [Route("{controller}")]
-    public class AccountController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly ILogger<AccountController> _logger;
         private readonly IMapper _mapper;
+        private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
         private readonly AppSettings _appSettings;
 
-        public AccountController(ILogger<AccountController> logger,
+        public UserController(ILogger<UserController> logger,
             IMapper mapper, IUserService userService,
             IOptions<AppSettings> appSettings)
         {
@@ -31,20 +31,11 @@ namespace Internship.Api
             _appSettings = appSettings.Value;
         }
 
-        [HttpGet("/startup")]
-        [AllowAnonymous]
-        public IActionResult Check()
-        {
-            return Ok(_userService.GetOne(1));
-        }
-
-
         //----------------------------------------------------------------------------------
-        [AllowAnonymous]
-        [HttpPost("Authenticate")]
+        [HttpPost("/Authenticate")]
         public IActionResult Authenticate([FromBody] AuthenticationModel model)
         {
-            var user = _userService.Authenticate(model.LoginEmail, model.LoginPassword);
+            var user = _userService.Authenticate(model.Email, model.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -57,7 +48,7 @@ namespace Internship.Api
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddMinutes(15),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -67,17 +58,16 @@ namespace Internship.Api
             // return basic user info and authentication token
             return Ok(new
             {
-                Id = user.UserId,
+                user.UserId,
                 Username = user.FirstName + " " + user.LastName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Token = tokenString
+                user.FirstName,
+                user.LastName,
+                tokenString
             });
         }
 
-        [AllowAnonymous]
-        [HttpPost("Register")]
-        public IActionResult Register([FromBody] AuthenticationModel model)
+        [HttpPost("/Register")]
+        public IActionResult Register([FromBody] RegisterModel model)
         {
             try
             {
@@ -93,7 +83,8 @@ namespace Internship.Api
             }
         }
 
-        [HttpGet("UserList")]
+        [Authorize]
+        [HttpGet("/UserList")]
         public IActionResult UserList()
         {
             var obj = _userService.GetAll();

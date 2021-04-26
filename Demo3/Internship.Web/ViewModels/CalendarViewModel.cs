@@ -1,20 +1,21 @@
 using Internship.Application;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Dynamic;
 
 namespace Internship.Web
 {
     public class CalendarViewModel
     {
         public CalendarViewModel() { }
-        public CalendarViewModel(IList<EventTypeModel> eventtypes, IList<InternModel> interns)
+        public CalendarViewModel(IList<EventTypeModel> eventtypes, string whitelist)
         {
             EvenTypes = eventtypes;
-            Interns = interns;
+            Whitelist = whitelist;
         }
 
         public IList<EventTypeModel> EvenTypes { get; set; }
-        public IList<InternModel> Interns { get; set; }
+        public string Whitelist { get; set; }
 
         public string Creator { get; set; }
 
@@ -25,11 +26,5 @@ namespace Internship.Web
         public string GestsField { get; set; }
         public string EventLocationLabel { get; set; }
         public string EventDescriptionLabel { get; set; }
-
-        public string GetWhitelist()
-        {
-            var json = JsonConvert.SerializeObject(Interns);
-            return json;
-        }
     }
 }

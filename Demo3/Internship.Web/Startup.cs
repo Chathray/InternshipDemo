@@ -1,5 +1,5 @@
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Internship.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Text.Unicode;
+using Serilog;
 
 namespace Internship.Web
 {
@@ -36,7 +36,7 @@ namespace Internship.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSignalR();
+            services.AddSignalR();         
 
             // CR:Using cookie
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -79,6 +79,9 @@ namespace Internship.Web
 
             app.UseRouting();
 
+            //
+            app.UseSerilogRequestLogging();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -88,7 +91,7 @@ namespace Internship.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapHub<EchoHub>("/chatHub");
+                endpoints.MapHub<EchoHub>("/EchoHub");
             });
         }
     }

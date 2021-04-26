@@ -11,44 +11,33 @@ namespace Internship.Api
     //  [Authorize]
     [ApiController]
     [Route("internship")]
-    public class InternshipController : ControllerBase
+    public class InternController : ControllerBase
     {
-        private readonly ILogger<InternshipController> _logger;
+        private readonly ILogger<InternController> _logger;
         private readonly IMapper _mapper;
-        private readonly IInternService _internService;
-        private readonly ITrainingService _trainingService;
-        private readonly IEventService _eventService;
-        private readonly IDepartmentService _departmentService;
-        private readonly IOrganizationService _organizationService;
-        private readonly IUserService _userService;
+        private readonly IServiceFactory _factory;
 
-        public InternshipController(ILogger<InternshipController> logger, IInternService internService, ITrainingService trainingService, IDepartmentService departmentService, IOrganizationService organizationService, IMapper mapper, IUserService userService, IEventService eventService)
+        public InternController(ILogger<InternController> logger, IMapper mapper, IServiceFactory factory)
         {
             _logger = logger;
             _mapper = mapper;
-            _internService = internService;
-            _trainingService = trainingService;
-            _departmentService = departmentService;
-            _organizationService = organizationService;
-            _userService = userService;
-            _eventService = eventService;
+            _factory = factory;
         }
-
 
         [HttpGet("Get/{id}")]
         public string Get(int id)
         {
-            return _internService.GetInternInfo(id);
+            return _factory.Intern.GetInternInfo(id);
         }
 
         [HttpGet("GetPage/{page},{size}")]
         public IActionResult GetPage(int page, int size, string sort = "Index")
         {
-            var total = _userService.CountByIndex(4);
+            var total = _factory.User.CountByIndex(4);
             var pagination = new PaginationLogic(sort, total, page, size);
 
             return Ok(
-                _internService.GetInternByPage(
+                _factory.Intern.GetInternByPage(
                 pagination.CurrentPage,
                 pagination.PageSize, "Index"));
         }
@@ -56,34 +45,34 @@ namespace Internship.Api
         [HttpGet("GetDepartments")]
         public IActionResult GetDepartments()
         {
-            var obj = _departmentService.GetAll();
+            var obj = _factory.Department.GetAll();
             return Ok(obj);
         }
 
         [HttpGet("GetOrganizations")]
         public IActionResult GetOrganizations()
         {
-            var obj = _organizationService.GetAll();
+            var obj = _factory.Organization.GetAll();
             return Ok(obj);
         }
 
         [HttpGet("GetUsers")]
         public IActionResult GetUsers()
         {
-            var obj = _userService.GetAll();
+            var obj = _factory.User.GetAll();
             return Ok(obj);
         }
 
         [HttpGet("GetEvents")]
         public string GetEvents()
         {
-            return _eventService.GetJson();
+            return _factory.Event.GetJson();
         }
 
         [HttpGet("GetJoined/{internId}")]
         public string GetJoined(int internId)
         {
-            var data = _eventService.GetEventsIntern();
+            var data = _factory.Event.GetEventsIntern();
             var eventsJoined = new StringBuilder();
 
             foreach (DataRow i in data.Rows)
@@ -106,7 +95,7 @@ namespace Internship.Api
         [HttpGet("GetTrainingOn/{internId}")]
         public IActionResult GetTrainingOn(int internId)
         {
-            return Ok(_trainingService.GetTrainingByIntern(internId));
+            return Ok(_factory.Training.GetTrainingByIntern(internId));
         }
 
         [HttpPost("Insert")]
@@ -116,7 +105,7 @@ namespace Internship.Api
 
             try
             {
-                _internService.Create(model);
+                _factory.Intern.Create(model);
             }
             catch (AppException)
             {
@@ -130,7 +119,7 @@ namespace Internship.Api
         public IActionResult InsertEvent(EventModel model)
         {
             model.CreatedBy = int.Parse(User.Claims.ElementAt(0).Value);
-            var ok = _eventService.InsertEvent(model);
+            var ok = _factory.Event.InsertEvent(model);
 
             if (!ok) Response.StatusCode = -1;
 
@@ -148,7 +137,7 @@ namespace Internship.Api
             try
             {
                 _logger.LogInformation(DataExtensions.Dump(model));
-                _internService.Update(model);
+                _factory.Intern.Update(model);
             }
             catch (AppException)
             {
@@ -160,7 +149,7 @@ namespace Internship.Api
         [HttpDelete("Remove/{id}")]
         public IActionResult Remove(int id)
         {
-            var result = _internService.Delete(id);
+            var result = _factory.Intern.Delete(id);
             return Ok(result);
         }
     }

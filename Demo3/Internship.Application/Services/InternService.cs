@@ -1,6 +1,7 @@
 ﻿using Internship.Infrastructure;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 
 namespace Internship.Application
 {
@@ -67,7 +68,11 @@ namespace Internship.Application
             IList<Training> obj = _internRespository.GetJointTrainings(internId);
 
             return ObjectMapper.Mapper.Map<IList<Training>, IList<TrainingModel>>(obj);
+        }
 
+        public string GetWhitelist()
+        {
+            return _internRespository.GetWhitelist();
         }
     }
 }

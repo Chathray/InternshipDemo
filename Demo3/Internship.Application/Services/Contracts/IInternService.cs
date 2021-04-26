@@ -1,6 +1,7 @@
 ﻿using Internship.Infrastructure;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 
 namespace Internship.Application
 {
@@ -13,5 +14,6 @@ namespace Internship.Application
         DataSet GetInternByPage(int currentPage, int pageSize, int sort, int search_on, string search_string);
         DataSet GetInternByPage(int currentPage, int pageSize, int sort, int search_on, string search_string, int on_passed, int date_filter, string start_date, string end_date);
         IList<TrainingModel> GetJointTrainings(int internId);
+        string GetWhitelist();
     }
 }

@@ -26696,29 +26696,32 @@ body {
 
     body::-webkit-scrollbar {
         -webkit-appearance: none;
-        width: .5125rem;
-        height: .5125rem
+        width: 0rem;
+        height: 0rem
     }
 
     body::-webkit-scrollbar-thumb {
-        border-radius: 8px;
-        border: 2px solid white; /* should match background, can't be transparent */
-        background-color: rgba(0, 0, 0, .3);
     }
 
 
 .table-responsive {
     height: 100%;
-    overflow-y: hidden;
+    overflow-y: auto;
     overflow-x: auto
 }
 
     .table-responsive::-webkit-scrollbar {
-        height: .5125rem
+        height: .3rem;
+        width: .3rem
     }
 
     .table-responsive::-webkit-scrollbar-thumb {
-        border-radius: 8px;
-        border: 2px solid white; /* should match background, can't be transparent */
-        background-color: rgba(0, 0, 0, .3);
+        border: none;
+        background-color: #47abe5;
     }
+
+th {
+    position: sticky;
+    top: 0; /* Don't forget this, required for the stickiness */
+    z-index: 1;
+}

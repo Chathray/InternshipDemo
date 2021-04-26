@@ -1,5 +1,8 @@
 ﻿$(document).on('ready', function () {
 
+    var ava_url = localStorage.getItem("user_avatar");
+    $('.user-ava').attr('src', ava_url);
+
     // INITIALIZATION OF MEGA MENU
     // =======================================================
     var megaMenu = new HSMegaMenu($('.js-mega-menu'), {
@@ -46,7 +49,7 @@
 
     function getAvatar(tagData) {
         if (tagData.src.length) {
-            return "<img class=\"avatar avatar-xs avatar-circle mr-2\" src=\"" + tagData.src.toLowerCase() + "\">"
+            return "<img class=\"avatar avatar-xs avatar-circle mr-2\" src=\"" + tagData.src + "\">"
         } else {
             return "<span class=\"avatar avatar-xs avatar-soft-primary avatar-xs avatar-circle mr-2\">" +
                 "<span class=\"avatar-initials\">" + tagData.value.charAt(0) + "</span>" +
@@ -178,9 +181,9 @@
                             </div>
                           </div>
 
-          <div class="d-flex align-items-center mb-4">
+                        <div class="d-flex align-items-center mb-4">
                         <div class="avatar avatar-xs avatar-circle mr-2">
-                          <img class="avatar-img" src="/img/img6.jpg" alt="Image Description">
+                          <img class="avatar-img" src="${localStorage.getItem("user_avatar")}" alt="Image Description">
                         </div>
                         <div class="media-body">
                           <span class="d-block text-dark">Chath Guy</span>

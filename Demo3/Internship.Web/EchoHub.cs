@@ -7,9 +7,10 @@ namespace Internship.Web
     {
         public string UserId => Context.UserIdentifier;
 
-        public async Task ToastMaster(string message)
+        public async Task ToastMaster(string message, string owner)
         {
-            await Clients.All.SendAsync("ClientMasterMessage", message);
+            
+            await Clients.All.SendAsync("ClientMasterMessage", message, owner);
         }
 
         public async Task SendUserStatus(string message)
