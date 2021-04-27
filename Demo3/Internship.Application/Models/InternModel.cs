@@ -17,7 +17,7 @@
         public string Address1 { get; set; }
         public string Address2 { get; set; }
 
-        public int Mentor { get; set; }
+        public int MentorId { get; set; }
         public int InternId { get; set; }
         public int? UpdatedBy { get; set; }
     }

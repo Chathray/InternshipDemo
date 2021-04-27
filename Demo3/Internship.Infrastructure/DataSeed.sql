@@ -161,7 +161,7 @@ CREATE TABLE `interns` (
   `Duration` varchar(23) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `TrainingId` int NOT NULL,
   `Type` enum('Full time','Part time') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `Mentor` int DEFAULT NULL,
+  `MentorId` int DEFAULT NULL,
   `UpdatedBy` int DEFAULT NULL,
   `CreatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -174,18 +174,18 @@ CREATE TABLE `interns` (
   `Address2` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`InternId`),
   UNIQUE KEY `Email_UNIQUE` (`Email`),
-  KEY `FK_Events_Mentor_idx` (`Mentor`),
+  KEY `FK_Events_Mentor_idx` (`MentorId`),
   KEY `FK_Interns_UpdatedBy_idx` (`UpdatedBy`),
   KEY `FK_Interns_DepartmentId_idx` (`DepartmentId`),
   KEY `FK_Interns_OrganizationId_idx` (`OrganizationId`),
   KEY `PK_Interns_TrainingId_idx` (`TrainingId`),
   FULLTEXT KEY `FirstName` (`FirstName`,`LastName`,`Email`,`Phone`),
-  CONSTRAINT `FK_Interns_Created` FOREIGN KEY (`Mentor`) REFERENCES `users` (`UserId`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_Interns_Created` FOREIGN KEY (`MentorId`) REFERENCES `users` (`UserId`) ON UPDATE CASCADE,
   CONSTRAINT `FK_Interns_Department` FOREIGN KEY (`DepartmentId`) REFERENCES `departments` (`DepartmentId`) ON UPDATE CASCADE,
   CONSTRAINT `FK_Interns_Organization` FOREIGN KEY (`OrganizationId`) REFERENCES `organizations` (`OrganizationId`) ON UPDATE CASCADE,
   CONSTRAINT `FK_Interns_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`) ON UPDATE CASCADE,
   CONSTRAINT `PK_Intern_Training` FOREIGN KEY (`TrainingId`) REFERENCES `trainings` (`TrainingId`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -512,7 +512,7 @@ FROM interns t1
 	JOIN organizations t2 ON t2.OrganizationId = t1.OrganizationId
 	JOIN departments t3 ON t3.DepartmentId = t1.DepartmentId
 	JOIN trainings t4 ON t4.TrainingId = t1.TrainingId
-	JOIN users t5 ON t5.UserId = t1.Mentor
+	JOIN users t5 ON t5.UserId = t1.MentorId
 
 WHERE t1.InternId = id;
 END ;;
@@ -583,7 +583,7 @@ t4.TrainingId FROM interns t1
 JOIN organizations t2 ON t2.OrganizationId = t1.OrganizationId
 JOIN departments t3 ON t3.DepartmentId = t1.DepartmentId
 JOIN trainings t4 ON t4.TrainingId = t1.TrainingId
-JOIN users t5 ON t5.UserId = t1.Mentor";
+JOIN users t5 ON t5.UserId = t1.MentorId";
 
 SET @query = CONCAT(@base, " WHERE ", p_type);
 
@@ -642,7 +642,7 @@ FROM interns t1
 	JOIN organizations t2 ON t2.OrganizationId = t1.OrganizationId
 	JOIN departments t3 ON t3.DepartmentId = t1.DepartmentId
 	JOIN trainings t4 ON t4.TrainingId = t1.TrainingId
-	JOIN users t5 ON t5.UserId = t1.Mentor
+	JOIN users t5 ON t5.UserId = t1.MentorId
 	LEFT JOIN points t6 ON t6.InternId = t1.InternId
 WHERE
 CASE
@@ -785,31 +785,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `GetWhitelist` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetWhitelist`()
-BEGIN
-SELECT 
-	JSON_ARRAYAGG(JSON_OBJECT(
-			'iid', InternId,
-			'src', CONCAT('/img/avatar/', Avatar),
-			'value', CONCAT(FirstName, ' ', LastName)
-		))
-AS json FROM interns;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `HowManyPassed` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -854,7 +829,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertIntern`(
 	inOrganizationId varchar(500),
 	inDepartmentId varchar(500))
 BEGIN
-	INSERT INTO interns (Email,Phone,FirstName,LastName,DateOfBirth,Gender,Duration,Type,Mentor,TrainingId,OrganizationId,DepartmentId)
+	INSERT INTO interns (Email,Phone,FirstName,LastName,DateOfBirth,Gender,Duration,Type,MentorId,TrainingId,OrganizationId,DepartmentId)
 	VALUES (inEmail,inPhone,inFirstName,inLastName,inDateOfBirth,inGender,inDuration,inType,inMentor,inTrainingId,inOrganizationId,inDepartmentId);
 END ;;
 DELIMITER ;
@@ -958,4 +933,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-26 22:28:13
+-- Dump completed on 2021-04-27 22:44:53

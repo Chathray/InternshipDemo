@@ -1,8 +1,10 @@
 ﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.Json;
 
 namespace Internship.Infrastructure
 {
@@ -76,15 +78,16 @@ namespace Internship.Infrastructure
         public IList<Intern> GetInternByPage(int page, int size)
         {
             return _context.Interns
-                     .Include(b => b.Organizations)
-                     .Include(b => b.Departments)
-                     .Include(b => b.Users)
-                     .Include(b => b.Trainings)
-                     .OrderBy(i => i.InternId)
-                     .ThenBy(i => i.FirstName)
-                     .Skip((page - 1) * size)
-                     .Take(size)
-                     .ToList();
+                .AsNoTracking()
+                .Include(b => b.Organization)
+                .Include(b => b.Department)
+                .Include(b => b.User)
+                .Include(b => b.Training)
+                .OrderBy(i => i.InternId)
+                .ThenBy(i => i.FirstName)
+                .Skip((page - 1) * size)
+                .Take(size)
+                .ToList();
         }
 
         public IList<Training> GetJointTrainings(int internId)
@@ -109,10 +112,34 @@ namespace Internship.Infrastructure
             return result;
         }
 
-        public string GetWhitelist()
+        public dynamic GetWhitelist()
         {
-            return _context.Database.GetDbConnection()
-                 .ExecuteScalar("CALL GetWhitelist()").ToString();
+            var list = _context.Interns
+                .Select(intern => new
+                {
+                    iid = intern.InternId,
+                    src = $"/img/avatar/{intern.Avatar}",
+                    value = $"{intern.FirstName} {intern.LastName}"
+                }).ToList();
+
+            return list;
+        }
+
+        public Training GetTraining(int internId)
+        {
+            //var result = _context.Interns
+            //    .Include(intern => intern.Training)
+            //    .SingleOrDefault(i=>i.InternId == internId)
+            //    .Training;
+
+            var intern = _context.Interns
+                .SingleOrDefault(i => i.InternId == internId);
+
+            _context.Entry(intern)
+                .Reference(_ => _.Training)
+                .Load();
+
+            return intern.Training;
         }
     }
 }

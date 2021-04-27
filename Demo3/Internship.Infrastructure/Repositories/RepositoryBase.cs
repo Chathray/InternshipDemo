@@ -53,7 +53,7 @@ namespace Internship.Infrastructure
 
         public IList<T> GetAll()
         {
-            return FindAll(false).ToList();
+            return FindAll(false).AsNoTracking().ToList();
         }
 
         public IList<ExpandoObject> GetAllShaped(string fields)
@@ -103,7 +103,7 @@ namespace Internship.Infrastructure
 
         public async Task<IList<T>> GetAllAsync()
         {
-            return await _context.Set<T>().ToListAsync();
+            return await _context.Set<T>().AsNoTracking().ToListAsync();
         }
 
         public async Task<int> GetCountAsync()

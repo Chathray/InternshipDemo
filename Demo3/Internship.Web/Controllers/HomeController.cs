@@ -85,7 +85,7 @@ namespace Internship.Web
         public IActionResult Index(IndexViewModel model)
         {
             var intern = _mapper.Map<InternModel>(model);
-            intern.Mentor = int.Parse(ViewBag.id);
+            intern.MentorId = int.Parse(ViewBag.id);
 
             try
             {
@@ -103,7 +103,7 @@ namespace Internship.Web
         public IActionResult Index(IndexViewModel model, int id)
         {
             var intern = _mapper.Map<InternModel>(model);
-            intern.Mentor = int.Parse(ViewBag.id);
+            intern.MentorId = int.Parse(ViewBag.id);
             intern.InternId = id;
 
             try
@@ -274,7 +274,8 @@ namespace Internship.Web
         [HttpGet]
         public string GetTrainingContent(int id)
         {
-            return _serviceFactory.Training.GetTrainingContent(id);
+            return _serviceFactory.Training.GetOne(id)
+                .TraData;
         }
 
         [HttpGet]

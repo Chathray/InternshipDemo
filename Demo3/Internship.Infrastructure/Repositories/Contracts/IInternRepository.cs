@@ -13,6 +13,7 @@ namespace Internship.Infrastructure
         IList<Intern> GetInternByPage(int page, int size);
         string GetInternDetail(int id);
         IList<Training> GetJointTrainings(int internId);
-        string GetWhitelist();
+        dynamic GetWhitelist();
+        Training GetTraining(int internId);
     }
 }

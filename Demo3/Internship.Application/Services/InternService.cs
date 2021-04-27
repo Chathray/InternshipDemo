@@ -69,9 +69,15 @@ namespace Internship.Application
             return ObjectMapper.Mapper.Map<IList<Training>, IList<TrainingModel>>(obj);
         }
 
-        public string GetWhitelist()
+        public dynamic GetWhitelist()
         {
             return _internRespository.GetWhitelist();
+        }
+
+        public TrainingModel GetTraining(int internId)
+        {
+            var entity = _internRespository.GetTraining(internId);
+            return ObjectMapper.Mapper.Map<Training, TrainingModel>(entity);
         }
     }
 }

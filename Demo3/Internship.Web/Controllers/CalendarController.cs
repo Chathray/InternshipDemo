@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Linq;
+using System.Text.Json;
 
 namespace Internship.Web
 {
@@ -43,10 +44,11 @@ namespace Internship.Web
         {
             ViewData["page-2"] = "active";
 
-            string guests = _internService.GetWhitelist();
+            var guests = _internService.GetWhitelist();
+            var whitelist = JsonSerializer.Serialize(guests);
             var eventype = _eventTypeService.GetAll();
 
-            var model = new CalendarViewModel(eventype, guests)
+            var model = new CalendarViewModel(eventype, whitelist)
             {
                 Creator = ViewBag.fullname
             };

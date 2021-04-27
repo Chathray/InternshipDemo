@@ -2,6 +2,7 @@
 using Internship.Application;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -95,13 +96,14 @@ namespace Internship.Api
         [HttpGet("GetTrainingOn/{internId}")]
         public IActionResult GetTrainingOn(int internId)
         {
-            return Ok(_factory.Training.GetTrainingByIntern(internId));
+            var result = _factory.Intern.GetTraining(internId);
+            return Ok(result);
         }
 
         [HttpPost("Insert")]
         public IActionResult Insert([FromBody] InternModel model)
         {
-            model.Mentor = int.Parse(User.Claims.ElementAt(0).Value);
+            model.MentorId = int.Parse(User.Claims.ElementAt(0).Value);
 
             try
             {
@@ -131,7 +133,7 @@ namespace Internship.Api
                      nameof(DefaultApiConventions.Put))]
         public IActionResult Update([FromBody] InternModel model, int id)
         {
-            model.Mentor = int.Parse(User.Claims.ElementAt(0).Value);
+            model.MentorId = int.Parse(User.Claims.ElementAt(0).Value);
             model.InternId = id;
 
             try

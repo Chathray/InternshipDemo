@@ -98,7 +98,7 @@ namespace Internship.Web
                         DepartmentId = new Random().Next(1, 5),
                         OrganizationId = new Random().Next(1, 4),
                         Avatar = "_intern.jpg",
-                        Mentor = new Random().Next(1, 6),
+                        MentorId = new Random().Next(1, 6),
                         Type = "Part time"
                     };
                     context.Interns.Add(temp);
