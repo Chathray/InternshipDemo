@@ -13,30 +13,15 @@ namespace Internship.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static int Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                        .WriteTo.Console()
-                        .CreateBootstrapLogger();
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .CreateBootstrapLogger();
 
             Log.Information("Starting up!");
-
-            var host = WebHost.CreateDefaultBuilder(args)
-                .UseSerilog((context, config) =>
-                {
-                    config
-                        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                        // Filter out ASP.NET Core infrastructre logs that are Information and below
-                        .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-                        .MinimumLevel.Information()
-                        .Enrich.FromLogContext()
-                        .WriteTo.Console()
-                        .WriteTo.Seq("http://localhost:5341");
-                })
-                .ConfigureServices(services => services.AddAutofac())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .Build();
 
             //Generator.AutoService("D:\\", "Internship.Service", ".cs", new[] {
             //    "Activity",
@@ -53,18 +38,32 @@ namespace Internship.Web
 
             try
             {
+                var host = CreateHostBuilder(args);
                 SeedDatabase(host);
                 host.Run();
+
                 Log.Information("Stopped cleanly");
+                return 200;
             }
             catch (Exception ex)
             {
                 Log.Fatal(ex, "An unhandled exception occured during bootstrapping");
+                return -1;
             }
             finally
             {
                 Log.CloseAndFlush();
             }
+        }
+
+        private static IWebHost CreateHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+                .UseSerilog()
+                .ConfigureServices(services => services.AddAutofac())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
         }
 
         private static void SeedDatabase(IWebHost host)

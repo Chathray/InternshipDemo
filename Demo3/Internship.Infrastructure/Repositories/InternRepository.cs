@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;

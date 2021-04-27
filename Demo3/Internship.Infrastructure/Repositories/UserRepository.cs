@@ -7,12 +7,8 @@ namespace Internship.Infrastructure
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {
-        private readonly DataContext _context;
-
         public UserRepository(DataContext context) : base(context)
-        {
-            _context = context;
-        }
+        { }
 
         public User GetById(int userId)
         {

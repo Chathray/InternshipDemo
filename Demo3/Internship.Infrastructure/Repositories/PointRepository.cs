@@ -8,12 +8,8 @@ namespace Internship.Infrastructure
 {
     public class PointRepository : RepositoryBase<Point>, IPointRepository
     {
-        private readonly DataContext _context;
-
         public PointRepository(DataContext context) : base(context)
-        {
-            _context = context;
-        }
+        { }
 
         public bool EvaluateIntern(Point point)
         {

@@ -11,7 +11,7 @@ namespace Internship.Infrastructure
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBase
     {
         protected readonly DataContext _context;
-        private readonly IDataShaper<T> _dataShaper;
+        protected readonly IDataShaper<T> _dataShaper;
 
 
         public RepositoryBase(DataContext context)
