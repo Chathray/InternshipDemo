@@ -48,7 +48,7 @@ namespace Internship.Web
             catch (Exception ex)
             {
                 Log.Fatal(ex, "An unhandled exception occured during bootstrapping");
-                return -1;
+                return -2;
             }
             finally
             {

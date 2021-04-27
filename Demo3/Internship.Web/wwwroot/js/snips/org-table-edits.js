@@ -9,7 +9,6 @@ $('.js-editable-table tbody tr').editable({
     edit: function (values) {
         $('.js-edit .js-edit-icon', this).removeClass('tio-edit').addClass('tio-save');
         $(this).find('td[data-field] input').addClass('form-control form-control-sm');
-
     },
     save: function (values) {
         $('.js-edit .js-edit-icon', this).removeClass('tio-save').addClass('tio-edit');
@@ -22,9 +21,11 @@ $('.js-editable-table tbody tr').editable({
                 'OrgPhone': values.phone
             }
         }).done(function (data) {
-            $.alert("Result: " + data);
+            alert(data + ", Refresh now!");
+            window.location = "/";
         }).fail(function () {
-            alert("Error");
+            $('#orgModal').modal('hide')
+            $.alert("Error");
         });
     },
     cancel: function (values) {

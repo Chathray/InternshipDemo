@@ -14,16 +14,18 @@ $('.js-editable-table tbody tr').editable({
     save: function (values) {
         $('.js-edit .js-edit-icon', this).removeClass('tio-save').addClass('tio-edit');
 
-        $.post("home/updatedepartment", {
+        $.post("Home/UpdateDepartment", {
             model: {
                 'DepartmentId': values.index,
                 'DepName': values.name,
                 'DepLocation': values.location
             }
         }).done(function (data) {
-            $.alert("Result: " + data);
+            alert(data + ", Refresh now!");
+            window.location = "/";
         }).fail(function () {
-            alert("Error");
+            $('#depModal').modal('hide')
+            $.alert("Error");
         });
     },
     cancel: function (values) {

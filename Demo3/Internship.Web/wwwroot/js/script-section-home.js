@@ -414,6 +414,69 @@ function RefreshOrganizationCount() {
 }
 // #endregion :Count
 
+
+function AppendDep() {
+    $('#dep-tbody').append(`<tr data-id="-1">
+                <td>New</td>
+                <td data-field="name"></td>
+                <td data-field="location"></td>
+                <td>
+                    <button id="depnew" type="button" class="js-edit btn btn-soft-info btn-icon btn-xs">
+                        <i class="tio-edit js-edit-icon"></i>
+                    </button>                  
+                    <button id="removedep" type="button" class="ml-2 btn btn-soft-danger btn-icon btn-xs">
+                        <i class="tio-remove js-remove-icon"></i>
+                    </button>                  
+                </td>
+                </tr>`);
+    $.getScript('/js/snips/dep-table-edits.js');
+    //code before the pause
+    setTimeout(function () {
+        $('#depnew').click();
+    }, 300);
+}
+
+function AppendOrg() {
+    $('#org-tbody').append(`<tr data-id="-1">
+                <td>New</td>
+                <td data-field="name"></td>
+                <td data-field="phone"></td>
+                <td data-field="address"></td>
+                <td>
+                    <button id="orgnew" type="button" class="js-edit btn btn-soft-info btn-icon btn-xs">
+                        <i class="tio-edit js-edit-icon"></i>
+                    </button>
+                    <button id="removeorg" type="button" class="ml-2 btn btn-soft-danger btn-icon btn-xs">
+                        <i class="tio-remove js-remove-icon"></i>
+                    </button>                  
+                </td>
+                </tr>`);
+    $.getScript('/js/snips/org-table-edits.js');
+    //code before the pause
+    setTimeout(function () {
+        $('#orgnew').trigger("click");
+    }, 300);
+}
+
+// Hàm giúp mở cửa sổ popup căn giữa
+function PopupCenter(url, title, w, h) {
+    // Fixes dual-screen position Most browsers Firefox  
+    var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+    var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+
+    width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    var top = ((height / 2) - (h / 2)) + dualScreenTop;
+    var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+    // Puts focus on the newWindow  
+    if (window.focus) {
+        newWindow.focus();
+    }
+}
+
 function ReadAvatarName(input) {
     var filename = input.files[0]['name'];
     $('#avatarName').val(filename);
@@ -507,10 +570,12 @@ $(document).on('ready', function () {
                         <li>Full name: ${internData.fullname}</li>
                         <li>Date of birth: ${internData.birth}</li>
                         <li>Gender: ${internData.gender}</li>
-                        <li>Phone number: ${internData.phone}</li>
-                        <li>Email: ${internData.email}</li>
-                        <li>Address 1: ${internData.address1}</li>
-                        <li>Address 2: ${internData.address2}</li>
+                        <li>Email: <a href="mailto:${internData.email}">${internData.email}</a></li>
+                        <li>Phone number: <a href="tel:${internData.phone}">${internData.phone}</a></li>
+                        <li>Address 1:
+                            <a href="javascript:;" onclick="PopupCenter('https://www.google.com/maps/search/?api=1&query=${internData.address1}', '', 960, 720)">${internData.address1}</a></li>
+                        <li>Address 2:
+                            <a href="javascript:;" onclick="PopupCenter('https://www.google.com/maps/search/?api=1&query=${internData.address2}', '', 960, 720)">${internData.address2}</a></li>
                         <li>Join Date: ${internData.joindate}</li>
                       </ul>
                     </div>

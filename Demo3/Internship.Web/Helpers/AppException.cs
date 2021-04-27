@@ -12,6 +12,7 @@ namespace Internship.Web
         public AppException(string message, params object[] args)
             : base(String.Format(CultureInfo.CurrentCulture, message, args))
         {
+
         }
     }
 }

@@ -9,7 +9,6 @@ $('.js-editable-table tbody tr').editable({
     edit: function (values) {
         $('.js-edit .js-edit-icon', this).removeClass('tio-edit').addClass('tio-save');
         $(this).find('td[data-field] input').addClass('form-control form-control-sm');
-
     },
     save: function (values) {
         $('.js-edit .js-edit-icon', this).removeClass('tio-save').addClass('tio-edit');
@@ -26,7 +25,6 @@ $('.js-editable-table tbody tr').editable({
         }).fail(function () {
             alert("Error");
         });
-
     },
     cancel: function (values) {
         $('.js-edit .js-edit-icon', this).removeClass('tio-save').addClass('tio-edit');

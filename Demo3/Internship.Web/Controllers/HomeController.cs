@@ -217,12 +217,24 @@ namespace Internship.Web
         [HttpPost]
         public bool UpdateDepartment(DepartmentModel model)
         {
-            return _serviceFactory.Department.Update(model);
+            if (model.DepartmentId == -1)
+            {
+                model.DepartmentId = null;
+                return _serviceFactory.Department.Create(model);
+            }
+            else
+                return _serviceFactory.Department.Update(model);
         }
         [HttpPost]
         public bool UpdateOrganization(OrganizationModel model)
         {
-            return _serviceFactory.Organization.Update(model);
+            if (model.OrganizationId == -1)
+            {
+                model.OrganizationId = null;
+                return _serviceFactory.Organization.Create(model);
+            }
+            else
+                return _serviceFactory.Organization.Update(model);
         }
         [HttpPost]
         public bool UpdateTraining(TrainingModel model)
