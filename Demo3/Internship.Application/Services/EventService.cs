@@ -6,20 +6,20 @@ namespace Internship.Application
 {
     public class EventService : ServiceBase<EventModel, Event>, IEventService
     {
-        private readonly IEventRepository _eventRespository;
-        public EventService(IEventRepository eventRespository) : base(eventRespository)
+        private readonly IEventRepository _eventRepo;
+        public EventService(IEventRepository eventRepo) : base(eventRepo)
         {
-            _eventRespository = eventRespository;
+            _eventRepo = eventRepo;
         }
 
         public DataTable GetEventsIntern()
         {
-            return _eventRespository.GetJointEvents();
+            return _eventRepo.GetJointEvents();
         }
 
         public string GetJson()
         {
-            return _eventRespository.GetJson();
+            return _eventRepo.GetJson();
         }
 
         public bool InsertEvent(EventModel model)
@@ -52,11 +52,11 @@ namespace Internship.Application
             }
             obj.ClassName = model.Type;
 
-            if (_eventRespository.CheckOne(obj.Title))
+            if (_eventRepo.CheckOne(obj.Title))
 
-                return _eventRespository.Create(obj);
+                return _eventRepo.Create(obj);
             else
-                return _eventRespository.UpdateByTitle(obj);
+                return _eventRepo.UpdateByTitle(obj);
 
         }
     }

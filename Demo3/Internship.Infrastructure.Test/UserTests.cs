@@ -5,7 +5,7 @@ namespace Internship.Infrastructure.Test
 {
     public class UserTests
     {
-        private readonly UserRepository _userRespository;
+        private readonly UserRepository _userRepo;
         private readonly DataContext _memContext;
 
         public UserTests()
@@ -15,7 +15,7 @@ namespace Internship.Infrastructure.Test
                 .Options;
 
             _memContext = new DataContext(dbOptions);
-            _userRespository = new UserRepository(_memContext);
+            _userRepo = new UserRepository(_memContext);
         }
 
         [Fact]
@@ -26,10 +26,10 @@ namespace Internship.Infrastructure.Test
             _memContext.Users.Add(existingUser);
             _memContext.SaveChanges();
 
-            var testWithId = _userRespository.GetById(existingUser.UserId);
+            var testWithId = _userRepo.GetOne(existingUser.UserId);
             Assert.Equal(existingUser.UserId, testWithId.UserId);
 
-            var testWithPassword = _userRespository.GetUser(existingUser.Email, "zazaza");
+            var testWithPassword = _userRepo.GetUser(existingUser.Email, "zazaza");
             Assert.Equal(existingUser.UserId, testWithPassword.UserId);
         }
     }

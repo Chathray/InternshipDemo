@@ -69,10 +69,10 @@ namespace Internship.Web
             {{
                 public class {className}Service : ServiceBase<{className}Model, {className}>, I{className}Service
                 {{
-                    private readonly I{className}Repository _activityRespository;
-                    public {className}Service(I{className}Repository {lowerName}Respository) : base({lowerName}Respository)
+                    private readonly I{className}Repository _{lowerName}Repo;
+                    public {className}Service(I{className}Repository {lowerName}Repo) : base({lowerName}Repo)
                     {{
-                        _{lowerName}Respository = {lowerName}Respository;
+                        _{lowerName}Repo = {lowerName}Repo;
                     }}
                 }}
             }}".AutoTrim();

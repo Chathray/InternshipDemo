@@ -20,5 +20,12 @@ namespace Internship.Infrastructure
         public string EventLocationLabel { get; set; }
         public string EventDescriptionLabel { get; set; }
         public string Image { get; set; }
+
+
+        [ForeignKey("CreatedBy")]
+        public User Creator { get; set; }
+
+        [ForeignKey("UpdatedBy")]
+        public User Editor { get; set; }
     }
 }

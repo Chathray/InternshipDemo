@@ -3,6 +3,7 @@ using Internship.Application;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,6 +11,7 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 
 namespace Internship.Web
 {
@@ -91,7 +93,7 @@ namespace Internship.Web
             {
                 _serviceFactory.Intern.Create(intern);
             }
-            catch (AppException)
+            catch (WebException)
             {
                 return BadRequest();
             }
@@ -110,7 +112,7 @@ namespace Internship.Web
             {
                 _serviceFactory.Intern.Update(intern);
             }
-            catch (AppException)
+            catch (WebException)
             {
                 Response.StatusCode = -1;
             }
@@ -143,7 +145,7 @@ namespace Internship.Web
         public bool EvaluateIntern(PointViewModel model)
         {
             var mark = _mapper.Map<PointModel>(model);
-            mark.Marker = int.Parse(ViewBag.id);
+            mark.MarkerId = int.Parse(ViewBag.id);
             return _serviceFactory.Point.EvaluateIntern(mark);
         }
 
@@ -206,7 +208,7 @@ namespace Internship.Web
         [HttpPost]
         public bool UpdatePoint(PointModel model)
         {
-            model.Marker = int.Parse(ViewBag.id);
+            model.MarkerId = int.Parse(ViewBag.id);
             return _serviceFactory.Point.Update(model);
         }
         [HttpPost]
@@ -262,13 +264,15 @@ namespace Internship.Web
         [HttpGet("GetInternInfo/{id}")]
         public string GetInternInfo(int id)
         {
-            return _serviceFactory.Intern.GetInternInfo(id);
+            var json = _serviceFactory.Intern.GetInternInfo(id);
+            return json;
         }
 
         [HttpGet]
         public string GetInternDetail(int id)
         {
-            return _serviceFactory.Intern.GetInternDetail(id);
+            var json = _serviceFactory.Intern.GetInternDetail(id);
+            return json;
         }
 
         [HttpGet]
@@ -295,9 +299,15 @@ namespace Internship.Web
         //_____________________________________________________
 
         [HttpGet]
-        public IActionResult GetPoint(int id)
+        public IActionResult GetPoint(int id, bool withName)
         {
-            return Ok(_serviceFactory.Point.GetOne(id));
+            dynamic obj;
+            if (withName)
+                obj = _serviceFactory.Point.GetPointDetail(id);
+            else
+                obj = _serviceFactory.Point.GetOne(id);
+
+            return Ok(obj);
         }
         [HttpGet]
         public IActionResult GetQuestion(int id)

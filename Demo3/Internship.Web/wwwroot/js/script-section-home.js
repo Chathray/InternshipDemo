@@ -82,11 +82,11 @@ function InternUpdate(iid) {
         method: "GET",
         url: "home/getinterninfo",
         data: { id: iid }
-    }).done(function (o) {
+    }).done(function (json) {
         $('#cui-form').attr('action', '/internupdate/' + iid);
-        let obj = JSON.parse(o);
+        let intern_info = JSON.parse(json);
 
-        InternSetModalData(obj);
+        InternSetModalData(intern_info);
         $("#exampleModal").modal();
     });
 }
@@ -94,11 +94,13 @@ function InternEvaluate(iid) {
     $.ajax({
         method: "GET",
         url: "home/getpoint",
-        data: { id: iid }
-    }).done(function (json) {
-        if (json == null) { InternEvaluateFirstTime(iid); return; }
+        data: { id: iid, withName: true }
+    }).done(function (obj) {
+        if (obj == null) {
+            InternEvaluateFirstTime(iid); return;
+        }
 
-        var parsedJSON = JSON.parse(JSON.stringify(json))
+        var parsedJSON = JSON.parse(JSON.stringify(obj))
         var color;
 
         if (parsedJSON.passed) color = 'badge-soft-success';
@@ -204,15 +206,6 @@ function InternEvaluateFirstTime(iid) {
             $.getScript('/js/snips/quantity-counter.js');
         },
         onContentReady: function () {
-            $.get("home/getpoint", { id: iid })
-                .done(function (data) {
-                    if (data == null) return;
-                    var t = JSON.parse(JSON.stringify(data))
-
-                    $('#techpoint').val(t.technicalSkill)
-                    $('#softpoint').val(t.softSkill)
-                    $('#attipoint').val(t.attitude)
-                });
         },
         buttons:
         {
@@ -482,8 +475,8 @@ function ReadAvatarName(input) {
     $('#avatarName').val(filename);
 }
 
-function Refresh(ok) {
-    if (ok) alert("Refresh now!");
+function Refresh(ok, result) {
+    if (ok) alert(result + ", Refresh now!");
     window.location = window.location;
 }
 
@@ -561,8 +554,8 @@ $(document).on('ready', function () {
                 method: "GET",
                 url: "home/getinterndetail",
                 data: { id: internId }
-            }).done(function (response) {
-                internData = JSON.parse(response);
+            }).done(function (json) {
+                internData = JSON.parse(json);
                 // Open this row
                 row.child(`<div class="col-sm-3">
                       <h5>Intern info:</h5>
@@ -632,8 +625,8 @@ $(document).on('ready', function () {
 
         $.post("home/deletetraining", {
             id: trainingId
-        }).done(function () {
-            Refresh(true);
+        }).done(function (result) {
+            Refresh(true, result);
         }).fail(function () {
             alert("Error");
         });
@@ -924,8 +917,8 @@ $(document).on('ready', function () {
 
         $.post("home/deletedepartment", {
             id: id
-        }).done(function (data) {
-            Refresh(true);
+        }).done(function (result) {
+            Refresh(true, result);
         }).fail(function () {
             alert("Error");
         });
@@ -938,8 +931,8 @@ $(document).on('ready', function () {
 
         $.post("home/deleteorganization", {
             id: id
-        }).done(function (data) {
-            Refresh(true);
+        }).done(function (result) {
+            Refresh(true, result);
         }).fail(function () {
             alert("Error");
         });

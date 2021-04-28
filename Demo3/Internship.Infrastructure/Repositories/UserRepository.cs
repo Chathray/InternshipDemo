@@ -10,11 +10,6 @@ namespace Internship.Infrastructure
         public UserRepository(DataContext context) : base(context)
         { }
 
-        public User GetById(int userId)
-        {
-            return _context.Users.SingleOrDefault(x => x.UserId == userId);
-        }
-
         public User GetUser(string email, string password)
         {
 
@@ -35,7 +30,7 @@ namespace Internship.Infrastructure
             return user;
         }
 
-        public DataTable GetView(int id)
+        public DataTable GetProfile(int id)
         {
             return _context.Database.GetDbConnection()
                 .ExecReader($"CALL GetProfileView({id})");
@@ -54,11 +49,19 @@ namespace Internship.Infrastructure
             return Create(user);
         }
 
-        public bool SetStatus(int userId, string status)
+        public bool SetField(int userId, string field, dynamic value)
         {
-            return _context.Database.GetDbConnection()
-                .ExecNonQuery($"CALL SetUserStatus({userId},'{status}')");
-
+            var user = GetOne(userId);
+            switch (field)
+            {
+                case nameof(user.Status):
+                    user.Status = value;
+                    break;
+                case nameof(user.Role):
+                    user.Role = value;
+                    break;
+            }
+            return SaveChanges($"Set{field}") > 0;
         }
 
         public bool UpdateBasic(User user)

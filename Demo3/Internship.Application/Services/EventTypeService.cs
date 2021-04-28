@@ -4,10 +4,10 @@ namespace Internship.Application
 {
     public class EventTypeService : ServiceBase<EventTypeModel, EventType>, IEventTypeService
     {
-        private readonly IEventTypeRepository _evenTypeRespository;
-        public EventTypeService(IEventTypeRepository evenTypeRespository) : base(evenTypeRespository)
+        private readonly IEventTypeRepository _evenTypeRepo;
+        public EventTypeService(IEventTypeRepository evenTypeRepo) : base(evenTypeRepo)
         {
-            _evenTypeRespository = evenTypeRespository;
+            _evenTypeRepo = evenTypeRepo;
         }
     }
 }

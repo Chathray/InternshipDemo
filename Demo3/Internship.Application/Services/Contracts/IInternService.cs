@@ -6,8 +6,8 @@ namespace Internship.Application
 {
     public interface IInternService : IServiceBase<InternModel, Intern>
     {
-        string GetInternInfo(int id);
-        string GetInternDetail(int id);
+        dynamic GetInternInfo(int id);
+        dynamic GetInternDetail(int id);
         IList<InternModel> GetInternByPage(int page, int size);
         IList<InternListModel> GetInternByPage(int page, int size, string sort);
         DataSet GetInternByPage(int currentPage, int pageSize, int sort, int search_on, string search_string);

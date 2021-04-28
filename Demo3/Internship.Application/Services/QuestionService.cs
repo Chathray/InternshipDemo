@@ -4,11 +4,10 @@ namespace Internship.Application
 {
     public class QuestionService : ServiceBase<QuestionModel, Question>, IQuestionService
     {
-        private readonly IQuestionRepository _questionRespository;
-        public QuestionService(IQuestionRepository questionRespository) : base(questionRespository)
+        private readonly IQuestionRepository _questionRepo;
+        public QuestionService(IQuestionRepository questionRepo) : base(questionRepo)
         {
-            _questionRespository = questionRespository;
+            _questionRepo = questionRepo;
         }
-
     }
 }

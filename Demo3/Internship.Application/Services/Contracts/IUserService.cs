@@ -8,7 +8,7 @@ namespace Internship.Application
         UserModel Authenticate(string loginEmail, string loginPassword);
         int CountByIndex(int index);
         bool InsertUser(UserModel model);
-        DataTable GetView(int id);
+        DataTable GetProfile(int id);
         bool UpdatePassword(int userId, string newPassword);
         bool UpdateBasic(UserModel user);
         bool UserDelete(int userId);

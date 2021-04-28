@@ -23,5 +23,9 @@ namespace Internship.Infrastructure
         public bool IsDeleted { get; set; }
         public string ZipCode { get; set; }
         public int? DepartmentId { get; set; }
+
+
+        [ForeignKey("DepartmentId")]
+        public Department Department { get; set; }
     }
 }

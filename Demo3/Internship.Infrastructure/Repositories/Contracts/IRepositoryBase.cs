@@ -25,5 +25,6 @@ namespace Internship.Infrastructure
 
         Task<IList<T>> GetAllAsync();
         Task<int> GetCountAsync();
+        int SaveChanges(string funcname);
     }
 }

@@ -163,7 +163,7 @@ CREATE TABLE `interns` (
   `Type` enum('Full time','Part time') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `MentorId` int DEFAULT NULL,
   `UpdatedBy` int DEFAULT NULL,
-  `CreatedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Avatar` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '/img/intern.svg',
   `Phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -174,7 +174,7 @@ CREATE TABLE `interns` (
   `Address2` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`InternId`),
   UNIQUE KEY `Email_UNIQUE` (`Email`),
-  KEY `FK_Events_Mentor_idx` (`MentorId`),
+  KEY `FK_Events_MentorId_idx` (`MentorId`),
   KEY `FK_Interns_UpdatedBy_idx` (`UpdatedBy`),
   KEY `FK_Interns_DepartmentId_idx` (`DepartmentId`),
   KEY `FK_Interns_OrganizationId_idx` (`OrganizationId`),
@@ -185,7 +185,7 @@ CREATE TABLE `interns` (
   CONSTRAINT `FK_Interns_Organization` FOREIGN KEY (`OrganizationId`) REFERENCES `organizations` (`OrganizationId`) ON UPDATE CASCADE,
   CONSTRAINT `FK_Interns_Updated` FOREIGN KEY (`UpdatedBy`) REFERENCES `users` (`UserId`) ON UPDATE CASCADE,
   CONSTRAINT `PK_Intern_Training` FOREIGN KEY (`TrainingId`) REFERENCES `trainings` (`TrainingId`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,7 +235,7 @@ DROP TABLE IF EXISTS `points`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `points` (
   `InternId` int NOT NULL,
-  `Marker` int DEFAULT NULL,
+  `MarkerId` int DEFAULT NULL,
   `TechnicalSkill` decimal(4,2) DEFAULT NULL,
   `SoftSkill` decimal(4,2) DEFAULT NULL,
   `Attitude` decimal(4,2) DEFAULT NULL,
@@ -244,8 +244,8 @@ CREATE TABLE `points` (
   `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`InternId`),
-  KEY `FK_marker_user_idx` (`Marker`),
-  CONSTRAINT `FK_marker_user` FOREIGN KEY (`Marker`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `FK_marker_user_idx` (`MarkerId`),
+  CONSTRAINT `FK_marker_user` FOREIGN KEY (`MarkerId`) REFERENCES `users` (`UserId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_points_intern` FOREIGN KEY (`InternId`) REFERENCES `interns` (`InternId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `CHK_Attit` CHECK (((`Attitude` >= 0) and (`Attitude` <= 10))),
   CONSTRAINT `CHK_Soft` CHECK (((`SoftSkill` >= 0) and (`SoftSkill` <= 10))),
@@ -360,7 +360,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'admin@x','+84 091 553 35','Thang','Huynh','$2a$11$GxUJJj03iNAA0KpdVvi5s.WHAG6duk9oTw1Yu7H7nzKzTd4KOVkKG','warning','mentor',1,'/img/avatar/_user.jpg','HCM City','','454',0,'/img/avatar/_header.jpg','2021-03-15 03:39:36','2021-04-22 09:14:06',1),(2,'tan@tma',NULL,'Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','danger','admin',1,'/img/avatar/_user.jpg','Ha Noi',NULL,'5',0,'/img/avatar/_header.jpg','2021-03-16 20:43:28','2021-04-22 01:34:36',1),(3,'thanh@qnu',NULL,'Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff',1,'/img/avatar/_user.jpg','Da Nang',NULL,'65',0,'/img/avatar/_header.jpg','2021-03-17 18:41:37','2021-04-20 08:58:21',1),(4,'by@tma',NULL,'By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','warning','staff',2,'/img/avatar/_user.jpg','Quy Nhon',NULL,'65',0,'/img/avatar/_header.jpg','2021-03-17 02:25:34','2021-04-20 14:19:05',1),(5,'dat@n',NULL,'Dat','Nguyen','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','mentor',NULL,'/img/avatar/_user.jpg','Quy Nhon',NULL,NULL,0,'/img/avatar/_header.jpg','2021-04-05 01:49:07','2021-04-20 10:29:15',1);
+INSERT INTO `users` VALUES (1,'admin@x','+84 091 553 35','Thang','Huynh','$2a$11$GxUJJj03iNAA0KpdVvi5s.WHAG6duk9oTw1Yu7H7nzKzTd4KOVkKG','danger','mentor',1,'/img/avatar/_user.jpg','HCM City','','454',0,'/img/avatar/_header.jpg','2021-03-15 03:39:36','2021-04-28 04:52:13',1),(2,'tan@tma',NULL,'Tân','Trần','$2a$11$Y6RWgY8CxI7zyGHvTqz16eCdcZPSERWFTHHtlQRWlwIWIAhoG4md6','danger','admin',1,'/img/avatar/_user.jpg','Ha Noi',NULL,'5',0,'/img/avatar/_header.jpg','2021-03-16 20:43:28','2021-04-22 01:34:36',1),(3,'thanh@qnu',NULL,'Thanh','Tran Thien','$2a$11$kWeq0c.p4h5ASXdbdnuRweg8TDzumiS1sfkmb.IormcRxpBao7nsu','success','staff',1,'/img/avatar/_user.jpg','Da Nang',NULL,'65',0,'/img/avatar/_header.jpg','2021-03-17 18:41:37','2021-04-20 08:58:21',1),(4,'by@tma',NULL,'By','Le Thi','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','warning','staff',2,'/img/avatar/_user.jpg','Quy Nhon',NULL,'65',0,'/img/avatar/_header.jpg','2021-03-17 02:25:34','2021-04-20 14:19:05',1),(5,'dat@n',NULL,'Dat','Nguyen','$2a$11$QmPcqj0ast0KIogZxIvZiesOLfcg/bpOlpx34ZahIyIixMd/OmVTK','success','mentor',NULL,'/img/avatar/_user.jpg','Quy Nhon',NULL,NULL,0,'/img/avatar/_header.jpg','2021-04-05 01:49:07','2021-04-20 10:29:15',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -400,10 +400,10 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EvaluateIntern`(id int, marker int, technicalPoint FLOAT(10,2), softPoint FLOAT(10,2), attitudePoint FLOAT(10,2))
 BEGIN
-	INSERT INTO points (InternId, Marker, TechnicalSkill, SoftSkill, Attitude)
+	INSERT INTO points (InternId, MarkerId, TechnicalSkill, SoftSkill, Attitude)
     VALUES(id, marker, technicalPoint, softPoint, attitudePoint)
     ON DUPLICATE KEY UPDATE
-    Marker = marker,
+    MarkerId = marker,
     TechnicalSkill = technicalPoint,
     SoftSkill = softPoint,
     Attitude = attitudePoint;
@@ -436,7 +436,7 @@ BEGIN
     CONCAT(t3.FirstName,' ',t3.LastName) AS Marker
     from points as t1
     	JOIN interns t2 ON t2.InternId = t1.InternId
-    	JOIN users t3 ON t3.UserId = t1.Marker;
+    	JOIN users t3 ON t3.UserId = t1.MarkerId;
 
 END ;;
 DELIMITER ;
@@ -785,6 +785,31 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `GetWhitelist` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetWhitelist`()
+BEGIN
+SELECT 
+	JSON_ARRAYAGG(JSON_OBJECT(
+			'iid', InternId,
+			'src', CONCAT('/img/avatar/', Avatar),
+			'value', CONCAT(FirstName, ' ', LastName)
+		))
+AS json FROM interns;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `HowManyPassed` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -933,4 +958,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-27 22:44:53
+-- Dump completed on 2021-04-28 13:26:04

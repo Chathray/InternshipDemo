@@ -4,9 +4,9 @@ namespace Internship.Infrastructure
 {
     public class EntityBase
     {
-        [NotMapped]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string CreatedDate { get; set; }
-        [NotMapped]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string UpdatedDate { get; set; }
     }
 }

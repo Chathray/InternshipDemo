@@ -4,10 +4,10 @@ namespace Internship.Application
 {
     public class TrainingService : ServiceBase<TrainingModel, Training>, ITrainingService
     {
-        private readonly ITrainingRepository _trainingRespository;
-        public TrainingService(ITrainingRepository trainingRespository) : base(trainingRespository)
+        private readonly ITrainingRepository _trainingRepo;
+        public TrainingService(ITrainingRepository trainingRepo) : base(trainingRepo)
         {
-            _trainingRespository = trainingRespository;
+            _trainingRepo = trainingRepo;
         }
     }
 }

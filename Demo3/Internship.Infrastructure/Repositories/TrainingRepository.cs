@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Internship.Infrastructure
+﻿namespace Internship.Infrastructure
 {
     public class TrainingRepository : RepositoryBase<Training>, ITrainingRepository
     {

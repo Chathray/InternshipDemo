@@ -16,7 +16,6 @@ namespace Internship.Infrastructure
         public string Gender { get; set; }
         public string Phone { get; set; }
         public int MentorId { get; set; }
-        // Exception: 'Data is Null. This method or property cannot be called on Null values.'
         public int? UpdatedBy { get; set; }
         public string Duration { get; set; }
         public string Type { get; set; }
@@ -28,7 +27,7 @@ namespace Internship.Infrastructure
 
 
         [ForeignKey("UpdatedBy")]
-        public User User { get; set; }
+        public User Editor { get; set; }
 
         [ForeignKey("OrganizationId")]
         public Organization Organization { get; set; }

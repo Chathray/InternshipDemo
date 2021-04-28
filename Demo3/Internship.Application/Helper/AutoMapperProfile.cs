@@ -33,6 +33,8 @@ namespace Internship.Application
                 CreateMap<PointModel, Point>().ReverseMap();
                 CreateMap<EventTypeModel, EventType>().ReverseMap();
                 CreateMap<ActivityModel, Activity>().ReverseMap();
+
+                CreateMap<PointListModel, Point>().ReverseMap();
             }
         }
     }

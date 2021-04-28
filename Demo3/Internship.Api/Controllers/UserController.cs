@@ -31,7 +31,11 @@ namespace Internship.Api
             _appSettings = appSettings.Value;
         }
 
-        //----------------------------------------------------------------------------------
+        /// <summary>
+        /// AthenAthenAthenAthenAthenAthenAthenAthen
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost("/Authenticate")]
         public IActionResult Authenticate([FromBody] AuthenticationModel model)
         {
@@ -66,6 +70,12 @@ namespace Internship.Api
             });
         }
 
+
+        /// <summary>
+        /// fgfgfgfgfgfg gfgf gfgfg fgfgfg fgfgfg
+        /// </summary>
+        /// <param name="model">ID of pet to update</param>
+        /// <returns>fgfgfggfgfggfgf</returns>
         [HttpPost("/Register")]
         public IActionResult Register([FromBody] RegisterModel model)
         {

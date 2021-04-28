@@ -8,5 +8,6 @@ namespace Internship.Application
         bool EvaluateIntern(PointModel mark);
         IList<PointListModel> GetAllWithName();
         int GetPassedCount();
+        PointListModel GetPointDetail(int id);
     }
 }

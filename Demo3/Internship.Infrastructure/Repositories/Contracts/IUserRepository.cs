@@ -6,11 +6,10 @@ namespace Internship.Infrastructure
     {
         User GetUser(string email, string password);
         bool InsertUser(User user, string password);
-        User GetById(int userId);
-        DataTable GetView(int id);
+        DataTable GetProfile(int id);
         bool UpdatePassword(int userId, string hash);
         bool UpdateBasic(User user);
         bool UserDelete(int userId);
-        bool SetStatus(int userId, string status);
+        bool SetField(int userId, string field, dynamic value);
     }
 }

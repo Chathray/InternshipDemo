@@ -4,10 +4,10 @@ namespace Internship.Application
 {
     public class ActivityService : ServiceBase<ActivityModel, Activity>, IActivityService
     {
-        private readonly IActivityRepository _activityRespository;
-        public ActivityService(IActivityRepository activityRespository) : base(activityRespository)
+        private readonly IActivityRepository _activityRepo;
+        public ActivityService(IActivityRepository activityRepo) : base(activityRepo)
         {
-            _activityRespository = activityRespository;
+            _activityRepo = activityRepo;
         }
     }
 }

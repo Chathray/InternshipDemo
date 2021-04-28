@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -13,17 +12,67 @@ namespace Internship.Infrastructure
         public InternRepository(DataContext context) : base(context)
         { }
 
-        public string GetInternInfo(int id)
+        public dynamic GetInternInfo(int id)
         {
-            return _context.Database.GetDbConnection()
+            //var result = _context.Interns
+            //    .Where(intern => intern.InternId == id)
+            //    .Select(intern => new
+            //    {
+            //        internid = intern.InternId,
+            //        email = intern.Email,
+            //        lastname = intern.LastName,
+            //        firstname = intern.FirstName,
+            //        gender = intern.Gender,
+            //        birth = intern.DateOfBirth,
+            //        phone = intern.Phone,
+            //        type = intern.Type,
+            //        duration = intern.Duration,
+            //        organizationid = intern.OrganizationId,
+            //        departmentid = intern.DepartmentId,
+            //        trainingid = intern.TrainingId,
+            //        avatar = intern.Avatar
+            //    }).First();
+
+            var result = _context.Database.GetDbConnection()
                 .ExecuteScalar($"CALL GetInternInfo('{id}')").ToString();
+
+            return result;
         }
 
 
-        public string GetInternDetail(int id)
+        public dynamic GetInternDetail(int internId)
         {
-            return _context.Database.GetDbConnection()
-                .ExecuteScalar($"CALL GetInternDetail('{id}')").ToString();
+            var intern = GetOne(internId);
+
+            //_context.Entry(intern).Reference(_ => _.Training).Load();
+            //_context.Entry(intern).Reference(_ => _.Department).Load();
+            //_context.Entry(intern).Reference(_ => _.Organization).Load();
+            //_context.Entry(intern).Reference(_ => _.Mentor).Load();
+
+            //var result = new
+            //{
+            //    internid = intern.InternId,
+            //    email = intern.Email,
+            //    fullname = $"{intern.FirstName} {intern.LastName}",
+            //    gender = intern.Gender,
+            //    birth = intern.DateOfBirth,
+            //    phone = intern.Phone,
+            //    address1 = intern.Address1,
+            //    address2 = intern.Address2,
+            //    type = intern.Type,
+            //    duration = intern.Duration,
+            //    organization = intern.Organization?.OrgName,
+            //    department = intern.Department?.DepName,
+            //    training = intern.Training?.TraName,
+            //    mentor = $"{intern.Mentor?.FirstName} {intern.Mentor?.LastName}",
+            //    joindate = intern.CreatedDate
+            //};
+
+            var result = _context.Database.GetDbConnection()
+                .ExecuteScalar($"CALL GetInternDetail('{internId}')")
+                .ToString();
+
+            return result;
         }
 
 
@@ -68,20 +117,13 @@ namespace Internship.Infrastructure
                 .ExecReaders($"CALL GetInternListWithFilter({on_passed},{date_filter},'{start_date}','{end_date}',{(page - 1) * size},{size},{sort},{search_on},'{search_string}')");
         }
 
-        public DataTable GetInternByPage(int page, int size, string sort)
-        {
-            return _context.Database.GetDbConnection()
-                .ExecReader($"CALL GetInternList(" +
-                $"{(page - 1) * size},{size},{sort})");
-        }
-
         public IList<Intern> GetInternByPage(int page, int size)
         {
             return _context.Interns
                 .AsNoTracking()
                 .Include(b => b.Organization)
                 .Include(b => b.Department)
-                .Include(b => b.User)
+                .Include(b => b.Editor)
                 .Include(b => b.Training)
                 .OrderBy(i => i.InternId)
                 .ThenBy(i => i.FirstName)
@@ -114,13 +156,16 @@ namespace Internship.Infrastructure
 
         public dynamic GetWhitelist()
         {
-            var list = _context.Interns
-                .Select(intern => new
-                {
-                    iid = intern.InternId,
-                    src = $"/img/avatar/{intern.Avatar}",
-                    value = $"{intern.FirstName} {intern.LastName}"
-                }).ToList();
+            //var list = _context.Interns
+            //    .Select(intern => new
+            //    {
+            //        iid = intern.InternId,
+            //        src = $"/img/avatar/{intern.Avatar}",
+            //        value = $"{intern.FirstName} {intern.LastName}"
+            //    }).ToList();
+
+            var list = _context.Database.GetDbConnection()
+                 .ExecuteScalar("CALL GetWhitelist()").ToString();
 
             return list;
         }
@@ -132,13 +177,8 @@ namespace Internship.Infrastructure
             //    .SingleOrDefault(i=>i.InternId == internId)
             //    .Training;
 
-            var intern = _context.Interns
-                .SingleOrDefault(i => i.InternId == internId);
-
-            _context.Entry(intern)
-                .Reference(_ => _.Training)
-                .Load();
-
+            var intern = GetOne(internId);
+            _context.Entry(intern).Reference(_ => _.Training).Load();
             return intern.Training;
         }
     }

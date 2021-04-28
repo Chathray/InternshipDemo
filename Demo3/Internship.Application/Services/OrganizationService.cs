@@ -4,10 +4,10 @@ namespace Internship.Application
 {
     public class OrganizationService : ServiceBase<OrganizationModel, Organization>, IOrganizationService
     {
-        private readonly IOrganizationRepository _organizationRespository;
-        public OrganizationService(IOrganizationRepository organizationRespository) : base(organizationRespository)
+        private readonly IOrganizationRepository _organizationRepo;
+        public OrganizationService(IOrganizationRepository organizationRepo) : base(organizationRepo)
         {
-            _organizationRespository = organizationRespository;
+            _organizationRepo = organizationRepo;
         }
 
 

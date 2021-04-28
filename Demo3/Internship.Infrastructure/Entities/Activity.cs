@@ -12,5 +12,9 @@ namespace Internship.Infrastructure
         public string ActivityDescription { get; set; }
         public string OtherDetails { get; set; }
         public int? CreatedBy { get; set; }
+
+
+        [ForeignKey("CreatedBy")]
+        public User Creator { get; set; }
     }
 }

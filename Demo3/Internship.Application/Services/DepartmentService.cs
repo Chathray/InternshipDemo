@@ -4,15 +4,15 @@ namespace Internship.Application
 {
     public class DepartmentService : ServiceBase<DepartmentModel, Department>, IDepartmentService
     {
-        private readonly IDepartmentRepository _departmentRepository;
-        public DepartmentService(IDepartmentRepository departmentRepository) : base(departmentRepository)
+        private readonly IDepartmentRepository _departmentRepo;
+        public DepartmentService(IDepartmentRepository departmentRepo) : base(departmentRepo)
         {
-            _departmentRepository = departmentRepository;
+            _departmentRepo = departmentRepo;
         }
 
         public bool InsertSharedTraining(int sharedId, int depId)
         {
-            return _departmentRepository.InsertSharedTraining(sharedId, depId);
+            return _departmentRepo.InsertSharedTraining(sharedId, depId);
         }
     }
 }

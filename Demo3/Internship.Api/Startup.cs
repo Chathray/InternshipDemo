@@ -8,8 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,13 +38,12 @@ namespace Internship.Api
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(options =>
             {
-                options.UseAllOfForInheritance();
-                options.SchemaGeneratorOptions = new SchemaGeneratorOptions
-                {
-                    UseOneOfForPolymorphism = true,
-                    UseAllOfToExtendReferenceSchemas = true,
-                    IgnoreObsoleteProperties = true,
-                };
+                options.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Internship OpenAPI"
+                    }
+                );
             });
 
             // configure strongly typed settings objects
@@ -136,7 +137,7 @@ namespace Internship.Api
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "OPENII V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "OPEN INC98");
             });
 
             app.UseRouting();

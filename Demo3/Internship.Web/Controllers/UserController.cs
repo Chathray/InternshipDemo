@@ -20,14 +20,12 @@ namespace Internship.Web
     {
         private readonly IMapper _mapper;
         private readonly IServiceFactory _serviceFactory;
-
         private readonly IHubContext<EchoHub> _hubContext;
 
         public UserController(IMapper mapper, IServiceFactory serviceFactory, IHubContext<EchoHub> hubContext)
         {
             _serviceFactory = serviceFactory;
             _mapper = mapper;
-
             _hubContext = hubContext;
         }
 
@@ -45,7 +43,7 @@ namespace Internship.Web
             SetSessionInfo();
             int userId = int.Parse(ViewBag.id);
 
-            DataTable user = _serviceFactory.User.GetView(userId);
+            DataTable user = _serviceFactory.User.GetProfile(userId);
             var model = DataExtensions.GetItem<ProfileViewModel>(user.Rows[0]);
             return View(model);
         }
@@ -120,7 +118,7 @@ namespace Internship.Web
                 bool result = _serviceFactory.User.InsertUser(user);
                 if (result) goto Done;
             }
-            catch (AppException ex)
+            catch (WebException ex)
             {
                 Log.Error(ex.Message);
             }

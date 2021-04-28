@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -64,14 +65,22 @@ namespace Internship.Infrastructure
 
         public bool Update(T entity)
         {
-            _context.Set<T>().Update(entity);
-            return _context.SaveChanges() > 0;
+            try
+            {
+                _context.Set<T>().Update(entity);
+                return SaveChanges(nameof(Update)) > 0;
+            }
+            catch (Exception ex)
+            {
+                Log.Information($"{ex.Message}");
+                return false;
+            }
         }
 
         public bool Create(T entity)
         {
             _context.Set<T>().Add(entity);
-            return _context.SaveChanges() > 0;
+            return SaveChanges(nameof(Create)) > 0;
         }
 
         public bool Delete(int key)
@@ -79,7 +88,7 @@ namespace Internship.Infrastructure
             var obj = _context.Set<T>().Find(key);
 
             _context.Set<T>().Remove(obj);
-            return _context.SaveChanges() > 0;
+            return SaveChanges(nameof(Delete)) > 0;
         }
 
         public int Count() => _context.Set<T>().Count();
@@ -99,6 +108,19 @@ namespace Internship.Infrastructure
                 9 => _context.Users.Count(),
                 _ => 0
             };
+        }
+
+        public int SaveChanges(string funcname)
+        {
+            try
+            {
+                return _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Func: {funcname}, " + ex.Message);
+                return 0;
+            }
         }
 
         public async Task<IList<T>> GetAllAsync()

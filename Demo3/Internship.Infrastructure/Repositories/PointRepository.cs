@@ -16,18 +16,20 @@ namespace Internship.Infrastructure
             return _context.Database.GetDbConnection()
                           .Execute($@"CALL EvaluateIntern(
                            {point.InternId}
-                         , {point.Marker}
+                         , {point.MarkerId}
                          , {point.TechnicalSkill}
                          , {point.SoftSkill}
                          , {point.Attitude})") > 0;
         }
 
-        public Point GetPoint(int id)
+        public Point GetPointDetail(int id)
         {
-            var obj = _context.Points.SingleOrDefault(o => o.InternId == id);
+            var point = GetOne(id);
 
-            if (obj is null) return null;
-            return obj;
+            if (point is null) return null;
+
+            _context.Entry(point).Reference(_ => _.Marker).Load();
+            return point;
         }
 
         public IDataReader GetAllWithName()

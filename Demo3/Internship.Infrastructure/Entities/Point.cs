@@ -8,7 +8,7 @@ namespace Internship.Infrastructure
     {
         [Key]
         public int InternId { get; set; }
-        public int Marker { get; set; }
+        public int MarkerId { get; set; }
         public float TechnicalSkill { get; set; }
         public float SoftSkill { get; set; }
         public float Attitude { get; set; }
@@ -18,7 +18,11 @@ namespace Internship.Infrastructure
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public bool Passed { get; set; }
 
+
         [ForeignKey("InternId")]
-        public Intern Interns { get; set; }
+        public Intern Intern { get; set; }
+
+        [ForeignKey("MarkerId")]
+        public User Marker { get; set; }
     }
 }

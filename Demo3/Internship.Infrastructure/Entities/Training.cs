@@ -12,7 +12,8 @@ namespace Internship.Infrastructure
         public string TraData { get; set; }
         public int? CreatedBy { get; set; }
 
+
         [ForeignKey("CreatedBy")]
-        public User Users { get; set; }
+        public User Creator { get; set; }
     }
 }
