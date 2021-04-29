@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -17,25 +18,22 @@ namespace Internship.Api
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
         private readonly AppSettings _appSettings;
 
-        public UserController(ILogger<UserController> logger,
-            IMapper mapper, IUserService userService,
+        public UserController(IMapper mapper, IUserService userService,
             IOptions<AppSettings> appSettings)
         {
-            _logger = logger;
             _mapper = mapper;
             _userService = userService;
             _appSettings = appSettings.Value;
         }
 
+
         /// <summary>
-        /// AthenAthenAthenAthenAthenAthenAthenAthen
+        /// Validate user access
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <returns>Basic user information and access Token</returns>
         [HttpPost("/Authenticate")]
         public IActionResult Authenticate([FromBody] AuthenticationModel model)
         {
@@ -59,7 +57,6 @@ namespace Internship.Api
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            // return basic user info and authentication token
             return Ok(new
             {
                 user.UserId,
@@ -72,10 +69,13 @@ namespace Internship.Api
 
 
         /// <summary>
-        /// fgfgfgfgfgfg gfgf gfgfg fgfgfg fgfgfg
+        /// Create a new user in the system
         /// </summary>
-        /// <param name="model">ID of pet to update</param>
-        /// <returns>fgfgfggfgfggfgf</returns>
+        /// <param name="model">Information to register</param>
+        /// <response code="200">Successful registration</response>
+        /// <response code="400">Register fail</response>          
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         [HttpPost("/Register")]
         public IActionResult Register([FromBody] RegisterModel model)
         {
@@ -83,8 +83,12 @@ namespace Internship.Api
             {
                 var userModel = _mapper.Map<UserModel>(model);
                 // create user
-                _userService.Create(userModel);
-                return Ok();
+                var done = _userService.Create(userModel);
+
+                if (done)
+                    return Ok();
+                else
+                    return BadRequest();
             }
             catch (AppException ex)
             {
@@ -93,12 +97,18 @@ namespace Internship.Api
             }
         }
 
+
+        /// <summary>
+        /// Get a list of users
+        /// </summary>
+        /// <returns>The full list of existing users in the system</returns>
         [Authorize]
         [HttpGet("/UserList")]
-        public IActionResult UserList()
+        [Produces("application/json")]
+        public IList<UserModel> UserList()
         {
-            var obj = _userService.GetAll();
-            return Ok(obj);
+            var users = _userService.GetAll();
+            return users;
         }
     }
 }

@@ -12,6 +12,8 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,18 +34,26 @@ namespace Internship.Api
             string connectionString = Configuration.GetConnectionString("MYSQL");
 
             services.AddControllers();
+
             // Enable Cross-Origin Requests (CORS) in ASP.NET Core
             services.AddCors();
 
             // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen(options =>
+            services.AddSwaggerGen(c =>
             {
-                options.SwaggerDoc("v1",
-                    new OpenApiInfo
-                    {
-                        Title = "Internship OpenAPI"
-                    }
-                );
+                c.EnableAnnotations();
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Internship Public API V1.0",
+                    Version = "v1",
+                    Description = "An API to perform Internship operations",
+                });
+                c.DocInclusionPredicate((docName, description) => true);
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             // configure strongly typed settings objects
@@ -86,7 +96,7 @@ namespace Internship.Api
                 };
             });
 
-
+            #region DI
             // CR:Add database context of webapp
             services.AddDbContext<DataContext>(options => options.UseMySQL(connectionString));
 
@@ -118,6 +128,7 @@ namespace Internship.Api
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IPointService, PointService>();
+            #endregion DI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -130,16 +141,21 @@ namespace Internship.Api
             else
                 app.UseHttpsRedirection();
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
+            app.UseStaticFiles();
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
+            app.UseSwagger(options =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "OPEN INC98");
+                options.RouteTemplate = "docs/{documentName}/docs.json";
             });
 
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/docs/v1/docs.json", "Version 1.0");
+                options.RoutePrefix = "docs";
+
+                options.InjectStylesheet("/swagger/custom-style.css");
+            });
+            
             app.UseRouting();
 
             //

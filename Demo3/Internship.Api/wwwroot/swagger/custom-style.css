@@ -1,0 +1,7 @@
+.swagger-ui .topbar .download-url-wrapper .select-label select {
+    border-color: #42b5e1;
+}
+
+.swagger-ui .info .title small:last-child {
+    background-color: #42b5e1 !important;
+}

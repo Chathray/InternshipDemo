@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Internship.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Internship.Api.UserController.Authenticate(Internship.Api.AuthenticationModel)">
+            <summary>
+            Validate user access
+            </summary>
+            <returns>Basic user information and access Token</returns>
+        </member>
+        <member name="M:Internship.Api.UserController.Register(Internship.Api.RegisterModel)">
+            <summary>
+            Create a new user in the system
+            </summary>
+            <param name="model">Information to register</param>
+            <response code="200">Successful registration</response>
+            <response code="400">Register fail</response>          
+        </member>
+        <member name="M:Internship.Api.UserController.UserList">
+            <summary>
+            Get a list of users
+            </summary>
+            <returns>The full list of existing users in the system</returns>
+        </member>
+    </members>
+</doc>
