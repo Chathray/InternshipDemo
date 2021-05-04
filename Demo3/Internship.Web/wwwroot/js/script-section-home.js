@@ -25,9 +25,9 @@ function JointTrainings(iid) {
         method: "GET",
         url: "home/GetJointTrainings",
         data: { internId: iid }
-    }).done(function (msg) {
-        var model = JSON.parse(JSON.stringify(msg))
-        if (model.length > 0) {
+    }).done(function (data) {
+        if (data.length > 0) {
+            var model = JSON.parse(JSON.stringify(data))
             var tras = []
             for (var i = 1; i < model.length; i++) {
                 tras.push("<li data-id=" + i + ">" + model[i].traName + "</li>")

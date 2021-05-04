@@ -1,5 +1,5 @@
 ﻿using Autofac.Extensions.DependencyInjection;
-using Internship.Infrastructure;
+using Idis.Infrastructure;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +9,7 @@ using Serilog.Events;
 using System;
 using System.Linq;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public class Program
     {

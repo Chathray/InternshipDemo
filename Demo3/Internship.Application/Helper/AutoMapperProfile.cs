@@ -1,22 +1,23 @@
 ﻿using AutoMapper;
-using Internship.Infrastructure;
+using Idis.Infrastructure;
 using System;
 
-namespace Internship.Application
+namespace Idis.Application
 {
     public class ObjectMapper
     {
         private static readonly Lazy<IMapper> Lazy = new(() =>
         {
-            var config = new MapperConfiguration(cfg =>
+            var configuration = new MapperConfiguration(config =>
             {
                 // This line ensures that internal properties are also mapped over.
-                cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
-                cfg.AddProfile<AspnetRunDtoMapper>();
+                config.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
+                config.AddProfile<AspnetRunDtoMapper>();
             });
-            var mapper = config.CreateMapper();
+            var mapper = configuration.CreateMapper();
             return mapper;
         });
+
         public static IMapper Mapper => Lazy.Value;
 
         public class AspnetRunDtoMapper : Profile

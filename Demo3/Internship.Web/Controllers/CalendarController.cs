@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Internship.Application;
+using Idis.Application;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Linq;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     [Authorize]
     public class CalendarController : Controller

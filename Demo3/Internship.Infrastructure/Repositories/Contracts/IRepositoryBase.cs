@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public interface IRepositoryBase<T>
     {

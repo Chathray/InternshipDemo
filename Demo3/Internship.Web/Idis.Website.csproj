@@ -2,17 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <StartupObject>Internship.Web.Program</StartupObject>
+    <StartupObject>Idis.Website.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.2.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Internship.Application\Internship.Application.csproj" />
+    <ProjectReference Include="..\Internship.Application\Idis.Application.csproj" />
   </ItemGroup>
 
 </Project>

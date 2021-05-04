@@ -4,7 +4,7 @@ using Serilog;
 using Serilog.Events;
 using System;
 
-namespace Internship.Api
+namespace Idis.WebApi
 {
     public class Program
     {
@@ -21,9 +21,10 @@ namespace Internship.Api
             try
             {
                 CreateHostBuilder(args).Build().Run();
-                return 0;
+                Log.Information("Stopped cleanly!");
+                return 200;
             }
-            catch (Exception ex)
+            catch (ApiException ex)
             {
                 Log.Fatal(ex, "An unhandled exception occured during bootstrapping");
                 return -2;

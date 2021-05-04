@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Internship.Application
+namespace Idis.Application
 {
     public class InternListModel
     {

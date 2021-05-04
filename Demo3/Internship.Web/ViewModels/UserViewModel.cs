@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public class UserViewModel
     {

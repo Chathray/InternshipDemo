@@ -1,6 +1,6 @@
-﻿using Internship.Infrastructure;
+﻿using Idis.Infrastructure;
 
-namespace Internship.Application
+namespace Idis.Application
 {
     public class ActivityService : ServiceBase<ActivityModel, Activity>, IActivityService
     {

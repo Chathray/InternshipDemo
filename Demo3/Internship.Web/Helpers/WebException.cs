@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public class WebException : Exception
     {

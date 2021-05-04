@@ -1,5 +1,5 @@
 using Autofac;
-using Internship.Infrastructure;
+using Idis.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public class Startup
     {

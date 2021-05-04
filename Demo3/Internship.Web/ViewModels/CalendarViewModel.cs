@@ -1,7 +1,7 @@
-using Internship.Application;
+using Idis.Application;
 using System.Collections.Generic;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public class CalendarViewModel
     {

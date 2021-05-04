@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Internship.Application;
+using Idis.Application;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,9 +10,8 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     [Authorize]
     public class HomeController : Controller

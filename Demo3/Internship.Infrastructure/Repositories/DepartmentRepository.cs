@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public class DepartmentRepository : RepositoryBase<Department>, IDepartmentRepository
     {

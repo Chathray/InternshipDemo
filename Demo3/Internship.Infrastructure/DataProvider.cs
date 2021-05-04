@@ -2,7 +2,7 @@
 using System;
 using System.Data;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public static class DataProvider
     {
@@ -19,7 +19,7 @@ namespace Internship.Infrastructure
                 adapter.Fill(data);
                 return data;
             }
-            catch (Exception)
+            catch (InfrastructureException)
             {
                 conn.Close();
                 return null;
@@ -38,7 +38,7 @@ namespace Internship.Infrastructure
                 adapter.Fill(data);
                 return data;
             }
-            catch (Exception)
+            catch (InfrastructureException)
             {
                 conn.Close();
                 return null;
@@ -59,7 +59,7 @@ namespace Internship.Infrastructure
                 conn.Close();
                 return ok != -1;
             }
-            catch (Exception)
+            catch (InfrastructureException)
             {
                 conn.Close();
                 return false;
@@ -76,7 +76,7 @@ namespace Internship.Infrastructure
                 MySqlCommand command = new(query, conn as MySqlConnection);
                 return command.ExecuteScalar();
             }
-            catch (Exception)
+            catch (InfrastructureException)
             {
                 conn.Close();
                 return null;

@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public interface IPointRepository : IRepositoryBase<Point>
     {

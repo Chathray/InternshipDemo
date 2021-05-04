@@ -1,8 +1,8 @@
-﻿using Internship.Infrastructure;
+﻿using Idis.Infrastructure;
 using System;
 using System.Data;
 
-namespace Internship.Application
+namespace Idis.Application
 {
     public class EventService : ServiceBase<EventModel, Event>, IEventService
     {

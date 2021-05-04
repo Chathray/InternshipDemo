@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 
-namespace Internship.Application
+namespace Idis.Application
 {
     public static class DataExtensions
     {
@@ -13,39 +13,37 @@ namespace Internship.Application
             return JsonConvert.SerializeObject(anObject);
         }
 
-
-        //
-        public static List<T> ConvertDataTable<T>(DataTable dt)
+        public static List<T> ConvertDataTable<T>(DataTable dTable)
         {
-            List<T> data = new List<T>();
-            foreach (DataRow row in dt.Rows)
+            List<T> t_list = new();
+            foreach (DataRow row in dTable.Rows)
             {
                 T item = GetItem<T>(row);
-                data.Add(item);
+                t_list.Add(item);
             }
-            return data;
+            return t_list;
         }
 
-        public static T GetItem<T>(DataRow dr)
+        public static T GetItem<T>(DataRow dRow)
         {
-            Type temp = typeof(T);
-            T obj = Activator.CreateInstance<T>();
+            T t_object = Activator.CreateInstance<T>();
+            Type tType = typeof(T);
 
-            foreach (DataColumn column in dr.Table.Columns)
+            foreach (DataColumn column in dRow.Table.Columns)
             {
-                foreach (PropertyInfo pro in temp.GetProperties())
+                foreach (PropertyInfo pInfo in tType.GetProperties())
                 {
-                    if (pro.Name == column.ColumnName)
-                        pro.SetValue(
-                            obj,
-                            dr[column.ColumnName] == DBNull.Value ?
-                            "-" : dr[column.ColumnName],
+                    if (pInfo.Name == column.ColumnName)
+                        pInfo.SetValue(
+                            t_object,
+                            dRow[column.ColumnName] == DBNull.Value ?
+                            "-" : dRow[column.ColumnName],
                             null);
                     else
                         continue;
                 }
             }
-            return obj;
+            return t_object;
         }
     }
 }

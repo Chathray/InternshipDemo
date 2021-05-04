@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Application", "Internship.Application\Internship.Application.csproj", "{3253E727-5EA4-422F-BA99-90E1754800C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Idis.Application", "Internship.Application\Idis.Application.csproj", "{3253E727-5EA4-422F-BA99-90E1754800C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Infrastructure", "Internship.Infrastructure\Internship.Infrastructure.csproj", "{87B28C2F-0701-4CB7-9EE3-05D2F6B73308}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Idis.Infrastructure", "Internship.Infrastructure\Idis.Infrastructure.csproj", "{87B28C2F-0701-4CB7-9EE3-05D2F6B73308}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Web", "Internship.Web\Internship.Web.csproj", "{787C736A-266C-4999-96DA-F3BC50B51813}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Idis.Website", "Internship.Web\Idis.Website.csproj", "{787C736A-266C-4999-96DA-F3BC50B51813}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Api", "Internship.Api\Internship.Api.csproj", "{471D6A60-F9D6-49DE-800F-FB6EC5EB3ADD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Idis.WebApi", "Internship.Api\Idis.WebApi.csproj", "{471D6A60-F9D6-49DE-800F-FB6EC5EB3ADD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Internship.Infrastructure.Test", "Internship.Infrastructure.Test\Internship.Infrastructure.Test.csproj", "{189A18EB-03B5-4C6D-863C-598584ADB8F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Idis.Infrastructure.Test", "Internship.Infrastructure.Test\Idis.Infrastructure.Test.csproj", "{189A18EB-03B5-4C6D-863C-598584ADB8F9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{69B60567-DB80-4EB4-A57E-DDB3B134FB38}"
 EndProject

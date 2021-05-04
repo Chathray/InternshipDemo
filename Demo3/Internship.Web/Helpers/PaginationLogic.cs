@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public class PaginationLogic
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public interface IDataShaper<T>
     {

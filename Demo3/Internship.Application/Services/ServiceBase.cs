@@ -1,7 +1,7 @@
-﻿using Internship.Infrastructure;
+﻿using Idis.Infrastructure;
 using System.Collections.Generic;
 
-namespace Internship.Application
+namespace Idis.Application
 {
     public abstract class ServiceBase<M, E> : IServiceBase<M, E>
     {

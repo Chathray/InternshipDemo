@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace Internship.Application
+namespace Idis.Application
 {
     public interface IPointService : IServiceBase<PointModel, Point>
     {

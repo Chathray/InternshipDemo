@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public class InfrastructureException : Exception
     {

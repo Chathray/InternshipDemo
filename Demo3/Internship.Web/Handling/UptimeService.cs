@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public class UptimeService
     {

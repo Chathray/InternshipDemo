@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     [Table("EventTypes")]
     public class EventType : EntityBase

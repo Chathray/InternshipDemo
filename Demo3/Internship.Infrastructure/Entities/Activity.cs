@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     [Table("Activities")]
     public class Activity : EntityBase

@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Internship.Infrastructure.Test
+namespace Idis.Infrastructure.Test
 {
     public class InternTests
     {

@@ -2,9 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Data;
-using System.Linq;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public class PointRepository : RepositoryBase<Point>, IPointRepository
     {

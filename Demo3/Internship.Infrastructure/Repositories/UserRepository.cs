@@ -3,7 +3,7 @@ using System.Data;
 using System.Linq;
 using BC = BCrypt.Net.BCrypt;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public class UserRepository : RepositoryBase<User>, IUserRepository
     {

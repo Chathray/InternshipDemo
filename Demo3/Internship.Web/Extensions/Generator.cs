@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public class Generator
     {

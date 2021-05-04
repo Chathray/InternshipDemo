@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Internship.Application
+namespace Idis.Application
 {
     public interface IServiceBase<M, E>
     {

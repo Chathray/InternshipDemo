@@ -3,9 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text.Json;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public class InternRepository : RepositoryBase<Intern>, IInternRepository
     {
@@ -42,7 +41,7 @@ namespace Internship.Infrastructure
 
         public dynamic GetInternDetail(int internId)
         {
-            var intern = GetOne(internId);
+            //var intern = GetOne(internId);
 
             //_context.Entry(intern).Reference(_ => _.Training).Load();
             //_context.Entry(intern).Reference(_ => _.Department).Load();
@@ -136,21 +135,22 @@ namespace Internship.Infrastructure
         {
             List<Training> result = new();
 
-            var str = _context.Database.GetDbConnection()
+            var list = _context.Database.GetDbConnection()
                  .ExecuteScalar($"CALL GetJointTrainings({internId})");
-            try
+
+            if (list is not null)
             {
-                string[] splited = str.ToString().Split(',');
+                string[] splited = list.ToString().Split(',');
 
                 var list_id = splited.Distinct().AsList();
 
                 foreach (var training_id in list_id)
                 {
+                    if (training_id == "0") continue;
                     var step = _context.Trainings.Find(int.Parse(training_id));
                     result.Add(step);
                 }
             }
-            catch { }
             return result;
         }
 

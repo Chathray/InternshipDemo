@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public interface IInternRepository : IRepositoryBase<Intern>
     {

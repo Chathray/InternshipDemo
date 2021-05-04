@@ -1,4 +1,4 @@
-﻿namespace Internship.Api
+﻿namespace Idis.WebApi
 {
     public class AppSettings
     {

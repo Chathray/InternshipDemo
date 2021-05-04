@@ -11,7 +11,7 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<ProjectReference Include="..\Internship.Infrastructure\Internship.Infrastructure.csproj" />
+		<ProjectReference Include="..\Internship.Infrastructure\Idis.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

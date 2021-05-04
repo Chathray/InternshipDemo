@@ -1,4 +1,4 @@
-﻿namespace Internship.Application
+﻿namespace Idis.Application
 {
     public class TrainingModel
     {

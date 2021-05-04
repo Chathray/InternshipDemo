@@ -1,23 +1,15 @@
-using Internship.Application;
-using Internship.Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Serilog;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
-using System.IO;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using System.Linq;
 
-namespace Internship.Api
+namespace Idis.WebApi
 {
     public class Startup
     {
@@ -28,110 +20,37 @@ namespace Internship.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
         public void ConfigureServices(IServiceCollection services)
         {
+            // Resolving DI Services
             string connectionString = Configuration.GetConnectionString("MYSQL");
+            services.ConfigureDependencyInjection(connectionString);
 
+            // Adds services for controllers
             services.AddControllers();
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.ConfigureSwaggerGen();
+            // Adds service API versioning to the specified services collection
+            services.ConfigureApiVersioning();
 
             // Enable Cross-Origin Requests (CORS) in ASP.NET Core
             services.AddCors();
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen(c =>
-            {
-                c.EnableAnnotations();
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Internship Public API V1.0",
-                    Version = "v1",
-                    Description = "An API to perform Internship operations",
-                });
-                c.DocInclusionPredicate((docName, description) => true);
-
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
-
-            // configure strongly typed settings objects
+            // Configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
-            // configure jwt authentication
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.Events = new JwtBearerEvents
-                {
-                    OnTokenValidated = context =>
-                    {
-                        var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                        var userId = int.Parse(context.Principal.Identity.Name);
-                        var user = userService.GetOne(userId);
-                        if (user == null)
-                        {
-                            // return unauthorized if user no longer exists
-                            context.Fail("Unauthorized");
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
-
-            #region DI
-            // CR:Add database context of webapp
-            services.AddDbContext<DataContext>(options => options.UseMySQL(connectionString));
-
-            // configure DI for application services
-            services.AddAutoMapper(typeof(Startup)); // Add AutoMapper
-
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IActivityRepository, ActivityRepository>();
-            services.AddScoped<IInternRepository, InternRepository>();
-            services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-            services.AddScoped<IEventRepository, EventRepository>();
-            services.AddScoped<IEventTypeRepository, EventTypeRepository>();
-            services.AddScoped<IOrganizationRepository, OrganizationRepository>();
-            services.AddScoped<ITrainingRepository, TrainingRepository>();
-            services.AddScoped<IQuestionRepository, QuestionRepository>();
-            services.AddScoped<IEventRepository, EventRepository>();
-            services.AddScoped<IPointRepository, PointRepository>();
-
-            services.AddScoped<IServiceFactory, ServiceFactory>();
-
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IActivityService, ActivityService>();
-            services.AddScoped<IInternService, InternService>();
-            services.AddScoped<IDepartmentService, DepartmentService>();
-            services.AddScoped<IEventService, EventService>();
-            services.AddScoped<IEventTypeService, EventTypeService>();
-            services.AddScoped<IOrganizationService, OrganizationService>();
-            services.AddScoped<ITrainingService, TrainingService>();
-            services.AddScoped<IQuestionService, QuestionService>();
-            services.AddScoped<IEventService, EventService>();
-            services.AddScoped<IPointService, PointService>();
-            #endregion DI
+            // Configure JWT for authentication
+            services.ConfigureJwtAuthentication(appSettingsSection);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -148,20 +67,61 @@ namespace Internship.Api
                 options.RouteTemplate = "docs/{documentName}/docs.json";
             });
 
-            app.UseSwaggerUI(options =>
+            app.UseSwaggerUI(c =>
             {
-                options.SwaggerEndpoint("/docs/v1/docs.json", "Version 1.0");
-                options.RoutePrefix = "docs";
+                c.DefaultModelExpandDepth(2);
+                c.DefaultModelRendering(ModelRendering.Example);
+                c.DefaultModelsExpandDepth(-1);
+                c.DisplayOperationId();
+                c.DisplayRequestDuration();
+                c.DocExpansion(DocExpansion.List);
+                c.EnableDeepLinking();
+                c.EnableFilter();
+                c.MaxDisplayedTags(5);
+                c.ShowExtensions();
+                c.ShowCommonExtensions();
+                c.EnableValidator();
+                c.SupportedSubmitMethods(
+                      SubmitMethod.Get
+                    , SubmitMethod.Post
+                    , SubmitMethod.Put
+                    , SubmitMethod.Delete);
+                c.UseRequestInterceptor("(request) => { return request; }");
+                c.UseResponseInterceptor("(response) => { return response; }");
 
-                options.InjectStylesheet("/swagger/custom-style.css");
+                c.SwaggerEndpoint("/docs/v1/docs.json", "Version 1 Docs");
+                c.SwaggerEndpoint("/docs/v2/docs.json", "Version 2 Docs");
+
+                c.RoutePrefix = "idis-swagger";
+                c.DocumentTitle = "Insutry Internship Open API";
+
+                c.IndexStream = () => GetType().Assembly.GetManifestResourceStream("Idis.WebApi.Swagger.docs.html");
             });
-            
+
+            app.UseReDoc(c =>
+            {
+                c.RoutePrefix = "idis-docs";
+                c.SpecUrl = "/docs/v2/docs.json";
+                c.DocumentTitle = "Idis REST API Specification";
+
+                c.EnableUntrustedSpec();
+                c.ScrollYOffset(10);
+                c.HideHostname();
+                c.ExpandResponses("200,201");
+                c.RequiredPropsFirst();
+                c.PathInMiddlePanel();
+                c.NativeScrollbars();
+                c.DisableSearch();
+                c.OnlyRequiredInSamples();
+                c.SortPropsAlphabetically();
+            });
+
             app.UseRouting();
 
-            //
+            // Enable request logging
             app.UseSerilogRequestLogging();
 
-            // global cors policy
+            // Global cors policy
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()

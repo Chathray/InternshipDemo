@@ -1,7 +1,7 @@
-﻿using Internship.Infrastructure;
+﻿using Idis.Infrastructure;
 using System.Data;
 
-namespace Internship.Application
+namespace Idis.Application
 {
     public class UserService : ServiceBase<UserModel, User>, IUserService
     {

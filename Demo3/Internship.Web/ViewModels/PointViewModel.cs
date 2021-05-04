@@ -1,4 +1,4 @@
-﻿namespace Internship.Web
+﻿namespace Idis.Website
 {
     public class PointViewModel
     {

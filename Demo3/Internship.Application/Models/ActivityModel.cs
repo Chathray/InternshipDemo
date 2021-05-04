@@ -1,6 +1,6 @@
-﻿namespace Internship.Infrastructure
+﻿namespace Idis.Application
 {
-    public class ActivityModel : EntityBase
+    public class ActivityModel
     {
         public int ActivityId { get; set; }
         public string ActivityName { get; set; }

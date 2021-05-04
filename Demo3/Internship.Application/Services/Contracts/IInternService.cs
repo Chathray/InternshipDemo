@@ -1,8 +1,8 @@
-﻿using Internship.Infrastructure;
+﻿using Idis.Infrastructure;
 using System.Collections.Generic;
 using System.Data;
 
-namespace Internship.Application
+namespace Idis.Application
 {
     public interface IInternService : IServiceBase<InternModel, Intern>
     {

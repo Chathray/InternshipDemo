@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public static class AutoTemplate
     {

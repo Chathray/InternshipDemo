@@ -1,10 +1,9 @@
-namespace Internship.Application
+namespace Idis.Application
 {
     public class EventModel
     {
         public int EventId { get; set; }
-        public int CreatedBy { get; set; }
-
+        public int? CreatedBy { get; set; }
         public string Title { get; set; }
         public string Type { get; set; }
         public string Deadline { get; set; }

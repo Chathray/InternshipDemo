@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Internship.Api
+namespace Idis.WebApi
 {
     public class PaginationLogic
     {

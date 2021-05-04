@@ -4,7 +4,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public class DataShaper<T> : IDataShaper<T> where T : class
     {

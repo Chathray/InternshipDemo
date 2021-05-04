@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Internship.Application;
+using Idis.Application;
 
-namespace Internship.Api
+namespace Idis.WebApi
 {
     public class AutoMapperProfile : Profile
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public class EchoHub : Hub
     {

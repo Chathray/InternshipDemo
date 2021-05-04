@@ -1,4 +1,4 @@
-﻿namespace Internship.Infrastructure
+﻿namespace Idis.Infrastructure
 {
     public interface IDepartmentRepository : IRepositoryBase<Department>
     {

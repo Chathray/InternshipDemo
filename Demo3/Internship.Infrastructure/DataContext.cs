@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public class DataContext : DbContext
     {

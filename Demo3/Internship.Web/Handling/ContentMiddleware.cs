@@ -2,7 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public class ContentMiddleware
     {

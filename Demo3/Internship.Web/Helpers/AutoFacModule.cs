@@ -1,8 +1,8 @@
 ﻿using Autofac;
-using Internship.Application;
-using Internship.Infrastructure;
+using Idis.Application;
+using Idis.Infrastructure;
 
-namespace Internship.Web
+namespace Idis.Website
 {
     public class AutoFacModule : Autofac.Module
     {

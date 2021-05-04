@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : EntityBase
     {
@@ -70,7 +70,7 @@ namespace Internship.Infrastructure
                 _context.Set<T>().Update(entity);
                 return SaveChanges(nameof(Update)) > 0;
             }
-            catch (Exception ex)
+            catch (InfrastructureException ex)
             {
                 Log.Information($"{ex.Message}");
                 return false;
@@ -116,7 +116,7 @@ namespace Internship.Infrastructure
             {
                 return _context.SaveChanges();
             }
-            catch (Exception ex)
+            catch (InfrastructureException ex)
             {
                 Log.Error($"Func: {funcname}, " + ex.Message);
                 return 0;

@@ -1,4 +1,4 @@
-﻿namespace Internship.Infrastructure
+﻿namespace Idis.Infrastructure
 {
     public class QuestionRepository : RepositoryBase<Question>, IQuestionRepository
     {

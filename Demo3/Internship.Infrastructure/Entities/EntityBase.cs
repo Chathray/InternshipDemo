@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Internship.Infrastructure
+namespace Idis.Infrastructure
 {
     public class EntityBase
     {
